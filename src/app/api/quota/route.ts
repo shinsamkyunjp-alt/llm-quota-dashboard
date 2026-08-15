@@ -17,48 +17,51 @@ export async function GET() {
     isLocal = false;
   }
 
-  // Parse Antigravity with Gemini (5h window) & Claude (3rd party) separation
+  // Antigravity with 5-hour rolling & weekly quota + compact Claude strip
   let antigravityQuota = {
     provider: 'google-antigravity',
     name: 'Google Antigravity',
     status: 'healthy',
     account: 's***1@gmail.com',
-    geminiWindow: {
-      label: 'Gemini 5시간 롤링 쿼터',
+    fiveHourWindow: {
+      label: '5시간 롤링 쿼터',
       usagePercent: 0.08,
       remainingPercent: 99.92,
-      resetAt: 1786787166000, // 18:46:06 KST (5-hour window)
-      windowType: '5-Hour Rolling Window',
-      models: [
-        { id: 'google-antigravity/gemini-3.7-flash', name: 'Gemini 3.7 Flash', speed: 'Ultra High Speed', context: '1M tokens', status: 'active' },
-        { id: 'google-antigravity/gemini-3.1-pro', name: 'Gemini 3.1 Pro', speed: 'High Speed', context: '1M tokens', status: 'active' }
-      ]
+      resetAt: 1786787166000, // ~18:46 KST
     },
-    claudeWindow: {
-      label: 'Claude (3rd Party) 독립 쿼터',
+    weeklyWindow: {
+      label: '주간 누적 쿼터',
+      usagePercent: 4.57,
+      remainingPercent: 95.43,
+      resetAt: 1787337600000, // Weekly reset (Friday / Sat)
+    },
+    claudeCompact: {
+      label: 'Claude 3rd Party',
       status: 'healthy',
-      badge: 'Independent Pool',
-      models: [
-        { id: 'google-antigravity/claude-sonnet-4-6', name: 'Claude Sonnet 4.6', speed: 'Balanced', context: '200k tokens', status: 'active' },
-        { id: 'google-antigravity/claude-opus-4-6-thinking', name: 'Claude Opus 4.6 Thinking', speed: 'Deep Thinking', context: '200k tokens', status: 'active' }
-      ]
-    }
+      models: ['Sonnet 4.6', 'Opus 4.6']
+    },
+    models: [
+      { id: 'google-antigravity/gemini-3.7-flash', name: 'Gemini 3.7 Flash', speed: 'Ultra High Speed', context: '1M tokens', status: 'active' },
+      { id: 'google-antigravity/gemini-3.1-pro', name: 'Gemini 3.1 Pro', speed: 'High Speed', context: '1M tokens', status: 'active' },
+      { id: 'google-antigravity/claude-sonnet-4-6', name: 'Claude Sonnet 4.6', speed: 'Balanced', context: '200k tokens', status: 'active' },
+      { id: 'google-antigravity/claude-opus-4-6-thinking', name: 'Claude Opus 4.6 Thinking', speed: 'Deep Thinking', context: '200k tokens', status: 'active' }
+    ]
   };
 
   if (rawQuota?.reports) {
     const agReport = rawQuota.reports.find((r: any) => r.provider === 'google-antigravity');
     if (agReport?.quota?.customWindows?.[0]) {
       const win = agReport.quota.customWindows[0];
-      antigravityQuota.geminiWindow.usagePercent = Number(win.percent.toFixed(2));
-      antigravityQuota.geminiWindow.remainingPercent = Number((100 - win.percent).toFixed(2));
-      antigravityQuota.geminiWindow.resetAt = win.resetAt;
+      antigravityQuota.fiveHourWindow.usagePercent = Number(win.percent.toFixed(2));
+      antigravityQuota.fiveHourWindow.remainingPercent = Number((100 - win.percent).toFixed(2));
+      antigravityQuota.fiveHourWindow.resetAt = win.resetAt;
     }
   }
 
   // Parse OpenAI Codex
   let openaiQuota = {
     provider: 'openai',
-    name: 'OpenAI Codex Pool',
+    name: 'OpenAI Codex',
     status: 'healthy',
     plan: 'Free Multi-Account Pool',
     accountCount: 3,
@@ -87,7 +90,7 @@ export async function GET() {
 
   const alibabaQuota = {
     provider: 'alibaba-token-plan-intl',
-    name: 'Alibaba Token Plan (Intl)',
+    name: 'Alibaba Token Plan',
     status: 'exhausted',
     badge: 'HTTP 429 · Insufficient Quota',
     region: 'ap-southeast-1 (Singapore)',
