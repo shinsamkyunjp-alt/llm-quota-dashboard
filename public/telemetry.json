@@ -1,0 +1,494 @@
+{
+  "updatedAt": 1786782676005,
+  "environment": "Live Mac Daemon (Realtime Sync)",
+  "catalogSync": {
+    "isLiveConnected": true,
+    "totalCatalogModels": 15,
+    "lastWeeklySpecUpdate": "2026-08-15 17:31:23 KST",
+    "nextWeeklySpecUpdate": "2026-08-22 17:31:23 KST"
+  },
+  "summary": {
+    "totalProviders": 3,
+    "healthyProviders": 3,
+    "exhaustedProviders": 0,
+    "totalLinkedAccounts": 5,
+    "activeLLMCount": 15,
+    "availableModelCount": 13,
+    "rateLimitedModelCount": 2
+  },
+  "providers": [
+    {
+      "provider": "google-antigravity",
+      "name": "Google Antigravity",
+      "status": "healthy",
+      "account": "s***1@gmail.com",
+      "usagePercent": 48.52,
+      "resetAt": 1786787166000,
+      "fiveHourWindow": {
+        "label": "Gemini 5시간 롤링 사용량",
+        "usagePercent": 48.52,
+        "resetAt": 1786787166000
+      },
+      "weeklyWindow": {
+        "label": "Gemini 주간 누적 사용량",
+        "usagePercent": 4.57,
+        "resetAt": 1787337600000
+      },
+      "claudeCompact": {
+        "label": "Claude (3rd Party)",
+        "status": "exhausted",
+        "badge": "주간 쿼터 소진",
+        "models": [
+          "Sonnet 4.6",
+          "Opus 4.6 Thinking"
+        ]
+      },
+      "models": [
+        {
+          "id": "google-antigravity/gemini-3.7-flash",
+          "name": "Gemini 3.7 Flash",
+          "providerId": "google-antigravity",
+          "providerName": "Google Antigravity",
+          "context": "1,048,576 (1M)",
+          "contextTokens": 1048576,
+          "inputPrice1M": 0.15,
+          "outputPrice1M": 0.6,
+          "speed": "Ultra High (150+ t/s)",
+          "reasoning": "Hybrid Thinking",
+          "status": "active"
+        },
+        {
+          "id": "google-antigravity/gemini-3.1-pro",
+          "name": "Gemini 3.1 Pro",
+          "providerId": "google-antigravity",
+          "providerName": "Google Antigravity",
+          "context": "1,048,576 (1M)",
+          "contextTokens": 1048576,
+          "inputPrice1M": 1.25,
+          "outputPrice1M": 5.0,
+          "speed": "Fast (80+ t/s)",
+          "reasoning": "Deep Reasoning",
+          "status": "active"
+        },
+        {
+          "id": "google-antigravity/claude-sonnet-4-6",
+          "name": "Claude Sonnet 4.6",
+          "providerId": "google-antigravity",
+          "providerName": "Google Antigravity",
+          "context": "200,000 (200k)",
+          "contextTokens": 200000,
+          "inputPrice1M": 3.0,
+          "outputPrice1M": 15.0,
+          "speed": "Balanced (60+ t/s)",
+          "reasoning": "High Nuance",
+          "status": "rate_limited"
+        },
+        {
+          "id": "google-antigravity/claude-opus-4-6-thinking",
+          "name": "Claude Opus 4.6 Thinking",
+          "providerId": "google-antigravity",
+          "providerName": "Google Antigravity",
+          "context": "200,000 (200k)",
+          "contextTokens": 200000,
+          "inputPrice1M": 15.0,
+          "outputPrice1M": 75.0,
+          "speed": "Deep Thinking (35+ t/s)",
+          "reasoning": "Max Reasoning",
+          "status": "rate_limited"
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "name": "OpenAI Codex",
+      "status": "healthy",
+      "plan": "Free Multi-Account Pool",
+      "accountCount": 3,
+      "activeAccount": "s***n@gmail.com",
+      "pooledAccounts": [
+        "s***n@gmail.com (Main)",
+        "s***2@naver.com",
+        "s***9@gmail.com"
+      ],
+      "monthlyUsagePercent": 9,
+      "monthlyResetAt": 1789273515000,
+      "models": [
+        {
+          "id": "gpt-5.6-sol",
+          "name": "GPT-5.6 Sol",
+          "providerId": "openai",
+          "providerName": "OpenAI Codex",
+          "context": "128,000 (128k)",
+          "contextTokens": 128000,
+          "inputPrice1M": 5.0,
+          "outputPrice1M": 30.0,
+          "speed": "Flagship Intelligence (750 t/s on Cerebras)",
+          "reasoning": "Ultra Reasoning",
+          "status": "active"
+        },
+        {
+          "id": "gpt-5.6-terra",
+          "name": "GPT-5.6 Terra",
+          "providerId": "openai",
+          "providerName": "OpenAI Codex",
+          "context": "128,000 (128k)",
+          "contextTokens": 128000,
+          "inputPrice1M": 2.0,
+          "outputPrice1M": 12.0,
+          "speed": "Balanced Daily Workload",
+          "reasoning": "Medium-Ultra",
+          "status": "active"
+        },
+        {
+          "id": "gpt-5.6-luna",
+          "name": "GPT-5.6 Luna",
+          "providerId": "openai",
+          "providerName": "OpenAI Codex",
+          "context": "128,000 (128k)",
+          "contextTokens": 128000,
+          "inputPrice1M": 0.2,
+          "outputPrice1M": 1.2,
+          "speed": "Fast & Cost-Effective",
+          "reasoning": "Medium-Max",
+          "status": "active"
+        },
+        {
+          "id": "combo/Antigravity",
+          "name": "Combo Antigravity Failover",
+          "providerId": "openai",
+          "providerName": "OpenCodex Combo",
+          "context": "1,048,576 (1M)",
+          "contextTokens": 1048576,
+          "inputPrice1M": 0.15,
+          "outputPrice1M": 0.6,
+          "speed": "Auto Failover",
+          "reasoning": "Auto Failover",
+          "status": "active"
+        }
+      ]
+    },
+    {
+      "provider": "alibaba-token-plan-intl",
+      "name": "Alibaba Token Plan",
+      "status": "healthy",
+      "badge": "정상 가동 (Active)",
+      "region": "ap-southeast-1 (Singapore)",
+      "account": "sk-s****HZew",
+      "weeklyUsagePercent": 0.5,
+      "resetAt": 1787387476005,
+      "message": "7일 쿼터 리셋 완료 (정상 가동 중)",
+      "models": [
+        {
+          "id": "alibaba-token-plan-intl/qwen3.8-max",
+          "name": "Qwen 3.8 Max",
+          "providerId": "alibaba-token-plan-intl",
+          "providerName": "Alibaba Token Plan",
+          "context": "1,000,000 (1M)",
+          "contextTokens": 1000000,
+          "inputPrice1M": 1.6,
+          "outputPrice1M": 6.4,
+          "speed": "Heavy Duty MoE (2.4T)",
+          "reasoning": "XHigh Reasoning",
+          "status": "active"
+        },
+        {
+          "id": "alibaba-token-plan-intl/qwen3.7-max",
+          "name": "Qwen 3.7 Max",
+          "providerId": "alibaba-token-plan-intl",
+          "providerName": "Alibaba Token Plan",
+          "context": "1,000,000 (1M)",
+          "contextTokens": 1000000,
+          "inputPrice1M": 1.6,
+          "outputPrice1M": 6.4,
+          "speed": "Heavy Duty",
+          "reasoning": "XHigh Reasoning",
+          "status": "active"
+        },
+        {
+          "id": "alibaba-token-plan-intl/qwen3.7-plus",
+          "name": "Qwen 3.7 Plus",
+          "providerId": "alibaba-token-plan-intl",
+          "providerName": "Alibaba Token Plan",
+          "context": "1,000,000 (1M)",
+          "contextTokens": 1000000,
+          "inputPrice1M": 0.26,
+          "outputPrice1M": 0.78,
+          "speed": "High Speed Multimodal",
+          "reasoning": "Medium Reasoning",
+          "status": "active"
+        },
+        {
+          "id": "alibaba-token-plan-intl/qwen3.6-flash",
+          "name": "Qwen 3.6 Flash",
+          "providerId": "alibaba-token-plan-intl",
+          "providerName": "Alibaba Token Plan",
+          "context": "1,000,000 (1M)",
+          "contextTokens": 1000000,
+          "inputPrice1M": 0.05,
+          "outputPrice1M": 0.2,
+          "speed": "Ultra Fast",
+          "reasoning": "Low-Medium",
+          "status": "active"
+        },
+        {
+          "id": "alibaba-token-plan-intl/deepseek-v4-pro",
+          "name": "DeepSeek V4 Pro",
+          "providerId": "alibaba-token-plan-intl",
+          "providerName": "Alibaba Token Plan",
+          "context": "1,000,000 (1M)",
+          "contextTokens": 1000000,
+          "inputPrice1M": 0.27,
+          "outputPrice1M": 1.1,
+          "speed": "Code & Math Specialist",
+          "reasoning": "High-Max",
+          "status": "active"
+        },
+        {
+          "id": "alibaba-token-plan-intl/deepseek-v4-flash-0731",
+          "name": "DeepSeek V4 Flash",
+          "providerId": "alibaba-token-plan-intl",
+          "providerName": "Alibaba Token Plan",
+          "context": "1,000,000 (1M)",
+          "contextTokens": 1000000,
+          "inputPrice1M": 0.14,
+          "outputPrice1M": 0.28,
+          "speed": "Fast Inference",
+          "reasoning": "Standard",
+          "status": "active"
+        },
+        {
+          "id": "alibaba-token-plan-intl/glm-5.2",
+          "name": "GLM 5.2",
+          "providerId": "alibaba-token-plan-intl",
+          "providerName": "Alibaba Token Plan",
+          "context": "128,000 (128k)",
+          "contextTokens": 128000,
+          "inputPrice1M": 1.0,
+          "outputPrice1M": 1.0,
+          "speed": "Bilingual Pro",
+          "reasoning": "Medium Reasoning",
+          "status": "active"
+        }
+      ]
+    }
+  ],
+  "allModels": [
+    {
+      "id": "google-antigravity/gemini-3.7-flash",
+      "name": "Gemini 3.7 Flash",
+      "providerId": "google-antigravity",
+      "providerName": "Google Antigravity",
+      "context": "1,048,576 (1M)",
+      "contextTokens": 1048576,
+      "inputPrice1M": 0.15,
+      "outputPrice1M": 0.6,
+      "speed": "Ultra High (150+ t/s)",
+      "reasoning": "Hybrid Thinking",
+      "status": "active"
+    },
+    {
+      "id": "google-antigravity/gemini-3.1-pro",
+      "name": "Gemini 3.1 Pro",
+      "providerId": "google-antigravity",
+      "providerName": "Google Antigravity",
+      "context": "1,048,576 (1M)",
+      "contextTokens": 1048576,
+      "inputPrice1M": 1.25,
+      "outputPrice1M": 5.0,
+      "speed": "Fast (80+ t/s)",
+      "reasoning": "Deep Reasoning",
+      "status": "active"
+    },
+    {
+      "id": "google-antigravity/claude-sonnet-4-6",
+      "name": "Claude Sonnet 4.6",
+      "providerId": "google-antigravity",
+      "providerName": "Google Antigravity",
+      "context": "200,000 (200k)",
+      "contextTokens": 200000,
+      "inputPrice1M": 3.0,
+      "outputPrice1M": 15.0,
+      "speed": "Balanced (60+ t/s)",
+      "reasoning": "High Nuance",
+      "status": "rate_limited"
+    },
+    {
+      "id": "google-antigravity/claude-opus-4-6-thinking",
+      "name": "Claude Opus 4.6 Thinking",
+      "providerId": "google-antigravity",
+      "providerName": "Google Antigravity",
+      "context": "200,000 (200k)",
+      "contextTokens": 200000,
+      "inputPrice1M": 15.0,
+      "outputPrice1M": 75.0,
+      "speed": "Deep Thinking (35+ t/s)",
+      "reasoning": "Max Reasoning",
+      "status": "rate_limited"
+    },
+    {
+      "id": "gpt-5.6-sol",
+      "name": "GPT-5.6 Sol",
+      "providerId": "openai",
+      "providerName": "OpenAI Codex",
+      "context": "128,000 (128k)",
+      "contextTokens": 128000,
+      "inputPrice1M": 5.0,
+      "outputPrice1M": 30.0,
+      "speed": "Flagship Intelligence (750 t/s on Cerebras)",
+      "reasoning": "Ultra Reasoning",
+      "status": "active"
+    },
+    {
+      "id": "gpt-5.6-terra",
+      "name": "GPT-5.6 Terra",
+      "providerId": "openai",
+      "providerName": "OpenAI Codex",
+      "context": "128,000 (128k)",
+      "contextTokens": 128000,
+      "inputPrice1M": 2.0,
+      "outputPrice1M": 12.0,
+      "speed": "Balanced Daily Workload",
+      "reasoning": "Medium-Ultra",
+      "status": "active"
+    },
+    {
+      "id": "gpt-5.6-luna",
+      "name": "GPT-5.6 Luna",
+      "providerId": "openai",
+      "providerName": "OpenAI Codex",
+      "context": "128,000 (128k)",
+      "contextTokens": 128000,
+      "inputPrice1M": 0.2,
+      "outputPrice1M": 1.2,
+      "speed": "Fast & Cost-Effective",
+      "reasoning": "Medium-Max",
+      "status": "active"
+    },
+    {
+      "id": "combo/Antigravity",
+      "name": "Combo Antigravity Failover",
+      "providerId": "openai",
+      "providerName": "OpenCodex Combo",
+      "context": "1,048,576 (1M)",
+      "contextTokens": 1048576,
+      "inputPrice1M": 0.15,
+      "outputPrice1M": 0.6,
+      "speed": "Auto Failover",
+      "reasoning": "Auto Failover",
+      "status": "active"
+    },
+    {
+      "id": "alibaba-token-plan-intl/qwen3.8-max",
+      "name": "Qwen 3.8 Max",
+      "providerId": "alibaba-token-plan-intl",
+      "providerName": "Alibaba Token Plan",
+      "context": "1,000,000 (1M)",
+      "contextTokens": 1000000,
+      "inputPrice1M": 1.6,
+      "outputPrice1M": 6.4,
+      "speed": "Heavy Duty MoE (2.4T)",
+      "reasoning": "XHigh Reasoning",
+      "status": "active"
+    },
+    {
+      "id": "alibaba-token-plan-intl/qwen3.7-max",
+      "name": "Qwen 3.7 Max",
+      "providerId": "alibaba-token-plan-intl",
+      "providerName": "Alibaba Token Plan",
+      "context": "1,000,000 (1M)",
+      "contextTokens": 1000000,
+      "inputPrice1M": 1.6,
+      "outputPrice1M": 6.4,
+      "speed": "Heavy Duty",
+      "reasoning": "XHigh Reasoning",
+      "status": "active"
+    },
+    {
+      "id": "alibaba-token-plan-intl/qwen3.7-plus",
+      "name": "Qwen 3.7 Plus",
+      "providerId": "alibaba-token-plan-intl",
+      "providerName": "Alibaba Token Plan",
+      "context": "1,000,000 (1M)",
+      "contextTokens": 1000000,
+      "inputPrice1M": 0.26,
+      "outputPrice1M": 0.78,
+      "speed": "High Speed Multimodal",
+      "reasoning": "Medium Reasoning",
+      "status": "active"
+    },
+    {
+      "id": "alibaba-token-plan-intl/qwen3.6-flash",
+      "name": "Qwen 3.6 Flash",
+      "providerId": "alibaba-token-plan-intl",
+      "providerName": "Alibaba Token Plan",
+      "context": "1,000,000 (1M)",
+      "contextTokens": 1000000,
+      "inputPrice1M": 0.05,
+      "outputPrice1M": 0.2,
+      "speed": "Ultra Fast",
+      "reasoning": "Low-Medium",
+      "status": "active"
+    },
+    {
+      "id": "alibaba-token-plan-intl/deepseek-v4-pro",
+      "name": "DeepSeek V4 Pro",
+      "providerId": "alibaba-token-plan-intl",
+      "providerName": "Alibaba Token Plan",
+      "context": "1,000,000 (1M)",
+      "contextTokens": 1000000,
+      "inputPrice1M": 0.27,
+      "outputPrice1M": 1.1,
+      "speed": "Code & Math Specialist",
+      "reasoning": "High-Max",
+      "status": "active"
+    },
+    {
+      "id": "alibaba-token-plan-intl/deepseek-v4-flash-0731",
+      "name": "DeepSeek V4 Flash",
+      "providerId": "alibaba-token-plan-intl",
+      "providerName": "Alibaba Token Plan",
+      "context": "1,000,000 (1M)",
+      "contextTokens": 1000000,
+      "inputPrice1M": 0.14,
+      "outputPrice1M": 0.28,
+      "speed": "Fast Inference",
+      "reasoning": "Standard",
+      "status": "active"
+    },
+    {
+      "id": "alibaba-token-plan-intl/glm-5.2",
+      "name": "GLM 5.2",
+      "providerId": "alibaba-token-plan-intl",
+      "providerName": "Alibaba Token Plan",
+      "context": "128,000 (128k)",
+      "contextTokens": 128000,
+      "inputPrice1M": 1.0,
+      "outputPrice1M": 1.0,
+      "speed": "Bilingual Pro",
+      "reasoning": "Medium Reasoning",
+      "status": "active"
+    }
+  ],
+  "integrations": [
+    {
+      "name": "OpenCodex Proxy",
+      "endpoint": "http://127.0.0.1:10100",
+      "status": "online"
+    },
+    {
+      "name": "Hermes Gateway",
+      "runtime": "launchd (PID 33929)",
+      "status": "online"
+    },
+    {
+      "name": "ElevenLabs Voice",
+      "service": "Voice Synth (41b6...6484)",
+      "status": "ready"
+    },
+    {
+      "name": "Firecrawl Tool",
+      "service: ": "Web Extract (fc-5...b8ae)",
+      "status": "ready"
+    }
+  ]
+}
