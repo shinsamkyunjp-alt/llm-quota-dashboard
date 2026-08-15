@@ -26,8 +26,6 @@ interface ModelInfo {
   speed?: string;
   context?: string;
   contextTokens?: number;
-  maxOutput?: string;
-  maxOutputTokens?: number;
   inputPrice1M?: number;
   outputPrice1M?: number;
   reasoning?: string;
@@ -36,25 +34,25 @@ interface ModelInfo {
 
 const DEFAULT_MODELS: ModelInfo[] = [
   // Google Antigravity
-  { id: 'google-antigravity/gemini-3.7-flash', name: 'Gemini 3.7 Flash', providerId: 'google-antigravity', providerName: 'Google Antigravity', speed: 'Ultra High (150+ t/s)', context: '1,048,576 (1M)', contextTokens: 1048576, maxOutput: '65,536 (64k)', maxOutputTokens: 65536, inputPrice1M: 0.15, outputPrice1M: 0.60, reasoning: 'Hybrid Thinking', status: 'active' },
-  { id: 'google-antigravity/gemini-3.1-pro', name: 'Gemini 3.1 Pro', providerId: 'google-antigravity', providerName: 'Google Antigravity', speed: 'Fast (80+ t/s)', context: '1,048,576 (1M)', contextTokens: 1048576, maxOutput: '65,536 (64k)', maxOutputTokens: 65536, inputPrice1M: 1.25, outputPrice1M: 5.00, reasoning: 'Deep Reasoning', status: 'active' },
-  { id: 'google-antigravity/claude-sonnet-4-6', name: 'Claude Sonnet 4.6', providerId: 'google-antigravity', providerName: 'Google Antigravity', speed: 'Balanced (60+ t/s)', context: '200,000 (200k)', contextTokens: 200000, maxOutput: '8,192 / 64k (Thinking)', maxOutputTokens: 64000, inputPrice1M: 3.00, outputPrice1M: 15.00, reasoning: 'High Nuance', status: 'rate_limited' },
-  { id: 'google-antigravity/claude-opus-4-6-thinking', name: 'Claude Opus 4.6 Thinking', providerId: 'google-antigravity', providerName: 'Google Antigravity', speed: 'Deep Thinking (35+ t/s)', context: '200,000 (200k)', contextTokens: 200000, maxOutput: '8,192 / 32k (Thinking)', maxOutputTokens: 32000, inputPrice1M: 15.00, outputPrice1M: 75.00, reasoning: 'Max Reasoning', status: 'rate_limited' },
+  { id: 'google-antigravity/gemini-3.7-flash', name: 'Gemini 3.7 Flash', providerId: 'google-antigravity', providerName: 'Google Antigravity', speed: 'Ultra High (150+ t/s)', context: '1,048,576 (1M)', contextTokens: 1048576, inputPrice1M: 0.15, outputPrice1M: 0.60, reasoning: 'Hybrid Thinking', status: 'active' },
+  { id: 'google-antigravity/gemini-3.1-pro', name: 'Gemini 3.1 Pro', providerId: 'google-antigravity', providerName: 'Google Antigravity', speed: 'Fast (80+ t/s)', context: '1,048,576 (1M)', contextTokens: 1048576, inputPrice1M: 1.25, outputPrice1M: 5.00, reasoning: 'Deep Reasoning', status: 'active' },
+  { id: 'google-antigravity/claude-sonnet-4-6', name: 'Claude Sonnet 4.6', providerId: 'google-antigravity', providerName: 'Google Antigravity', speed: 'Balanced (60+ t/s)', context: '200,000 (200k)', contextTokens: 200000, inputPrice1M: 3.00, outputPrice1M: 15.00, reasoning: 'High Nuance', status: 'rate_limited' },
+  { id: 'google-antigravity/claude-opus-4-6-thinking', name: 'Claude Opus 4.6 Thinking', providerId: 'google-antigravity', providerName: 'Google Antigravity', speed: 'Deep Thinking (35+ t/s)', context: '200,000 (200k)', contextTokens: 200000, inputPrice1M: 15.00, outputPrice1M: 75.00, reasoning: 'Max Reasoning', status: 'rate_limited' },
 
   // OpenAI Codex
-  { id: 'gpt-5.6-sol', name: 'GPT-5.6 Sol', providerId: 'openai', providerName: 'OpenAI Codex', speed: 'High Throughput', context: '128,000 (128k)', contextTokens: 128000, maxOutput: '16,384 (16k)', maxOutputTokens: 16384, inputPrice1M: 2.50, outputPrice1M: 10.00, reasoning: 'Low-Ultra', status: 'active' },
-  { id: 'gpt-5.6-terra', name: 'GPT-5.6 Terra', providerId: 'openai', providerName: 'OpenAI Codex', speed: 'Balanced Reasoning', context: '128,000 (128k)', contextTokens: 128000, maxOutput: '16,384 (16k)', maxOutputTokens: 16384, inputPrice1M: 5.00, outputPrice1M: 20.00, reasoning: 'Medium-Ultra', status: 'active' },
-  { id: 'gpt-5.6-luna', name: 'GPT-5.6 Luna', providerId: 'openai', providerName: 'OpenAI Codex', speed: 'Cost-Effective', context: '128,000 (128k)', contextTokens: 128000, maxOutput: '16,384 (16k)', maxOutputTokens: 16384, inputPrice1M: 1.00, outputPrice1M: 4.00, reasoning: 'Medium-Max', status: 'active' },
-  { id: 'combo/Antigravity', name: 'Combo Antigravity Failover', providerId: 'openai', providerName: 'OpenCodex Combo', speed: 'Auto Failover', context: '1,048,576 (1M)', contextTokens: 1048576, maxOutput: '65,536 (64k)', maxOutputTokens: 65536, inputPrice1M: 0.15, outputPrice1M: 0.60, reasoning: 'Auto Failover', status: 'active' },
+  { id: 'gpt-5.6-sol', name: 'GPT-5.6 Sol', providerId: 'openai', providerName: 'OpenAI Codex', speed: 'High Throughput', context: '128,000 (128k)', contextTokens: 128000, inputPrice1M: 2.50, outputPrice1M: 10.00, reasoning: 'Low-Ultra', status: 'active' },
+  { id: 'gpt-5.6-terra', name: 'GPT-5.6 Terra', providerId: 'openai', providerName: 'OpenAI Codex', speed: 'Balanced Reasoning', context: '128,000 (128k)', contextTokens: 128000, inputPrice1M: 5.00, outputPrice1M: 20.00, reasoning: 'Medium-Ultra', status: 'active' },
+  { id: 'gpt-5.6-luna', name: 'GPT-5.6 Luna', providerId: 'openai', providerName: 'OpenAI Codex', speed: 'Cost-Effective', context: '128,000 (128k)', contextTokens: 128000, inputPrice1M: 1.00, outputPrice1M: 4.00, reasoning: 'Medium-Max', status: 'active' },
+  { id: 'combo/Antigravity', name: 'Combo Antigravity Failover', providerId: 'openai', providerName: 'OpenCodex Combo', speed: 'Auto Failover', context: '1,048,576 (1M)', contextTokens: 1048576, inputPrice1M: 0.15, outputPrice1M: 0.60, reasoning: 'Auto Failover', status: 'active' },
 
   // Alibaba Token Plan
-  { id: 'alibaba-token-plan-intl/qwen3.7-plus', name: 'Qwen 3.7 Plus', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'High Speed', context: '1,000,000 (1M)', contextTokens: 1000000, maxOutput: '8,192 (8k)', maxOutputTokens: 8192, inputPrice1M: 0.26, outputPrice1M: 0.78, reasoning: 'Medium Reasoning', status: 'rate_limited' },
-  { id: 'alibaba-token-plan-intl/qwen3.6-flash', name: 'Qwen 3.6 Flash', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Ultra Fast', context: '1,000,000 (1M)', contextTokens: 1000000, maxOutput: '8,192 (8k)', maxOutputTokens: 8192, inputPrice1M: 0.05, outputPrice1M: 0.20, reasoning: 'Low-Medium', status: 'rate_limited' },
-  { id: 'alibaba-token-plan-intl/qwen3.8-max', name: 'Qwen 3.8 Max', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Heavy Duty', context: '32,768 ~ 131k', contextTokens: 131072, maxOutput: '8,192 (8k)', maxOutputTokens: 8192, inputPrice1M: 1.60, outputPrice1M: 6.40, reasoning: 'XHigh Reasoning', status: 'rate_limited' },
-  { id: 'alibaba-token-plan-intl/qwen3.7-max', name: 'Qwen 3.7 Max', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Heavy Duty', context: '32,768 ~ 131k', contextTokens: 131072, maxOutput: '8,192 (8k)', maxOutputTokens: 8192, inputPrice1M: 1.60, outputPrice1M: 6.40, reasoning: 'XHigh Reasoning', status: 'rate_limited' },
-  { id: 'alibaba-token-plan-intl/deepseek-v4-pro', name: 'DeepSeek V4 Pro', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Code & Math', context: '64,000 (64k)', contextTokens: 64000, maxOutput: '8,192 (8k)', maxOutputTokens: 8192, inputPrice1M: 0.27, outputPrice1M: 1.10, reasoning: 'High-Max', status: 'rate_limited' },
-  { id: 'alibaba-token-plan-intl/deepseek-v4-flash-0731', name: 'DeepSeek V4 Flash', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Fast Inference', context: '64,000 (64k)', contextTokens: 64000, maxOutput: '8,192 (8k)', maxOutputTokens: 8192, inputPrice1M: 0.14, outputPrice1M: 0.28, reasoning: 'Standard', status: 'rate_limited' },
-  { id: 'alibaba-token-plan-intl/glm-5.2', name: 'GLM 5.2', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Bilingual Pro', context: '128,000 (128k)', contextTokens: 128000, maxOutput: '4,096 (4k)', maxOutputTokens: 4096, inputPrice1M: 1.00, outputPrice1M: 1.00, reasoning: 'Medium Reasoning', status: 'rate_limited' }
+  { id: 'alibaba-token-plan-intl/qwen3.7-plus', name: 'Qwen 3.7 Plus', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'High Speed', context: '1,000,000 (1M)', contextTokens: 1000000, inputPrice1M: 0.26, outputPrice1M: 0.78, reasoning: 'Medium Reasoning', status: 'rate_limited' },
+  { id: 'alibaba-token-plan-intl/qwen3.6-flash', name: 'Qwen 3.6 Flash', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Ultra Fast', context: '1,000,000 (1M)', contextTokens: 1000000, inputPrice1M: 0.05, outputPrice1M: 0.20, reasoning: 'Low-Medium', status: 'rate_limited' },
+  { id: 'alibaba-token-plan-intl/qwen3.8-max', name: 'Qwen 3.8 Max', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Heavy Duty', context: '32,768 ~ 131k', contextTokens: 131072, inputPrice1M: 1.60, outputPrice1M: 6.40, reasoning: 'XHigh Reasoning', status: 'rate_limited' },
+  { id: 'alibaba-token-plan-intl/qwen3.7-max', name: 'Qwen 3.7 Max', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Heavy Duty', context: '32,768 ~ 131k', contextTokens: 131072, inputPrice1M: 1.60, outputPrice1M: 6.40, reasoning: 'XHigh Reasoning', status: 'rate_limited' },
+  { id: 'alibaba-token-plan-intl/deepseek-v4-pro', name: 'DeepSeek V4 Pro', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Code & Math', context: '64,000 (64k)', contextTokens: 64000, inputPrice1M: 0.27, outputPrice1M: 1.10, reasoning: 'High-Max', status: 'rate_limited' },
+  { id: 'alibaba-token-plan-intl/deepseek-v4-flash-0731', name: 'DeepSeek V4 Flash', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Fast Inference', context: '64,000 (64k)', contextTokens: 64000, inputPrice1M: 0.14, outputPrice1M: 0.28, reasoning: 'Standard', status: 'rate_limited' },
+  { id: 'alibaba-token-plan-intl/glm-5.2', name: 'GLM 5.2', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Bilingual Pro', context: '128,000 (128k)', contextTokens: 128000, inputPrice1M: 1.00, outputPrice1M: 1.00, reasoning: 'Medium Reasoning', status: 'rate_limited' }
 ];
 
 const DEFAULT_TELEMETRY = {
@@ -215,7 +213,7 @@ export default function QuotaDashboard() {
       return `${days}일 ${hours % 24}시간`;
     }
 
-    return `${String(hours).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    return `${String(hours).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}` ;
   };
 
   const ag = data.antigravity || DEFAULT_TELEMETRY.antigravity;
@@ -357,9 +355,9 @@ export default function QuotaDashboard() {
           </div>
         </section>
 
-        {/* Main Provider Telemetry Grid (Balanced Card Heights) */}
+        {/* Main Provider Telemetry Grid */}
         <section className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-6 box-border items-stretch">
-          {/* 1. Google Antigravity Card (Usage % + Exhausted Claude Strip) */}
+          {/* 1. Google Antigravity Card */}
           <div className="w-full bg-white border border-zinc-200/90 rounded-2xl p-4 sm:p-6 flex flex-col justify-between space-y-4 shadow-sm hover:shadow-md transition-shadow box-border overflow-hidden">
             <div className="space-y-3.5">
               <div className="flex items-center justify-between gap-2">
@@ -444,7 +442,7 @@ export default function QuotaDashboard() {
             </div>
 
             <div className="space-y-1.5 pt-2.5 border-t border-zinc-100">
-              <div className="text-[10px] font-semibold text-zinc-500 uppercase tracking-wider">주요 모델 (최대 1M Context / 64k Output)</div>
+              <div className="text-[10px] font-semibold text-zinc-500 uppercase tracking-wider">주요 모델 (최대 1M Context)</div>
               <div className="flex flex-wrap gap-1">
                 <span className="text-[11px] px-2 py-0.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 font-medium">Gemini 3.7 Flash (1M)</span>
                 <span className="text-[11px] px-2 py-0.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 font-medium">Gemini 3.1 Pro (1M)</span>
@@ -454,7 +452,7 @@ export default function QuotaDashboard() {
             </div>
           </div>
 
-          {/* 2. OpenAI Codex Card (Usage %) */}
+          {/* 2. OpenAI Codex Card */}
           <div className="w-full bg-white border border-zinc-200/90 rounded-2xl p-4 sm:p-6 flex flex-col justify-between space-y-4 shadow-sm hover:shadow-md transition-shadow box-border overflow-hidden">
             <div className="space-y-3.5">
               <div className="flex items-center justify-between gap-2">
@@ -522,7 +520,7 @@ export default function QuotaDashboard() {
             </div>
 
             <div className="space-y-1.5 pt-2.5 border-t border-zinc-100">
-              <div className="text-[10px] font-semibold text-zinc-500 uppercase tracking-wider">주요 모델 (128k Input / 16k Output)</div>
+              <div className="text-[10px] font-semibold text-zinc-500 uppercase tracking-wider">주요 모델 (128k Context)</div>
               <div className="flex flex-wrap gap-1">
                 <span className="text-[11px] px-2 py-0.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 font-medium">GPT-5.6 Sol</span>
                 <span className="text-[11px] px-2 py-0.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 font-medium">GPT-5.6 Terra</span>
@@ -531,7 +529,7 @@ export default function QuotaDashboard() {
             </div>
           </div>
 
-          {/* 3. Alibaba Token Plan Card (Usage %) */}
+          {/* 3. Alibaba Token Plan Card */}
           <div className="w-full bg-white border border-amber-200/90 rounded-2xl p-4 sm:p-6 flex flex-col justify-between space-y-4 shadow-sm hover:shadow-md transition-shadow box-border overflow-hidden">
             <div className="space-y-3.5">
               <div className="flex items-center justify-between gap-2">
@@ -549,7 +547,7 @@ export default function QuotaDashboard() {
                 <span className="text-zinc-500 font-mono text-[11px]">API Key</span>
               </div>
 
-              {/* Weekly Quota Usage (100% Exhausted) */}
+              {/* Weekly Quota Usage */}
               <div className="bg-amber-50/70 border border-amber-200 rounded-xl p-3 space-y-1.5">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-bold text-amber-900 flex items-center gap-1.5">
@@ -597,7 +595,7 @@ export default function QuotaDashboard() {
             </div>
 
             <div className="space-y-1.5 pt-2.5 border-t border-zinc-100">
-              <div className="text-[10px] font-semibold text-zinc-500 uppercase tracking-wider">영향받는 모델 (1M~32k Input / 8k Output)</div>
+              <div className="text-[10px] font-semibold text-zinc-500 uppercase tracking-wider">영향받는 모델 (1M~32k Context)</div>
               <div className="flex flex-wrap gap-1">
                 <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 border border-zinc-200 text-zinc-400 flex items-center gap-1 line-through">
                   <span className="w-1.5 h-1.5 rounded-full bg-amber-500" /> Qwen 3.8 Max (32k~131k)
@@ -630,7 +628,7 @@ export default function QuotaDashboard() {
                 </span>
               </div>
               <p className="text-xs text-zinc-500 mt-0.5">
-                공식 문서 기준: 총 컨텍스트 윈도우(입력) 및 최대 출력 토큰(출력 한도) 분리 명시
+                OpenCodex 실시간 카탈로그 연동 · 1M 토큰당 입력/출력 단가 및 모델별 정확한 컨텍스트 윈도우 명세
               </p>
             </div>
 
@@ -677,8 +675,7 @@ export default function QuotaDashboard() {
                 <tr>
                   <th className="py-3 px-4">모델 식별자 (ID)</th>
                   <th className="py-3 px-4">프로바이더</th>
-                  <th className="py-3 px-4">총 컨텍스트 (입력)</th>
-                  <th className="py-3 px-4">최대 출력 (Output)</th>
+                  <th className="py-3 px-4">컨텍스트 윈도우</th>
                   <th className="py-3 px-4 text-right">입력 단가 (1M)</th>
                   <th className="py-3 px-4 text-right">출력 단가 (1M)</th>
                   <th className="py-3 px-4">처리 속도 / 추론</th>
@@ -702,9 +699,6 @@ export default function QuotaDashboard() {
                       }`}>
                         {item.context}
                       </span>
-                    </td>
-                    <td className="py-3.5 px-4 text-zinc-600 font-medium">
-                      {item.maxOutput || '8,192 (8k)'}
                     </td>
                     <td className="py-3.5 px-4 text-right font-bold text-zinc-800 font-mono">
                       ${(item.inputPrice1M ?? 0).toFixed(2)}
@@ -752,7 +746,7 @@ export default function QuotaDashboard() {
                   )}
                 </div>
                 <div className="flex items-center justify-between text-[11px] text-zinc-600 pt-1 border-t border-zinc-200/60 font-mono">
-                  <span>{item.providerName} (In: {item.context} / Out: {item.maxOutput})</span>
+                  <span>{item.providerName} ({item.context})</span>
                   <span className="font-bold text-emerald-700">In ${(item.inputPrice1M ?? 0).toFixed(2)} / Out ${(item.outputPrice1M ?? 0).toFixed(2)}</span>
                 </div>
               </div>

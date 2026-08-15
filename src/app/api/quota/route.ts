@@ -4,14 +4,12 @@ import { promisify } from 'util';
 
 const execAsync = promisify(exec);
 
-// Metadata & Pricing Registry per 1M tokens (USD), Total Context & Max Output Tokens
+// Metadata & Pricing Registry per 1M tokens (USD) & Total Context Windows
 const MODEL_METADATA: Record<string, {
   name: string;
   provider: string;
   context: string;
   contextTokens: number;
-  maxOutput: string;
-  maxOutputTokens: number;
   inputPrice1M: number;
   outputPrice1M: number;
   speed: string;
@@ -23,8 +21,6 @@ const MODEL_METADATA: Record<string, {
     provider: 'Google Antigravity',
     context: '1,048,576 (1M)',
     contextTokens: 1048576,
-    maxOutput: '65,536 (64k)',
-    maxOutputTokens: 65536,
     inputPrice1M: 0.15,
     outputPrice1M: 0.60,
     speed: 'Ultra High (150+ t/s)',
@@ -35,8 +31,6 @@ const MODEL_METADATA: Record<string, {
     provider: 'Google Antigravity',
     context: '1,048,576 (1M)',
     contextTokens: 1048576,
-    maxOutput: '65,536 (64k)',
-    maxOutputTokens: 65536,
     inputPrice1M: 1.25,
     outputPrice1M: 5.00,
     speed: 'Fast (80+ t/s)',
@@ -47,8 +41,6 @@ const MODEL_METADATA: Record<string, {
     provider: 'Google Antigravity',
     context: '200,000 (200k)',
     contextTokens: 200000,
-    maxOutput: '8,192 / 64k (Thinking)',
-    maxOutputTokens: 64000,
     inputPrice1M: 3.00,
     outputPrice1M: 15.00,
     speed: 'Balanced (60+ t/s)',
@@ -59,8 +51,6 @@ const MODEL_METADATA: Record<string, {
     provider: 'Google Antigravity',
     context: '200,000 (200k)',
     contextTokens: 200000,
-    maxOutput: '8,192 / 32k (Thinking)',
-    maxOutputTokens: 32000,
     inputPrice1M: 15.00,
     outputPrice1M: 75.00,
     speed: 'Deep Thinking (35+ t/s)',
@@ -73,8 +63,6 @@ const MODEL_METADATA: Record<string, {
     provider: 'OpenAI Codex',
     context: '128,000 (128k)',
     contextTokens: 128000,
-    maxOutput: '16,384 (16k)',
-    maxOutputTokens: 16384,
     inputPrice1M: 2.50,
     outputPrice1M: 10.00,
     speed: 'High Throughput',
@@ -85,8 +73,6 @@ const MODEL_METADATA: Record<string, {
     provider: 'OpenAI Codex',
     context: '128,000 (128k)',
     contextTokens: 128000,
-    maxOutput: '16,384 (16k)',
-    maxOutputTokens: 16384,
     inputPrice1M: 5.00,
     outputPrice1M: 20.00,
     speed: 'Balanced Reasoning',
@@ -97,8 +83,6 @@ const MODEL_METADATA: Record<string, {
     provider: 'OpenAI Codex',
     context: '128,000 (128k)',
     contextTokens: 128000,
-    maxOutput: '16,384 (16k)',
-    maxOutputTokens: 16384,
     inputPrice1M: 1.00,
     outputPrice1M: 4.00,
     speed: 'Cost-Effective',
@@ -109,8 +93,6 @@ const MODEL_METADATA: Record<string, {
     provider: 'OpenCodex Combo',
     context: '1,048,576 (1M)',
     contextTokens: 1048576,
-    maxOutput: '65,536 (64k)',
-    maxOutputTokens: 65536,
     inputPrice1M: 0.15,
     outputPrice1M: 0.60,
     speed: 'Auto Failover',
@@ -123,8 +105,6 @@ const MODEL_METADATA: Record<string, {
     provider: 'Alibaba Token Plan',
     context: '1,000,000 (1M)',
     contextTokens: 1000000,
-    maxOutput: '8,192 (8k)',
-    maxOutputTokens: 8192,
     inputPrice1M: 0.26,
     outputPrice1M: 0.78,
     speed: 'High Speed',
@@ -135,8 +115,6 @@ const MODEL_METADATA: Record<string, {
     provider: 'Alibaba Token Plan',
     context: '1,000,000 (1M)',
     contextTokens: 1000000,
-    maxOutput: '8,192 (8k)',
-    maxOutputTokens: 8192,
     inputPrice1M: 0.05,
     outputPrice1M: 0.20,
     speed: 'Ultra Fast',
@@ -147,8 +125,6 @@ const MODEL_METADATA: Record<string, {
     provider: 'Alibaba Token Plan',
     context: '32,768 ~ 131k',
     contextTokens: 131072,
-    maxOutput: '8,192 (8k)',
-    maxOutputTokens: 8192,
     inputPrice1M: 1.60,
     outputPrice1M: 6.40,
     speed: 'Heavy Duty',
@@ -159,8 +135,6 @@ const MODEL_METADATA: Record<string, {
     provider: 'Alibaba Token Plan',
     context: '32,768 ~ 131k',
     contextTokens: 131072,
-    maxOutput: '8,192 (8k)',
-    maxOutputTokens: 8192,
     inputPrice1M: 1.60,
     outputPrice1M: 6.40,
     speed: 'Heavy Duty',
@@ -171,8 +145,6 @@ const MODEL_METADATA: Record<string, {
     provider: 'Alibaba Token Plan',
     context: '64,000 (64k)',
     contextTokens: 64000,
-    maxOutput: '8,192 (8k)',
-    maxOutputTokens: 8192,
     inputPrice1M: 0.27,
     outputPrice1M: 1.10,
     speed: 'Code & Math',
@@ -183,8 +155,6 @@ const MODEL_METADATA: Record<string, {
     provider: 'Alibaba Token Plan',
     context: '64,000 (64k)',
     contextTokens: 64000,
-    maxOutput: '8,192 (8k)',
-    maxOutputTokens: 8192,
     inputPrice1M: 0.14,
     outputPrice1M: 0.28,
     speed: 'Fast Inference',
@@ -195,8 +165,6 @@ const MODEL_METADATA: Record<string, {
     provider: 'Alibaba Token Plan',
     context: '128,000 (128k)',
     contextTokens: 128000,
-    maxOutput: '4,096 (4k)',
-    maxOutputTokens: 4096,
     inputPrice1M: 1.00,
     outputPrice1M: 1.00,
     speed: 'Bilingual Pro',
@@ -210,7 +178,6 @@ export async function GET() {
   let rawQuota: any = null;
   let liveModels: any[] = [];
   
-  // 1. Fetch live OpenCodex models in real time
   try {
     const res = await fetch('http://127.0.0.1:10100/v1/models', {
       cache: 'no-store',
@@ -227,7 +194,6 @@ export async function GET() {
     // Cloud fallback
   }
 
-  // 2. Fetch live ocx quota
   try {
     const { stdout: quotaOut } = await execAsync('ocx provider quota --json', { timeout: 3000 });
     rawQuota = JSON.parse(quotaOut);
@@ -236,20 +202,16 @@ export async function GET() {
     // ignore
   }
 
-  // 3. Fallback models if OpenCodex is offline
   if (liveModels.length === 0) {
     liveModels = Object.keys(MODEL_METADATA).map(id => ({ id }));
   }
 
-  // Build model routing list with live OpenCodex data + metadata + 1M pricing
   const models = liveModels.map(m => {
     const meta = MODEL_METADATA[m.id] || {
       name: m.id,
       provider: m.id.includes('antigravity') ? 'Google Antigravity' : m.id.includes('alibaba') ? 'Alibaba Token Plan' : 'OpenAI Codex',
       context: '128,000 (128k)',
       contextTokens: 128000,
-      maxOutput: '8,192 (8k)',
-      maxOutputTokens: 8192,
       inputPrice1M: 1.00,
       outputPrice1M: 2.00,
       speed: 'Standard',
@@ -265,8 +227,6 @@ export async function GET() {
       providerName: meta.provider,
       context: meta.context,
       contextTokens: meta.contextTokens,
-      maxOutput: meta.maxOutput,
-      maxOutputTokens: meta.maxOutputTokens,
       inputPrice1M: meta.inputPrice1M,
       outputPrice1M: meta.outputPrice1M,
       speed: meta.speed,
@@ -275,7 +235,6 @@ export async function GET() {
     };
   });
 
-  // Antigravity quota
   let antigravityUsage = 0.08;
   let antigravityReset = 1786787166000;
 
@@ -287,7 +246,6 @@ export async function GET() {
     }
   }
 
-  // OpenAI Codex quota
   let openaiUsage = 9.0;
   let openaiReset = 1789273515000;
 
@@ -301,7 +259,6 @@ export async function GET() {
     }
   }
 
-  // Weekly Sync Tracking
   const lastWeeklySyncDate = new Date();
   const nextWeeklySyncDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
 
