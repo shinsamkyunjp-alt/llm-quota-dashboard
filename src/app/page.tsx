@@ -39,10 +39,10 @@ const DEFAULT_MODELS: ModelInfo[] = [
   { id: 'google-antigravity/claude-sonnet-4-6', name: 'Claude Sonnet 4.6', providerId: 'google-antigravity', providerName: 'Google Antigravity', speed: 'Balanced (60+ t/s)', context: '200,000 (200k)', contextTokens: 200000, inputPrice1M: 3.00, outputPrice1M: 15.00, reasoning: 'High Nuance', status: 'rate_limited' },
   { id: 'google-antigravity/claude-opus-4-6-thinking', name: 'Claude Opus 4.6 Thinking', providerId: 'google-antigravity', providerName: 'Google Antigravity', speed: 'Deep Thinking (35+ t/s)', context: '200,000 (200k)', contextTokens: 200000, inputPrice1M: 15.00, outputPrice1M: 75.00, reasoning: 'Max Reasoning', status: 'rate_limited' },
 
-  // OpenAI Codex
-  { id: 'gpt-5.6-sol', name: 'GPT-5.6 Sol', providerId: 'openai', providerName: 'OpenAI Codex', speed: 'High Throughput', context: '128,000 (128k)', contextTokens: 128000, inputPrice1M: 2.50, outputPrice1M: 10.00, reasoning: 'Low-Ultra', status: 'active' },
-  { id: 'gpt-5.6-terra', name: 'GPT-5.6 Terra', providerId: 'openai', providerName: 'OpenAI Codex', speed: 'Balanced Reasoning', context: '128,000 (128k)', contextTokens: 128000, inputPrice1M: 5.00, outputPrice1M: 20.00, reasoning: 'Medium-Ultra', status: 'active' },
-  { id: 'gpt-5.6-luna', name: 'GPT-5.6 Luna', providerId: 'openai', providerName: 'OpenAI Codex', speed: 'Cost-Effective', context: '128,000 (128k)', contextTokens: 128000, inputPrice1M: 1.00, outputPrice1M: 4.00, reasoning: 'Medium-Max', status: 'active' },
+  // OpenAI Codex (Official OpenAI GPT-5.6 Sol Launch Pricing)
+  { id: 'gpt-5.6-sol', name: 'GPT-5.6 Sol', providerId: 'openai', providerName: 'OpenAI Codex', speed: 'Flagship (750 t/s on Cerebras)', context: '128,000 (128k)', contextTokens: 128000, inputPrice1M: 5.00, outputPrice1M: 30.00, reasoning: 'Ultra Reasoning', status: 'active' },
+  { id: 'gpt-5.6-terra', name: 'GPT-5.6 Terra', providerId: 'openai', providerName: 'OpenAI Codex', speed: 'Balanced Daily Workload', context: '128,000 (128k)', contextTokens: 128000, inputPrice1M: 2.50, outputPrice1M: 15.00, reasoning: 'Medium-Ultra', status: 'active' },
+  { id: 'gpt-5.6-luna', name: 'GPT-5.6 Luna', providerId: 'openai', providerName: 'OpenAI Codex', speed: 'Fast & Cost-Effective', context: '128,000 (128k)', contextTokens: 128000, inputPrice1M: 1.00, outputPrice1M: 6.00, reasoning: 'Medium-Max', status: 'active' },
   { id: 'combo/Antigravity', name: 'Combo Antigravity Failover', providerId: 'openai', providerName: 'OpenCodex Combo', speed: 'Auto Failover', context: '1,048,576 (1M)', contextTokens: 1048576, inputPrice1M: 0.15, outputPrice1M: 0.60, reasoning: 'Auto Failover', status: 'active' },
 
   // Alibaba Token Plan (Model Studio ap-southeast-1 Marketplace Specs)
@@ -442,7 +442,7 @@ export default function QuotaDashboard() {
             </div>
 
             <div className="space-y-1.5 pt-2.5 border-t border-zinc-100">
-              <div className="text-[10px] font-semibold text-zinc-500 uppercase tracking-wider">주요 모델 (1M Context)</div>
+              <div className="text-[10px] font-semibold text-zinc-500 uppercase tracking-wider">주요 모델 (최대 1M Context)</div>
               <div className="flex flex-wrap gap-1">
                 <span className="text-[11px] px-2 py-0.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 font-medium">Gemini 3.7 Flash (1M)</span>
                 <span className="text-[11px] px-2 py-0.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 font-medium">Gemini 3.1 Pro (1M)</span>
@@ -628,7 +628,7 @@ export default function QuotaDashboard() {
                 </span>
               </div>
               <p className="text-xs text-zinc-500 mt-0.5">
-                Alibaba Model Studio (ap-southeast-1) 공식 카탈로그 기준 정확한 컨텍스트 윈도우 및 토큰 단가 명세
+                OpenCodex 실시간 카탈로그 연동 · 1M 토큰당 공식 입력/출력 단가 및 모델별 정확한 컨텍스트 윈도우 명세
               </p>
             </div>
 

@@ -4,7 +4,7 @@ import { promisify } from 'util';
 
 const execAsync = promisify(exec);
 
-// Metadata & Pricing Registry per 1M tokens (USD) & Total Context Windows based on Alibaba Model Studio (ap-southeast-1) Official Marketplace
+// Metadata & Pricing Registry per 1M tokens (USD) & Total Context Windows based on Official OpenAI & Alibaba Model Studio
 const MODEL_METADATA: Record<string, {
   name: string;
   provider: string;
@@ -57,25 +57,25 @@ const MODEL_METADATA: Record<string, {
     reasoning: 'Max Reasoning'
   },
 
-  // OpenAI Codex
+  // OpenAI Codex (Official OpenAI GPT-5.6 Sol Launch Pricing)
   'gpt-5.6-sol': {
     name: 'GPT-5.6 Sol',
     provider: 'OpenAI Codex',
     context: '128,000 (128k)',
     contextTokens: 128000,
-    inputPrice1M: 2.50,
-    outputPrice1M: 10.00,
-    speed: 'High Throughput',
-    reasoning: 'Low-Ultra'
+    inputPrice1M: 5.00,
+    outputPrice1M: 30.00,
+    speed: 'Flagship Intelligence (750 t/s on Cerebras)',
+    reasoning: 'Ultra Reasoning'
   },
   'gpt-5.6-terra': {
     name: 'GPT-5.6 Terra',
     provider: 'OpenAI Codex',
     context: '128,000 (128k)',
     contextTokens: 128000,
-    inputPrice1M: 5.00,
-    outputPrice1M: 20.00,
-    speed: 'Balanced Reasoning',
+    inputPrice1M: 2.50,
+    outputPrice1M: 15.00,
+    speed: 'Balanced Daily Workload',
     reasoning: 'Medium-Ultra'
   },
   'gpt-5.6-luna': {
@@ -84,8 +84,8 @@ const MODEL_METADATA: Record<string, {
     context: '128,000 (128k)',
     contextTokens: 128000,
     inputPrice1M: 1.00,
-    outputPrice1M: 4.00,
-    speed: 'Cost-Effective',
+    outputPrice1M: 6.00,
+    speed: 'Fast & Cost-Effective',
     reasoning: 'Medium-Max'
   },
   'combo/Antigravity': {
@@ -99,7 +99,7 @@ const MODEL_METADATA: Record<string, {
     reasoning: 'Auto Failover'
   },
 
-  // Alibaba Token Plan (Model Studio ap-southeast-1 Official Specs)
+  // Alibaba Token Plan (Model Studio ap-southeast-1 Marketplace Specs)
   'alibaba-token-plan-intl/qwen3.8-max': {
     name: 'Qwen 3.8 Max',
     provider: 'Alibaba Token Plan',
