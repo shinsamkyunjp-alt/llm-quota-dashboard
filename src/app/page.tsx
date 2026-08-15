@@ -39,10 +39,10 @@ const DEFAULT_MODELS: ModelInfo[] = [
   { id: 'google-antigravity/claude-sonnet-4-6', name: 'Claude Sonnet 4.6', providerId: 'google-antigravity', providerName: 'Google Antigravity', speed: 'Balanced (60+ t/s)', context: '200,000 (200k)', contextTokens: 200000, inputPrice1M: 3.00, outputPrice1M: 15.00, reasoning: 'High Nuance', status: 'rate_limited' },
   { id: 'google-antigravity/claude-opus-4-6-thinking', name: 'Claude Opus 4.6 Thinking', providerId: 'google-antigravity', providerName: 'Google Antigravity', speed: 'Deep Thinking (35+ t/s)', context: '200,000 (200k)', contextTokens: 200000, inputPrice1M: 15.00, outputPrice1M: 75.00, reasoning: 'Max Reasoning', status: 'rate_limited' },
 
-  // OpenAI Codex (Official OpenAI GPT-5.6 Sol Launch Pricing)
-  { id: 'gpt-5.6-sol', name: 'GPT-5.6 Sol', providerId: 'openai', providerName: 'OpenAI Codex', speed: 'Flagship (750 t/s on Cerebras)', context: '128,000 (128k)', contextTokens: 128000, inputPrice1M: 5.00, outputPrice1M: 30.00, reasoning: 'Ultra Reasoning', status: 'active' },
-  { id: 'gpt-5.6-terra', name: 'GPT-5.6 Terra', providerId: 'openai', providerName: 'OpenAI Codex', speed: 'Balanced Daily Workload', context: '128,000 (128k)', contextTokens: 128000, inputPrice1M: 2.50, outputPrice1M: 15.00, reasoning: 'Medium-Ultra', status: 'active' },
-  { id: 'gpt-5.6-luna', name: 'GPT-5.6 Luna', providerId: 'openai', providerName: 'OpenAI Codex', speed: 'Fast & Cost-Effective', context: '128,000 (128k)', contextTokens: 128000, inputPrice1M: 1.00, outputPrice1M: 6.00, reasoning: 'Medium-Max', status: 'active' },
+  // OpenAI Codex (Official OpenAI GPT-5.6 Sol Launch Pricing: Sol $5/$30, Terra $2/$12, Luna $0.20/$1.20)
+  { id: 'gpt-5.6-sol', name: 'GPT-5.6 Sol', providerId: 'openai', providerName: 'OpenAI Codex', speed: 'Flagship Intelligence (750 t/s on Cerebras)', context: '128,000 (128k)', contextTokens: 128000, inputPrice1M: 5.00, outputPrice1M: 30.00, reasoning: 'Ultra Reasoning', status: 'active' },
+  { id: 'gpt-5.6-terra', name: 'GPT-5.6 Terra', providerId: 'openai', providerName: 'OpenAI Codex', speed: 'Balanced Daily Workload', context: '128,000 (128k)', contextTokens: 128000, inputPrice1M: 2.00, outputPrice1M: 12.00, reasoning: 'Medium-Ultra', status: 'active' },
+  { id: 'gpt-5.6-luna', name: 'GPT-5.6 Luna', providerId: 'openai', providerName: 'OpenAI Codex', speed: 'Fast & Cost-Effective', context: '128,000 (128k)', contextTokens: 128000, inputPrice1M: 0.20, outputPrice1M: 1.20, reasoning: 'Medium-Max', status: 'active' },
   { id: 'combo/Antigravity', name: 'Combo Antigravity Failover', providerId: 'openai', providerName: 'OpenCodex Combo', speed: 'Auto Failover', context: '1,048,576 (1M)', contextTokens: 1048576, inputPrice1M: 0.15, outputPrice1M: 0.60, reasoning: 'Auto Failover', status: 'active' },
 
   // Alibaba Token Plan (Model Studio ap-southeast-1 Marketplace Specs)
@@ -73,7 +73,7 @@ const DEFAULT_TELEMETRY = {
     account: 's***1@gmail.com',
     fiveHourWindow: {
       label: 'Gemini 5시간 롤링 사용량',
-      usagePercent: 0.08,
+      usagePercent: 38.88,
       resetAt: 1786787166000,
     },
     weeklyWindow: {
@@ -147,13 +147,13 @@ export default function QuotaDashboard() {
             ...(json.providers[0] || {}),
             fiveHourWindow: {
               label: 'Gemini 5시간 롤링 사용량',
-              usagePercent: json.providers[0]?.usagePercent ?? 0.08,
-              resetAt: json.providers[0]?.resetAt || 1786787166000
+              usagePercent: json.providers[0]?.fiveHourWindow?.usagePercent ?? json.providers[0]?.usagePercent ?? 38.88,
+              resetAt: json.providers[0]?.fiveHourWindow?.resetAt ?? json.providers[0]?.resetAt ?? 1786787166000
             },
             weeklyWindow: {
               label: 'Gemini 주간 누적 사용량',
-              usagePercent: 4.57,
-              resetAt: 1787337600000
+              usagePercent: json.providers[0]?.weeklyWindow?.usagePercent ?? 4.57,
+              resetAt: json.providers[0]?.weeklyWindow?.resetAt ?? 1787337600000
             }
           },
           openai: {
@@ -357,7 +357,7 @@ export default function QuotaDashboard() {
 
         {/* Main Provider Telemetry Grid */}
         <section className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-6 box-border items-stretch">
-          {/* 1. Google Antigravity Card */}
+          {/* 1. Google Antigravity Card (Live 5h Rolling Usage: 38.88% + Weekly + Compact Claude Strip) */}
           <div className="w-full bg-white border border-zinc-200/90 rounded-2xl p-4 sm:p-6 flex flex-col justify-between space-y-4 shadow-sm hover:shadow-md transition-shadow box-border overflow-hidden">
             <div className="space-y-3.5">
               <div className="flex items-center justify-between gap-2">
@@ -390,14 +390,14 @@ export default function QuotaDashboard() {
                 <div className="flex justify-between items-baseline text-xs">
                   <span className="text-zinc-500 text-[11px]">현재 소모율</span>
                   <span className="font-mono font-bold text-emerald-600 text-sm">
-                    {ag.fiveHourWindow?.usagePercent ?? 0.08}% 사용
+                    {ag.fiveHourWindow?.usagePercent ?? 38.88}% 사용
                   </span>
                 </div>
 
                 <div className="w-full bg-zinc-200 rounded-full h-1.5 overflow-hidden">
                   <div
                     className="bg-emerald-500 h-1.5 rounded-full transition-all duration-500"
-                    style={{ width: `${Math.max(ag.fiveHourWindow?.usagePercent ?? 0.08, 2)}%` }}
+                    style={{ width: `${Math.min(Math.max(ag.fiveHourWindow?.usagePercent ?? 38.88, 3), 100)}%` }}
                   />
                 </div>
               </div>
@@ -442,7 +442,7 @@ export default function QuotaDashboard() {
             </div>
 
             <div className="space-y-1.5 pt-2.5 border-t border-zinc-100">
-              <div className="text-[10px] font-semibold text-zinc-500 uppercase tracking-wider">주요 모델 (최대 1M Context)</div>
+              <div className="text-[10px] font-semibold text-zinc-500 uppercase tracking-wider">주요 모델 (1M Context)</div>
               <div className="flex flex-wrap gap-1">
                 <span className="text-[11px] px-2 py-0.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 font-medium">Gemini 3.7 Flash (1M)</span>
                 <span className="text-[11px] px-2 py-0.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 font-medium">Gemini 3.1 Pro (1M)</span>

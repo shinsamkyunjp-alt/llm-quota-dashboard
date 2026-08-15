@@ -4,7 +4,7 @@ import { promisify } from 'util';
 
 const execAsync = promisify(exec);
 
-// Metadata & Pricing Registry per 1M tokens (USD) & Total Context Windows based on Official OpenAI & Alibaba Model Studio
+// Metadata & Pricing Registry per 1M tokens (USD)
 const MODEL_METADATA: Record<string, {
   name: string;
   provider: string;
@@ -57,7 +57,7 @@ const MODEL_METADATA: Record<string, {
     reasoning: 'Max Reasoning'
   },
 
-  // OpenAI Codex (Official OpenAI GPT-5.6 Sol Launch Pricing)
+  // OpenAI Codex (Latest 1M Token Pricing: Sol $5/$30, Terra $2/$12, Luna $0.20/$1.20)
   'gpt-5.6-sol': {
     name: 'GPT-5.6 Sol',
     provider: 'OpenAI Codex',
@@ -73,8 +73,8 @@ const MODEL_METADATA: Record<string, {
     provider: 'OpenAI Codex',
     context: '128,000 (128k)',
     contextTokens: 128000,
-    inputPrice1M: 2.50,
-    outputPrice1M: 15.00,
+    inputPrice1M: 2.00,
+    outputPrice1M: 12.00,
     speed: 'Balanced Daily Workload',
     reasoning: 'Medium-Ultra'
   },
@@ -83,8 +83,8 @@ const MODEL_METADATA: Record<string, {
     provider: 'OpenAI Codex',
     context: '128,000 (128k)',
     contextTokens: 128000,
-    inputPrice1M: 1.00,
-    outputPrice1M: 6.00,
+    inputPrice1M: 0.20,
+    outputPrice1M: 1.20,
     speed: 'Fast & Cost-Effective',
     reasoning: 'Medium-Max'
   },
@@ -235,14 +235,15 @@ export async function GET() {
     };
   });
 
-  let antigravityUsage = 0.08;
-  let antigravityReset = 1786787166000;
+  // Antigravity live 5-hour rolling usage from ocx
+  let antigravity5hUsage = 38.88;
+  let antigravity5hReset = 1786787166000;
 
   if (rawQuota?.reports) {
     const ag = rawQuota.reports.find((r: any) => r.provider === 'google-antigravity');
     if (ag?.quota?.customWindows?.[0]) {
-      antigravityUsage = Number(ag.quota.customWindows[0].percent.toFixed(2));
-      antigravityReset = ag.quota.customWindows[0].resetAt;
+      antigravity5hUsage = Number(ag.quota.customWindows[0].percent.toFixed(2));
+      antigravity5hReset = ag.quota.customWindows[0].resetAt;
     }
   }
 
@@ -284,12 +285,12 @@ export async function GET() {
         name: 'Google Antigravity',
         status: 'healthy',
         account: 's***1@gmail.com',
-        usagePercent: antigravityUsage,
-        resetAt: antigravityReset,
+        usagePercent: antigravity5hUsage,
+        resetAt: antigravity5hReset,
         fiveHourWindow: {
           label: 'Gemini 5시간 롤링 사용량',
-          usagePercent: antigravityUsage,
-          resetAt: antigravityReset,
+          usagePercent: antigravity5hUsage,
+          resetAt: antigravity5hReset,
         },
         weeklyWindow: {
           label: 'Gemini 주간 누적 사용량',
