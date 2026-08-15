@@ -34,7 +34,9 @@ const DEFAULT_TELEMETRY = {
     healthyProviders: 2,
     exhaustedProviders: 1,
     totalLinkedAccounts: 5,
-    activeLLMCount: 13
+    activeLLMCount: 13,
+    availableModelCount: 5,
+    rateLimitedModelCount: 8
   },
   antigravity: {
     provider: 'google-antigravity',
@@ -42,27 +44,26 @@ const DEFAULT_TELEMETRY = {
     status: 'healthy',
     account: 's***1@gmail.com',
     fiveHourWindow: {
-      label: '5시간 롤링 쿼터',
+      label: 'Gemini 5시간 롤링 사용량',
       usagePercent: 0.08,
-      remainingPercent: 99.92,
       resetAt: 1786787166000, // ~18:46 KST
     },
     weeklyWindow: {
-      label: '주간 누적 쿼터',
+      label: 'Gemini 주간 누적 사용량',
       usagePercent: 4.57,
-      remainingPercent: 95.43,
       resetAt: 1787337600000,
     },
     claudeCompact: {
       label: 'Claude (3rd Party)',
-      status: 'healthy',
+      status: 'exhausted',
+      badge: '주간 쿼터 소진',
       models: ['Sonnet 4.6', 'Opus 4.6 Thinking']
     },
     models: [
       { id: 'google-antigravity/gemini-3.7-flash', name: 'Gemini 3.7 Flash', speed: 'Ultra High Speed', context: '1,000,000 (1M)', reasoning: 'Hybrid (Low-High)', status: 'active' },
       { id: 'google-antigravity/gemini-3.1-pro', name: 'Gemini 3.1 Pro', speed: 'High Speed', context: '1,000,000 (1M)', reasoning: 'Deep Reasoning', status: 'active' },
-      { id: 'google-antigravity/claude-sonnet-4-6', name: 'Claude Sonnet 4.6', speed: 'Balanced', context: '200,000 (200k)', reasoning: 'High Nuance', status: 'active' },
-      { id: 'google-antigravity/claude-opus-4-6-thinking', name: 'Claude Opus 4.6 Thinking', speed: 'Deep Thinking', context: '200,000 (200k)', reasoning: 'Max Reasoning', status: 'active' }
+      { id: 'google-antigravity/claude-sonnet-4-6', name: 'Claude Sonnet 4.6', speed: 'Balanced', context: '200,000 (200k)', reasoning: 'High Nuance', status: 'rate_limited' },
+      { id: 'google-antigravity/claude-opus-4-6-thinking', name: 'Claude Opus 4.6 Thinking', speed: 'Deep Thinking', context: '200,000 (200k)', reasoning: 'Max Reasoning', status: 'rate_limited' }
     ]
   },
   openai: {
@@ -74,7 +75,6 @@ const DEFAULT_TELEMETRY = {
     activeAccount: 's***n@gmail.com',
     pooledAccounts: ['s***n@gmail.com (Main)', 's***2@naver.com', 's***9@gmail.com'],
     monthlyUsagePercent: 9.0,
-    monthlyRemainingPercent: 91.0,
     monthlyResetAt: 1789273515000,
     models: [
       { id: 'gpt-5.6-sol', name: 'GPT-5.6 Sol', speed: 'High Throughput', context: '128,000 (128k)', reasoning: 'Low-Ultra', status: 'active' },
@@ -89,6 +89,7 @@ const DEFAULT_TELEMETRY = {
     badge: 'HTTP 429 · Insufficient Quota',
     region: 'ap-southeast-1 (Singapore)',
     account: 'sk-s****HZew',
+    weeklyUsagePercent: 100.0,
     resetAt: 1786782180000, // 17:23:00 KST
     message: '1-week quota exhausted. Auto-resets at 17:23:00 KST.',
     models: [
@@ -162,7 +163,7 @@ export default function QuotaDashboard() {
   const getCountdown = (targetTimestamp?: number) => {
     if (!targetTimestamp) return null;
     const diff = targetTimestamp - currentTime.getTime();
-    if (diff <= 0) return '00:00:00 (Ready)';
+    if (diff <= 0) return '00:00:00 (리셋 완료)';
     
     const hours = Math.floor(diff / (1000 * 60 * 60));
     const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
@@ -226,7 +227,7 @@ export default function QuotaDashboard() {
               </span>
             </div>
             <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed">
-              실시간 AI 프로바이더 쿼터 잔여량, 5시간/주간/월간 한도 및 리셋 스케줄 통합 관제
+              실시간 AI 프로바이더 쿼터 사용량, 5시간/주간/월간 소모율 및 리셋 스케줄 통합 관제
             </p>
           </div>
 
@@ -281,9 +282,9 @@ export default function QuotaDashboard() {
               <AlertTriangle className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
             <div className="min-w-0">
-              <div className="text-[10px] sm:text-xs text-zinc-500 font-medium truncate">쿼터 쿨다운</div>
+              <div className="text-[10px] sm:text-xs text-zinc-500 font-medium truncate">소진 / 쿨다운</div>
               <div className="text-sm sm:text-xl font-bold text-zinc-900 mt-0.5 truncate">
-                1 <span className="text-[10px] sm:text-xs font-semibold text-amber-600">Alibaba</span>
+                8 <span className="text-[10px] sm:text-xs font-semibold text-amber-600">Models Cooldown</span>
               </div>
             </div>
           </div>
@@ -301,13 +302,13 @@ export default function QuotaDashboard() {
           </div>
 
           <div className="bg-white border border-zinc-200/90 rounded-2xl p-3 sm:p-4 shadow-sm flex items-center gap-2.5 min-w-0">
-            <div className="p-2 sm:p-3 bg-purple-50 border border-purple-200/80 rounded-xl text-purple-600 shrink-0">
+            <div className="p-2 sm:p-3 bg-emerald-50 border border-emerald-200/80 rounded-xl text-emerald-600 shrink-0">
               <Cpu className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
             <div className="min-w-0">
-              <div className="text-[10px] sm:text-xs text-zinc-500 font-medium truncate">지원 모델군</div>
+              <div className="text-[10px] sm:text-xs text-zinc-500 font-medium truncate">즉시 호출 가능</div>
               <div className="text-sm sm:text-xl font-bold text-zinc-900 mt-0.5 truncate">
-                {allModels.length} Models
+                5 / 13 <span className="text-[10px] sm:text-xs font-semibold text-emerald-600">Ready</span>
               </div>
             </div>
           </div>
@@ -315,7 +316,7 @@ export default function QuotaDashboard() {
 
         {/* Main Provider Telemetry Grid (Balanced Card Heights) */}
         <section className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-6 box-border items-stretch">
-          {/* 1. Google Antigravity Card (5h & Weekly Quota + Compact Claude) */}
+          {/* 1. Google Antigravity Card (Usage % + Exhausted Claude Strip) */}
           <div className="w-full bg-white border border-zinc-200/90 rounded-2xl p-4 sm:p-6 flex flex-col justify-between space-y-4 shadow-sm hover:shadow-md transition-shadow box-border overflow-hidden">
             <div className="space-y-3.5">
               <div className="flex items-center justify-between gap-2">
@@ -333,12 +334,12 @@ export default function QuotaDashboard() {
                 <span className="text-zinc-500 font-mono text-[11px]">OAuth 2.0</span>
               </div>
 
-              {/* 5-Hour Rolling Quota */}
+              {/* 5-Hour Rolling Usage */}
               <div className="bg-zinc-50 border border-zinc-200/90 rounded-xl p-3 space-y-1.5">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-bold text-zinc-800 flex items-center gap-1.5">
                     <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
-                    Gemini 5시간 롤링 쿼터
+                    Gemini 5시간 롤링 사용량
                   </span>
                   <span className="font-mono text-xs font-bold text-emerald-700">
                     {getCountdown(ag.fiveHourWindow?.resetAt || 1786787166000)}
@@ -346,26 +347,26 @@ export default function QuotaDashboard() {
                 </div>
 
                 <div className="flex justify-between items-baseline text-xs">
-                  <span className="text-zinc-500 text-[11px]">가용 잔여량</span>
+                  <span className="text-zinc-500 text-[11px]">현재 사용률</span>
                   <span className="font-mono font-bold text-emerald-600 text-sm">
-                    {ag.fiveHourWindow?.remainingPercent ?? 99.92}%
+                    {ag.fiveHourWindow?.usagePercent ?? 0.08}% 사용
                   </span>
                 </div>
 
                 <div className="w-full bg-zinc-200 rounded-full h-1.5 overflow-hidden">
                   <div
                     className="bg-emerald-500 h-1.5 rounded-full transition-all duration-500"
-                    style={{ width: `${ag.fiveHourWindow?.remainingPercent ?? 99.92}%` }}
+                    style={{ width: `${Math.max(ag.fiveHourWindow?.usagePercent ?? 0.08, 2)}%` }}
                   />
                 </div>
               </div>
 
-              {/* Weekly Quota */}
+              {/* Weekly Usage */}
               <div className="bg-zinc-50 border border-zinc-200/90 rounded-xl p-3 space-y-1.5">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-bold text-zinc-800 flex items-center gap-1.5">
                     <Calendar className="w-3.5 h-3.5 text-emerald-600" />
-                    주간 누적 쿼터
+                    Gemini 주간 누적 사용량
                   </span>
                   <span className="font-mono text-xs font-bold text-emerald-700">
                     {getCountdown(ag.weeklyWindow?.resetAt || 1787337600000)}
@@ -373,28 +374,28 @@ export default function QuotaDashboard() {
                 </div>
 
                 <div className="flex justify-between items-baseline text-xs">
-                  <span className="text-zinc-500 text-[11px]">가용 잔여량</span>
+                  <span className="text-zinc-500 text-[11px]">주간 누적 사용률</span>
                   <span className="font-mono font-bold text-emerald-600 text-sm">
-                    {ag.weeklyWindow?.remainingPercent ?? 95.43}%
+                    {ag.weeklyWindow?.usagePercent ?? 4.57}% 사용
                   </span>
                 </div>
 
                 <div className="w-full bg-zinc-200 rounded-full h-1.5 overflow-hidden">
                   <div
                     className="bg-emerald-500 h-1.5 rounded-full transition-all duration-500"
-                    style={{ width: `${ag.weeklyWindow?.remainingPercent ?? 95.43}%` }}
+                    style={{ width: `${Math.max(ag.weeklyWindow?.usagePercent ?? 4.57, 3)}%` }}
                   />
                 </div>
               </div>
 
-              {/* Compact Claude 3rd Party Strip */}
-              <div className="bg-purple-50/70 border border-purple-200/80 rounded-xl px-3 py-2 flex items-center justify-between gap-2">
+              {/* Compact Claude 3rd Party Quota Exhausted Strip */}
+              <div className="bg-amber-50/80 border border-amber-200 rounded-xl px-3 py-2 flex items-center justify-between gap-2">
                 <div className="flex items-center gap-1.5 min-w-0">
-                  <Bot className="w-3.5 h-3.5 text-purple-600 shrink-0" />
-                  <span className="text-xs font-bold text-purple-900 truncate">Claude 3rd Party 풀</span>
+                  <AlertTriangle className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                  <span className="text-xs font-bold text-amber-900 truncate">Claude 3rd Party 풀</span>
                 </div>
-                <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-purple-100 text-purple-800 shrink-0">
-                  Sonnet 4.6 / Opus 4.6 (정상)
+                <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 shrink-0">
+                  주간 쿼터 소진 (쿨다운)
                 </span>
               </div>
             </div>
@@ -402,15 +403,15 @@ export default function QuotaDashboard() {
             <div className="space-y-1.5 pt-2.5 border-t border-zinc-100">
               <div className="text-[10px] font-semibold text-zinc-500 uppercase tracking-wider">주요 모델</div>
               <div className="flex flex-wrap gap-1">
-                <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 border border-zinc-200 text-zinc-800 font-medium">Gemini 3.7 Flash</span>
-                <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 border border-zinc-200 text-zinc-800 font-medium">Gemini 3.1 Pro</span>
-                <span className="text-[11px] px-2 py-0.5 rounded-lg bg-purple-50 border border-purple-200 text-purple-900 font-medium">Claude Sonnet 4.6</span>
-                <span className="text-[11px] px-2 py-0.5 rounded-lg bg-purple-50 border border-purple-200 text-purple-900 font-medium">Claude Opus 4.6</span>
+                <span className="text-[11px] px-2 py-0.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 font-medium">Gemini 3.7 Flash</span>
+                <span className="text-[11px] px-2 py-0.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 font-medium">Gemini 3.1 Pro</span>
+                <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 border border-zinc-200 text-zinc-400 font-medium line-through">Claude Sonnet 4.6</span>
+                <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 border border-zinc-200 text-zinc-400 font-medium line-through">Claude Opus 4.6</span>
               </div>
             </div>
           </div>
 
-          {/* 2. OpenAI Codex Card */}
+          {/* 2. OpenAI Codex Card (Usage %) */}
           <div className="w-full bg-white border border-zinc-200/90 rounded-2xl p-4 sm:p-6 flex flex-col justify-between space-y-4 shadow-sm hover:shadow-md transition-shadow box-border overflow-hidden">
             <div className="space-y-3.5">
               <div className="flex items-center justify-between gap-2">
@@ -428,12 +429,12 @@ export default function QuotaDashboard() {
                 <span className="text-zinc-500 font-mono text-[11px]">Free Pool</span>
               </div>
 
-              {/* Monthly Quota */}
+              {/* Monthly Quota Usage */}
               <div className="bg-zinc-50 border border-zinc-200/90 rounded-xl p-3 space-y-1.5">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-bold text-zinc-800 flex items-center gap-1.5">
                     <Calendar className="w-3.5 h-3.5 text-sky-600" />
-                    월간 잔여 쿼터 (09/13)
+                    월간 쿼터 사용량 (09/13)
                   </span>
                   <span className="font-mono text-xs font-bold text-sky-700">
                     {getCountdown(oa.monthlyResetAt || 1789273515000)}
@@ -441,16 +442,16 @@ export default function QuotaDashboard() {
                 </div>
 
                 <div className="flex justify-between items-baseline text-xs">
-                  <span className="text-zinc-500 text-[11px]">가용 잔여량</span>
+                  <span className="text-zinc-500 text-[11px]">월간 소모율</span>
                   <span className="font-mono font-bold text-sky-600 text-sm">
-                    {oa.monthlyRemainingPercent ?? 91.0}%
+                    {oa.monthlyUsagePercent ?? 9.0}% 사용
                   </span>
                 </div>
 
                 <div className="w-full bg-zinc-200 rounded-full h-1.5 overflow-hidden">
                   <div
                     className="bg-sky-500 h-1.5 rounded-full transition-all duration-500"
-                    style={{ width: `${oa.monthlyRemainingPercent ?? 91.0}%` }}
+                    style={{ width: `${oa.monthlyUsagePercent ?? 9.0}%` }}
                   />
                 </div>
               </div>
@@ -480,14 +481,14 @@ export default function QuotaDashboard() {
             <div className="space-y-1.5 pt-2.5 border-t border-zinc-100">
               <div className="text-[10px] font-semibold text-zinc-500 uppercase tracking-wider">주요 모델</div>
               <div className="flex flex-wrap gap-1">
-                <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 border border-zinc-200 text-zinc-800 font-medium">GPT-5.6 Sol</span>
-                <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 border border-zinc-200 text-zinc-800 font-medium">GPT-5.6 Terra</span>
-                <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 border border-zinc-200 text-zinc-800 font-medium">GPT-5.6 Luna</span>
+                <span className="text-[11px] px-2 py-0.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 font-medium">GPT-5.6 Sol</span>
+                <span className="text-[11px] px-2 py-0.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 font-medium">GPT-5.6 Terra</span>
+                <span className="text-[11px] px-2 py-0.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 font-medium">GPT-5.6 Luna</span>
               </div>
             </div>
           </div>
 
-          {/* 3. Alibaba Token Plan Card */}
+          {/* 3. Alibaba Token Plan Card (Usage %) */}
           <div className="w-full bg-white border border-amber-200/90 rounded-2xl p-4 sm:p-6 flex flex-col justify-between space-y-4 shadow-sm hover:shadow-md transition-shadow box-border overflow-hidden">
             <div className="space-y-3.5">
               <div className="flex items-center justify-between gap-2">
@@ -505,19 +506,25 @@ export default function QuotaDashboard() {
                 <span className="text-zinc-500 font-mono text-[11px]">API Key</span>
               </div>
 
-              {/* Weekly Quota Warning */}
+              {/* Weekly Quota Usage (100% Exhausted) */}
               <div className="bg-amber-50/70 border border-amber-200 rounded-xl p-3 space-y-1.5">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-bold text-amber-900 flex items-center gap-1.5">
                     <AlertTriangle className="w-3.5 h-3.5 text-amber-600" />
-                    주간 쿼터 소진 상태
+                    주간 쿼터 사용량
                   </span>
                   <span className="font-mono text-xs font-black text-amber-800">
-                    HTTP 429
+                    100% 소진 (429)
                   </span>
                 </div>
-                <p className="text-[11px] text-zinc-700 leading-tight">
-                  1주 쿼터 전량 소진으로 현재 요청이 429로 거절됩니다.
+                <div className="w-full bg-zinc-200 rounded-full h-1.5 overflow-hidden">
+                  <div
+                    className="bg-amber-500 h-1.5 rounded-full"
+                    style={{ width: '100%' }}
+                  />
+                </div>
+                <p className="text-[11px] text-zinc-700 leading-tight pt-0.5">
+                  주간 한도 전량 소진으로 현재 요청이 429로 거절됩니다.
                 </p>
               </div>
 
@@ -541,7 +548,7 @@ export default function QuotaDashboard() {
               <div className="bg-amber-50/70 border border-amber-200/80 rounded-xl px-3 py-2 flex items-center justify-between gap-2">
                 <span className="text-xs font-bold text-amber-900">장애조치 상태</span>
                 <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800">
-                  Antigravity / Codex 우회 중
+                  Gemini / Codex 우회 중
                 </span>
               </div>
             </div>
@@ -549,16 +556,16 @@ export default function QuotaDashboard() {
             <div className="space-y-1.5 pt-2.5 border-t border-zinc-100">
               <div className="text-[10px] font-semibold text-zinc-500 uppercase tracking-wider">영향받는 모델 (쿨다운)</div>
               <div className="flex flex-wrap gap-1">
-                <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 border border-zinc-200 text-zinc-500 flex items-center gap-1">
+                <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 border border-zinc-200 text-zinc-400 flex items-center gap-1 line-through">
                   <span className="w-1.5 h-1.5 rounded-full bg-amber-500" /> Qwen 3.8 Max
                 </span>
-                <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 border border-zinc-200 text-zinc-500 flex items-center gap-1">
+                <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 border border-zinc-200 text-zinc-400 flex items-center gap-1 line-through">
                   <span className="w-1.5 h-1.5 rounded-full bg-amber-500" /> Qwen 3.7 Plus
                 </span>
-                <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 border border-zinc-200 text-zinc-500 flex items-center gap-1">
+                <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 border border-zinc-200 text-zinc-400 flex items-center gap-1 line-through">
                   <span className="w-1.5 h-1.5 rounded-full bg-amber-500" /> DeepSeek V4 Pro
                 </span>
-                <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 border border-zinc-200 text-zinc-500 flex items-center gap-1">
+                <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 border border-zinc-200 text-zinc-400 flex items-center gap-1 line-through">
                   <span className="w-1.5 h-1.5 rounded-full bg-amber-500" /> GLM 5.2
                 </span>
               </div>
@@ -639,7 +646,7 @@ export default function QuotaDashboard() {
                         </span>
                       ) : (
                         <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-700 text-[11px] font-semibold">
-                          <AlertTriangle className="w-3 h-3 text-amber-600" /> 쿨다운 중 (429)
+                          <AlertTriangle className="w-3 h-3 text-amber-600" /> 쿨다운 중 (소진)
                         </span>
                       )}
                     </td>
@@ -663,7 +670,7 @@ export default function QuotaDashboard() {
                     </span>
                   ) : (
                     <span className="shrink-0 inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-50 border border-amber-200 text-amber-700 text-[10px] font-semibold">
-                      <AlertTriangle className="w-2.5 h-2.5 text-amber-600" /> 429
+                      <AlertTriangle className="w-2.5 h-2.5 text-amber-600" /> 소진
                     </span>
                   )}
                 </div>
