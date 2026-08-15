@@ -46,25 +46,25 @@ const DEFAULT_MODELS: ModelInfo[] = [
   { id: 'combo/Antigravity', name: 'Combo Antigravity Failover', providerId: 'openai', providerName: 'OpenCodex Combo', speed: 'Auto Failover', context: '1,048,576 (1M)', contextTokens: 1048576, inputPrice1M: 0.15, outputPrice1M: 0.60, reasoning: 'Auto Failover', status: 'active' },
 
   // Alibaba Token Plan (Model Studio ap-southeast-1 Marketplace Specs)
-  { id: 'alibaba-token-plan-intl/qwen3.8-max', name: 'Qwen 3.8 Max', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Heavy Duty MoE (2.4T)', context: '1,000,000 (1M)', contextTokens: 1000000, inputPrice1M: 1.60, outputPrice1M: 6.40, reasoning: 'XHigh Reasoning', status: 'rate_limited' },
-  { id: 'alibaba-token-plan-intl/qwen3.7-max', name: 'Qwen 3.7 Max', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Heavy Duty', context: '1,000,000 (1M)', contextTokens: 1000000, inputPrice1M: 1.60, outputPrice1M: 6.40, reasoning: 'XHigh Reasoning', status: 'rate_limited' },
-  { id: 'alibaba-token-plan-intl/qwen3.7-plus', name: 'Qwen 3.7 Plus', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'High Speed Multimodal', context: '1,000,000 (1M)', contextTokens: 1000000, inputPrice1M: 0.26, outputPrice1M: 0.78, reasoning: 'Medium Reasoning', status: 'rate_limited' },
-  { id: 'alibaba-token-plan-intl/qwen3.6-flash', name: 'Qwen 3.6 Flash', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Ultra Fast', context: '1,000,000 (1M)', contextTokens: 1000000, inputPrice1M: 0.05, outputPrice1M: 0.20, reasoning: 'Low-Medium', status: 'rate_limited' },
-  { id: 'alibaba-token-plan-intl/deepseek-v4-pro', name: 'DeepSeek V4 Pro', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Code & Math Specialist', context: '1,000,000 (1M)', contextTokens: 1000000, inputPrice1M: 0.27, outputPrice1M: 1.10, reasoning: 'High-Max', status: 'rate_limited' },
-  { id: 'alibaba-token-plan-intl/deepseek-v4-flash-0731', name: 'DeepSeek V4 Flash', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Fast Inference', context: '1,000,000 (1M)', contextTokens: 1000000, inputPrice1M: 0.14, outputPrice1M: 0.28, reasoning: 'Standard', status: 'rate_limited' },
-  { id: 'alibaba-token-plan-intl/glm-5.2', name: 'GLM 5.2', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Bilingual Pro', context: '128,000 (128k)', contextTokens: 128000, inputPrice1M: 1.00, outputPrice1M: 1.00, reasoning: 'Medium Reasoning', status: 'rate_limited' }
+  { id: 'alibaba-token-plan-intl/qwen3.8-max', name: 'Qwen 3.8 Max', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Heavy Duty MoE (2.4T)', context: '1,000,000 (1M)', contextTokens: 1000000, inputPrice1M: 1.60, outputPrice1M: 6.40, reasoning: 'XHigh Reasoning', status: 'active' },
+  { id: 'alibaba-token-plan-intl/qwen3.7-max', name: 'Qwen 3.7 Max', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Heavy Duty', context: '1,000,000 (1M)', contextTokens: 1000000, inputPrice1M: 1.60, outputPrice1M: 6.40, reasoning: 'XHigh Reasoning', status: 'active' },
+  { id: 'alibaba-token-plan-intl/qwen3.7-plus', name: 'Qwen 3.7 Plus', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'High Speed Multimodal', context: '1,000,000 (1M)', contextTokens: 1000000, inputPrice1M: 0.26, outputPrice1M: 0.78, reasoning: 'Medium Reasoning', status: 'active' },
+  { id: 'alibaba-token-plan-intl/qwen3.6-flash', name: 'Qwen 3.6 Flash', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Ultra Fast', context: '1,000,000 (1M)', contextTokens: 1000000, inputPrice1M: 0.05, outputPrice1M: 0.20, reasoning: 'Low-Medium', status: 'active' },
+  { id: 'alibaba-token-plan-intl/deepseek-v4-pro', name: 'DeepSeek V4 Pro', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Code & Math Specialist', context: '1,000,000 (1M)', contextTokens: 1000000, inputPrice1M: 0.27, outputPrice1M: 1.10, reasoning: 'High-Max', status: 'active' },
+  { id: 'alibaba-token-plan-intl/deepseek-v4-flash-0731', name: 'DeepSeek V4 Flash', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Fast Inference', context: '1,000,000 (1M)', contextTokens: 1000000, inputPrice1M: 0.14, outputPrice1M: 0.28, reasoning: 'Standard', status: 'active' },
+  { id: 'alibaba-token-plan-intl/glm-5.2', name: 'GLM 5.2', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Bilingual Pro', context: '128,000 (128k)', contextTokens: 128000, inputPrice1M: 1.00, outputPrice1M: 1.00, reasoning: 'Medium Reasoning', status: 'active' }
 ];
 
 const DEFAULT_TELEMETRY = {
   environment: 'Local Mac Daemon (Live ocx)',
   summary: {
     totalProviders: 3,
-    healthyProviders: 2,
-    exhaustedProviders: 1,
+    healthyProviders: 3,
+    exhaustedProviders: 0,
     totalLinkedAccounts: 5,
     activeLLMCount: 15,
-    availableModelCount: 5,
-    rateLimitedModelCount: 10
+    availableModelCount: 13,
+    rateLimitedModelCount: 2
   },
   antigravity: {
     provider: 'google-antigravity',
@@ -73,7 +73,7 @@ const DEFAULT_TELEMETRY = {
     account: 's***1@gmail.com',
     fiveHourWindow: {
       label: 'Gemini 5시간 롤링 사용량',
-      usagePercent: 38.88,
+      usagePercent: 48.52,
       resetAt: 1786787166000,
     },
     weeklyWindow: {
@@ -104,13 +104,13 @@ const DEFAULT_TELEMETRY = {
   alibaba: {
     provider: 'alibaba-token-plan-intl',
     name: 'Alibaba Token Plan',
-    status: 'exhausted',
-    badge: 'HTTP 429 · Insufficient Quota',
+    status: 'healthy',
+    badge: '정상 가동 (Active)',
     region: 'ap-southeast-1 (Singapore)',
     account: 'sk-s****HZew',
-    weeklyUsagePercent: 100.0,
-    resetAt: 1786782180000,
-    message: '1-week quota exhausted. Auto-resets at 17:23:00 KST.',
+    weeklyUsagePercent: 0.5,
+    resetAt: 1787387476000,
+    message: '7일 쿼터 리셋 완료 (정상 가동 중)',
     models: DEFAULT_MODELS.filter(m => m.providerId === 'alibaba-token-plan-intl')
   },
   allModels: DEFAULT_MODELS,
@@ -142,12 +142,13 @@ export default function QuotaDashboard() {
       if (json.providers) {
         setData({
           ...DEFAULT_TELEMETRY,
+          summary: json.summary || DEFAULT_TELEMETRY.summary,
           antigravity: {
             ...DEFAULT_TELEMETRY.antigravity,
             ...(json.providers[0] || {}),
             fiveHourWindow: {
               label: 'Gemini 5시간 롤링 사용량',
-              usagePercent: json.providers[0]?.fiveHourWindow?.usagePercent ?? json.providers[0]?.usagePercent ?? 38.88,
+              usagePercent: json.providers[0]?.fiveHourWindow?.usagePercent ?? json.providers[0]?.usagePercent ?? 48.52,
               resetAt: json.providers[0]?.fiveHourWindow?.resetAt ?? json.providers[0]?.resetAt ?? 1786787166000
             },
             weeklyWindow: {
@@ -170,7 +171,7 @@ export default function QuotaDashboard() {
       }
       setLastSync(new Date());
       if (manual) {
-        setSyncToast('OpenCodex 카탈로그 및 쿼터 실시간 동기화 완료!');
+        setSyncToast('실시간 텔레메트리 동기화 완료!');
         setTimeout(() => setSyncToast(null), 3000);
       }
     } catch (err) {
@@ -313,7 +314,7 @@ export default function QuotaDashboard() {
             <div className="min-w-0">
               <div className="text-[10px] sm:text-xs text-zinc-500 font-medium truncate">정상 가동</div>
               <div className="text-sm sm:text-xl font-bold text-zinc-900 mt-0.5 truncate">
-                2 / 3 <span className="text-[10px] sm:text-xs font-semibold text-emerald-600">Optimal</span>
+                {data.summary?.healthyProviders ?? 3} / 3 <span className="text-[10px] sm:text-xs font-semibold text-emerald-600">Optimal</span>
               </div>
             </div>
           </div>
@@ -325,7 +326,7 @@ export default function QuotaDashboard() {
             <div className="min-w-0">
               <div className="text-[10px] sm:text-xs text-zinc-500 font-medium truncate">소진 / 쿨다운</div>
               <div className="text-sm sm:text-xl font-bold text-zinc-900 mt-0.5 truncate">
-                10 <span className="text-[10px] sm:text-xs font-semibold text-amber-600">Models Cooldown</span>
+                {data.summary?.rateLimitedModelCount ?? 2} <span className="text-[10px] sm:text-xs font-semibold text-amber-600">Models Cooldown</span>
               </div>
             </div>
           </div>
@@ -349,7 +350,7 @@ export default function QuotaDashboard() {
             <div className="min-w-0">
               <div className="text-[10px] sm:text-xs text-zinc-500 font-medium truncate">즉시 호출 가능</div>
               <div className="text-sm sm:text-xl font-bold text-zinc-900 mt-0.5 truncate">
-                5 / {rawModels.length} <span className="text-[10px] sm:text-xs font-semibold text-emerald-600">Ready</span>
+                {data.summary?.availableModelCount ?? 13} / {rawModels.length} <span className="text-[10px] sm:text-xs font-semibold text-emerald-600">Ready</span>
               </div>
             </div>
           </div>
@@ -357,7 +358,7 @@ export default function QuotaDashboard() {
 
         {/* Main Provider Telemetry Grid */}
         <section className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-6 box-border items-stretch">
-          {/* 1. Google Antigravity Card (Live 5h Rolling Usage: 38.88% + Weekly + Compact Claude Strip) */}
+          {/* 1. Google Antigravity Card */}
           <div className="w-full bg-white border border-zinc-200/90 rounded-2xl p-4 sm:p-6 flex flex-col justify-between space-y-4 shadow-sm hover:shadow-md transition-shadow box-border overflow-hidden">
             <div className="space-y-3.5">
               <div className="flex items-center justify-between gap-2">
@@ -390,14 +391,14 @@ export default function QuotaDashboard() {
                 <div className="flex justify-between items-baseline text-xs">
                   <span className="text-zinc-500 text-[11px]">현재 소모율</span>
                   <span className="font-mono font-bold text-emerald-600 text-sm">
-                    {ag.fiveHourWindow?.usagePercent ?? 38.88}% 사용
+                    {ag.fiveHourWindow?.usagePercent ?? 48.52}% 사용
                   </span>
                 </div>
 
                 <div className="w-full bg-zinc-200 rounded-full h-1.5 overflow-hidden">
                   <div
                     className="bg-emerald-500 h-1.5 rounded-full transition-all duration-500"
-                    style={{ width: `${Math.min(Math.max(ag.fiveHourWindow?.usagePercent ?? 38.88, 3), 100)}%` }}
+                    style={{ width: `${Math.min(Math.max(ag.fiveHourWindow?.usagePercent ?? 48.52, 3), 100)}%` }}
                   />
                 </div>
               </div>
@@ -529,16 +530,16 @@ export default function QuotaDashboard() {
             </div>
           </div>
 
-          {/* 3. Alibaba Token Plan Card */}
-          <div className="w-full bg-white border border-amber-200/90 rounded-2xl p-4 sm:p-6 flex flex-col justify-between space-y-4 shadow-sm hover:shadow-md transition-shadow box-border overflow-hidden">
+          {/* 3. Alibaba Token Plan Card (Dynamic based on al.status) */}
+          <div className={`w-full bg-white border ${al.status === 'healthy' ? 'border-emerald-200/90' : 'border-amber-200/90'} rounded-2xl p-4 sm:p-6 flex flex-col justify-between space-y-4 shadow-sm hover:shadow-md transition-shadow box-border overflow-hidden`}>
             <div className="space-y-3.5">
               <div className="flex items-center justify-between gap-2">
                 <div className="flex items-center gap-2 min-w-0">
-                  <div className="w-2.5 h-2.5 rounded-full bg-amber-500 animate-ping shrink-0" />
+                  <div className={`w-2.5 h-2.5 rounded-full ${al.status === 'healthy' ? 'bg-emerald-500' : 'bg-amber-500 animate-ping'} shrink-0`} />
                   <h2 className="text-base sm:text-lg font-bold text-zinc-900 truncate">Alibaba Token Plan</h2>
                 </div>
-                <span className="text-[10px] sm:text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-50 border border-amber-200 text-amber-800 shrink-0">
-                  한도 소진 (429)
+                <span className={`text-[10px] sm:text-xs font-semibold px-2 py-0.5 rounded-full ${al.status === 'healthy' ? 'bg-emerald-50 border border-emerald-200 text-emerald-700' : 'bg-amber-50 border border-amber-200 text-amber-800'} shrink-0`}>
+                  {al.badge || (al.status === 'healthy' ? '정상 가동 (Active)' : '한도 소진 (429)')}
                 </span>
               </div>
 
@@ -548,67 +549,78 @@ export default function QuotaDashboard() {
               </div>
 
               {/* Weekly Quota Usage */}
-              <div className="bg-amber-50/70 border border-amber-200 rounded-xl p-3 space-y-1.5">
+              <div className={`bg-zinc-50 border ${al.status === 'healthy' ? 'border-zinc-200/90' : 'border-amber-200'} rounded-xl p-3 space-y-1.5`}>
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-amber-900 flex items-center gap-1.5">
-                    <AlertTriangle className="w-3.5 h-3.5 text-amber-600" />
+                  <span className="text-xs font-bold text-zinc-800 flex items-center gap-1.5">
+                    <Calendar className="w-3.5 h-3.5 text-emerald-600" />
                     주간 쿼터 사용량
                   </span>
-                  <span className="font-mono text-xs font-black text-amber-800">
-                    100% 소진 (429)
+                  <span className={`font-mono text-xs font-bold ${al.status === 'healthy' ? 'text-emerald-600' : 'text-amber-800'}`}>
+                    {al.status === 'healthy' ? `${al.weeklyUsagePercent ?? 0.5}% 사용` : '100% 소진 (429)'}
                   </span>
                 </div>
                 <div className="w-full bg-zinc-200 rounded-full h-1.5 overflow-hidden">
                   <div
-                    className="bg-amber-500 h-1.5 rounded-full"
-                    style={{ width: '100%' }}
+                    className={`${al.status === 'healthy' ? 'bg-emerald-500' : 'bg-amber-500'} h-1.5 rounded-full transition-all duration-500`}
+                    style={{ width: `${al.status === 'healthy' ? Math.max(al.weeklyUsagePercent ?? 0.5, 3) : 100}%` }}
                   />
                 </div>
-                <p className="text-[11px] text-zinc-700 leading-tight pt-0.5">
-                  주간 한도 전량 소진으로 현재 요청이 429로 거절됩니다.
+                <p className="text-[11px] text-zinc-600 leading-tight pt-0.5">
+                  {al.message || '7일 쿼터 활성화 완료 (전 모델 정상 호출 가능)'}
                 </p>
               </div>
 
-              {/* Today's Reset Countdown */}
+              {/* Reset Countdown */}
               <div className="bg-zinc-50 border border-zinc-200/90 rounded-xl p-3 space-y-1.5">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-bold text-zinc-800 flex items-center gap-1.5">
-                    <Zap className="w-3.5 h-3.5 text-amber-600" />
-                    오늘 리셋 (17:23 KST)
+                    <Zap className="w-3.5 h-3.5 text-emerald-600" />
+                    주간 쿼터 갱신까지
                   </span>
-                  <span className="font-mono text-xs font-black text-amber-700">
-                    {getCountdown(al.resetAt || 1786782180000)}
+                  <span className="font-mono text-xs font-bold text-emerald-700">
+                    {getCountdown(al.resetAt || (Date.now() + 7 * 24 * 3600 * 1000))}
                   </span>
                 </div>
                 <div className="text-[11px] text-zinc-500">
-                  리셋 시 전 모델 자동 복구 및 호출 재개
+                  7일 주기 자동 갱신 및 토큰 초기화
                 </div>
               </div>
 
-              {/* Routing Failover Alert Strip */}
-              <div className="bg-amber-50/70 border border-amber-200/80 rounded-xl px-3 py-2 flex items-center justify-between gap-2">
-                <span className="text-xs font-bold text-amber-900">장애조치 상태</span>
-                <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800">
-                  Gemini / Codex 우회 중
+              {/* Status Strip */}
+              <div className={`border rounded-xl px-3 py-2 flex items-center justify-between gap-2 ${al.status === 'healthy' ? 'bg-emerald-50/70 border-emerald-200/80 text-emerald-900' : 'bg-amber-50/70 border-amber-200/80 text-amber-900'}`}>
+                <span className="text-xs font-bold">API 라우팅 상태</span>
+                <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${al.status === 'healthy' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}`}>
+                  {al.status === 'healthy' ? '호출 가능 (Ready)' : 'Antigravity 우회 중'}
                 </span>
               </div>
             </div>
 
             <div className="space-y-1.5 pt-2.5 border-t border-zinc-100">
-              <div className="text-[10px] font-semibold text-zinc-500 uppercase tracking-wider">영향받는 모델 (Model Studio 1M)</div>
+              <div className="text-[10px] font-semibold text-zinc-500 uppercase tracking-wider">주요 모델 (1M Context)</div>
               <div className="flex flex-wrap gap-1">
-                <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 border border-zinc-200 text-zinc-400 flex items-center gap-1 line-through">
-                  <span className="w-1.5 h-1.5 rounded-full bg-amber-500" /> Qwen 3.8 Max (1M)
-                </span>
-                <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 border border-zinc-200 text-zinc-400 flex items-center gap-1 line-through">
-                  <span className="w-1.5 h-1.5 rounded-full bg-amber-500" /> Qwen 3.7 Plus (1M)
-                </span>
-                <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 border border-zinc-200 text-zinc-400 flex items-center gap-1 line-through">
-                  <span className="w-1.5 h-1.5 rounded-full bg-amber-500" /> DeepSeek V4 Pro (1M)
-                </span>
-                <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 border border-zinc-200 text-zinc-400 flex items-center gap-1 line-through">
-                  <span className="w-1.5 h-1.5 rounded-full bg-amber-500" /> GLM 5.2 (128k)
-                </span>
+                {al.status === 'healthy' ? (
+                  <>
+                    <span className="text-[11px] px-2 py-0.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 font-medium">Qwen 3.8 Max (1M)</span>
+                    <span className="text-[11px] px-2 py-0.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 font-medium">Qwen 3.7 Plus (1M)</span>
+                    <span className="text-[11px] px-2 py-0.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 font-medium">DeepSeek V4 Pro (1M)</span>
+                    <span className="text-[11px] px-2 py-0.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 font-medium">GLM 5.2 (128k)</span>
+                  </>
+                ) : (
+                  <>
+                    <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 border border-zinc-200 text-zinc-400 flex items-center gap-1 line-through">
+                      <span className="w-1.5 h-1.5 rounded-full bg-amber-500" /> Qwen 3.8 Max (1M)
+                    </span>
+                    <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 border border-zinc-200 text-zinc-400 flex items-center gap-1 line-through">
+                      <span className="w-1.5 h-1.5 rounded-full bg-amber-500" /> Qwen 3.7 Plus (1M)
+                    </span>
+                    <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 border border-zinc-200 text-zinc-400 flex items-center gap-1 line-through">
+                      <span className="w-1.5 h-1.5 rounded-full bg-amber-500" /> DeepSeek V4 Pro (1M)
+                    </span>
+                    <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 border border-zinc-200 text-zinc-400 flex items-center gap-1 line-through">
+                      <span className="w-1.5 h-1.5 rounded-full bg-amber-500" /> GLM 5.2 (128k)
+                    </span>
+                  </>
+                )}
               </div>
             </div>
           </div>

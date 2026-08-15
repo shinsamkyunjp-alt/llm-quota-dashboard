@@ -218,7 +218,7 @@ def collect_telemetry():
     try:
         res = subprocess.run(
             ["bl", "text", "chat", "--model", "qwen3.6-flash", "--message", "ping"],
-            capture_output=True, text=True, timeout=8
+            capture_output=True, text=True, timeout=15
         )
         combined = (res.stdout + " " + res.stderr).lower()
         if "429" in combined or "exhausted" in combined:
@@ -226,7 +226,7 @@ def collect_telemetry():
         else:
             is_ali_exhausted = False
     except Exception as e:
-        print(f"Error probing Alibaba: {e}")
+        print(f"Alibaba probe note: {e}")
 
     # Build model list
     model_list = []

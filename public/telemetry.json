@@ -1,11 +1,11 @@
 {
-  "updatedAt": 1786782676005,
+  "updatedAt": 1786782935114,
   "environment": "Live Mac Daemon (Realtime Sync)",
   "catalogSync": {
     "isLiveConnected": true,
     "totalCatalogModels": 15,
-    "lastWeeklySpecUpdate": "2026-08-15 17:31:23 KST",
-    "nextWeeklySpecUpdate": "2026-08-22 17:31:23 KST"
+    "lastWeeklySpecUpdate": "2026-08-15 17:35:50 KST",
+    "nextWeeklySpecUpdate": "2026-08-22 17:35:50 KST"
   },
   "summary": {
     "totalProviders": 3,
@@ -22,11 +22,11 @@
       "name": "Google Antigravity",
       "status": "healthy",
       "account": "s***1@gmail.com",
-      "usagePercent": 48.52,
+      "usagePercent": 55.37,
       "resetAt": 1786787166000,
       "fiveHourWindow": {
         "label": "Gemini 5시간 롤링 사용량",
-        "usagePercent": 48.52,
+        "usagePercent": 55.37,
         "resetAt": 1786787166000
       },
       "weeklyWindow": {
@@ -175,7 +175,7 @@
       "region": "ap-southeast-1 (Singapore)",
       "account": "sk-s****HZew",
       "weeklyUsagePercent": 0.5,
-      "resetAt": 1787387476005,
+      "resetAt": 1787387735114,
       "message": "7일 쿼터 리셋 완료 (정상 가동 중)",
       "models": [
         {
