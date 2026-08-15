@@ -45,13 +45,13 @@ const DEFAULT_MODELS: ModelInfo[] = [
   { id: 'gpt-5.6-luna', name: 'GPT-5.6 Luna', providerId: 'openai', providerName: 'OpenAI Codex', speed: 'Cost-Effective', context: '128,000 (128k)', contextTokens: 128000, inputPrice1M: 1.00, outputPrice1M: 4.00, reasoning: 'Medium-Max', status: 'active' },
   { id: 'combo/Antigravity', name: 'Combo Antigravity Failover', providerId: 'openai', providerName: 'OpenCodex Combo', speed: 'Auto Failover', context: '1,048,576 (1M)', contextTokens: 1048576, inputPrice1M: 0.15, outputPrice1M: 0.60, reasoning: 'Auto Failover', status: 'active' },
 
-  // Alibaba Token Plan
-  { id: 'alibaba-token-plan-intl/qwen3.7-plus', name: 'Qwen 3.7 Plus', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'High Speed', context: '1,000,000 (1M)', contextTokens: 1000000, inputPrice1M: 0.26, outputPrice1M: 0.78, reasoning: 'Medium Reasoning', status: 'rate_limited' },
+  // Alibaba Token Plan (Model Studio ap-southeast-1 Marketplace Specs)
+  { id: 'alibaba-token-plan-intl/qwen3.8-max', name: 'Qwen 3.8 Max', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Heavy Duty MoE (2.4T)', context: '1,000,000 (1M)', contextTokens: 1000000, inputPrice1M: 1.60, outputPrice1M: 6.40, reasoning: 'XHigh Reasoning', status: 'rate_limited' },
+  { id: 'alibaba-token-plan-intl/qwen3.7-max', name: 'Qwen 3.7 Max', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Heavy Duty', context: '1,000,000 (1M)', contextTokens: 1000000, inputPrice1M: 1.60, outputPrice1M: 6.40, reasoning: 'XHigh Reasoning', status: 'rate_limited' },
+  { id: 'alibaba-token-plan-intl/qwen3.7-plus', name: 'Qwen 3.7 Plus', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'High Speed Multimodal', context: '1,000,000 (1M)', contextTokens: 1000000, inputPrice1M: 0.26, outputPrice1M: 0.78, reasoning: 'Medium Reasoning', status: 'rate_limited' },
   { id: 'alibaba-token-plan-intl/qwen3.6-flash', name: 'Qwen 3.6 Flash', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Ultra Fast', context: '1,000,000 (1M)', contextTokens: 1000000, inputPrice1M: 0.05, outputPrice1M: 0.20, reasoning: 'Low-Medium', status: 'rate_limited' },
-  { id: 'alibaba-token-plan-intl/qwen3.8-max', name: 'Qwen 3.8 Max', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Heavy Duty', context: '32,768 ~ 131k', contextTokens: 131072, inputPrice1M: 1.60, outputPrice1M: 6.40, reasoning: 'XHigh Reasoning', status: 'rate_limited' },
-  { id: 'alibaba-token-plan-intl/qwen3.7-max', name: 'Qwen 3.7 Max', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Heavy Duty', context: '32,768 ~ 131k', contextTokens: 131072, inputPrice1M: 1.60, outputPrice1M: 6.40, reasoning: 'XHigh Reasoning', status: 'rate_limited' },
-  { id: 'alibaba-token-plan-intl/deepseek-v4-pro', name: 'DeepSeek V4 Pro', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Code & Math', context: '64,000 (64k)', contextTokens: 64000, inputPrice1M: 0.27, outputPrice1M: 1.10, reasoning: 'High-Max', status: 'rate_limited' },
-  { id: 'alibaba-token-plan-intl/deepseek-v4-flash-0731', name: 'DeepSeek V4 Flash', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Fast Inference', context: '64,000 (64k)', contextTokens: 64000, inputPrice1M: 0.14, outputPrice1M: 0.28, reasoning: 'Standard', status: 'rate_limited' },
+  { id: 'alibaba-token-plan-intl/deepseek-v4-pro', name: 'DeepSeek V4 Pro', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Code & Math Specialist', context: '1,000,000 (1M)', contextTokens: 1000000, inputPrice1M: 0.27, outputPrice1M: 1.10, reasoning: 'High-Max', status: 'rate_limited' },
+  { id: 'alibaba-token-plan-intl/deepseek-v4-flash-0731', name: 'DeepSeek V4 Flash', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Fast Inference', context: '1,000,000 (1M)', contextTokens: 1000000, inputPrice1M: 0.14, outputPrice1M: 0.28, reasoning: 'Standard', status: 'rate_limited' },
   { id: 'alibaba-token-plan-intl/glm-5.2', name: 'GLM 5.2', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Bilingual Pro', context: '128,000 (128k)', contextTokens: 128000, inputPrice1M: 1.00, outputPrice1M: 1.00, reasoning: 'Medium Reasoning', status: 'rate_limited' }
 ];
 
@@ -213,7 +213,7 @@ export default function QuotaDashboard() {
       return `${days}일 ${hours % 24}시간`;
     }
 
-    return `${String(hours).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}` ;
+    return `${String(hours).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
   };
 
   const ag = data.antigravity || DEFAULT_TELEMETRY.antigravity;
@@ -442,7 +442,7 @@ export default function QuotaDashboard() {
             </div>
 
             <div className="space-y-1.5 pt-2.5 border-t border-zinc-100">
-              <div className="text-[10px] font-semibold text-zinc-500 uppercase tracking-wider">주요 모델 (최대 1M Context)</div>
+              <div className="text-[10px] font-semibold text-zinc-500 uppercase tracking-wider">주요 모델 (1M Context)</div>
               <div className="flex flex-wrap gap-1">
                 <span className="text-[11px] px-2 py-0.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 font-medium">Gemini 3.7 Flash (1M)</span>
                 <span className="text-[11px] px-2 py-0.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 font-medium">Gemini 3.1 Pro (1M)</span>
@@ -595,16 +595,16 @@ export default function QuotaDashboard() {
             </div>
 
             <div className="space-y-1.5 pt-2.5 border-t border-zinc-100">
-              <div className="text-[10px] font-semibold text-zinc-500 uppercase tracking-wider">영향받는 모델 (1M~32k Context)</div>
+              <div className="text-[10px] font-semibold text-zinc-500 uppercase tracking-wider">영향받는 모델 (Model Studio 1M)</div>
               <div className="flex flex-wrap gap-1">
                 <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 border border-zinc-200 text-zinc-400 flex items-center gap-1 line-through">
-                  <span className="w-1.5 h-1.5 rounded-full bg-amber-500" /> Qwen 3.8 Max (32k~131k)
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-500" /> Qwen 3.8 Max (1M)
                 </span>
                 <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 border border-zinc-200 text-zinc-400 flex items-center gap-1 line-through">
                   <span className="w-1.5 h-1.5 rounded-full bg-amber-500" /> Qwen 3.7 Plus (1M)
                 </span>
                 <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 border border-zinc-200 text-zinc-400 flex items-center gap-1 line-through">
-                  <span className="w-1.5 h-1.5 rounded-full bg-amber-500" /> DeepSeek V4 Pro (64k)
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-500" /> DeepSeek V4 Pro (1M)
                 </span>
                 <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 border border-zinc-200 text-zinc-400 flex items-center gap-1 line-through">
                   <span className="w-1.5 h-1.5 rounded-full bg-amber-500" /> GLM 5.2 (128k)
@@ -628,7 +628,7 @@ export default function QuotaDashboard() {
                 </span>
               </div>
               <p className="text-xs text-zinc-500 mt-0.5">
-                OpenCodex 실시간 카탈로그 연동 · 1M 토큰당 입력/출력 단가 및 모델별 정확한 컨텍스트 윈도우 명세
+                Alibaba Model Studio (ap-southeast-1) 공식 카탈로그 기준 정확한 컨텍스트 윈도우 및 토큰 단가 명세
               </p>
             </div>
 

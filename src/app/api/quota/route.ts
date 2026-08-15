@@ -4,7 +4,7 @@ import { promisify } from 'util';
 
 const execAsync = promisify(exec);
 
-// Metadata & Pricing Registry per 1M tokens (USD) & Total Context Windows
+// Metadata & Pricing Registry per 1M tokens (USD) & Total Context Windows based on Alibaba Model Studio (ap-southeast-1) Official Marketplace
 const MODEL_METADATA: Record<string, {
   name: string;
   provider: string;
@@ -99,7 +99,27 @@ const MODEL_METADATA: Record<string, {
     reasoning: 'Auto Failover'
   },
 
-  // Alibaba Token Plan (Intl)
+  // Alibaba Token Plan (Model Studio ap-southeast-1 Official Specs)
+  'alibaba-token-plan-intl/qwen3.8-max': {
+    name: 'Qwen 3.8 Max',
+    provider: 'Alibaba Token Plan',
+    context: '1,000,000 (1M)',
+    contextTokens: 1000000,
+    inputPrice1M: 1.60,
+    outputPrice1M: 6.40,
+    speed: 'Heavy Duty MoE (2.4T)',
+    reasoning: 'XHigh Reasoning'
+  },
+  'alibaba-token-plan-intl/qwen3.7-max': {
+    name: 'Qwen 3.7 Max',
+    provider: 'Alibaba Token Plan',
+    context: '1,000,000 (1M)',
+    contextTokens: 1000000,
+    inputPrice1M: 1.60,
+    outputPrice1M: 6.40,
+    speed: 'Heavy Duty',
+    reasoning: 'XHigh Reasoning'
+  },
   'alibaba-token-plan-intl/qwen3.7-plus': {
     name: 'Qwen 3.7 Plus',
     provider: 'Alibaba Token Plan',
@@ -107,7 +127,7 @@ const MODEL_METADATA: Record<string, {
     contextTokens: 1000000,
     inputPrice1M: 0.26,
     outputPrice1M: 0.78,
-    speed: 'High Speed',
+    speed: 'High Speed Multimodal',
     reasoning: 'Medium Reasoning'
   },
   'alibaba-token-plan-intl/qwen3.6-flash': {
@@ -120,41 +140,21 @@ const MODEL_METADATA: Record<string, {
     speed: 'Ultra Fast',
     reasoning: 'Low-Medium'
   },
-  'alibaba-token-plan-intl/qwen3.8-max': {
-    name: 'Qwen 3.8 Max',
-    provider: 'Alibaba Token Plan',
-    context: '32,768 ~ 131k',
-    contextTokens: 131072,
-    inputPrice1M: 1.60,
-    outputPrice1M: 6.40,
-    speed: 'Heavy Duty',
-    reasoning: 'XHigh Reasoning'
-  },
-  'alibaba-token-plan-intl/qwen3.7-max': {
-    name: 'Qwen 3.7 Max',
-    provider: 'Alibaba Token Plan',
-    context: '32,768 ~ 131k',
-    contextTokens: 131072,
-    inputPrice1M: 1.60,
-    outputPrice1M: 6.40,
-    speed: 'Heavy Duty',
-    reasoning: 'XHigh Reasoning'
-  },
   'alibaba-token-plan-intl/deepseek-v4-pro': {
     name: 'DeepSeek V4 Pro',
     provider: 'Alibaba Token Plan',
-    context: '64,000 (64k)',
-    contextTokens: 64000,
+    context: '1,000,000 (1M)',
+    contextTokens: 1000000,
     inputPrice1M: 0.27,
     outputPrice1M: 1.10,
-    speed: 'Code & Math',
+    speed: 'Code & Math Specialist',
     reasoning: 'High-Max'
   },
   'alibaba-token-plan-intl/deepseek-v4-flash-0731': {
     name: 'DeepSeek V4 Flash',
     provider: 'Alibaba Token Plan',
-    context: '64,000 (64k)',
-    contextTokens: 64000,
+    context: '1,000,000 (1M)',
+    contextTokens: 1000000,
     inputPrice1M: 0.14,
     outputPrice1M: 0.28,
     speed: 'Fast Inference',
