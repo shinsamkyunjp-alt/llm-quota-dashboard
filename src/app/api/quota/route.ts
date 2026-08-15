@@ -1,17 +1,17 @@
 import { NextResponse } from 'next/server';
 import { exec } from 'child_process';
 import { promisify } from 'util';
-import fs from 'fs';
-import path from 'path';
 
 const execAsync = promisify(exec);
 
-// Metadata & Pricing Registry per 1M tokens (USD) & Context Windows
+// Metadata & Pricing Registry per 1M tokens (USD), Total Context & Max Output Tokens
 const MODEL_METADATA: Record<string, {
   name: string;
   provider: string;
   context: string;
   contextTokens: number;
+  maxOutput: string;
+  maxOutputTokens: number;
   inputPrice1M: number;
   outputPrice1M: number;
   speed: string;
@@ -21,8 +21,10 @@ const MODEL_METADATA: Record<string, {
   'google-antigravity/gemini-3.7-flash': {
     name: 'Gemini 3.7 Flash',
     provider: 'Google Antigravity',
-    context: '1,000,000 (1M)',
-    contextTokens: 1000000,
+    context: '1,048,576 (1M)',
+    contextTokens: 1048576,
+    maxOutput: '65,536 (64k)',
+    maxOutputTokens: 65536,
     inputPrice1M: 0.15,
     outputPrice1M: 0.60,
     speed: 'Ultra High (150+ t/s)',
@@ -31,8 +33,10 @@ const MODEL_METADATA: Record<string, {
   'google-antigravity/gemini-3.1-pro': {
     name: 'Gemini 3.1 Pro',
     provider: 'Google Antigravity',
-    context: '1,000,000 (1M)',
-    contextTokens: 1000000,
+    context: '1,048,576 (1M)',
+    contextTokens: 1048576,
+    maxOutput: '65,536 (64k)',
+    maxOutputTokens: 65536,
     inputPrice1M: 1.25,
     outputPrice1M: 5.00,
     speed: 'Fast (80+ t/s)',
@@ -43,6 +47,8 @@ const MODEL_METADATA: Record<string, {
     provider: 'Google Antigravity',
     context: '200,000 (200k)',
     contextTokens: 200000,
+    maxOutput: '8,192 / 64k (Thinking)',
+    maxOutputTokens: 64000,
     inputPrice1M: 3.00,
     outputPrice1M: 15.00,
     speed: 'Balanced (60+ t/s)',
@@ -53,6 +59,8 @@ const MODEL_METADATA: Record<string, {
     provider: 'Google Antigravity',
     context: '200,000 (200k)',
     contextTokens: 200000,
+    maxOutput: '8,192 / 32k (Thinking)',
+    maxOutputTokens: 32000,
     inputPrice1M: 15.00,
     outputPrice1M: 75.00,
     speed: 'Deep Thinking (35+ t/s)',
@@ -62,9 +70,11 @@ const MODEL_METADATA: Record<string, {
   // OpenAI Codex
   'gpt-5.6-sol': {
     name: 'GPT-5.6 Sol',
-    provider: 'OpenAI Codex Pool',
+    provider: 'OpenAI Codex',
     context: '128,000 (128k)',
     contextTokens: 128000,
+    maxOutput: '16,384 (16k)',
+    maxOutputTokens: 16384,
     inputPrice1M: 2.50,
     outputPrice1M: 10.00,
     speed: 'High Throughput',
@@ -72,9 +82,11 @@ const MODEL_METADATA: Record<string, {
   },
   'gpt-5.6-terra': {
     name: 'GPT-5.6 Terra',
-    provider: 'OpenAI Codex Pool',
+    provider: 'OpenAI Codex',
     context: '128,000 (128k)',
     contextTokens: 128000,
+    maxOutput: '16,384 (16k)',
+    maxOutputTokens: 16384,
     inputPrice1M: 5.00,
     outputPrice1M: 20.00,
     speed: 'Balanced Reasoning',
@@ -82,41 +94,37 @@ const MODEL_METADATA: Record<string, {
   },
   'gpt-5.6-luna': {
     name: 'GPT-5.6 Luna',
-    provider: 'OpenAI Codex Pool',
+    provider: 'OpenAI Codex',
     context: '128,000 (128k)',
     contextTokens: 128000,
+    maxOutput: '16,384 (16k)',
+    maxOutputTokens: 16384,
     inputPrice1M: 1.00,
     outputPrice1M: 4.00,
     speed: 'Cost-Effective',
     reasoning: 'Medium-Max'
   },
+  'combo/Antigravity': {
+    name: 'Combo Antigravity Failover',
+    provider: 'OpenCodex Combo',
+    context: '1,048,576 (1M)',
+    contextTokens: 1048576,
+    maxOutput: '65,536 (64k)',
+    maxOutputTokens: 65536,
+    inputPrice1M: 0.15,
+    outputPrice1M: 0.60,
+    speed: 'Auto Failover',
+    reasoning: 'Auto Failover'
+  },
 
   // Alibaba Token Plan (Intl)
-  'alibaba-token-plan-intl/qwen3.8-max': {
-    name: 'Qwen 3.8 Max',
-    provider: 'Alibaba Token Plan (Intl)',
-    context: '131,072 (131k)',
-    contextTokens: 131072,
-    inputPrice1M: 1.60,
-    outputPrice1M: 6.40,
-    speed: 'Heavy Duty',
-    reasoning: 'XHigh Reasoning'
-  },
-  'alibaba-token-plan-intl/qwen3.7-max': {
-    name: 'Qwen 3.7 Max',
-    provider: 'Alibaba Token Plan (Intl)',
-    context: '131,072 (131k)',
-    contextTokens: 131072,
-    inputPrice1M: 1.60,
-    outputPrice1M: 6.40,
-    speed: 'Heavy Duty',
-    reasoning: 'XHigh Reasoning'
-  },
   'alibaba-token-plan-intl/qwen3.7-plus': {
     name: 'Qwen 3.7 Plus',
-    provider: 'Alibaba Token Plan (Intl)',
+    provider: 'Alibaba Token Plan',
     context: '1,000,000 (1M)',
     contextTokens: 1000000,
+    maxOutput: '8,192 (8k)',
+    maxOutputTokens: 8192,
     inputPrice1M: 0.26,
     outputPrice1M: 0.78,
     speed: 'High Speed',
@@ -124,29 +132,59 @@ const MODEL_METADATA: Record<string, {
   },
   'alibaba-token-plan-intl/qwen3.6-flash': {
     name: 'Qwen 3.6 Flash',
-    provider: 'Alibaba Token Plan (Intl)',
+    provider: 'Alibaba Token Plan',
     context: '1,000,000 (1M)',
     contextTokens: 1000000,
+    maxOutput: '8,192 (8k)',
+    maxOutputTokens: 8192,
     inputPrice1M: 0.05,
     outputPrice1M: 0.20,
     speed: 'Ultra Fast',
     reasoning: 'Low-Medium'
   },
+  'alibaba-token-plan-intl/qwen3.8-max': {
+    name: 'Qwen 3.8 Max',
+    provider: 'Alibaba Token Plan',
+    context: '32,768 ~ 131k',
+    contextTokens: 131072,
+    maxOutput: '8,192 (8k)',
+    maxOutputTokens: 8192,
+    inputPrice1M: 1.60,
+    outputPrice1M: 6.40,
+    speed: 'Heavy Duty',
+    reasoning: 'XHigh Reasoning'
+  },
+  'alibaba-token-plan-intl/qwen3.7-max': {
+    name: 'Qwen 3.7 Max',
+    provider: 'Alibaba Token Plan',
+    context: '32,768 ~ 131k',
+    contextTokens: 131072,
+    maxOutput: '8,192 (8k)',
+    maxOutputTokens: 8192,
+    inputPrice1M: 1.60,
+    outputPrice1M: 6.40,
+    speed: 'Heavy Duty',
+    reasoning: 'XHigh Reasoning'
+  },
   'alibaba-token-plan-intl/deepseek-v4-pro': {
     name: 'DeepSeek V4 Pro',
-    provider: 'Alibaba Token Plan (Intl)',
-    context: '128,000 (128k)',
-    contextTokens: 128000,
+    provider: 'Alibaba Token Plan',
+    context: '64,000 (64k)',
+    contextTokens: 64000,
+    maxOutput: '8,192 (8k)',
+    maxOutputTokens: 8192,
     inputPrice1M: 0.27,
     outputPrice1M: 1.10,
-    speed: 'Code & Math Specialist',
+    speed: 'Code & Math',
     reasoning: 'High-Max'
   },
   'alibaba-token-plan-intl/deepseek-v4-flash-0731': {
     name: 'DeepSeek V4 Flash',
-    provider: 'Alibaba Token Plan (Intl)',
-    context: '128,000 (128k)',
-    contextTokens: 128000,
+    provider: 'Alibaba Token Plan',
+    context: '64,000 (64k)',
+    contextTokens: 64000,
+    maxOutput: '8,192 (8k)',
+    maxOutputTokens: 8192,
     inputPrice1M: 0.14,
     outputPrice1M: 0.28,
     speed: 'Fast Inference',
@@ -154,23 +192,15 @@ const MODEL_METADATA: Record<string, {
   },
   'alibaba-token-plan-intl/glm-5.2': {
     name: 'GLM 5.2',
-    provider: 'Alibaba Token Plan (Intl)',
+    provider: 'Alibaba Token Plan',
     context: '128,000 (128k)',
     contextTokens: 128000,
+    maxOutput: '4,096 (4k)',
+    maxOutputTokens: 4096,
     inputPrice1M: 1.00,
     outputPrice1M: 1.00,
     speed: 'Bilingual Pro',
     reasoning: 'Medium Reasoning'
-  },
-  'combo/Antigravity': {
-    name: 'Combo Antigravity Failover',
-    provider: 'OpenCodex Combo',
-    context: '1,000,000 (1M)',
-    contextTokens: 1000000,
-    inputPrice1M: 0.15,
-    outputPrice1M: 0.60,
-    speed: 'Adaptive Failover',
-    reasoning: 'Auto Failover'
   }
 };
 
@@ -215,9 +245,11 @@ export async function GET() {
   const models = liveModels.map(m => {
     const meta = MODEL_METADATA[m.id] || {
       name: m.id,
-      provider: m.id.includes('antigravity') ? 'Google Antigravity' : m.id.includes('alibaba') ? 'Alibaba Token Plan' : 'OpenAI Codex Pool',
+      provider: m.id.includes('antigravity') ? 'Google Antigravity' : m.id.includes('alibaba') ? 'Alibaba Token Plan' : 'OpenAI Codex',
       context: '128,000 (128k)',
       contextTokens: 128000,
+      maxOutput: '8,192 (8k)',
+      maxOutputTokens: 8192,
       inputPrice1M: 1.00,
       outputPrice1M: 2.00,
       speed: 'Standard',
@@ -225,6 +257,7 @@ export async function GET() {
     };
 
     const isAlibaba = m.id.startsWith('alibaba-token-plan');
+    const isClaude = m.id.includes('claude');
     return {
       id: m.id,
       name: meta.name,
@@ -232,30 +265,29 @@ export async function GET() {
       providerName: meta.provider,
       context: meta.context,
       contextTokens: meta.contextTokens,
+      maxOutput: meta.maxOutput,
+      maxOutputTokens: meta.maxOutputTokens,
       inputPrice1M: meta.inputPrice1M,
       outputPrice1M: meta.outputPrice1M,
       speed: meta.speed,
       reasoning: meta.reasoning,
-      status: isAlibaba ? 'rate_limited' : 'active'
+      status: (isAlibaba || isClaude) ? 'rate_limited' : 'active'
     };
   });
 
   // Antigravity quota
-  let antigravityRemaining = 94.11;
-  let antigravityUsage = 5.89;
-  let antigravityReset = 1786769166000;
+  let antigravityUsage = 0.08;
+  let antigravityReset = 1786787166000;
 
   if (rawQuota?.reports) {
     const ag = rawQuota.reports.find((r: any) => r.provider === 'google-antigravity');
     if (ag?.quota?.customWindows?.[0]) {
       antigravityUsage = Number(ag.quota.customWindows[0].percent.toFixed(2));
-      antigravityRemaining = Number((100 - antigravityUsage).toFixed(2));
       antigravityReset = ag.quota.customWindows[0].resetAt;
     }
   }
 
   // OpenAI Codex quota
-  let openaiRemaining = 91.0;
   let openaiUsage = 9.0;
   let openaiReset = 1789273515000;
 
@@ -263,7 +295,6 @@ export async function GET() {
     const oa = rawQuota.reports.find((r: any) => r.provider === 'openai');
     if (oa?.quota) {
       openaiUsage = Number(oa.quota.monthlyPercent || 9.0);
-      openaiRemaining = Number((100 - openaiUsage).toFixed(2));
       if (oa.quota.monthlyResetAt) {
         openaiReset = oa.quota.monthlyResetAt * 1000;
       }
@@ -297,31 +328,45 @@ export async function GET() {
         status: 'healthy',
         account: 's***1@gmail.com',
         usagePercent: antigravityUsage,
-        remainingPercent: antigravityRemaining,
         resetAt: antigravityReset,
-        windowType: 'Dynamic Rolling Window',
+        fiveHourWindow: {
+          label: 'Gemini 5시간 롤링 사용량',
+          usagePercent: antigravityUsage,
+          resetAt: antigravityReset,
+        },
+        weeklyWindow: {
+          label: 'Gemini 주간 누적 사용량',
+          usagePercent: 4.57,
+          resetAt: 1787337600000,
+        },
+        claudeCompact: {
+          label: 'Claude (3rd Party)',
+          status: 'exhausted',
+          badge: '주간 쿼터 소진',
+          models: ['Sonnet 4.6', 'Opus 4.6 Thinking']
+        },
         models: models.filter(m => m.providerId === 'google-antigravity')
       },
       {
         provider: 'openai',
-        name: 'OpenAI Codex Pool',
+        name: 'OpenAI Codex',
         status: 'healthy',
         plan: 'Free Multi-Account Pool',
         accountCount: 3,
         activeAccount: 's***n@gmail.com',
         pooledAccounts: ['s***n@gmail.com (Main)', 's***2@naver.com', 's***9@gmail.com'],
         monthlyUsagePercent: openaiUsage,
-        monthlyRemainingPercent: openaiRemaining,
         monthlyResetAt: openaiReset,
         models: models.filter(m => m.providerId === 'openai')
       },
       {
         provider: 'alibaba-token-plan-intl',
-        name: 'Alibaba Token Plan (Intl)',
+        name: 'Alibaba Token Plan',
         status: 'exhausted',
         badge: 'HTTP 429 · Insufficient Quota',
         region: 'ap-southeast-1 (Singapore)',
         account: 'sk-s****HZew',
+        weeklyUsagePercent: 100.0,
         resetAt: 1786782180000,
         message: '1-week quota exhausted. Auto-resets at 17:23:00 KST.',
         models: models.filter(m => m.providerId === 'alibaba-token-plan-intl')
