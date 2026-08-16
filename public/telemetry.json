@@ -1,11 +1,11 @@
 {
-  "updatedAt": 1786891902360,
+  "updatedAt": 1786893913808,
   "environment": "Live Mac Daemon (Realtime Sync)",
   "catalogSync": {
     "isLiveConnected": true,
     "totalCatalogModels": 16,
-    "lastWeeklySpecUpdate": "2026-08-16 23:51:43 KST",
-    "nextWeeklySpecUpdate": "2026-08-23 23:51:43 KST"
+    "lastWeeklySpecUpdate": "2026-08-17 00:25:15 KST",
+    "nextWeeklySpecUpdate": "2026-08-24 00:25:15 KST"
   },
   "summary": {
     "totalProviders": 3,
@@ -22,11 +22,11 @@
       "name": "Google Antigravity",
       "status": "healthy",
       "account": "s***1@gmail.com",
-      "usagePercent": 10.46,
+      "usagePercent": 11.21,
       "resetAt": 1786894526000,
       "fiveHourWindow": {
         "label": "Gemini 5시간 롤링 사용량",
-        "usagePercent": 10.46,
+        "usagePercent": 11.21,
         "resetAt": 1786894526000
       },
       "weeklyWindow": {
@@ -38,8 +38,8 @@
         "label": "Claude (3rd Party)",
         "status": "healthy",
         "badge": null,
-        "fiveHourUsagePercent": 32.19,
-        "fiveHourResetAt": 1786893332000,
+        "fiveHourUsagePercent": 0,
+        "fiveHourResetAt": 1786911332000,
         "models": [
           "Sonnet 4.6",
           "Opus 4.6 Thinking"
@@ -113,7 +113,7 @@
         "s***9@gmail.com"
       ],
       "monthlyUsagePercent": 0,
-      "monthlyResetAt": 1789483693000,
+      "monthlyResetAt": 1789485711000,
       "models": [
         {
           "id": "gpt-5.6-sol",
@@ -176,9 +176,10 @@
       "badge": "정상 가동 (Active)",
       "region": "ap-southeast-1 (Singapore)",
       "account": "sk-s****HZew",
-      "weeklyUsagePercent": 0.5,
-      "resetAt": 1787496702360,
-      "message": "7일 쿼터 리셋 완료 (정상 가동 중)",
+      "weeklyUsagePercent": null,
+      "weeklyRemainingPercent": null,
+      "resetAt": 1787498713808,
+      "message": "주간 사용률 계측 불가 · HTTP 429 미발생 (정상)",
       "models": [
         {
           "id": "alibaba-token-plan-intl/qwen3.8-max",

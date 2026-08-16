@@ -783,7 +783,7 @@ export default function QuotaDashboard() {
                     주간 쿼터 사용 현황
                   </span>
                   <span className="font-mono text-xs font-bold text-emerald-700 dark:text-emerald-400">
-                    {viewMode === "remaining" ? `${fmtPct(alRemaining)} 잔여` : `${fmtPct(alUsed)} 사용`}
+                    {alUsed == null ? "계측 불가" : viewMode === "remaining" ? `${fmtPct(alRemaining)} 잔여` : `${fmtPct(alUsed)} 사용`}
                   </span>
                 </div>
                 <div className="w-full bg-zinc-200 dark:bg-zinc-700 rounded-full h-1.5 overflow-hidden">
