@@ -18,8 +18,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ko" className="light">
-      <body className="min-h-[100dvh] bg-zinc-50 text-zinc-900 antialiased selection:bg-emerald-500/20 selection:text-emerald-800">
+    <html lang="ko" suppressHydrationWarning>
+      <body className="min-h-[100dvh] bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 antialiased selection:bg-emerald-500/20 selection:text-emerald-800">
         {children}
       </body>
     </html>

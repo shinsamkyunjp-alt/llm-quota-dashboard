@@ -188,9 +188,13 @@ export default function QuotaDashboard() {
   useEffect(() => {
     if (isDarkMode) {
       document.documentElement.classList.add('dark');
+      document.documentElement.classList.remove('light');
+      document.documentElement.style.colorScheme = 'dark';
       localStorage.setItem('llm_dashboard_theme', 'dark');
     } else {
       document.documentElement.classList.remove('dark');
+      document.documentElement.classList.add('light');
+      document.documentElement.style.colorScheme = 'light';
       localStorage.setItem('llm_dashboard_theme', 'light');
     }
   }, [isDarkMode]);
