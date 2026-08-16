@@ -52,41 +52,41 @@ export async function GET() {
         plan: 'Google AI Pro',
         status: 'healthy',
         account: 's***1@gmail.com',
-        geminiPool: {
+      geminiPool: {
           label: 'Gemini Models',
           status: 'healthy',
           fiveHourWindow: {
             label: '5시간 롤링 한도',
-            remainingPercent: 91.0,
-            usagePercent: 9.0,
-            resetAt: Date.now() + (2 * 3600 + 34 * 60) * 1000,
-            desc: '2시간 34분 후 완전 충전'
+            remainingPercent: null,
+            usagePercent: null,
+            resetAt: null,
+            desc: ''
           },
           weeklyWindow: {
             label: '주간 누적 한도',
-            remainingPercent: 99.0,
-            usagePercent: 1.0,
-            resetAt: Date.now() + (6 * 24 * 3600 + 20 * 3600) * 1000,
-            desc: '6일 20시간 후 완전 충전'
+            remainingPercent: null,
+            usagePercent: null,
+            resetAt: null,
+            desc: ''
           },
           models: ['Gemini 3.7 Flash', 'Gemini 3.1 Pro']
         },
-        claudeGptPool: {
+      claudeGptPool: {
           label: 'Claude and GPT models',
-          status: 'healthy',
+          status: 'unknown',
           fiveHourWindow: {
             label: '5시간 롤링 한도',
-            remainingPercent: 100.0,
-            usagePercent: 0.0,
-            resetAt: Date.now() + 5 * 3600 * 1000,
-            desc: '100% 잔여 (완전 충전됨)'
+            remainingPercent: null,
+            usagePercent: null,
+            resetAt: null,
+            desc: ''
           },
           weeklyWindow: {
             label: '주간 누적 한도',
-            remainingPercent: 100.0,
-            usagePercent: 0.0,
-            resetAt: Date.now() + 7 * 24 * 3600 * 1000,
-            desc: '100% 잔여 (완전 충전됨)'
+            remainingPercent: null,
+            usagePercent: null,
+            resetAt: null,
+            desc: ''
           },
           models: ['Sonnet 4.6', 'Opus 4.6 Thinking']
         }
@@ -97,11 +97,11 @@ export async function GET() {
         status: 'healthy',
         plan: 'Free Multi-Account Pool',
         accountCount: 3,
-        activeAccount: 's***n@gmail.com',
-        pooledAccounts: ['s***n@gmail.com (Main)', 's***2@naver.com', 's***9@gmail.com'],
-        monthlyUsagePercent: 85.0,
-        monthlyRemainingPercent: 15.0,
-        monthlyResetAt: 1789273515000
+      activeAccount: 's***n@gmail.com',
+      pooledAccounts: ['s***n@gmail.com (Main)', 's***2@naver.com', 's***9@gmail.com'],
+      monthlyUsagePercent: null,
+      monthlyRemainingPercent: null,
+      monthlyResetAt: 1789273515000
       },
       {
         provider: 'alibaba-token-plan-intl',
@@ -109,10 +109,10 @@ export async function GET() {
         status: 'healthy',
         badge: '정상 가동 (Active)',
         region: 'ap-southeast-1 (Singapore)',
-        account: 'sk-s****HZew',
-        weeklyUsagePercent: 0.5,
-        weeklyRemainingPercent: 99.5,
-        resetAt: Date.now() + 7 * 24 * 3600 * 1000,
+      account: 'sk-s****HZew',
+      weeklyUsagePercent: null,
+      weeklyRemainingPercent: null,
+      resetAt: Date.now() + 7 * 24 * 3600 * 1000,
         message: '7일 쿼터 리셋 완료 (정상 가동 중)'
       }
     ]

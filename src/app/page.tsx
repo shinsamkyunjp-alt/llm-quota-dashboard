@@ -88,36 +88,36 @@ const DEFAULT_TELEMETRY = {
       status: 'healthy',
       fiveHourWindow: {
         label: '5시간 롤링 한도',
-        remainingPercent: 91.0,
-        usagePercent: 9.0,
-        resetAt: Date.now() + (2 * 3600 + 34 * 60) * 1000,
-        desc: '2시간 34분 후 완전 충전'
+        remainingPercent: null,
+        usagePercent: null,
+        resetAt: null,
+        desc: ''
       },
       weeklyWindow: {
         label: '주간 누적 한도',
-        remainingPercent: 99.0,
-        usagePercent: 1.0,
-        resetAt: Date.now() + (6 * 24 * 3600 + 20 * 3600) * 1000,
-        desc: '6일 20시간 후 완전 충전'
+        remainingPercent: null,
+        usagePercent: null,
+        resetAt: null,
+        desc: ''
       },
       models: ['Gemini 3.7 Flash', 'Gemini 3.1 Pro']
     },
     claudeGptPool: {
       label: 'Claude and GPT models',
-      status: 'healthy',
+      status: 'unknown',
       fiveHourWindow: {
         label: '5시간 롤링 한도',
-        remainingPercent: 100.0,
-        usagePercent: 0.0,
-        resetAt: Date.now() + 5 * 3600 * 1000,
-        desc: '100% 잔여 (완전 충전됨)'
+        remainingPercent: null,
+        usagePercent: null,
+        resetAt: null,
+        desc: ''
       },
       weeklyWindow: {
         label: '주간 누적 한도',
-        remainingPercent: 100.0,
-        usagePercent: 0.0,
-        resetAt: Date.now() + 7 * 24 * 3600 * 1000,
-        desc: '100% 잔여 (완전 충전됨)'
+        remainingPercent: null,
+        usagePercent: null,
+        resetAt: null,
+        desc: ''
       },
       models: ['Sonnet 4.6', 'Opus 4.6 Thinking']
     },
@@ -131,8 +131,8 @@ const DEFAULT_TELEMETRY = {
     accountCount: 3,
     activeAccount: 's***n@gmail.com',
     pooledAccounts: ['s***n@gmail.com (Main)', 's***2@naver.com', 's***9@gmail.com'],
-    monthlyUsagePercent: 85.0,
-    monthlyRemainingPercent: 15.0,
+    monthlyUsagePercent: null,
+    monthlyRemainingPercent: null,
     monthlyResetAt: 1789273515000,
     models: DEFAULT_MODELS.filter(m => m.providerId === 'openai')
   },
@@ -143,8 +143,8 @@ const DEFAULT_TELEMETRY = {
     badge: '정상 가동 (Active)',
     region: 'ap-southeast-1 (Singapore)',
     account: 'sk-s****HZew',
-    weeklyUsagePercent: 0.5,
-    weeklyRemainingPercent: 99.5,
+    weeklyUsagePercent: null,
+    weeklyRemainingPercent: null,
     resetAt: 1787387476000,
     message: '7일 쿼터 리셋 완료 (전 모델 정상 호출 가능)',
     models: DEFAULT_MODELS.filter(m => m.providerId === 'alibaba-token-plan-intl')
@@ -210,7 +210,7 @@ export default function QuotaDashboard() {
         const rawList = (json.allModels && json.allModels.length > 0) ? json.allModels : DEFAULT_MODELS;
         const mergedModels = rawList.map((m: any) => {
           const meta = DEFAULT_MODELS.find(d => d.id === m.id);
-          return {
+        return {
             ...meta,
             ...m,
             tag: m.tag || meta?.tag,
@@ -218,14 +218,63 @@ export default function QuotaDashboard() {
           };
         });
 
+        // ocx 라이브 윈도우(fiveHourWindow/weeklyWindow/claudeCompact)를 대시보드 풀 구조로 정규화.
+        // 잔여량은 항상 100 - 사용량으로 계산해 하드코딩을 제거한다.
+        const live5h = agData.fiveHourWindow || {};
+        const liveWeekly = agData.weeklyWindow || {};
+        const liveClaude = agData.claudeCompact || {};
+        const gemini5hUsed = typeof live5h.usagePercent === "number" ? live5h.usagePercent : null;
+        const geminiWeeklyUsed = typeof liveWeekly.usagePercent === "number" ? liveWeekly.usagePercent : null;
+
+        const geminiPool = {
+          label: "Gemini Models",
+          status: "healthy",
+          fiveHourWindow: {
+            label: "5시간 롤링 한도",
+            usagePercent: gemini5hUsed,
+            remainingPercent: gemini5hUsed != null ? Math.max(0, 100 - gemini5hUsed) : null,
+            resetAt: live5h.resetAt || null,
+            desc: ""
+          },
+          weeklyWindow: {
+            label: "주간 누적 한도",
+            usagePercent: geminiWeeklyUsed,
+            remainingPercent: geminiWeeklyUsed != null ? Math.max(0, 100 - geminiWeeklyUsed) : null,
+            resetAt: liveWeekly.resetAt || null,
+            desc: ""
+          },
+          models: ["Gemini 3.7 Flash", "Gemini 3.1 Pro"]
+        };
+
+        const claudeExhausted = liveClaude.status === "exhausted";
+        const claude5hUsed = typeof liveClaude.fiveHourUsagePercent === "number" ? liveClaude.fiveHourUsagePercent : null;
+        const claudeGptPool = {
+          label: "Claude and GPT models",
+          status: claudeExhausted ? "exhausted" : "healthy",
+          fiveHourWindow: {
+            label: "5시간 롤링 한도",
+            usagePercent: claude5hUsed,
+            remainingPercent: claude5hUsed != null ? Math.max(0, 100 - claude5hUsed) : null,
+            resetAt: liveClaude.fiveHourResetAt || null,
+            desc: ""
+          },
+          weeklyWindow: {
+            label: "주간 누적 한도",
+            status: claudeExhausted ? "exhausted" : "healthy",
+            badge: liveClaude.badge || null,
+            desc: claudeExhausted ? "주간 쿼터 소진" : ""
+          },
+          models: liveClaude.models || ["Claude Sonnet 4.6", "Claude Opus 4.6 Thinking"]
+        };
+
         setData({
           ...DEFAULT_TELEMETRY,
           summary: json.summary || DEFAULT_TELEMETRY.summary,
           antigravity: {
             ...DEFAULT_TELEMETRY.antigravity,
             ...agData,
-            geminiPool: agData.geminiPool || DEFAULT_TELEMETRY.antigravity.geminiPool,
-            claudeGptPool: agData.claudeGptPool || DEFAULT_TELEMETRY.antigravity.claudeGptPool
+            geminiPool,
+            claudeGptPool
           },
           openai: {
             ...DEFAULT_TELEMETRY.openai,
@@ -291,6 +340,42 @@ export default function QuotaDashboard() {
   const oa = data.openai || DEFAULT_TELEMETRY.openai;
   const al = data.alibaba || DEFAULT_TELEMETRY.alibaba;
   const rawModels: ModelInfo[] = data.allModels || DEFAULT_MODELS;
+
+  // ── ocx 라이브 값 기반 파생값 (하드코딩 제거) ──
+  const fmtPct = (n?: number | null) => {
+    if (n == null || Number.isNaN(n)) return "—";
+    const v = Math.round(n * 10) / 10;
+    return (Number.isInteger(v) ? String(v) : v.toFixed(1)) + "%";
+  };
+  const clampPct = (n?: number | null) => Math.min(100, Math.max(0, n ?? 0));
+
+  const geminiPool = ag.geminiPool;
+  const claudePool = ag.claudeGptPool;
+  const gemini5h = geminiPool?.fiveHourWindow;
+  const geminiWeekly = geminiPool?.weeklyWindow;
+  const gemini5hUsed = gemini5h?.usagePercent ?? null;
+  const gemini5hRemaining = gemini5h?.remainingPercent ?? (gemini5hUsed != null ? Math.max(0, 100 - gemini5hUsed) : null);
+  const geminiWeeklyUsed = geminiWeekly?.usagePercent ?? null;
+  const geminiWeeklyRemaining = geminiWeekly?.remainingPercent ?? (geminiWeeklyUsed != null ? Math.max(0, 100 - geminiWeeklyUsed) : null);
+
+  const claudeExhausted = claudePool?.status === "exhausted";
+  const claude5hUsed = claudePool?.fiveHourWindow?.usagePercent ?? null;
+  const claude5hRemaining = claudePool?.fiveHourWindow?.remainingPercent ?? (claude5hUsed != null ? Math.max(0, 100 - claude5hUsed) : null);
+  const claudeWeekly = claudePool?.weeklyWindow;
+
+  const oaUsed = oa.monthlyUsagePercent ?? null;
+  const oaRemaining = oa.monthlyRemainingPercent ?? (oaUsed != null ? Math.max(0, 100 - oaUsed) : null);
+
+  const alUsed = al.weeklyUsagePercent ?? null;
+  const alRemaining = al.weeklyRemainingPercent ?? (alUsed != null ? Math.max(0, 100 - alUsed) : null);
+
+  const sum = data.summary || DEFAULT_TELEMETRY.summary;
+  const healthyProviders = sum.healthyProviders ?? 0;
+  const totalProviders = sum.totalProviders ?? 3;
+  const availableModels = sum.availableModelCount ?? 0;
+  const activeModels = sum.activeLLMCount ?? 0;
+  const rateLimitedModels = sum.rateLimitedModelCount ?? 0;
+  const totalModels = activeModels || rawModels.length;
 
   // 알리바바 야간 50% 할인 시간대 판별 (22:00 ~ 08:00 UTC+8 = 23:00 ~ 09:00 KST)
   const isNightDiscountNow = useMemo(() => {
@@ -368,7 +453,7 @@ export default function QuotaDashboard() {
               <span>Google Antigravity(Gemini & Claude 듀얼 풀), OpenAI Codex, Alibaba Token Plan 실시간 통합 관제</span>
               <span className="text-zinc-300 dark:text-zinc-700 hidden md:inline">|</span>
               <span className="text-emerald-600 dark:text-emerald-400 flex items-center gap-1 font-mono text-xs font-semibold">
-                <Sparkles className="w-3.5 h-3.5" /> 17개 전체 모델 호출 가능 (100% Ready)
+                <Sparkles className="w-3.5 h-3.5" /> {totalModels}개 전체 모델 · {availableModels}개 호출 가능
               </span>
             </div>
           </div>
@@ -439,7 +524,7 @@ export default function QuotaDashboard() {
             <div className="min-w-0">
               <div className="text-[10px] sm:text-xs text-zinc-500 dark:text-zinc-400 font-medium truncate">정상 가동 프로바이더</div>
               <div className="text-sm sm:text-xl font-bold text-zinc-900 dark:text-zinc-100 mt-0.5 truncate">
-                3 / 3 <span className="text-[10px] sm:text-xs font-semibold text-emerald-600 dark:text-emerald-400">100% Operational</span>
+                {healthyProviders} / {totalProviders} <span className="text-[10px] sm:text-xs font-semibold text-emerald-600 dark:text-emerald-400">{totalProviders > 0 ? Math.round((healthyProviders / totalProviders) * 100) : 0}% Operational</span>
               </div>
             </div>
           </div>
@@ -451,7 +536,7 @@ export default function QuotaDashboard() {
             <div className="min-w-0">
               <div className="text-[10px] sm:text-xs text-zinc-500 dark:text-zinc-400 font-medium truncate">소진 / 쿨다운 모델</div>
               <div className="text-sm sm:text-xl font-bold text-zinc-900 dark:text-zinc-100 mt-0.5 truncate">
-                0개 <span className="text-[10px] sm:text-xs font-semibold text-emerald-600 dark:text-emerald-400">Claude & Gemini 복구완료</span>
+                {rateLimitedModels}개 <span className="text-[10px] sm:text-xs font-semibold text-emerald-600 dark:text-emerald-400">쿨다운 / 소진 모델</span>
               </div>
             </div>
           </div>
@@ -475,7 +560,7 @@ export default function QuotaDashboard() {
             <div className="min-w-0">
               <div className="text-[10px] sm:text-xs text-zinc-500 dark:text-zinc-400 font-medium truncate">즉시 호출 가능 모델</div>
               <div className="text-sm sm:text-xl font-bold text-zinc-900 dark:text-zinc-100 mt-0.5 truncate">
-                16 / 16 <span className="text-[10px] sm:text-xs font-semibold text-emerald-600 dark:text-emerald-400">All Ready</span>
+                {availableModels} / {totalModels} <span className="text-[10px] sm:text-xs font-semibold text-emerald-600 dark:text-emerald-400">Ready</span>
               </div>
             </div>
           </div>
@@ -518,13 +603,13 @@ export default function QuotaDashboard() {
                   <div className="flex items-center justify-between text-[11px]">
                     <span className="text-zinc-600 dark:text-zinc-400">5-Hour Limit:</span>
                     <span className="font-mono font-bold text-emerald-700 dark:text-emerald-400">
-                      {viewMode === "remaining" ? "91% 잔여" : "9% 사용"}
+                      {viewMode === "remaining" ? `${fmtPct(gemini5hRemaining)} 잔여` : `${fmtPct(gemini5hUsed)} 사용`}
                     </span>
                   </div>
                   <div className="w-full bg-zinc-200 dark:bg-zinc-700 rounded-full h-1.5 overflow-hidden">
                     <div
                       className="bg-emerald-500 h-1.5 rounded-full transition-all duration-500"
-                      style={{ width: `${viewMode === "remaining" ? 91 : 9}%` }}
+                      style={{ width: `${viewMode === "remaining" ? clampPct(gemini5hRemaining) : clampPct(gemini5hUsed)}%` }}
                     />
                   </div>
                   <div className="flex items-center justify-between text-[10px] text-zinc-500 dark:text-zinc-400 pt-0.5 font-mono">
@@ -538,13 +623,13 @@ export default function QuotaDashboard() {
                   <div className="flex items-center justify-between text-[11px]">
                     <span className="text-zinc-600 dark:text-zinc-400">Weekly Limit:</span>
                     <span className="font-mono font-bold text-emerald-700 dark:text-emerald-400">
-                      {viewMode === "remaining" ? "99% 잔여" : "1% 사용"}
+                      {viewMode === "remaining" ? `${fmtPct(geminiWeeklyRemaining)} 잔여` : `${fmtPct(geminiWeeklyUsed)} 사용`}
                     </span>
                   </div>
                   <div className="w-full bg-zinc-200 dark:bg-zinc-700 rounded-full h-1.5 overflow-hidden">
                     <div
                       className="bg-emerald-500 h-1.5 rounded-full transition-all duration-500"
-                      style={{ width: `${viewMode === "remaining" ? 99 : 1}%` }}
+                      style={{ width: `${viewMode === "remaining" ? clampPct(geminiWeeklyRemaining) : clampPct(geminiWeeklyUsed)}%` }}
                     />
                   </div>
                   <div className="flex items-center justify-between text-[10px] text-zinc-500 dark:text-zinc-400 pt-0.5 font-mono">
@@ -562,27 +647,27 @@ export default function QuotaDashboard() {
                     Claude and GPT models
                   </span>
                   <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-100 dark:bg-emerald-900 text-emerald-800 dark:text-emerald-300 font-semibold border border-emerald-300 dark:border-emerald-700">
-                    리밋 복구 완료 (Ready)
+                    {claudeExhausted ? "주간 쿼터 소진" : claudePool?.status === "unknown" ? "계측 대기" : "리밋 복구 완료 (Ready)"}
                   </span>
                 </div>
 
-                {/* Claude 5-Hour & Weekly (100% Remaining) */}
+                {/* Claude 5-Hour & Weekly (라이브) */}
                 <div className="grid grid-cols-2 gap-2 text-[11px]">
                   <div className="bg-white/80 dark:bg-zinc-900/80 p-2 rounded-lg border border-emerald-200/60 dark:border-emerald-900/40">
                     <div className="text-[10px] text-zinc-500 dark:text-zinc-400 font-medium">5-Hour Limit</div>
                     <div className="font-mono font-bold text-emerald-700 dark:text-emerald-400 text-sm mt-0.5">
-                      100% 잔여
+                      {claude5hRemaining != null ? viewMode === "remaining" ? `${fmtPct(claude5hRemaining)} 잔여` : `${fmtPct(claude5hUsed)} 사용` : "—"}
                     </div>
                   </div>
                   <div className="bg-white/80 dark:bg-zinc-900/80 p-2 rounded-lg border border-emerald-200/60 dark:border-emerald-900/40">
                     <div className="text-[10px] text-zinc-500 dark:text-zinc-400 font-medium">Weekly Limit</div>
                     <div className="font-mono font-bold text-emerald-700 dark:text-emerald-400 text-sm mt-0.5">
-                      100% 잔여
+                      {claudeExhausted ? "소진" : "—"}
                     </div>
                   </div>
                 </div>
                 <div className="text-[10px] text-emerald-800 dark:text-emerald-400 font-medium flex items-center gap-1">
-                  <Zap className="w-3 h-3 text-amber-500" /> Claude Sonnet 4.6 & Opus 4.6 Thinking 정상 호출 가능
+                  <Zap className="w-3 h-3 text-amber-500" /> {claudeExhausted ? "Claude 주간 쿼터 소진 (5시간 창은 별도)" : "Claude Sonnet 4.6 & Opus 4.6 Thinking 정상 호출 가능"}
                 </div>
               </div>
             </div>
@@ -624,13 +709,13 @@ export default function QuotaDashboard() {
                     월간 쿼터 현황
                   </span>
                   <span className="font-mono text-xs font-bold text-emerald-700 dark:text-emerald-400">
-                    {viewMode === "remaining" ? "15.0% 잔여 (안전)" : "85.0% 사용"}
+                    {viewMode === "remaining" ? `${fmtPct(oaRemaining)} 잔여` : `${fmtPct(oaUsed)} 사용`}
                   </span>
                 </div>
                 <div className="w-full bg-zinc-200 dark:bg-zinc-700 rounded-full h-1.5 overflow-hidden">
                   <div
                     className="bg-emerald-500 h-1.5 rounded-full transition-all duration-500"
-                    style={{ width: `${viewMode === "remaining" ? 15 : 85}%` }}
+                    style={{ width: `${viewMode === "remaining" ? clampPct(oaRemaining) : clampPct(oaUsed)}%` }}
                   />
                 </div>
                 <div className="text-[11px] text-zinc-500 dark:text-zinc-400 flex items-center justify-between pt-0.5 font-mono">
@@ -698,13 +783,13 @@ export default function QuotaDashboard() {
                     주간 쿼터 사용 현황
                   </span>
                   <span className="font-mono text-xs font-bold text-emerald-700 dark:text-emerald-400">
-                    {viewMode === "remaining" ? "99.5% 잔여" : "0.5% 사용"}
+                    {viewMode === "remaining" ? `${fmtPct(alRemaining)} 잔여` : `${fmtPct(alUsed)} 사용`}
                   </span>
                 </div>
                 <div className="w-full bg-zinc-200 dark:bg-zinc-700 rounded-full h-1.5 overflow-hidden">
                   <div
                     className="bg-emerald-500 h-1.5 rounded-full transition-all duration-500"
-                    style={{ width: `${viewMode === "remaining" ? 99.5 : 0.5}%` }}
+                    style={{ width: `${viewMode === "remaining" ? clampPct(alRemaining) : clampPct(alUsed)}%` }}
                   />
                 </div>
                 <p className="text-[11px] text-zinc-600 dark:text-zinc-400 leading-tight pt-0.5">
