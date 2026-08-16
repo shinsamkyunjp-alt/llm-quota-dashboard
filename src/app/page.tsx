@@ -490,8 +490,8 @@ export default function QuotaDashboard() {
                 <span className="text-emerald-700 dark:text-emerald-400 font-semibold text-[11px]">Dual Quota Pool</span>
               </div>
 
-              {/* Pool 1: Gemini Models */}
-              <div className="bg-zinc-50 dark:bg-zinc-850/60 border border-zinc-200/90 dark:border-zinc-800 rounded-xl p-3 space-y-2.5">
+             {/* Pool 1: Gemini Models */}
+              <div className="bg-zinc-50 dark:bg-zinc-800/80 border border-zinc-200/90 dark:border-zinc-700/80 rounded-xl p-3 space-y-2.5">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-bold text-zinc-900 dark:text-zinc-200 flex items-center gap-1.5">
                     <Sparkles className="w-3.5 h-3.5 text-blue-500" />
@@ -522,8 +522,8 @@ export default function QuotaDashboard() {
                   </div>
                 </div>
 
-                {/* Gemini Weekly Window */}
-                <div className="space-y-1 pt-1.5 border-t border-zinc-200/60 dark:border-zinc-750">
+               {/* Gemini Weekly Window */}
+                <div className="space-y-1 pt-1.5 border-t border-zinc-200/60 dark:border-zinc-700">
                   <div className="flex items-center justify-between text-[11px]">
                     <span className="text-zinc-600 dark:text-zinc-400">Weekly Limit:</span>
                     <span className="font-mono font-bold text-emerald-700 dark:text-emerald-400">
@@ -605,8 +605,8 @@ export default function QuotaDashboard() {
                 <span className="text-emerald-700 dark:text-emerald-400 font-semibold text-[11px]">3개 계정 풀링</span>
               </div>
 
-              {/* Monthly Quota Usage */}
-              <div className="bg-zinc-50 dark:bg-zinc-850/60 border border-zinc-200/90 dark:border-zinc-800 rounded-xl p-3 space-y-2">
+             {/* Monthly Quota Usage */}
+              <div className="bg-zinc-50 dark:bg-zinc-800/80 border border-zinc-200/90 dark:border-zinc-700/80 rounded-xl p-3 space-y-2">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-bold text-zinc-900 dark:text-zinc-200 flex items-center gap-1.5">
                     <Calendar className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
@@ -628,8 +628,8 @@ export default function QuotaDashboard() {
                 </div>
               </div>
 
-              {/* Pooled Accounts List */}
-              <div className="bg-zinc-50 dark:bg-zinc-850/60 border border-zinc-200/90 dark:border-zinc-800 rounded-xl p-3 space-y-1.5">
+             {/* Pooled Accounts List */}
+              <div className="bg-zinc-50 dark:bg-zinc-800/80 border border-zinc-200/90 dark:border-zinc-700/80 rounded-xl p-3 space-y-1.5">
                 <div className="text-xs font-bold text-zinc-900 dark:text-zinc-200 flex items-center justify-between">
                   <span>풀링된 계정 목록 (3)</span>
                   <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold">순환 로테이션</span>
@@ -679,8 +679,8 @@ export default function QuotaDashboard() {
                 <span className="text-zinc-500 dark:text-zinc-400 font-mono text-[11px]">sk-s****HZew</span>
               </div>
 
-              {/* Weekly Quota Usage */}
-              <div className="bg-zinc-50 dark:bg-zinc-850/60 border border-zinc-200/90 dark:border-zinc-800 rounded-xl p-3 space-y-2">
+             {/* Weekly Quota Usage */}
+              <div className="bg-zinc-50 dark:bg-zinc-800/80 border border-zinc-200/90 dark:border-zinc-700/80 rounded-xl p-3 space-y-2">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-bold text-zinc-900 dark:text-zinc-200 flex items-center gap-1.5">
                     <Calendar className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
@@ -701,8 +701,8 @@ export default function QuotaDashboard() {
                 </p>
               </div>
 
-              {/* Reset Countdown */}
-              <div className="bg-zinc-50 dark:bg-zinc-850/60 border border-zinc-200/90 dark:border-zinc-800 rounded-xl p-3 space-y-1.5">
+             {/* Reset Countdown */}
+              <div className="bg-zinc-50 dark:bg-zinc-800/80 border border-zinc-200/90 dark:border-zinc-700/80 rounded-xl p-3 space-y-1.5">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-bold text-zinc-900 dark:text-zinc-200 flex items-center gap-1.5">
                     <Zap className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
@@ -799,8 +799,8 @@ export default function QuotaDashboard() {
 
           {showCalculator && (
             <div className="pt-3 space-y-4 border-t border-zinc-100 dark:border-zinc-800">
-              {/* Sliders Control */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-zinc-50 dark:bg-zinc-850 p-4 rounded-xl border border-zinc-200/90 dark:border-zinc-800">
+             {/* Sliders Control */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-zinc-50 dark:bg-zinc-800/80 p-4 rounded-xl border border-zinc-200/90 dark:border-zinc-700/80">
                 {/* Input Tokens Slider */}
                 <div className="space-y-2">
                   <div className="flex items-center justify-between text-xs">
@@ -877,10 +877,10 @@ export default function QuotaDashboard() {
                   <div
                     key={idx}
                     className={`p-3 rounded-xl border text-xs space-y-1 ${
-                      idx === 0
-                        ? "bg-emerald-50 dark:bg-emerald-950/60 border-emerald-300 dark:border-emerald-700"
-                        : "bg-zinc-50 dark:bg-zinc-850 border-zinc-200 dark:border-zinc-800"
-                    }`}
+                     idx === 0
+                       ? "bg-emerald-50 dark:bg-emerald-950/60 border-emerald-300 dark:border-emerald-700"
+                        : "bg-zinc-50 dark:bg-zinc-800/80 border-zinc-200 dark:border-zinc-700/80"
+                   }`}
                   >
                     <div className="flex items-center justify-between text-[10px]">
                       <span className="font-bold text-zinc-500 dark:text-zinc-400">#{idx + 1}</span>
@@ -953,7 +953,7 @@ export default function QuotaDashboard() {
           </div>
 
           {/* Desktop Table View */}
-          <div className="hidden md:block overflow-x-auto border border-zinc-200 dark:border-zinc-800 rounded-xl bg-zinc-50/50 dark:bg-zinc-850/40">
+          <div className="hidden md:block overflow-x-auto border border-zinc-200 dark:border-zinc-800 rounded-xl bg-zinc-50/50 dark:bg-zinc-900/60">
             <table className="w-full text-left text-xs">
               <thead className="bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 uppercase tracking-wider font-semibold border-b border-zinc-200 dark:border-zinc-800">
                 <tr>
@@ -1021,7 +1021,7 @@ export default function QuotaDashboard() {
           {/* Mobile Card List View */}
           <div className="md:hidden space-y-2">
             {filteredModels.map((item, idx) => (
-              <div key={idx} className="bg-zinc-50 dark:bg-zinc-850 border border-zinc-200 dark:border-zinc-800 rounded-xl p-3 space-y-1.5 box-border">
+              <div key={idx} className="bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-3 space-y-1.5 box-border">
                 <div className="flex items-start justify-between gap-2">
                   <div className="font-mono text-xs font-bold text-zinc-900 dark:text-zinc-100 break-all flex items-center gap-1.5 flex-wrap">
                    <span>{item.id}</span>
@@ -1035,7 +1035,7 @@ export default function QuotaDashboard() {
                     <CheckCircle2 className="w-2.5 h-2.5 text-emerald-600" /> 가능
                   </span>
                 </div>
-                <div className="flex items-center justify-between text-[11px] text-zinc-600 dark:text-zinc-400 pt-1 border-t border-zinc-200/60 dark:border-zinc-750 font-mono">
+                <div className="flex items-center justify-between text-[11px] text-zinc-600 dark:text-zinc-400 pt-1 border-t border-zinc-200/60 dark:border-zinc-800 font-mono">
                   <span>{item.providerName} ({item.context})</span>
                   <span className="font-bold text-emerald-700 dark:text-emerald-400">In ${(item.inputPrice1M ?? 0).toFixed(2)} / Out ${(item.outputPrice1M ?? 0).toFixed(2)}</span>
                 </div>
@@ -1065,32 +1065,32 @@ export default function QuotaDashboard() {
             <span className="text-[10px] sm:text-[11px] text-zinc-500 dark:text-zinc-400 font-mono">macOS (Darwin) · launchd Active</span>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-2.5 sm:gap-3 text-xs">
-            <div className="bg-zinc-50 dark:bg-zinc-850 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2.5 min-w-0">
+         <div className="grid grid-cols-2 md:grid-cols-5 gap-2.5 sm:gap-3 text-xs">
+            <div className="bg-zinc-50 dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700/80 rounded-xl p-2.5 min-w-0">
               <div className="text-zinc-500 dark:text-zinc-400 text-[11px] font-medium truncate">Google Antigravity</div>
               <div className="text-emerald-700 dark:text-emerald-400 font-bold mt-1 flex items-center gap-1.5 text-xs truncate">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" /> Google AI Pro (4ms)
+              <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" /> Google AI Pro (4ms)
               </div>
             </div>
-            <div className="bg-zinc-50 dark:bg-zinc-850 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2.5 min-w-0">
+            <div className="bg-zinc-50 dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700/80 rounded-xl p-2.5 min-w-0">
               <div className="text-zinc-500 dark:text-zinc-400 text-[11px] font-medium truncate">OpenCodex Proxy</div>
               <div className="text-emerald-700 dark:text-emerald-400 font-bold mt-1 flex items-center gap-1.5 text-xs truncate">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" /> 127.0.0.1:10100
               </div>
             </div>
-            <div className="bg-zinc-50 dark:bg-zinc-850 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2.5 min-w-0">
+            <div className="bg-zinc-50 dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700/80 rounded-xl p-2.5 min-w-0">
               <div className="text-zinc-500 dark:text-zinc-400 text-[11px] font-medium truncate">Hermes Gateway</div>
               <div className="text-emerald-700 dark:text-emerald-400 font-bold mt-1 flex items-center gap-1.5 text-xs truncate">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" /> launchd (PID 33929)
               </div>
             </div>
-            <div className="bg-zinc-50 dark:bg-zinc-850 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2.5 min-w-0">
+            <div className="bg-zinc-50 dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700/80 rounded-xl p-2.5 min-w-0">
               <div className="text-zinc-500 dark:text-zinc-400 text-[11px] font-medium truncate">ElevenLabs Voice</div>
               <div className="text-zinc-800 dark:text-zinc-200 font-bold mt-1 flex items-center gap-1.5 text-xs truncate">
                 <span className="w-2 h-2 rounded-full bg-sky-500 shrink-0" /> Voice Synth
               </div>
             </div>
-            <div className="bg-zinc-50 dark:bg-zinc-850 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2.5 min-w-0">
+            <div className="bg-zinc-50 dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700/80 rounded-xl p-2.5 min-w-0">
               <div className="text-zinc-500 dark:text-zinc-400 text-[11px] font-medium truncate">Firecrawl Tool</div>
               <div className="text-zinc-800 dark:text-zinc-200 font-bold mt-1 flex items-center gap-1.5 text-xs truncate">
                 <span className="w-2 h-2 rounded-full bg-purple-500 shrink-0" /> Web Extract
