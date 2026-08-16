@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback, memo } from 'react';
 import {
   RefreshCw,
   Clock,
@@ -162,8 +162,7 @@ const DEFAULT_TELEMETRY = {
 export default function QuotaDashboard() {
   const [data, setData] = useState<any>(DEFAULT_TELEMETRY);
   const [loading, setLoading] = useState(false);
-  const [lastSync, setLastSync] = useState<Date>(new Date());
-  const [currentTime, setCurrentTime] = useState<Date>(new Date());
+  const [lastSync, setLastSync] = useState<Date>(() => new Date());
   const [searchTerm, setSearchTerm] = useState('');
   const [filterProvider, setFilterProvider] = useState<string>('all');
   const [sortBy, setSortBy] = useState<'default' | 'price' | 'context' | 'speed'>('default');
@@ -305,36 +304,12 @@ export default function QuotaDashboard() {
   }, []);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
-
-  useEffect(() => {
     if (refreshInterval <= 0) return;
     const interval = setInterval(() => {
       fetchTelemetry();
     }, refreshInterval * 1000);
     return () => clearInterval(interval);
-  }, [refreshInterval]);
-
-  const getCountdown = (targetTimestamp?: number) => {
-    if (!targetTimestamp) return null;
-    const diff = targetTimestamp - currentTime.getTime();
-    if (diff <= 0) return '00:00:00 (리셋 완료)';
-    
-    const hours = Math.floor(diff / (1000 * 60 * 60));
-    const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    const secs = Math.floor((diff % (1000 * 60)) / 1000);
-
-    if (hours > 24) {
-      const days = Math.floor(hours / 24);
-      return `${days}일 ${hours % 24}시간`;
-    }
-
-    return `${String(hours).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-  };
+  }, [refreshInterval, fetchTelemetry]);
 
   const ag = data.antigravity || DEFAULT_TELEMETRY.antigravity;
   const oa = data.openai || DEFAULT_TELEMETRY.openai;
@@ -347,7 +322,51 @@ export default function QuotaDashboard() {
     const v = Math.round(n * 10) / 10;
     return (Number.isInteger(v) ? String(v) : v.toFixed(1)) + "%";
   };
-  const clampPct = (n?: number | null) => Math.min(100, Math.max(0, n ?? 0));
+const clampPct = (n?: number | null) => Math.min(100, Math.max(0, n ?? 0));
+
+// ── 고성능 독립 카운트다운 컴포넌트 (초당 부모 리렌더링 차단) ──
+const CountdownTimer = memo(function CountdownTimer({ targetTimestamp }: { targetTimestamp?: number | null }) {
+  const [now, setNow] = useState(() => Date.now());
+
+  useEffect(() => {
+    if (!targetTimestamp) return;
+    const interval = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(interval);
+  }, [targetTimestamp]);
+
+  if (!targetTimestamp) return <span className="font-semibold text-zinc-700 dark:text-zinc-300">—</span>;
+  
+  const diff = targetTimestamp - now;
+  if (diff <= 0) return <span className="font-semibold text-zinc-700 dark:text-zinc-300">00:00:00 (리셋 완료)</span>;
+
+  const hours = Math.floor(diff / (1000 * 60 * 60));
+  const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+  const secs = Math.floor((diff % (1000 * 60)) / 1000);
+
+  if (hours > 24) {
+    const days = Math.floor(hours / 24);
+    return <span className="font-semibold text-zinc-700 dark:text-zinc-300">{days}일 {hours % 24}시간</span>;
+  }
+
+  return <span className="font-semibold text-zinc-700 dark:text-zinc-300">{`${String(hours).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`}</span>;
+});
+
+// ── 독립 시계 컴포넌트 ──
+const LiveClock = memo(function LiveClock() {
+  const [time, setTime] = useState(() => new Date());
+
+  useEffect(() => {
+    const interval = setInterval(() => setTime(new Date()), 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-xl px-2.5 py-1.5 flex items-center gap-1.5 text-[11px] sm:text-xs font-mono text-zinc-700 dark:text-zinc-300 font-medium shrink-0">
+      <Clock className="w-3.5 h-3.5 text-zinc-500 shrink-0" aria-hidden="true" />
+      <span aria-label="현재 시각">{time.toLocaleTimeString('ko-KR', { hour12: false })}</span>
+    </div>
+  );
+});
 
   const geminiPool = ag.geminiPool;
   const claudePool = ag.claudeGptPool;
@@ -379,9 +398,9 @@ export default function QuotaDashboard() {
 
   // 알리바바 야간 50% 할인 시간대 판별 (22:00 ~ 08:00 UTC+8 = 23:00 ~ 09:00 KST)
   const isNightDiscountNow = useMemo(() => {
-    const kstHour = currentTime.getHours();
+    const kstHour = new Date().getHours();
     return kstHour >= 23 || kstHour < 9;
-  }, [currentTime]);
+  }, []);
 
   const filteredModels = useMemo(() => {
     let list = rawModels.filter(m => {
@@ -461,16 +480,20 @@ export default function QuotaDashboard() {
           {/* Global Controls & Status */}
           <div className="flex items-center justify-between md:justify-end gap-2 pt-2.5 md:pt-0 border-t md:border-t-0 border-zinc-100 dark:border-zinc-800 flex-wrap">
             {/* View Mode Toggle: Remaining vs Usage */}
-            <div className="flex items-center bg-zinc-100 dark:bg-zinc-800 p-0.5 rounded-xl text-[11px] font-semibold border border-zinc-200 dark:border-zinc-700">
+            <div role="group" aria-label="쿼터 수치 보기 방식 선택" className="flex items-center bg-zinc-100 dark:bg-zinc-800 p-0.5 rounded-xl text-[11px] font-semibold border border-zinc-200 dark:border-zinc-700">
               <button
+                type="button"
                 onClick={() => setViewMode('remaining')}
-                className={`px-2.5 py-1 rounded-lg transition-all ${viewMode === 'remaining' ? 'bg-white dark:bg-zinc-700 text-emerald-700 dark:text-emerald-300 shadow-sm font-bold' : 'text-zinc-600 dark:text-zinc-400'}`}
+                aria-pressed={viewMode === 'remaining'}
+                className={`px-2.5 py-1 rounded-lg transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 ${viewMode === 'remaining' ? 'bg-white dark:bg-zinc-700 text-emerald-700 dark:text-emerald-300 shadow-sm font-bold' : 'text-zinc-600 dark:text-zinc-400'}`}
               >
                 잔여량 (Remaining %)
               </button>
               <button
+                type="button"
                 onClick={() => setViewMode('usage')}
-                className={`px-2.5 py-1 rounded-lg transition-all ${viewMode === 'usage' ? 'bg-white dark:bg-zinc-700 text-zinc-900 dark:text-zinc-100 shadow-sm font-bold' : 'text-zinc-600 dark:text-zinc-400'}`}
+                aria-pressed={viewMode === 'usage'}
+                className={`px-2.5 py-1 rounded-lg transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 ${viewMode === 'usage' ? 'bg-white dark:bg-zinc-700 text-zinc-900 dark:text-zinc-100 shadow-sm font-bold' : 'text-zinc-600 dark:text-zinc-400'}`}
               >
                 사용량 (Used %)
               </button>
@@ -478,21 +501,21 @@ export default function QuotaDashboard() {
 
             {/* Dark Mode Toggle */}
             <button
+              type="button"
               onClick={() => setIsDarkMode(!isDarkMode)}
-              title={isDarkMode ? '라이트 모드로 전환' : '다크 모드로 전환'}
-              className="p-2 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-700 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
+              aria-label={isDarkMode ? '라이트 모드로 전환' : '다크 모드로 전환'}
+              className="p-2 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-700 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
             >
               {isDarkMode ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-zinc-600" />}
             </button>
 
-            <div className="bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-xl px-2.5 py-1.5 flex items-center gap-1.5 text-[11px] sm:text-xs font-mono text-zinc-700 dark:text-zinc-300 font-medium shrink-0">
-              <Clock className="w-3.5 h-3.5 text-zinc-500 shrink-0" />
-              <span>{currentTime.toLocaleTimeString('ko-KR', { hour12: false })}</span>
-            </div>
+            <LiveClock />
 
             <div className="flex items-center bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-xl px-2 py-1.5 text-[11px] sm:text-xs shrink-0">
-              <span className="text-zinc-500 dark:text-zinc-400 mr-1 font-medium">갱신:</span>
+              <label htmlFor="refresh-interval-select" className="text-zinc-500 dark:text-zinc-400 mr-1 font-medium">갱신:</label>
               <select
+                id="refresh-interval-select"
+                aria-label="데이터 자동 갱신 주기"
                 value={refreshInterval}
                 onChange={(e) => setRefreshInterval(Number(e.target.value))}
                 className="bg-transparent text-zinc-800 dark:text-zinc-200 font-semibold focus:outline-none cursor-pointer"
@@ -505,9 +528,11 @@ export default function QuotaDashboard() {
             </div>
 
             <button
+              type="button"
               onClick={() => fetchTelemetry(true)}
               disabled={loading}
-              className="flex items-center gap-1 bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-500 dark:hover:bg-emerald-600 text-white px-3 py-1.5 rounded-xl text-[11px] sm:text-xs font-semibold transition-all shadow-sm active:scale-95 disabled:opacity-50 shrink-0"
+              aria-label="실시간 데이터 수동 동기화"
+              className="flex items-center gap-1 bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-500 dark:hover:bg-emerald-600 text-white px-3 py-1.5 rounded-xl text-[11px] sm:text-xs font-semibold transition-all shadow-sm active:scale-95 disabled:opacity-50 shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
             >
               <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
               <span>동기화</span>
@@ -614,7 +639,7 @@ export default function QuotaDashboard() {
                   </div>
                   <div className="flex items-center justify-between text-[10px] text-zinc-500 dark:text-zinc-400 pt-0.5 font-mono">
                     <span>완전 충전까지:</span>
-                    <span className="font-semibold text-zinc-700 dark:text-zinc-300">{getCountdown(ag.geminiPool?.fiveHourWindow?.resetAt)}</span>
+                    <CountdownTimer targetTimestamp={ag.geminiPool?.fiveHourWindow?.resetAt} />
                   </div>
                 </div>
 
@@ -634,7 +659,7 @@ export default function QuotaDashboard() {
                   </div>
                   <div className="flex items-center justify-between text-[10px] text-zinc-500 dark:text-zinc-400 pt-0.5 font-mono">
                     <span>주간 완전 충전까지:</span>
-                    <span className="font-semibold text-zinc-700 dark:text-zinc-300">{getCountdown(ag.geminiPool?.weeklyWindow?.resetAt)}</span>
+                    <CountdownTimer targetTimestamp={ag.geminiPool?.weeklyWindow?.resetAt} />
                   </div>
                 </div>
               </div>
@@ -720,7 +745,7 @@ export default function QuotaDashboard() {
                 </div>
                 <div className="text-[11px] text-zinc-500 dark:text-zinc-400 flex items-center justify-between pt-0.5 font-mono">
                   <span>월간 리셋 D-Day:</span>
-                  <span className="font-semibold text-zinc-700 dark:text-zinc-300">{getCountdown(oa.monthlyResetAt)}</span>
+                  <CountdownTimer targetTimestamp={oa.monthlyResetAt} />
                 </div>
               </div>
 
@@ -805,7 +830,7 @@ export default function QuotaDashboard() {
                     주간 쿼터 리셋까지
                   </span>
                   <span className="font-mono text-xs font-bold text-emerald-700 dark:text-emerald-400">
-                    {getCountdown(al.resetAt || (Date.now() + 7 * 24 * 3600 * 1000))}
+                    <CountdownTimer targetTimestamp={al.resetAt || (Date.now() + 7 * 24 * 3600 * 1000)} />
                   </span>
                 </div>
                 <div className="text-[11px] text-zinc-500 dark:text-zinc-400">
@@ -868,8 +893,14 @@ export default function QuotaDashboard() {
 
         {/* Model Capability & Pricing Matrix */}
         {/* Interactive Token Cost Calculator (실시간 토큰 단가 계산기) */}
-        <section className="w-full bg-white dark:bg-zinc-900 border border-zinc-200/90 dark:border-zinc-800 rounded-2xl p-4 sm:p-6 space-y-4 shadow-sm box-border">
-          <div className="flex items-center justify-between cursor-pointer" onClick={() => setShowCalculator(!showCalculator)}>
+        <section aria-label="토큰 비용 계산기" className="w-full bg-white dark:bg-zinc-900 border border-zinc-200/90 dark:border-zinc-800 rounded-2xl p-4 sm:p-6 space-y-4 shadow-sm box-border">
+          <button
+            type="button"
+            aria-expanded={showCalculator}
+            aria-controls="calculator-panel"
+            onClick={() => setShowCalculator(!showCalculator)}
+            className="w-full flex items-center justify-between text-left cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded-xl p-1 -m-1"
+          >
             <div className="flex items-center gap-2.5">
               <div className="p-2 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-emerald-600 dark:text-emerald-400">
                 <Calculator className="w-5 h-5" />
@@ -887,25 +918,27 @@ export default function QuotaDashboard() {
               </div>
             </div>
 
-            <button className="text-xs font-semibold text-emerald-700 dark:text-emerald-400 hover:underline flex items-center gap-1">
+            <div className="text-xs font-semibold text-emerald-700 dark:text-emerald-400 flex items-center gap-1">
               {showCalculator ? "접기" : "시뮬레이터 열기"}
               <ChevronRight className={`w-4 h-4 transition-transform ${showCalculator ? "rotate-90" : ""}`} />
-            </button>
-          </div>
+            </div>
+          </button>
 
           {showCalculator && (
-            <div className="pt-3 space-y-4 border-t border-zinc-100 dark:border-zinc-800">
+            <div id="calculator-panel" className="pt-3 space-y-4 border-t border-zinc-100 dark:border-zinc-800">
              {/* Sliders Control */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-zinc-50 dark:bg-zinc-800/80 p-4 rounded-xl border border-zinc-200/90 dark:border-zinc-700/80">
                 {/* Input Tokens Slider */}
                 <div className="space-y-2">
                   <div className="flex items-center justify-between text-xs">
-                    <span className="font-bold text-zinc-700 dark:text-zinc-300">입력 프롬프트 토큰 (Input Tokens):</span>
+                    <label htmlFor="calc-input-tokens" className="font-bold text-zinc-700 dark:text-zinc-300">입력 프롬프트 토큰 (Input Tokens):</label>
                     <span className="font-mono font-bold text-emerald-700 dark:text-emerald-400 text-sm">
                       {calcInputK.toLocaleString()}k ({((calcInputK * 1000) / 1000000).toFixed(2)}M)
                     </span>
                   </div>
                   <input
+                    id="calc-input-tokens"
+                    aria-label="입력 프롬프트 토큰 수"
                     type="range"
                     min={10}
                     max={1000}
@@ -915,22 +948,24 @@ export default function QuotaDashboard() {
                     className="w-full accent-emerald-600 cursor-pointer"
                   />
                   <div className="flex justify-between text-[10px] text-zinc-400 font-mono">
-                    <span onClick={() => setCalcInputK(50)} className="cursor-pointer hover:text-emerald-600">50k</span>
-                    <span onClick={() => setCalcInputK(200)} className="cursor-pointer hover:text-emerald-600">200k (기본)</span>
-                    <span onClick={() => setCalcInputK(500)} className="cursor-pointer hover:text-emerald-600">500k</span>
-                    <span onClick={() => setCalcInputK(1000)} className="cursor-pointer hover:text-emerald-600">1,000k (1M)</span>
+                    <button type="button" onClick={() => setCalcInputK(50)} className="cursor-pointer hover:text-emerald-600 focus:underline">50k</button>
+                    <button type="button" onClick={() => setCalcInputK(200)} className="cursor-pointer hover:text-emerald-600 focus:underline">200k (기본)</button>
+                    <button type="button" onClick={() => setCalcInputK(500)} className="cursor-pointer hover:text-emerald-600 focus:underline">500k</button>
+                    <button type="button" onClick={() => setCalcInputK(1000)} className="cursor-pointer hover:text-emerald-600 focus:underline">1,000k (1M)</button>
                   </div>
                 </div>
 
                 {/* Output Tokens Slider */}
                 <div className="space-y-2">
                   <div className="flex items-center justify-between text-xs">
-                    <span className="font-bold text-zinc-700 dark:text-zinc-300">생성 출력 토큰 (Output Tokens):</span>
+                    <label htmlFor="calc-output-tokens" className="font-bold text-zinc-700 dark:text-zinc-300">생성 출력 토큰 (Output Tokens):</label>
                     <span className="font-mono font-bold text-emerald-700 dark:text-emerald-400 text-sm">
                       {calcOutputK.toLocaleString()}k ({((calcOutputK * 1000) / 1000000).toFixed(2)}M)
                     </span>
                   </div>
                   <input
+                    id="calc-output-tokens"
+                    aria-label="생성 출력 토큰 수"
                     type="range"
                     min={1}
                     max={200}
@@ -940,10 +975,10 @@ export default function QuotaDashboard() {
                     className="w-full accent-emerald-600 cursor-pointer"
                   />
                  <div className="flex justify-between text-[10px] text-zinc-400 font-mono">
-                   <span onClick={() => setCalcOutputK(5)} className="cursor-pointer hover:text-emerald-600">5k</span>
-                   <span onClick={() => setCalcOutputK(20)} className="cursor-pointer hover:text-emerald-600">20k (기본)</span>
-                   <span onClick={() => setCalcOutputK(50)} className="cursor-pointer hover:text-emerald-600">50k</span>
-                   <span onClick={() => setCalcOutputK(100)} className="cursor-pointer hover:text-emerald-600">100k</span>
+                   <button type="button" onClick={() => setCalcOutputK(5)} className="cursor-pointer hover:text-emerald-600 focus:underline">5k</button>
+                   <button type="button" onClick={() => setCalcOutputK(20)} className="cursor-pointer hover:text-emerald-600 focus:underline">20k (기본)</button>
+                   <button type="button" onClick={() => setCalcOutputK(50)} className="cursor-pointer hover:text-emerald-600 focus:underline">50k</button>
+                   <button type="button" onClick={() => setCalcOutputK(100)} className="cursor-pointer hover:text-emerald-600 focus:underline">100k</button>
                  </div>
                </div>
              </div>
@@ -971,7 +1006,7 @@ export default function QuotaDashboard() {
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5">
                 {calculatedCostList.slice(0, 6).map((item, idx) => (
                   <div
-                    key={idx}
+                    key={item.id}
                     className={`p-3 rounded-xl border text-xs space-y-1 ${
                      idx === 0
                        ? "bg-emerald-50 dark:bg-emerald-950/60 border-emerald-300 dark:border-emerald-700"
@@ -1017,6 +1052,8 @@ export default function QuotaDashboard() {
               <div className="relative flex-1 sm:flex-none">
                 <Search className="w-3.5 h-3.5 text-zinc-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
                 <input
+                  id="model-search-input"
+                  aria-label="모델명 또는 프로바이더 검색"
                   type="text"
                   placeholder="모델명 검색..."
                   value={searchTerm}
@@ -1026,6 +1063,8 @@ export default function QuotaDashboard() {
               </div>
 
               <select
+                id="filter-provider-select"
+                aria-label="프로바이더 필터 선택"
                 value={filterProvider}
                 onChange={(e) => setFilterProvider(e.target.value)}
                 className="bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-xl px-2.5 py-1 text-xs text-zinc-700 dark:text-zinc-300 font-medium focus:outline-none cursor-pointer shrink-0"
@@ -1037,6 +1076,8 @@ export default function QuotaDashboard() {
               </select>
 
               <select
+                id="sort-by-select"
+                aria-label="모델 정렬 기준 선택"
                 value={sortBy}
                 onChange={(e: any) => setSortBy(e.target.value)}
                 className="bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-xl px-2.5 py-1 text-xs text-zinc-700 dark:text-zinc-300 font-medium focus:outline-none cursor-pointer shrink-0"
@@ -1051,20 +1092,21 @@ export default function QuotaDashboard() {
           {/* Desktop Table View */}
           <div className="hidden md:block overflow-x-auto border border-zinc-200 dark:border-zinc-800 rounded-xl bg-zinc-50/50 dark:bg-zinc-900/60">
             <table className="w-full text-left text-xs">
+              <caption className="sr-only">전체 LLM 모델 단가 및 컨텍스트 스펙 표</caption>
               <thead className="bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 uppercase tracking-wider font-semibold border-b border-zinc-200 dark:border-zinc-800">
                 <tr>
-                  <th className="py-3 px-4">모델 식별자 (ID)</th>
-                  <th className="py-3 px-4">프로바이더 / 풀</th>
-                  <th className="py-3 px-4">컨텍스트 윈도우</th>
-                  <th className="py-3 px-4 text-right">입력 단가 (1M)</th>
-                  <th className="py-3 px-4 text-right">출력 단가 (1M)</th>
-                  <th className="py-3 px-4">처리 속도 / 추론</th>
-                  <th className="py-3 px-4 text-center">현재 라우팅 상태</th>
+                  <th scope="col" className="py-3 px-4">모델 식별자 (ID)</th>
+                  <th scope="col" className="py-3 px-4">프로바이더 / 풀</th>
+                  <th scope="col" className="py-3 px-4">컨텍스트 윈도우</th>
+                  <th scope="col" className="py-3 px-4 text-right">입력 단가 (1M)</th>
+                  <th scope="col" className="py-3 px-4 text-right">출력 단가 (1M)</th>
+                  <th scope="col" className="py-3 px-4">처리 속도 / 추론</th>
+                  <th scope="col" className="py-3 px-4 text-center">현재 라우팅 상태</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-zinc-200/80 dark:divide-zinc-800 font-mono">
-                {filteredModels.map((item, idx) => (
-                  <tr key={idx} className="hover:bg-white dark:hover:bg-zinc-800/80 transition-colors">
+                {filteredModels.map((item) => (
+                  <tr key={item.id} className="hover:bg-white dark:hover:bg-zinc-800/80 transition-colors">
                     <td className="py-3.5 px-4 font-bold text-zinc-900 dark:text-zinc-100">
                       <div className="flex items-center gap-1.5 flex-wrap">
                         <span>{item.id}</span>
@@ -1116,8 +1158,8 @@ export default function QuotaDashboard() {
 
           {/* Mobile Card List View */}
           <div className="md:hidden space-y-2">
-            {filteredModels.map((item, idx) => (
-              <div key={idx} className="bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-3 space-y-1.5 box-border">
+            {filteredModels.map((item) => (
+              <div key={item.id} className="bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-3 space-y-1.5 box-border">
                 <div className="flex items-start justify-between gap-2">
                  <div className="font-mono text-xs font-bold text-zinc-900 dark:text-zinc-100 break-all flex items-center gap-1.5 flex-wrap">
                   <span>{item.id}</span>

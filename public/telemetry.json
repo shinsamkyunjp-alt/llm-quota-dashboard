@@ -1,11 +1,11 @@
 {
-  "updatedAt": 1786893913808,
+  "updatedAt": 1786896018492,
   "environment": "Live Mac Daemon (Realtime Sync)",
   "catalogSync": {
     "isLiveConnected": true,
     "totalCatalogModels": 16,
-    "lastWeeklySpecUpdate": "2026-08-17 00:25:15 KST",
-    "nextWeeklySpecUpdate": "2026-08-24 00:25:15 KST"
+    "lastWeeklySpecUpdate": "2026-08-17 01:00:21 KST",
+    "nextWeeklySpecUpdate": "2026-08-24 01:00:21 KST"
   },
   "summary": {
     "totalProviders": 3,
@@ -22,12 +22,12 @@
       "name": "Google Antigravity",
       "status": "healthy",
       "account": "s***1@gmail.com",
-      "usagePercent": 11.21,
-      "resetAt": 1786894526000,
+      "usagePercent": 10.61,
+      "resetAt": 1786912526000,
       "fiveHourWindow": {
         "label": "Gemini 5시간 롤링 사용량",
-        "usagePercent": 11.21,
-        "resetAt": 1786894526000
+        "usagePercent": 10.61,
+        "resetAt": 1786912526000
       },
       "weeklyWindow": {
         "label": "Gemini 주간 누적 사용량",
@@ -113,7 +113,7 @@
         "s***9@gmail.com"
       ],
       "monthlyUsagePercent": 0,
-      "monthlyResetAt": 1789485711000,
+      "monthlyResetAt": 1789487056000,
       "models": [
         {
           "id": "gpt-5.6-sol",
@@ -178,7 +178,7 @@
       "account": "sk-s****HZew",
       "weeklyUsagePercent": null,
       "weeklyRemainingPercent": null,
-      "resetAt": 1787498713808,
+      "resetAt": 1787500818492,
       "message": "주간 사용률 계측 불가 · HTTP 429 미발생 (정상)",
       "models": [
         {
