@@ -353,17 +353,19 @@ const CountdownTimer = memo(function CountdownTimer({ targetTimestamp }: { targe
 
 // ── 독립 시계 컴포넌트 ──
 const LiveClock = memo(function LiveClock() {
-  const [time, setTime] = useState(() => new Date());
+  const [timeStr, setTimeStr] = useState<string>('--:--:--');
 
   useEffect(() => {
-    const interval = setInterval(() => setTime(new Date()), 1000);
+    const update = () => setTimeStr(new Date().toLocaleTimeString('ko-KR', { hour12: false }));
+    update();
+    const interval = setInterval(update, 1000);
     return () => clearInterval(interval);
   }, []);
 
   return (
     <div className="bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-xl px-2.5 py-1.5 flex items-center gap-1.5 text-[11px] sm:text-xs font-mono text-zinc-700 dark:text-zinc-300 font-medium shrink-0">
       <Clock className="w-3.5 h-3.5 text-zinc-500 shrink-0" aria-hidden="true" />
-      <span aria-label="현재 시각">{time.toLocaleTimeString('ko-KR', { hour12: false })}</span>
+      <span aria-label="현재 시각">{timeStr}</span>
     </div>
   );
 });
@@ -1245,7 +1247,7 @@ const LiveClock = memo(function LiveClock() {
         {/* Footer */}
         <footer className="text-center text-xs text-zinc-500 dark:text-zinc-400 pt-2 pb-6 space-y-1">
           <div className="font-medium text-zinc-600 dark:text-zinc-300">LLM Quota & Telemetry Cockpit · Designed for 삼균 님</div>
-          <div className="font-mono text-[11px] text-zinc-400 dark:text-zinc-500">Last Synced: {lastSync.toLocaleTimeString('ko-KR')} · Mode: {data?.environment || 'Live'}</div>
+          <div className="font-mono text-[11px] text-zinc-500 dark:text-zinc-400">Last Synced: {lastSync.toLocaleTimeString('ko-KR')} · Mode: {data?.environment || 'Live'}</div>
         </footer>
       </main>
     </div>
