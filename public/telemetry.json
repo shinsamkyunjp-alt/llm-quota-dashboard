@@ -1,19 +1,19 @@
 {
-  "updatedAt": 1786782935114,
+  "updatedAt": 1786864513673,
   "environment": "Live Mac Daemon (Realtime Sync)",
   "catalogSync": {
     "isLiveConnected": true,
-    "totalCatalogModels": 15,
-    "lastWeeklySpecUpdate": "2026-08-15 17:35:50 KST",
-    "nextWeeklySpecUpdate": "2026-08-22 17:35:50 KST"
+    "totalCatalogModels": 16,
+    "lastWeeklySpecUpdate": "2026-08-16 16:15:14 KST",
+    "nextWeeklySpecUpdate": "2026-08-23 16:15:14 KST"
   },
   "summary": {
     "totalProviders": 3,
     "healthyProviders": 3,
     "exhaustedProviders": 0,
     "totalLinkedAccounts": 5,
-    "activeLLMCount": 15,
-    "availableModelCount": 13,
+    "activeLLMCount": 16,
+    "availableModelCount": 14,
     "rateLimitedModelCount": 2
   },
   "providers": [
@@ -22,12 +22,12 @@
       "name": "Google Antigravity",
       "status": "healthy",
       "account": "s***1@gmail.com",
-      "usagePercent": 55.37,
-      "resetAt": 1786787166000,
+      "usagePercent": 25.51,
+      "resetAt": 1786871589000,
       "fiveHourWindow": {
         "label": "Gemini 5시간 롤링 사용량",
-        "usagePercent": 55.37,
-        "resetAt": 1786787166000
+        "usagePercent": 25.51,
+        "resetAt": 1786871589000
       },
       "weeklyWindow": {
         "label": "Gemini 주간 누적 사용량",
@@ -110,7 +110,7 @@
         "s***2@naver.com",
         "s***9@gmail.com"
       ],
-      "monthlyUsagePercent": 9,
+      "monthlyUsagePercent": 86,
       "monthlyResetAt": 1789273515000,
       "models": [
         {
@@ -175,7 +175,7 @@
       "region": "ap-southeast-1 (Singapore)",
       "account": "sk-s****HZew",
       "weeklyUsagePercent": 0.5,
-      "resetAt": 1787387735114,
+      "resetAt": 1787469313673,
       "message": "7일 쿼터 리셋 완료 (정상 가동 중)",
       "models": [
         {
@@ -241,6 +241,19 @@
           "outputPrice1M": 1.1,
           "speed": "Code & Math Specialist",
           "reasoning": "High-Max",
+          "status": "active"
+        },
+        {
+          "id": "alibaba-token-plan-intl/deepseek-v4-pro-0813",
+          "name": "DeepSeek V4 Pro (0813 Snapshot)",
+          "providerId": "alibaba-token-plan-intl",
+          "providerName": "Alibaba Token Plan",
+          "context": "1,000,000 (1M)",
+          "contextTokens": 1000000,
+          "inputPrice1M": 0.27,
+          "outputPrice1M": 1.1,
+          "speed": "Code & Math Specialist (Snapshot)",
+          "reasoning": "High-Max Reasoning",
           "status": "active"
         },
         {
@@ -440,6 +453,19 @@
       "outputPrice1M": 1.1,
       "speed": "Code & Math Specialist",
       "reasoning": "High-Max",
+      "status": "active"
+    },
+    {
+      "id": "alibaba-token-plan-intl/deepseek-v4-pro-0813",
+      "name": "DeepSeek V4 Pro (0813 Snapshot)",
+      "providerId": "alibaba-token-plan-intl",
+      "providerName": "Alibaba Token Plan",
+      "context": "1,000,000 (1M)",
+      "contextTokens": 1000000,
+      "inputPrice1M": 0.27,
+      "outputPrice1M": 1.1,
+      "speed": "Code & Math Specialist (Snapshot)",
+      "reasoning": "High-Max Reasoning",
       "status": "active"
     },
     {

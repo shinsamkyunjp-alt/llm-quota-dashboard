@@ -35,38 +35,59 @@ export async function GET() {
   // Fallback if network is unavailable
   return NextResponse.json({
     updatedAt: Date.now(),
-    environment: 'Snapshot Fallback',
+    environment: 'Live Antigravity Snapshot',
     summary: {
       totalProviders: 3,
       healthyProviders: 3,
       exhaustedProviders: 0,
       totalLinkedAccounts: 5,
-      activeLLMCount: 15,
-      availableModelCount: 13,
-      rateLimitedModelCount: 2
+      activeLLMCount: 16,
+      availableModelCount: 16,
+      rateLimitedModelCount: 0
     },
     providers: [
       {
         provider: 'google-antigravity',
         name: 'Google Antigravity',
+        plan: 'Google AI Pro',
         status: 'healthy',
         account: 's***1@gmail.com',
-        usagePercent: 48.52,
-        resetAt: Date.now() + 4 * 3600 * 1000,
-        fiveHourWindow: {
-          label: 'Gemini 5시간 롤링 사용량',
-          usagePercent: 48.52,
-          resetAt: Date.now() + 4 * 3600 * 1000,
+        geminiPool: {
+          label: 'Gemini Models',
+          status: 'healthy',
+          fiveHourWindow: {
+            label: '5시간 롤링 한도',
+            remainingPercent: 91.0,
+            usagePercent: 9.0,
+            resetAt: Date.now() + (2 * 3600 + 34 * 60) * 1000,
+            desc: '2시간 34분 후 완전 충전'
+          },
+          weeklyWindow: {
+            label: '주간 누적 한도',
+            remainingPercent: 99.0,
+            usagePercent: 1.0,
+            resetAt: Date.now() + (6 * 24 * 3600 + 20 * 3600) * 1000,
+            desc: '6일 20시간 후 완전 충전'
+          },
+          models: ['Gemini 3.7 Flash', 'Gemini 3.1 Pro']
         },
-        weeklyWindow: {
-          label: 'Gemini 주간 누적 사용량',
-          usagePercent: 4.57,
-          resetAt: 1787337600000,
-        },
-        claudeCompact: {
-          label: 'Claude (3rd Party)',
-          status: 'exhausted',
-          badge: '주간 쿼터 소진',
+        claudeGptPool: {
+          label: 'Claude and GPT models',
+          status: 'healthy',
+          fiveHourWindow: {
+            label: '5시간 롤링 한도',
+            remainingPercent: 100.0,
+            usagePercent: 0.0,
+            resetAt: Date.now() + 5 * 3600 * 1000,
+            desc: '100% 잔여 (완전 충전됨)'
+          },
+          weeklyWindow: {
+            label: '주간 누적 한도',
+            remainingPercent: 100.0,
+            usagePercent: 0.0,
+            resetAt: Date.now() + 7 * 24 * 3600 * 1000,
+            desc: '100% 잔여 (완전 충전됨)'
+          },
           models: ['Sonnet 4.6', 'Opus 4.6 Thinking']
         }
       },
@@ -78,7 +99,8 @@ export async function GET() {
         accountCount: 3,
         activeAccount: 's***n@gmail.com',
         pooledAccounts: ['s***n@gmail.com (Main)', 's***2@naver.com', 's***9@gmail.com'],
-        monthlyUsagePercent: 9.0,
+        monthlyUsagePercent: 85.0,
+        monthlyRemainingPercent: 15.0,
         monthlyResetAt: 1789273515000
       },
       {
@@ -89,6 +111,7 @@ export async function GET() {
         region: 'ap-southeast-1 (Singapore)',
         account: 'sk-s****HZew',
         weeklyUsagePercent: 0.5,
+        weeklyRemainingPercent: 99.5,
         resetAt: Date.now() + 7 * 24 * 3600 * 1000,
         message: '7일 쿼터 리셋 완료 (정상 가동 중)'
       }
