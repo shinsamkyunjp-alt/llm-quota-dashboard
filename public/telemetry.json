@@ -1,46 +1,70 @@
 {
-  "updatedAt": 1786868120427,
-  "environment": "Live Mac Daemon (Realtime Sync)",
+  "updatedAt": 1786868586070,
+  "environment": "Live Antigravity & ocx Telemetry",
   "catalogSync": {
     "isLiveConnected": true,
-    "totalCatalogModels": 16,
-    "lastWeeklySpecUpdate": "2026-08-16 17:15:24 KST",
-    "nextWeeklySpecUpdate": "2026-08-23 17:15:24 KST"
+    "totalCatalogModels": 17,
+    "lastWeeklySpecUpdate": "2026-08-16 17:23:09 KST",
+    "nextWeeklySpecUpdate": "2026-08-23 17:23:09 KST"
   },
   "summary": {
     "totalProviders": 3,
     "healthyProviders": 3,
     "exhaustedProviders": 0,
     "totalLinkedAccounts": 5,
-    "activeLLMCount": 16,
-    "availableModelCount": 14,
-    "rateLimitedModelCount": 2
+    "activeLLMCount": 17,
+    "availableModelCount": 17,
+    "rateLimitedModelCount": 0
   },
   "providers": [
     {
       "provider": "google-antigravity",
       "name": "Google Antigravity",
+      "plan": "Google AI Pro",
       "status": "healthy",
       "account": "s***1@gmail.com",
-      "usagePercent": 31.8,
-      "resetAt": 1786871589000,
-      "fiveHourWindow": {
-        "label": "Gemini 5시간 롤링 사용량",
-        "usagePercent": 31.8,
-        "resetAt": 1786871589000
-      },
-      "weeklyWindow": {
-        "label": "Gemini 주간 누적 사용량",
-        "usagePercent": 4.57,
-        "resetAt": 1787337600000
-      },
-      "claudeCompact": {
-        "label": "Claude (3rd Party)",
-        "status": "exhausted",
-        "badge": "주간 쿼터 소진",
+      "geminiPool": {
+        "label": "Gemini Models",
+        "status": "healthy",
+        "fiveHourWindow": {
+          "label": "5시간 롤링 한도",
+          "remainingPercent": 91.0,
+          "usagePercent": 9.0,
+          "resetAt": 1786877826070,
+          "desc": "2시간 34분 후 완전 충전"
+        },
+        "weeklyWindow": {
+          "label": "주간 누적 한도",
+          "remainingPercent": 99.0,
+          "usagePercent": 1.0,
+          "resetAt": 1787458986070,
+          "desc": "6일 20시간 후 완전 충전"
+        },
         "models": [
-          "Sonnet 4.6",
-          "Opus 4.6 Thinking"
+          "Gemini 3.7 Flash",
+          "Gemini 3.1 Pro"
+        ]
+      },
+      "claudeGptPool": {
+        "label": "Claude and GPT models",
+        "status": "healthy",
+        "fiveHourWindow": {
+          "label": "5시간 롤링 한도",
+          "remainingPercent": 100.0,
+          "usagePercent": 0.0,
+          "resetAt": 1786886586070,
+          "desc": "100% 잔여 (완전 충전됨)"
+        },
+        "weeklyWindow": {
+          "label": "주간 누적 한도",
+          "remainingPercent": 100.0,
+          "usagePercent": 0.0,
+          "resetAt": 1787473386070,
+          "desc": "100% 잔여 (완전 충전됨)"
+        },
+        "models": [
+          "Claude Sonnet 4.6",
+          "Claude Opus 4.6 Thinking"
         ]
       },
       "models": [
@@ -49,12 +73,14 @@
           "name": "Gemini 3.7 Flash",
           "providerId": "google-antigravity",
           "providerName": "Google Antigravity",
-          "context": "1,048,576 (1M)",
+          "pool": "gemini",
+          "context": "1M",
           "contextTokens": 1048576,
           "inputPrice1M": 0.15,
           "outputPrice1M": 0.6,
           "speed": "Ultra High (150+ t/s)",
           "reasoning": "Hybrid Thinking",
+          "tag": "Best Speed",
           "status": "active"
         },
         {
@@ -62,12 +88,14 @@
           "name": "Gemini 3.1 Pro",
           "providerId": "google-antigravity",
           "providerName": "Google Antigravity",
-          "context": "1,048,576 (1M)",
+          "pool": "gemini",
+          "context": "1M",
           "contextTokens": 1048576,
           "inputPrice1M": 1.25,
           "outputPrice1M": 5.0,
           "speed": "Fast (80+ t/s)",
           "reasoning": "Deep Reasoning",
+          "tag": "1M Deep Context",
           "status": "active"
         },
         {
@@ -75,26 +103,30 @@
           "name": "Claude Sonnet 4.6",
           "providerId": "google-antigravity",
           "providerName": "Google Antigravity",
-          "context": "200,000 (200k)",
+          "pool": "claude-gpt",
+          "context": "200k",
           "contextTokens": 200000,
           "inputPrice1M": 3.0,
           "outputPrice1M": 15.0,
           "speed": "Balanced (60+ t/s)",
-          "reasoning": "High Nuance",
-          "status": "rate_limited"
+          "reasoning": "High Nuance Coding",
+          "tag": "Top Coder",
+          "status": "active"
         },
         {
           "id": "google-antigravity/claude-opus-4-6-thinking",
           "name": "Claude Opus 4.6 Thinking",
           "providerId": "google-antigravity",
           "providerName": "Google Antigravity",
-          "context": "200,000 (200k)",
+          "pool": "claude-gpt",
+          "context": "200k",
           "contextTokens": 200000,
           "inputPrice1M": 15.0,
           "outputPrice1M": 75.0,
           "speed": "Deep Thinking (35+ t/s)",
           "reasoning": "Max Reasoning",
-          "status": "rate_limited"
+          "tag": "Ultra Brain",
+          "status": "active"
         }
       ]
     },
@@ -111,6 +143,7 @@
         "s***9@gmail.com"
       ],
       "monthlyUsagePercent": 86,
+      "monthlyRemainingPercent": 14.0,
       "monthlyResetAt": 1789273515000,
       "models": [
         {
@@ -118,12 +151,14 @@
           "name": "GPT-5.6 Sol",
           "providerId": "openai",
           "providerName": "OpenAI Codex",
-          "context": "128,000 (128k)",
-          "contextTokens": 128000,
+          "pool": null,
+          "context": "1M",
+          "contextTokens": 1048576,
           "inputPrice1M": 5.0,
           "outputPrice1M": 30.0,
           "speed": "Flagship Intelligence (750 t/s on Cerebras)",
           "reasoning": "Ultra Reasoning",
+          "tag": "Flagship AI",
           "status": "active"
         },
         {
@@ -131,12 +166,14 @@
           "name": "GPT-5.6 Terra",
           "providerId": "openai",
           "providerName": "OpenAI Codex",
-          "context": "128,000 (128k)",
-          "contextTokens": 128000,
+          "pool": null,
+          "context": "1M",
+          "contextTokens": 1048576,
           "inputPrice1M": 2.0,
           "outputPrice1M": 12.0,
           "speed": "Balanced Daily Workload",
           "reasoning": "Medium-Ultra",
+          "tag": "Balanced Daily",
           "status": "active"
         },
         {
@@ -144,12 +181,14 @@
           "name": "GPT-5.6 Luna",
           "providerId": "openai",
           "providerName": "OpenAI Codex",
-          "context": "128,000 (128k)",
-          "contextTokens": 128000,
+          "pool": null,
+          "context": "1M",
+          "contextTokens": 1048576,
           "inputPrice1M": 0.2,
           "outputPrice1M": 1.2,
           "speed": "Fast & Cost-Effective",
           "reasoning": "Medium-Max",
+          "tag": "Best OpenAI Value",
           "status": "active"
         },
         {
@@ -157,12 +196,14 @@
           "name": "Combo Antigravity Failover",
           "providerId": "openai",
           "providerName": "OpenCodex Combo",
-          "context": "1,048,576 (1M)",
+          "pool": null,
+          "context": "1M",
           "contextTokens": 1048576,
           "inputPrice1M": 0.15,
           "outputPrice1M": 0.6,
           "speed": "Auto Failover",
           "reasoning": "Auto Failover",
+          "tag": "High Availability",
           "status": "active"
         }
       ]
@@ -175,20 +216,74 @@
       "region": "ap-southeast-1 (Singapore)",
       "account": "sk-s****HZew",
       "weeklyUsagePercent": 0.5,
-      "resetAt": 1787472920427,
+      "weeklyRemainingPercent": 99.5,
+      "resetAt": 1787473386070,
       "message": "7일 쿼터 리셋 완료 (정상 가동 중)",
+      "promotion": {
+        "isPromoActive": true,
+        "promoTitle": "야간 50% 반값 크레딧 할인 프로모션 (Night Discount)",
+        "discountBadge": "22:00~08:00 (UTC+8) 50% OFF",
+        "nightDiscountHours": "22:00 ~ 08:00 (UTC+8) / 23:00 ~ 09:00 (KST)",
+        "discountRate": 0.5,
+        "eligibleModels": [
+          {
+            "id": "qwen3.8-max",
+            "name": "Qwen 3.8 Max",
+            "note": "qwen3.8-max-preview는 qwen3.8-max로 자동 라우팅"
+          },
+          {
+            "id": "deepseek-v4-pro-0813",
+            "name": "DeepSeek V4 Pro (0813 Snapshot)",
+            "note": "야간 50% 크레딧 차감"
+          }
+        ],
+        "routingNote": "qwen3.8-max-preview 요청은 자동으로 qwen3.8-max로 라우팅되며 동일 요율 적용",
+        "officialDocUrl": "https://www.alibabacloud.com/help/en/model-studio/token-plan-personal-overview#tpp01-h-models",
+        "tiers": [
+          {
+            "name": "Lite",
+            "originalPrice": "CNY 60/월",
+            "promoPrice": "CNY 39/월 (~$5.5)",
+            "quota": "700/5h · 2,500/7d",
+            "agents": "1~2 에이전트"
+          },
+          {
+            "name": "Standard (Best)",
+            "originalPrice": "CNY 180/월",
+            "promoPrice": "CNY 139/월 (~$19.5)",
+            "quota": "3,000/5h · 10,000/7d",
+            "agents": "3~4 에이전트"
+          },
+          {
+            "name": "Pro",
+            "originalPrice": "CNY 600/월",
+            "promoPrice": "CNY 499/월 (~$70)",
+            "quota": "12,000/5h · 40,000/7d",
+            "agents": "6~8 에이전트"
+          }
+        ],
+        "highlights": [
+          "qwen3.8-max & deepseek-v4-pro-0813 매일 야간(23:00~09:00 KST) 크레딧 소모 50% 할인",
+          "qwen3.8-max-preview 호출 시 qwen3.8-max로 자동 라우팅 처리",
+          "Qwen 3.8 Max (2.4T MoE) & DeepSeek V4 Pro (1M Context) 전 모델 무제한 사용",
+          "Web Search, Web Scraping, Code Interpreter 도구 기본 번들 포함",
+          "OpenCodex, Claude Code, Cursor, Qwen Code 등 전체 IDE 연동 호환"
+        ]
+      },
       "models": [
         {
           "id": "alibaba-token-plan-intl/qwen3.8-max",
           "name": "Qwen 3.8 Max",
           "providerId": "alibaba-token-plan-intl",
           "providerName": "Alibaba Token Plan",
-          "context": "1,000,000 (1M)",
+          "pool": null,
+          "context": "1M",
           "contextTokens": 1000000,
           "inputPrice1M": 1.6,
           "outputPrice1M": 6.4,
           "speed": "Heavy Duty MoE (2.4T)",
           "reasoning": "XHigh Reasoning",
+          "tag": "Flagship MoE",
           "status": "active"
         },
         {
@@ -196,12 +291,14 @@
           "name": "Qwen 3.7 Max",
           "providerId": "alibaba-token-plan-intl",
           "providerName": "Alibaba Token Plan",
-          "context": "1,000,000 (1M)",
+          "pool": null,
+          "context": "1M",
           "contextTokens": 1000000,
           "inputPrice1M": 1.6,
           "outputPrice1M": 6.4,
           "speed": "Heavy Duty",
           "reasoning": "XHigh Reasoning",
+          "tag": "Power Model",
           "status": "active"
         },
         {
@@ -209,12 +306,14 @@
           "name": "Qwen 3.7 Plus",
           "providerId": "alibaba-token-plan-intl",
           "providerName": "Alibaba Token Plan",
-          "context": "1,000,000 (1M)",
+          "pool": null,
+          "context": "1M",
           "contextTokens": 1000000,
           "inputPrice1M": 0.26,
           "outputPrice1M": 0.78,
           "speed": "High Speed Multimodal",
           "reasoning": "Medium Reasoning",
+          "tag": "All-Rounder",
           "status": "active"
         },
         {
@@ -222,12 +321,14 @@
           "name": "Qwen 3.6 Flash",
           "providerId": "alibaba-token-plan-intl",
           "providerName": "Alibaba Token Plan",
-          "context": "1,000,000 (1M)",
+          "pool": null,
+          "context": "1M",
           "contextTokens": 1000000,
           "inputPrice1M": 0.05,
           "outputPrice1M": 0.2,
           "speed": "Ultra Fast",
           "reasoning": "Low-Medium",
+          "tag": "Ultra Cheap ($0.05)",
           "status": "active"
         },
         {
@@ -235,12 +336,14 @@
           "name": "DeepSeek V4 Pro",
           "providerId": "alibaba-token-plan-intl",
           "providerName": "Alibaba Token Plan",
-          "context": "1,000,000 (1M)",
+          "pool": null,
+          "context": "1M",
           "contextTokens": 1000000,
           "inputPrice1M": 0.27,
           "outputPrice1M": 1.1,
           "speed": "Code & Math Specialist",
           "reasoning": "High-Max",
+          "tag": "Code Specialist",
           "status": "active"
         },
         {
@@ -248,12 +351,14 @@
           "name": "DeepSeek V4 Pro (0813 Snapshot)",
           "providerId": "alibaba-token-plan-intl",
           "providerName": "Alibaba Token Plan",
-          "context": "1,000,000 (1M)",
+          "pool": null,
+          "context": "1M",
           "contextTokens": 1000000,
           "inputPrice1M": 0.27,
           "outputPrice1M": 1.1,
           "speed": "Code & Math Specialist (Snapshot)",
           "reasoning": "High-Max Reasoning",
+          "tag": "Snapshot Stable",
           "status": "active"
         },
         {
@@ -261,12 +366,14 @@
           "name": "DeepSeek V4 Flash",
           "providerId": "alibaba-token-plan-intl",
           "providerName": "Alibaba Token Plan",
-          "context": "1,000,000 (1M)",
+          "pool": null,
+          "context": "1M",
           "contextTokens": 1000000,
           "inputPrice1M": 0.14,
           "outputPrice1M": 0.28,
           "speed": "Fast Inference",
           "reasoning": "Standard",
+          "tag": "Fast Coder",
           "status": "active"
         },
         {
@@ -274,12 +381,29 @@
           "name": "GLM 5.2",
           "providerId": "alibaba-token-plan-intl",
           "providerName": "Alibaba Token Plan",
-          "context": "128,000 (128k)",
+          "pool": null,
+          "context": "128k",
           "contextTokens": 128000,
           "inputPrice1M": 1.0,
           "outputPrice1M": 1.0,
           "speed": "Bilingual Pro",
           "reasoning": "Medium Reasoning",
+          "tag": "Bilingual",
+          "status": "active"
+        },
+        {
+          "id": "alibaba-token-plan-intl/kimi-k2.5",
+          "name": "Kimi K2.5",
+          "providerId": "alibaba-token-plan-intl",
+          "providerName": "Alibaba Token Plan",
+          "pool": null,
+          "context": "256k",
+          "contextTokens": 256000,
+          "inputPrice1M": 0.8,
+          "outputPrice1M": 2.4,
+          "speed": "Fast Long-Context",
+          "reasoning": "High Context Reasoning",
+          "tag": "Long Context",
           "status": "active"
         }
       ]
@@ -291,12 +415,14 @@
       "name": "Gemini 3.7 Flash",
       "providerId": "google-antigravity",
       "providerName": "Google Antigravity",
-      "context": "1,048,576 (1M)",
+      "pool": "gemini",
+      "context": "1M",
       "contextTokens": 1048576,
       "inputPrice1M": 0.15,
       "outputPrice1M": 0.6,
       "speed": "Ultra High (150+ t/s)",
       "reasoning": "Hybrid Thinking",
+      "tag": "Best Speed",
       "status": "active"
     },
     {
@@ -304,12 +430,14 @@
       "name": "Gemini 3.1 Pro",
       "providerId": "google-antigravity",
       "providerName": "Google Antigravity",
-      "context": "1,048,576 (1M)",
+      "pool": "gemini",
+      "context": "1M",
       "contextTokens": 1048576,
       "inputPrice1M": 1.25,
       "outputPrice1M": 5.0,
       "speed": "Fast (80+ t/s)",
       "reasoning": "Deep Reasoning",
+      "tag": "1M Deep Context",
       "status": "active"
     },
     {
@@ -317,38 +445,44 @@
       "name": "Claude Sonnet 4.6",
       "providerId": "google-antigravity",
       "providerName": "Google Antigravity",
-      "context": "200,000 (200k)",
+      "pool": "claude-gpt",
+      "context": "200k",
       "contextTokens": 200000,
       "inputPrice1M": 3.0,
       "outputPrice1M": 15.0,
       "speed": "Balanced (60+ t/s)",
-      "reasoning": "High Nuance",
-      "status": "rate_limited"
+      "reasoning": "High Nuance Coding",
+      "tag": "Top Coder",
+      "status": "active"
     },
     {
       "id": "google-antigravity/claude-opus-4-6-thinking",
       "name": "Claude Opus 4.6 Thinking",
       "providerId": "google-antigravity",
       "providerName": "Google Antigravity",
-      "context": "200,000 (200k)",
+      "pool": "claude-gpt",
+      "context": "200k",
       "contextTokens": 200000,
       "inputPrice1M": 15.0,
       "outputPrice1M": 75.0,
       "speed": "Deep Thinking (35+ t/s)",
       "reasoning": "Max Reasoning",
-      "status": "rate_limited"
+      "tag": "Ultra Brain",
+      "status": "active"
     },
     {
       "id": "gpt-5.6-sol",
       "name": "GPT-5.6 Sol",
       "providerId": "openai",
       "providerName": "OpenAI Codex",
-      "context": "128,000 (128k)",
-      "contextTokens": 128000,
+      "pool": null,
+      "context": "1M",
+      "contextTokens": 1048576,
       "inputPrice1M": 5.0,
       "outputPrice1M": 30.0,
       "speed": "Flagship Intelligence (750 t/s on Cerebras)",
       "reasoning": "Ultra Reasoning",
+      "tag": "Flagship AI",
       "status": "active"
     },
     {
@@ -356,12 +490,14 @@
       "name": "GPT-5.6 Terra",
       "providerId": "openai",
       "providerName": "OpenAI Codex",
-      "context": "128,000 (128k)",
-      "contextTokens": 128000,
+      "pool": null,
+      "context": "1M",
+      "contextTokens": 1048576,
       "inputPrice1M": 2.0,
       "outputPrice1M": 12.0,
       "speed": "Balanced Daily Workload",
       "reasoning": "Medium-Ultra",
+      "tag": "Balanced Daily",
       "status": "active"
     },
     {
@@ -369,12 +505,14 @@
       "name": "GPT-5.6 Luna",
       "providerId": "openai",
       "providerName": "OpenAI Codex",
-      "context": "128,000 (128k)",
-      "contextTokens": 128000,
+      "pool": null,
+      "context": "1M",
+      "contextTokens": 1048576,
       "inputPrice1M": 0.2,
       "outputPrice1M": 1.2,
       "speed": "Fast & Cost-Effective",
       "reasoning": "Medium-Max",
+      "tag": "Best OpenAI Value",
       "status": "active"
     },
     {
@@ -382,12 +520,14 @@
       "name": "Combo Antigravity Failover",
       "providerId": "openai",
       "providerName": "OpenCodex Combo",
-      "context": "1,048,576 (1M)",
+      "pool": null,
+      "context": "1M",
       "contextTokens": 1048576,
       "inputPrice1M": 0.15,
       "outputPrice1M": 0.6,
       "speed": "Auto Failover",
       "reasoning": "Auto Failover",
+      "tag": "High Availability",
       "status": "active"
     },
     {
@@ -395,12 +535,14 @@
       "name": "Qwen 3.8 Max",
       "providerId": "alibaba-token-plan-intl",
       "providerName": "Alibaba Token Plan",
-      "context": "1,000,000 (1M)",
+      "pool": null,
+      "context": "1M",
       "contextTokens": 1000000,
       "inputPrice1M": 1.6,
       "outputPrice1M": 6.4,
       "speed": "Heavy Duty MoE (2.4T)",
       "reasoning": "XHigh Reasoning",
+      "tag": "Flagship MoE",
       "status": "active"
     },
     {
@@ -408,12 +550,14 @@
       "name": "Qwen 3.7 Max",
       "providerId": "alibaba-token-plan-intl",
       "providerName": "Alibaba Token Plan",
-      "context": "1,000,000 (1M)",
+      "pool": null,
+      "context": "1M",
       "contextTokens": 1000000,
       "inputPrice1M": 1.6,
       "outputPrice1M": 6.4,
       "speed": "Heavy Duty",
       "reasoning": "XHigh Reasoning",
+      "tag": "Power Model",
       "status": "active"
     },
     {
@@ -421,12 +565,14 @@
       "name": "Qwen 3.7 Plus",
       "providerId": "alibaba-token-plan-intl",
       "providerName": "Alibaba Token Plan",
-      "context": "1,000,000 (1M)",
+      "pool": null,
+      "context": "1M",
       "contextTokens": 1000000,
       "inputPrice1M": 0.26,
       "outputPrice1M": 0.78,
       "speed": "High Speed Multimodal",
       "reasoning": "Medium Reasoning",
+      "tag": "All-Rounder",
       "status": "active"
     },
     {
@@ -434,12 +580,14 @@
       "name": "Qwen 3.6 Flash",
       "providerId": "alibaba-token-plan-intl",
       "providerName": "Alibaba Token Plan",
-      "context": "1,000,000 (1M)",
+      "pool": null,
+      "context": "1M",
       "contextTokens": 1000000,
       "inputPrice1M": 0.05,
       "outputPrice1M": 0.2,
       "speed": "Ultra Fast",
       "reasoning": "Low-Medium",
+      "tag": "Ultra Cheap ($0.05)",
       "status": "active"
     },
     {
@@ -447,12 +595,14 @@
       "name": "DeepSeek V4 Pro",
       "providerId": "alibaba-token-plan-intl",
       "providerName": "Alibaba Token Plan",
-      "context": "1,000,000 (1M)",
+      "pool": null,
+      "context": "1M",
       "contextTokens": 1000000,
       "inputPrice1M": 0.27,
       "outputPrice1M": 1.1,
       "speed": "Code & Math Specialist",
       "reasoning": "High-Max",
+      "tag": "Code Specialist",
       "status": "active"
     },
     {
@@ -460,12 +610,14 @@
       "name": "DeepSeek V4 Pro (0813 Snapshot)",
       "providerId": "alibaba-token-plan-intl",
       "providerName": "Alibaba Token Plan",
-      "context": "1,000,000 (1M)",
+      "pool": null,
+      "context": "1M",
       "contextTokens": 1000000,
       "inputPrice1M": 0.27,
       "outputPrice1M": 1.1,
       "speed": "Code & Math Specialist (Snapshot)",
       "reasoning": "High-Max Reasoning",
+      "tag": "Snapshot Stable",
       "status": "active"
     },
     {
@@ -473,12 +625,14 @@
       "name": "DeepSeek V4 Flash",
       "providerId": "alibaba-token-plan-intl",
       "providerName": "Alibaba Token Plan",
-      "context": "1,000,000 (1M)",
+      "pool": null,
+      "context": "1M",
       "contextTokens": 1000000,
       "inputPrice1M": 0.14,
       "outputPrice1M": 0.28,
       "speed": "Fast Inference",
       "reasoning": "Standard",
+      "tag": "Fast Coder",
       "status": "active"
     },
     {
@@ -486,16 +640,38 @@
       "name": "GLM 5.2",
       "providerId": "alibaba-token-plan-intl",
       "providerName": "Alibaba Token Plan",
-      "context": "128,000 (128k)",
+      "pool": null,
+      "context": "128k",
       "contextTokens": 128000,
       "inputPrice1M": 1.0,
       "outputPrice1M": 1.0,
       "speed": "Bilingual Pro",
       "reasoning": "Medium Reasoning",
+      "tag": "Bilingual",
+      "status": "active"
+    },
+    {
+      "id": "alibaba-token-plan-intl/kimi-k2.5",
+      "name": "Kimi K2.5",
+      "providerId": "alibaba-token-plan-intl",
+      "providerName": "Alibaba Token Plan",
+      "pool": null,
+      "context": "256k",
+      "contextTokens": 256000,
+      "inputPrice1M": 0.8,
+      "outputPrice1M": 2.4,
+      "speed": "Fast Long-Context",
+      "reasoning": "High Context Reasoning",
+      "tag": "Long Context",
       "status": "active"
     }
   ],
   "integrations": [
+    {
+      "name": "Google Antigravity IDE",
+      "endpoint": "Google AI Pro Engine",
+      "status": "online"
+    },
     {
       "name": "OpenCodex Proxy",
       "endpoint": "http://127.0.0.1:10100",

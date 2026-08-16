@@ -207,6 +207,17 @@ export default function QuotaDashboard() {
       const json = await res.json();
       if (json.providers) {
         const agData = json.providers[0] || {};
+        const rawList = (json.allModels && json.allModels.length > 0) ? json.allModels : DEFAULT_MODELS;
+        const mergedModels = rawList.map((m: any) => {
+          const meta = DEFAULT_MODELS.find(d => d.id === m.id);
+          return {
+            ...meta,
+            ...m,
+            tag: m.tag || meta?.tag,
+            context: meta?.context || m.context || "1M"
+          };
+        });
+
         setData({
           ...DEFAULT_TELEMETRY,
           summary: json.summary || DEFAULT_TELEMETRY.summary,
@@ -224,7 +235,7 @@ export default function QuotaDashboard() {
             ...DEFAULT_TELEMETRY.alibaba,
             ...(json.providers[2] || {})
           },
-          allModels: json.allModels || DEFAULT_MODELS,
+          allModels: mergedModels,
           environment: json.environment
         });
       }
@@ -1023,9 +1034,14 @@ export default function QuotaDashboard() {
             {filteredModels.map((item, idx) => (
               <div key={idx} className="bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-3 space-y-1.5 box-border">
                 <div className="flex items-start justify-between gap-2">
-                  <div className="font-mono text-xs font-bold text-zinc-900 dark:text-zinc-100 break-all flex items-center gap-1.5 flex-wrap">
-                   <span>{item.id}</span>
-                   {(item.id === "alibaba-token-plan-intl/qwen3.8-max" || item.id === "alibaba-token-plan-intl/deepseek-v4-pro-0813") && (
+                 <div className="font-mono text-xs font-bold text-zinc-900 dark:text-zinc-100 break-all flex items-center gap-1.5 flex-wrap">
+                  <span>{item.id}</span>
+                   {item.tag && (
+                     <span className="text-[9px] px-1.5 py-0.2 rounded bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 font-sans font-medium border border-emerald-200 dark:border-emerald-800">
+                       {item.tag}
+                     </span>
+                   )}
+                  {(item.id === "alibaba-token-plan-intl/qwen3.8-max" || item.id === "alibaba-token-plan-intl/deepseek-v4-pro-0813") && (
                      <span className="text-[9px] px-1.5 py-0.2 rounded bg-amber-100 dark:bg-amber-950 text-amber-900 dark:text-amber-300 font-sans font-bold border border-amber-300 dark:border-amber-700">
                         🌙 50%
                      </span>
