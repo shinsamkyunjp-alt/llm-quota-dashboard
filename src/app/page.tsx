@@ -318,7 +318,7 @@ export default function QuotaDashboard() {
 
   // ── ocx 라이브 값 기반 파생값 (하드코딩 제거) ──
   const fmtPct = (n?: number | null) => {
-    if (n == null || Number.isNaN(n)) return "—";
+    if (n == null || Number.isNaN(n)) return "N/A";
     const v = Math.round(n * 10) / 10;
     return (Number.isInteger(v) ? String(v) : v.toFixed(1)) + "%";
   };
@@ -334,10 +334,10 @@ const CountdownTimer = memo(function CountdownTimer({ targetTimestamp }: { targe
     return () => clearInterval(interval);
   }, [targetTimestamp]);
 
-  if (!targetTimestamp) return <span className="font-semibold text-zinc-700 dark:text-zinc-300">—</span>;
+  if (!targetTimestamp) return <span className="font-mono text-zinc-400 dark:text-zinc-500">N/A</span>;
   
   const diff = targetTimestamp - now;
-  if (diff <= 0) return <span className="font-semibold text-zinc-700 dark:text-zinc-300">00:00:00 (리셋 완료)</span>;
+  if (diff <= 0) return <span className="font-mono text-emerald-600 dark:text-emerald-400 font-semibold">00:00:00 (리셋 완료)</span>;
 
   const hours = Math.floor(diff / (1000 * 60 * 60));
   const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
@@ -345,10 +345,10 @@ const CountdownTimer = memo(function CountdownTimer({ targetTimestamp }: { targe
 
   if (hours > 24) {
     const days = Math.floor(hours / 24);
-    return <span className="font-semibold text-zinc-700 dark:text-zinc-300">{days}일 {hours % 24}시간</span>;
+    return <span className="font-mono text-zinc-700 dark:text-zinc-300">{days}일 {hours % 24}시간</span>;
   }
 
-  return <span className="font-semibold text-zinc-700 dark:text-zinc-300">{`${String(hours).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`}</span>;
+  return <span className="font-mono text-zinc-700 dark:text-zinc-300">{`${String(hours).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`}</span>;
 });
 
 // ── 독립 시계 컴포넌트 ──
@@ -544,50 +544,51 @@ const LiveClock = memo(function LiveClock() {
 
         {/* KPI Overview Strip */}
         <section className="w-full grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4 box-border">
-          <div className="bg-white dark:bg-zinc-900 border border-zinc-200/90 dark:border-zinc-800 rounded-2xl p-3.5 sm:p-4 shadow-sm flex items-center gap-2.5 min-w-0">
-            <div className="p-2 sm:p-3 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200/80 dark:border-emerald-800 rounded-xl text-emerald-600 dark:text-emerald-400 shrink-0">
-              <ShieldCheck className="w-4 h-4 sm:w-5 sm:h-5" />
+          <div className="bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800/80 rounded-2xl p-3.5 sm:p-4 shadow-sm flex items-center gap-3 min-w-0">
+            <div className="p-2.5 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 shrink-0">
+              <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
             </div>
             <div className="min-w-0">
               <div className="text-[10px] sm:text-xs text-zinc-500 dark:text-zinc-400 font-medium truncate">정상 가동 프로바이더</div>
-              <div className="text-sm sm:text-xl font-bold text-zinc-900 dark:text-zinc-100 mt-0.5 truncate">
-                {healthyProviders} / {totalProviders} <span className="text-[10px] sm:text-xs font-semibold text-emerald-600 dark:text-emerald-400">{totalProviders > 0 ? Math.round((healthyProviders / totalProviders) * 100) : 0}% Operational</span>
+              <div className="text-base sm:text-lg font-bold font-mono text-zinc-900 dark:text-zinc-100 mt-0.5 truncate">
+                {healthyProviders} <span className="text-xs text-zinc-400 font-sans font-normal">/ {totalProviders}개 사</span>
               </div>
             </div>
           </div>
 
-          <div className="bg-white dark:bg-zinc-900 border border-zinc-200/90 dark:border-zinc-800 rounded-2xl p-3.5 sm:p-4 shadow-sm flex items-center gap-2.5 min-w-0">
-            <div className="p-2 sm:p-3 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200/80 dark:border-emerald-800 rounded-xl text-emerald-600 dark:text-emerald-400 shrink-0">
-              <AlertTriangle className="w-4 h-4 sm:w-5 sm:h-5" />
+          <div className="bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800/80 rounded-2xl p-3.5 sm:p-4 shadow-sm flex items-center gap-3 min-w-0">
+            <div className="p-2.5 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 shrink-0">
+              <Zap className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
             </div>
             <div className="min-w-0">
-              <div className="text-[10px] sm:text-xs text-zinc-500 dark:text-zinc-400 font-medium truncate">소진 / 쿨다운 모델</div>
-              <div className="text-sm sm:text-xl font-bold text-zinc-900 dark:text-zinc-100 mt-0.5 truncate">
-                {rateLimitedModels}개 <span className="text-[10px] sm:text-xs font-semibold text-emerald-600 dark:text-emerald-400">쿨다운 / 소진 모델</span>
+              <div className="text-[10px] sm:text-xs text-zinc-500 dark:text-zinc-400 font-medium truncate">Gemini 5시간 한도</div>
+              <div className="text-base sm:text-lg font-bold font-mono text-emerald-600 dark:text-emerald-400 mt-0.5 truncate">
+                {viewMode === "remaining" ? fmtPct(gemini5hRemaining) : fmtPct(gemini5hUsed)} <span className="text-xs text-zinc-400 font-sans font-normal">{viewMode === "remaining" ? "잔여" : "사용"}</span>
               </div>
             </div>
           </div>
 
-          <div className="bg-white dark:bg-zinc-900 border border-zinc-200/90 dark:border-zinc-800 rounded-2xl p-3.5 sm:p-4 shadow-sm flex items-center gap-2.5 min-w-0">
-            <div className="p-2 sm:p-3 bg-sky-50 dark:bg-sky-950/60 border border-sky-200/80 dark:border-sky-800 rounded-xl text-sky-600 dark:text-sky-400 shrink-0">
-              <Layers className="w-4 h-4 sm:w-5 sm:h-5" />
+          <div className="bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800/80 rounded-2xl p-3.5 sm:p-4 shadow-sm flex items-center gap-3 min-w-0">
+            <div className="p-2.5 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 shrink-0">
+              <Cpu className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
             </div>
             <div className="min-w-0">
-              <div className="text-[10px] sm:text-xs text-zinc-500 dark:text-zinc-400 font-medium truncate">연동 계정 풀</div>
-              <div className="text-sm sm:text-xl font-bold text-zinc-900 dark:text-zinc-100 mt-0.5 truncate">
-                5 계정 <span className="text-[10px] sm:text-xs font-semibold text-zinc-600 dark:text-zinc-400">Pool Active</span>
+              <div className="text-[10px] sm:text-xs text-zinc-500 dark:text-zinc-400 font-medium truncate">Claude 3rd Party 풀</div>
+              <div className="text-base sm:text-lg font-bold font-mono text-emerald-600 dark:text-emerald-400 mt-0.5 truncate">
+                {claudeExhausted ? "소진" : claude5hRemaining != null ? (viewMode === "remaining" ? fmtPct(claude5hRemaining) : fmtPct(claude5hUsed)) : "Ready"}
+                <span className="text-xs text-zinc-400 font-sans font-normal">{claudeExhausted ? "" : claude5hRemaining != null ? (viewMode === "remaining" ? " 잔여" : " 사용") : ""}</span>
               </div>
             </div>
           </div>
 
-          <div className="bg-white dark:bg-zinc-900 border border-zinc-200/90 dark:border-zinc-800 rounded-2xl p-3.5 sm:p-4 shadow-sm flex items-center gap-2.5 min-w-0">
-            <div className="p-2 sm:p-3 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200/80 dark:border-emerald-800 rounded-xl text-emerald-600 dark:text-emerald-400 shrink-0">
-              <Cpu className="w-4 h-4 sm:w-5 sm:h-5" />
+          <div className="bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800/80 rounded-2xl p-3.5 sm:p-4 shadow-sm flex items-center gap-3 min-w-0">
+            <div className="p-2.5 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 shrink-0">
+              <Layers className="w-4 h-4 text-zinc-600 dark:text-zinc-400" />
             </div>
             <div className="min-w-0">
-              <div className="text-[10px] sm:text-xs text-zinc-500 dark:text-zinc-400 font-medium truncate">즉시 호출 가능 모델</div>
-              <div className="text-sm sm:text-xl font-bold text-zinc-900 dark:text-zinc-100 mt-0.5 truncate">
-                {availableModels} / {totalModels} <span className="text-[10px] sm:text-xs font-semibold text-emerald-600 dark:text-emerald-400">Ready</span>
+              <div className="text-[10px] sm:text-xs text-zinc-500 dark:text-zinc-400 font-medium truncate">활성 카탈로그 모델</div>
+              <div className="text-base sm:text-lg font-bold font-mono text-zinc-900 dark:text-zinc-100 mt-0.5 truncate">
+                {availableModels} <span className="text-xs text-zinc-400 font-sans font-normal">/ {totalModels}개 정상</span>
               </div>
             </div>
           </div>
@@ -613,14 +614,14 @@ const LiveClock = memo(function LiveClock() {
                 <span className="text-emerald-700 dark:text-emerald-400 font-semibold text-[11px]">Dual Quota Pool</span>
               </div>
 
-             {/* Pool 1: Gemini Models */}
-              <div className="bg-zinc-50 dark:bg-zinc-800/80 border border-zinc-200/90 dark:border-zinc-700/80 rounded-xl p-3 space-y-2.5">
+              {/* Pool 1: Gemini Models */}
+              <div className="bg-zinc-50/70 dark:bg-zinc-800/50 border border-zinc-200/60 dark:border-zinc-700/60 rounded-xl p-3 space-y-2.5">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-bold text-zinc-900 dark:text-zinc-200 flex items-center gap-1.5">
-                    <Sparkles className="w-3.5 h-3.5 text-blue-500" />
+                    <Sparkles className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
                     Gemini Models
                   </span>
-                  <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-blue-50 dark:bg-blue-950/80 text-blue-700 dark:text-blue-300 font-semibold border border-blue-200 dark:border-blue-800">
+                  <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-zinc-200/60 dark:bg-zinc-700/60 text-zinc-700 dark:text-zinc-300 font-medium">
                     Flash 3.7 & Pro 3.1
                   </span>
                 </div>
@@ -667,33 +668,33 @@ const LiveClock = memo(function LiveClock() {
               </div>
 
               {/* Pool 2: Claude and GPT models (복구 완료!) */}
-              <div className="bg-emerald-50/50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-900/60 rounded-xl p-3 space-y-2.5">
+              <div className="bg-zinc-50/70 dark:bg-zinc-800/50 border border-zinc-200/60 dark:border-zinc-700/60 rounded-xl p-3 space-y-2.5">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-bold text-zinc-900 dark:text-zinc-200 flex items-center gap-1.5">
                     <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
                     Claude and GPT models
                   </span>
-                  <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-100 dark:bg-emerald-900 text-emerald-800 dark:text-emerald-300 font-semibold border border-emerald-300 dark:border-emerald-700">
+                  <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-zinc-200/60 dark:bg-zinc-700/60 text-zinc-700 dark:text-zinc-300 font-medium">
                     {claudeExhausted ? "주간 쿼터 소진" : claudePool?.status === "unknown" ? "계측 대기" : "리밋 복구 완료 (Ready)"}
                   </span>
                 </div>
 
                 {/* Claude 5-Hour & Weekly (라이브) */}
                 <div className="grid grid-cols-2 gap-2 text-[11px]">
-                  <div className="bg-white/80 dark:bg-zinc-900/80 p-2 rounded-lg border border-emerald-200/60 dark:border-emerald-900/40">
+                  <div className="bg-white dark:bg-zinc-900 p-2 rounded-lg border border-zinc-200/60 dark:border-zinc-700/60">
                     <div className="text-[10px] text-zinc-500 dark:text-zinc-400 font-medium">5-Hour Limit</div>
-                    <div className="font-mono font-bold text-emerald-700 dark:text-emerald-400 text-sm mt-0.5">
-                      {claude5hRemaining != null ? viewMode === "remaining" ? `${fmtPct(claude5hRemaining)} 잔여` : `${fmtPct(claude5hUsed)} 사용` : "—"}
+                    <div className="font-mono font-bold text-emerald-600 dark:text-emerald-400 text-sm mt-0.5">
+                      {claude5hRemaining != null ? viewMode === "remaining" ? `${fmtPct(claude5hRemaining)} 잔여` : `${fmtPct(claude5hUsed)} 사용` : "Ready"}
                     </div>
                   </div>
-                  <div className="bg-white/80 dark:bg-zinc-900/80 p-2 rounded-lg border border-emerald-200/60 dark:border-emerald-900/40">
+                  <div className="bg-white dark:bg-zinc-900 p-2 rounded-lg border border-zinc-200/60 dark:border-zinc-700/60">
                     <div className="text-[10px] text-zinc-500 dark:text-zinc-400 font-medium">Weekly Limit</div>
-                    <div className="font-mono font-bold text-emerald-700 dark:text-emerald-400 text-sm mt-0.5">
-                      {claudeExhausted ? "소진" : "—"}
+                    <div className="font-mono font-bold text-emerald-600 dark:text-emerald-400 text-sm mt-0.5">
+                      {claudeExhausted ? "소진" : "Ready"}
                     </div>
                   </div>
                 </div>
-                <div className="text-[10px] text-emerald-800 dark:text-emerald-400 font-medium flex items-center gap-1">
+                <div className="text-[10px] text-zinc-600 dark:text-zinc-400 font-medium flex items-center gap-1">
                   <Zap className="w-3 h-3 text-amber-500" /> {claudeExhausted ? "Claude 주간 쿼터 소진 (5시간 창은 별도)" : "Claude Sonnet 4.6 & Opus 4.6 Thinking 정상 호출 가능"}
                 </div>
               </div>
@@ -702,10 +703,10 @@ const LiveClock = memo(function LiveClock() {
             <div className="space-y-1.5 pt-2.5 border-t border-zinc-100 dark:border-zinc-800">
               <div className="text-[10px] font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">주요 지원 모델</div>
               <div className="flex flex-wrap gap-1">
-                <span className="text-[11px] px-2 py-0.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 font-medium">Gemini 3.7 Flash</span>
-                <span className="text-[11px] px-2 py-0.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 font-medium">Gemini 3.1 Pro</span>
-                <span className="text-[11px] px-2 py-0.5 rounded-lg bg-purple-50 dark:bg-purple-950/60 border border-purple-200 dark:border-purple-800 text-purple-800 dark:text-purple-300 font-medium">Claude Sonnet 4.6</span>
-                <span className="text-[11px] px-2 py-0.5 rounded-lg bg-purple-50 dark:bg-purple-950/60 border border-purple-200 dark:border-purple-800 text-purple-800 dark:text-purple-300 font-medium">Claude Opus 4.6</span>
+                <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium">Gemini 3.7 Flash</span>
+                <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium">Gemini 3.1 Pro</span>
+                <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium">Claude Sonnet 4.6</span>
+                <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium">Claude Opus 4.6</span>
               </div>
             </div>
           </div>
@@ -728,8 +729,8 @@ const LiveClock = memo(function LiveClock() {
                 <span className="text-emerald-700 dark:text-emerald-400 font-semibold text-[11px]">3개 계정 풀링</span>
               </div>
 
-             {/* Monthly Quota Usage */}
-              <div className="bg-zinc-50 dark:bg-zinc-800/80 border border-zinc-200/90 dark:border-zinc-700/80 rounded-xl p-3 space-y-2">
+            {/* Monthly Quota Usage */}
+              <div className="bg-zinc-50/70 dark:bg-zinc-800/50 border border-zinc-200/60 dark:border-zinc-700/60 rounded-xl p-3 space-y-2">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-bold text-zinc-900 dark:text-zinc-200 flex items-center gap-1.5">
                     <Calendar className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
@@ -752,7 +753,7 @@ const LiveClock = memo(function LiveClock() {
               </div>
 
              {/* Pooled Accounts List */}
-              <div className="bg-zinc-50 dark:bg-zinc-800/80 border border-zinc-200/90 dark:border-zinc-700/80 rounded-xl p-3 space-y-1.5">
+              <div className="bg-zinc-50/70 dark:bg-zinc-800/50 border border-zinc-200/60 dark:border-zinc-700/60 rounded-xl p-3 space-y-1.5">
                 <div className="text-xs font-bold text-zinc-900 dark:text-zinc-200 flex items-center justify-between">
                   <span>풀링된 계정 목록 (3)</span>
                   <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold">순환 로테이션</span>
@@ -760,7 +761,7 @@ const LiveClock = memo(function LiveClock() {
                 <div className="space-y-1 font-mono text-[11px]">
                   <div className="flex items-center justify-between text-zinc-800 dark:text-zinc-300">
                     <span>• s***n@gmail.com</span>
-                    <span className="text-emerald-700 dark:text-emerald-400 font-bold text-[10px]">Active Main</span>
+                    <span className="text-emerald-600 dark:text-emerald-400 font-bold text-[10px]">Active Main</span>
                   </div>
                   <div className="flex items-center justify-between text-zinc-600 dark:text-zinc-400">
                     <span>• s***2@naver.com</span>
@@ -777,22 +778,22 @@ const LiveClock = memo(function LiveClock() {
             <div className="space-y-1.5 pt-2.5 border-t border-zinc-100 dark:border-zinc-800">
               <div className="text-[10px] font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">주요 모델 (128k Context)</div>
               <div className="flex flex-wrap gap-1">
-                <span className="text-[11px] px-2 py-0.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 font-medium">GPT-5.6 Sol</span>
-                <span className="text-[11px] px-2 py-0.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 font-medium">GPT-5.6 Terra</span>
-                <span className="text-[11px] px-2 py-0.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 font-medium">GPT-5.6 Luna</span>
+                <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium">GPT-5.6 Sol</span>
+                <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium">GPT-5.6 Terra</span>
+                <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium">GPT-5.6 Luna</span>
               </div>
             </div>
           </div>
 
          {/* 3. Alibaba Token Plan Card (Dynamic based on al.status) */}
-          <div className="w-full bg-white dark:bg-zinc-900 border border-zinc-200/90 dark:border-zinc-800 rounded-2xl p-4 sm:p-6 flex flex-col justify-between space-y-4 shadow-sm hover:shadow-md transition-shadow box-border overflow-hidden">
+          <div className="w-full bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800/80 rounded-2xl p-4 sm:p-6 flex flex-col justify-between space-y-4 shadow-sm hover:shadow-md transition-shadow box-border overflow-hidden">
             <div className="space-y-4">
               <div className="flex items-center justify-between gap-2">
                 <div className="flex items-center gap-2 min-w-0">
                   <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 shrink-0" />
                   <h2 className="text-base sm:text-lg font-bold text-zinc-900 dark:text-zinc-100 truncate">Alibaba Token Plan</h2>
                 </div>
-                <span className="text-[10px] sm:text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-400 shrink-0">
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium border border-zinc-200/60 dark:border-zinc-700/60 shrink-0">
                   {al.badge || "정상 가동 (Active)"}
                 </span>
               </div>
@@ -803,7 +804,7 @@ const LiveClock = memo(function LiveClock() {
               </div>
 
              {/* Weekly Quota Usage */}
-              <div className="bg-zinc-50 dark:bg-zinc-800/80 border border-zinc-200/90 dark:border-zinc-700/80 rounded-xl p-3 space-y-2">
+              <div className="bg-zinc-50/70 dark:bg-zinc-800/50 border border-zinc-200/60 dark:border-zinc-700/60 rounded-xl p-3 space-y-2">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-bold text-zinc-900 dark:text-zinc-200 flex items-center gap-1.5">
                     <Calendar className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
@@ -825,7 +826,7 @@ const LiveClock = memo(function LiveClock() {
               </div>
 
              {/* Reset Countdown */}
-              <div className="bg-zinc-50 dark:bg-zinc-800/80 border border-zinc-200/90 dark:border-zinc-700/80 rounded-xl p-3 space-y-1.5">
+              <div className="bg-zinc-50/70 dark:bg-zinc-800/50 border border-zinc-200/60 dark:border-zinc-700/60 rounded-xl p-3 space-y-1.5">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-bold text-zinc-900 dark:text-zinc-200 flex items-center gap-1.5">
                     <Zap className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
@@ -841,39 +842,39 @@ const LiveClock = memo(function LiveClock() {
               </div>
 
              {/* Promotion & Plan Highlights */}
-             <div className="bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-950/40 dark:to-orange-950/20 border border-amber-200 dark:border-amber-900/60 rounded-xl p-3 space-y-2">
+             <div className="bg-zinc-50/70 dark:bg-zinc-800/50 border border-zinc-200/60 dark:border-zinc-700/60 rounded-xl p-3 space-y-2">
                <div className="flex items-center justify-between">
-                 <span className="text-xs font-bold text-amber-950 dark:text-amber-300 flex items-center gap-1">
-                   <Sparkles className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
+                 <span className="text-xs font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-1">
+                   <Sparkles className="w-3.5 h-3.5 text-amber-500" />
                     야간 크레딧 50% 반값 할인 프로모션
                  </span>
-                  <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${isNightDiscountNow ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700 animate-pulse" : "bg-amber-200 text-amber-900 dark:bg-amber-900 dark:text-amber-200"}`}>
+                  <span className={`text-[10px] font-mono font-medium px-2 py-0.5 rounded-md ${isNightDiscountNow ? "bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700" : "bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-700"}`}>
                     {isNightDiscountNow ? "🌙 50% 야간 할인 적용 중!" : "☀️ 야간 23:00~09:00 할인"}
                   </span>
                 </div>
                 <div className="space-y-1 text-[11px] text-zinc-700 dark:text-zinc-300">
                   <div className="flex items-center justify-between font-mono">
                     <span>• <strong>qwen3.8-max</strong> (2.4T MoE)</span>
-                    <span className="text-emerald-700 dark:text-emerald-400 font-bold text-[10px]">50% Off (반값)</span>
+                    <span className="text-emerald-600 dark:text-emerald-400 font-bold text-[10px]">50% Off (반값)</span>
                   </div>
                   <div className="flex items-center justify-between font-mono">
                     <span>• <strong>deepseek-v4-pro-0813</strong> (Snapshot)</span>
-                    <span className="text-emerald-700 dark:text-emerald-400 font-bold text-[10px]">50% Off (반값)</span>
+                    <span className="text-emerald-600 dark:text-emerald-400 font-bold text-[10px]">50% Off (반값)</span>
                   </div>
                   <div className="text-[10px] text-zinc-500 dark:text-zinc-400 pt-0.5">
                     ※ 22:00~08:00 (UTC+8) = 23:00~09:00 (KST) 호출 시 크레딧 50% 절감
                   </div>
-                  <div className="text-[10px] text-blue-700 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/60 p-1.5 rounded border border-blue-200 dark:border-blue-800 font-mono">
+                  <div className="text-[10px] text-zinc-600 dark:text-zinc-400 bg-zinc-100 dark:bg-zinc-800 p-1.5 rounded font-mono">
                     ℹ️ qwen3.8-max-preview 호출 시 qwen3.8-max로 자동 라우팅
                   </div>
                 </div>
-                <div className="flex items-center justify-between text-[10px] text-amber-900 dark:text-amber-400 font-medium pt-0.5 border-t border-amber-200/60 dark:border-amber-900/40">
+                <div className="flex items-center justify-between text-[10px] text-zinc-500 dark:text-zinc-400 font-medium pt-0.5 border-t border-zinc-200/60 dark:border-zinc-700/60">
                   <span>공식 Model Studio 프로모션</span>
                   <a
                     href="https://www.alibabacloud.com/help/en/model-studio/token-plan-personal-overview#tpp01-h-models"
                     target="_blank"
                     rel="noreferrer"
-                    className="underline font-bold hover:text-amber-700 flex items-center gap-0.5"
+                    className="underline font-medium hover:text-zinc-900 dark:hover:text-zinc-100 flex items-center gap-0.5"
                   >
                     공식 가이드 ↗
                   </a>
@@ -884,10 +885,10 @@ const LiveClock = memo(function LiveClock() {
             <div className="space-y-1.5 pt-2.5 border-t border-zinc-100 dark:border-zinc-800">
               <div className="text-[10px] font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">주요 모델 (1M Context)</div>
               <div className="flex flex-wrap gap-1">
-                <span className="text-[11px] px-2 py-0.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 font-medium">Qwen 3.8 Max (1M)</span>
-                <span className="text-[11px] px-2 py-0.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 font-medium">Qwen 3.7 Plus (1M)</span>
-                <span className="text-[11px] px-2 py-0.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 font-medium">DeepSeek V4 Pro (1M)</span>
-                <span className="text-[11px] px-2 py-0.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 font-medium">GLM 5.2 (128k)</span>
+                <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium">Qwen 3.8 Max (1M)</span>
+                <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium">Qwen 3.7 Plus (1M)</span>
+                <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium">DeepSeek V4 Pro (1M)</span>
+                <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium">GLM 5.2 (128k)</span>
               </div>
             </div>
           </div>
@@ -895,7 +896,7 @@ const LiveClock = memo(function LiveClock() {
 
         {/* Model Capability & Pricing Matrix */}
         {/* Interactive Token Cost Calculator (실시간 토큰 단가 계산기) */}
-        <section aria-label="토큰 비용 계산기" className="w-full bg-white dark:bg-zinc-900 border border-zinc-200/90 dark:border-zinc-800 rounded-2xl p-4 sm:p-6 space-y-4 shadow-sm box-border">
+        <section aria-label="토큰 비용 계산기" className="w-full bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800/80 rounded-2xl p-4 sm:p-6 space-y-4 shadow-sm box-border">
           <button
             type="button"
             aria-expanded={showCalculator}
@@ -904,13 +905,13 @@ const LiveClock = memo(function LiveClock() {
             className="w-full flex items-center justify-between text-left cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded-xl p-1 -m-1"
           >
             <div className="flex items-center gap-2.5">
-              <div className="p-2 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-emerald-600 dark:text-emerald-400">
-                <Calculator className="w-5 h-5" />
+              <div className="p-2 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">
+                <Calculator className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
               </div>
               <div>
                 <h3 className="text-base font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
                   실시간 토큰 비용 시뮬레이터 (Token Cost Simulator)
-                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 font-mono">
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 font-medium border border-zinc-200/60 dark:border-zinc-700/60">
                     Interactive
                   </span>
                 </h3>
@@ -920,7 +921,7 @@ const LiveClock = memo(function LiveClock() {
               </div>
             </div>
 
-            <div className="text-xs font-semibold text-emerald-700 dark:text-emerald-400 flex items-center gap-1">
+            <div className="text-xs font-medium text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
               {showCalculator ? "접기" : "시뮬레이터 열기"}
               <ChevronRight className={`w-4 h-4 transition-transform ${showCalculator ? "rotate-90" : ""}`} />
             </div>
@@ -929,12 +930,12 @@ const LiveClock = memo(function LiveClock() {
           {showCalculator && (
             <div id="calculator-panel" className="pt-3 space-y-4 border-t border-zinc-100 dark:border-zinc-800">
              {/* Sliders Control */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-zinc-50 dark:bg-zinc-800/80 p-4 rounded-xl border border-zinc-200/90 dark:border-zinc-700/80">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-zinc-50/70 dark:bg-zinc-800/50 p-4 rounded-xl border border-zinc-200/60 dark:border-zinc-700/60">
                 {/* Input Tokens Slider */}
                 <div className="space-y-2">
                   <div className="flex items-center justify-between text-xs">
                     <label htmlFor="calc-input-tokens" className="font-bold text-zinc-700 dark:text-zinc-300">입력 프롬프트 토큰 (Input Tokens):</label>
-                    <span className="font-mono font-bold text-emerald-700 dark:text-emerald-400 text-sm">
+                    <span className="font-mono font-bold text-emerald-600 dark:text-emerald-400 text-sm">
                       {calcInputK.toLocaleString()}k ({((calcInputK * 1000) / 1000000).toFixed(2)}M)
                     </span>
                   </div>
@@ -961,7 +962,7 @@ const LiveClock = memo(function LiveClock() {
                 <div className="space-y-2">
                   <div className="flex items-center justify-between text-xs">
                     <label htmlFor="calc-output-tokens" className="font-bold text-zinc-700 dark:text-zinc-300">생성 출력 토큰 (Output Tokens):</label>
-                    <span className="font-mono font-bold text-emerald-700 dark:text-emerald-400 text-sm">
+                    <span className="font-mono font-bold text-emerald-600 dark:text-emerald-400 text-sm">
                       {calcOutputK.toLocaleString()}k ({((calcOutputK * 1000) / 1000000).toFixed(2)}M)
                     </span>
                   </div>
@@ -1011,8 +1012,8 @@ const LiveClock = memo(function LiveClock() {
                     key={item.id}
                     className={`p-3 rounded-xl border text-xs space-y-1 ${
                      idx === 0
-                       ? "bg-emerald-50 dark:bg-emerald-950/60 border-emerald-300 dark:border-emerald-700"
-                        : "bg-zinc-50 dark:bg-zinc-800/80 border-zinc-200 dark:border-zinc-700/80"
+                       ? "bg-emerald-50/50 dark:bg-emerald-950/30 border-emerald-300/80 dark:border-emerald-700/80"
+                       : "bg-zinc-50/70 dark:bg-zinc-800/50 border-zinc-200/60 dark:border-zinc-700/60"
                    }`}
                   >
                     <div className="flex items-center justify-between text-[10px]">
@@ -1021,7 +1022,7 @@ const LiveClock = memo(function LiveClock() {
                     </div>
                     <div className="font-bold text-zinc-900 dark:text-zinc-100 truncate">{item.name}</div>
                     <div className="text-[10px] text-zinc-500 dark:text-zinc-400 truncate">{item.providerName}</div>
-                    <div className="font-mono font-bold text-emerald-700 dark:text-emerald-400 text-sm pt-1">
+                    <div className="font-mono font-bold text-emerald-600 dark:text-emerald-400 text-sm pt-1">
                       ${item.totalCost.toFixed(4)}
                     </div>
                   </div>
@@ -1032,7 +1033,7 @@ const LiveClock = memo(function LiveClock() {
         </section>
 
         {/* Model Capability & Pricing Matrix */}
-        <section className="w-full bg-white dark:bg-zinc-900 border border-zinc-200/90 dark:border-zinc-800 rounded-2xl p-4 sm:p-6 space-y-4 shadow-sm box-border">
+        <section className="w-full bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800/80 rounded-2xl p-4 sm:p-6 space-y-4 shadow-sm box-border">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
               <div className="flex items-center gap-2 flex-wrap">
@@ -1060,7 +1061,7 @@ const LiveClock = memo(function LiveClock() {
                   placeholder="모델명 검색..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-xl pl-8 pr-3 py-1 text-xs text-zinc-800 dark:text-zinc-200 focus:outline-none focus:border-zinc-400 w-full sm:w-44 font-medium"
+                  className="bg-zinc-50 dark:bg-zinc-800 border border-zinc-200/80 dark:border-zinc-700/80 rounded-xl pl-8 pr-3 py-1.5 text-xs text-zinc-800 dark:text-zinc-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 w-full sm:w-44 font-medium"
                 />
               </div>
 
@@ -1069,7 +1070,7 @@ const LiveClock = memo(function LiveClock() {
                 aria-label="프로바이더 필터 선택"
                 value={filterProvider}
                 onChange={(e) => setFilterProvider(e.target.value)}
-                className="bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-xl px-2.5 py-1 text-xs text-zinc-700 dark:text-zinc-300 font-medium focus:outline-none cursor-pointer shrink-0"
+                className="bg-zinc-50 dark:bg-zinc-800 border border-zinc-200/80 dark:border-zinc-700/80 rounded-xl px-2.5 py-1.5 text-xs text-zinc-700 dark:text-zinc-300 font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 cursor-pointer shrink-0"
               >
                 <option value="all">전체 프로바이더</option>
                 <option value="google-antigravity">Google Antigravity</option>
@@ -1082,7 +1083,7 @@ const LiveClock = memo(function LiveClock() {
                 aria-label="모델 정렬 기준 선택"
                 value={sortBy}
                 onChange={(e: any) => setSortBy(e.target.value)}
-                className="bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-xl px-2.5 py-1 text-xs text-zinc-700 dark:text-zinc-300 font-medium focus:outline-none cursor-pointer shrink-0"
+                className="bg-zinc-50 dark:bg-zinc-800 border border-zinc-200/80 dark:border-zinc-700/80 rounded-xl px-2.5 py-1.5 text-xs text-zinc-700 dark:text-zinc-300 font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 cursor-pointer shrink-0"
               >
                 <option value="default">기본 정렬</option>
                 <option value="price">입력 단가 낮은 순</option>
@@ -1092,10 +1093,10 @@ const LiveClock = memo(function LiveClock() {
           </div>
 
           {/* Desktop Table View */}
-          <div className="hidden md:block overflow-x-auto border border-zinc-200 dark:border-zinc-800 rounded-xl bg-zinc-50/50 dark:bg-zinc-900/60">
+          <div className="hidden md:block overflow-x-auto border border-zinc-200/80 dark:border-zinc-800/80 rounded-xl bg-transparent">
             <table className="w-full text-left text-xs">
               <caption className="sr-only">전체 LLM 모델 단가 및 컨텍스트 스펙 표</caption>
-              <thead className="bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 uppercase tracking-wider font-semibold border-b border-zinc-200 dark:border-zinc-800">
+              <thead className="bg-zinc-50 dark:bg-zinc-800/60 text-zinc-500 dark:text-zinc-400 text-[11px] uppercase tracking-wider font-medium border-b border-zinc-200/80 dark:border-zinc-800/80">
                 <tr>
                   <th scope="col" className="py-3 px-4">모델 식별자 (ID)</th>
                   <th scope="col" className="py-3 px-4">프로바이더 / 풀</th>
@@ -1201,7 +1202,7 @@ const LiveClock = memo(function LiveClock() {
         </section>
 
         {/* Infrastructure & Auxiliary Services */}
-        <section className="w-full bg-white dark:bg-zinc-900 border border-zinc-200/90 dark:border-zinc-800 rounded-2xl p-4 sm:p-5 shadow-sm box-border">
+        <section className="w-full bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800/80 rounded-2xl p-4 sm:p-5 shadow-sm box-border">
           <div className="flex items-center justify-between mb-3">
             <div className="text-xs font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
               <HardDrive className="w-4 h-4 text-zinc-500 shrink-0" />
@@ -1211,31 +1212,31 @@ const LiveClock = memo(function LiveClock() {
           </div>
 
          <div className="grid grid-cols-2 md:grid-cols-5 gap-2.5 sm:gap-3 text-xs">
-            <div className="bg-zinc-50 dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700/80 rounded-xl p-2.5 min-w-0">
+            <div className="bg-zinc-50/70 dark:bg-zinc-800/50 border border-zinc-200/60 dark:border-zinc-700/60 rounded-xl p-2.5 min-w-0">
               <div className="text-zinc-500 dark:text-zinc-400 text-[11px] font-medium truncate">Google Antigravity</div>
               <div className="text-emerald-700 dark:text-emerald-400 font-bold mt-1 flex items-center gap-1.5 text-xs truncate">
               <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" /> Google AI Pro (4ms)
               </div>
             </div>
-            <div className="bg-zinc-50 dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700/80 rounded-xl p-2.5 min-w-0">
+            <div className="bg-zinc-50/70 dark:bg-zinc-800/50 border border-zinc-200/60 dark:border-zinc-700/60 rounded-xl p-2.5 min-w-0">
               <div className="text-zinc-500 dark:text-zinc-400 text-[11px] font-medium truncate">OpenCodex Proxy</div>
               <div className="text-emerald-700 dark:text-emerald-400 font-bold mt-1 flex items-center gap-1.5 text-xs truncate">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" /> 127.0.0.1:10100
               </div>
             </div>
-            <div className="bg-zinc-50 dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700/80 rounded-xl p-2.5 min-w-0">
+            <div className="bg-zinc-50/70 dark:bg-zinc-800/50 border border-zinc-200/60 dark:border-zinc-700/60 rounded-xl p-2.5 min-w-0">
               <div className="text-zinc-500 dark:text-zinc-400 text-[11px] font-medium truncate">Hermes Gateway</div>
               <div className="text-emerald-700 dark:text-emerald-400 font-bold mt-1 flex items-center gap-1.5 text-xs truncate">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" /> launchd (PID 33929)
               </div>
             </div>
-            <div className="bg-zinc-50 dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700/80 rounded-xl p-2.5 min-w-0">
+            <div className="bg-zinc-50/70 dark:bg-zinc-800/50 border border-zinc-200/60 dark:border-zinc-700/60 rounded-xl p-2.5 min-w-0">
               <div className="text-zinc-500 dark:text-zinc-400 text-[11px] font-medium truncate">ElevenLabs Voice</div>
               <div className="text-zinc-800 dark:text-zinc-200 font-bold mt-1 flex items-center gap-1.5 text-xs truncate">
                 <span className="w-2 h-2 rounded-full bg-sky-500 shrink-0" /> Voice Synth
               </div>
             </div>
-            <div className="bg-zinc-50 dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700/80 rounded-xl p-2.5 min-w-0">
+            <div className="bg-zinc-50/70 dark:bg-zinc-800/50 border border-zinc-200/60 dark:border-zinc-700/60 rounded-xl p-2.5 min-w-0">
               <div className="text-zinc-500 dark:text-zinc-400 text-[11px] font-medium truncate">Firecrawl Tool</div>
               <div className="text-zinc-800 dark:text-zinc-200 font-bold mt-1 flex items-center gap-1.5 text-xs truncate">
                 <span className="w-2 h-2 rounded-full bg-purple-500 shrink-0" /> Web Extract
