@@ -1,11 +1,11 @@
 {
-  "updatedAt": 1787122507826,
+  "updatedAt": 1787122807927,
   "environment": "Live Antigravity & ocx Telemetry",
   "catalogSync": {
     "isLiveConnected": true,
     "totalCatalogModels": 17,
-    "lastWeeklySpecUpdate": "2026-08-19 15:55:12 KST",
-    "nextWeeklySpecUpdate": "2026-08-26 15:55:12 KST"
+    "lastWeeklySpecUpdate": "2026-08-19 16:00:09 KST",
+    "nextWeeklySpecUpdate": "2026-08-26 16:00:09 KST"
   },
   "summary": {
     "totalProviders": 3,
@@ -229,32 +229,32 @@
     },
     "combo/Antigravity": {
       "daily": {
-        "input": 4270980,
-        "output": 59296,
-        "total": 4330276,
-        "cached": 486019665,
-        "requests": 62
+        "input": 6869762,
+        "output": 71457,
+        "total": 6941219,
+        "cached": 585108499,
+        "requests": 82
       },
       "weekly": {
-        "input": 5484518,
-        "output": 64528,
-        "total": 5549046,
-        "cached": 489155180,
-        "requests": 89
+        "input": 8083300,
+        "output": 76689,
+        "total": 8159989,
+        "cached": 588244014,
+        "requests": 109
       },
       "monthly": {
-        "input": 5484518,
-        "output": 64528,
-        "total": 5549046,
-        "cached": 489155180,
-        "requests": 89
+        "input": 8083300,
+        "output": 76689,
+        "total": 8159989,
+        "cached": 588244014,
+        "requests": 109
       },
       "allTime": {
-        "input": 5484518,
-        "output": 64528,
-        "total": 5549046,
-        "cached": 489155180,
-        "requests": 89
+        "input": 8083300,
+        "output": 76689,
+        "total": 8159989,
+        "cached": 588244014,
+        "requests": 109
       }
     },
     "alibaba-token-plan-intl/deepseek-v4-flash-0731": {
@@ -332,14 +332,14 @@
           "label": "5시간 롤링 한도",
           "remainingPercent": 91.0,
           "usagePercent": 9.0,
-          "resetAt": 1787131747826,
+          "resetAt": 1787132047927,
           "desc": "2시간 34분 후 완전 충전"
         },
         "weeklyWindow": {
           "label": "주간 누적 한도",
           "remainingPercent": 99.0,
           "usagePercent": 1.0,
-          "resetAt": 1787712907826,
+          "resetAt": 1787713207927,
           "desc": "6일 20시간 후 완전 충전"
         },
         "models": [
@@ -354,14 +354,14 @@
           "label": "5시간 롤링 한도",
           "remainingPercent": 100.0,
           "usagePercent": 0.0,
-          "resetAt": 1787140507826,
+          "resetAt": 1787140807927,
           "desc": "100% 잔여 (완전 충전됨)"
         },
         "weeklyWindow": {
           "label": "주간 누적 한도",
           "remainingPercent": 100.0,
           "usagePercent": 0.0,
-          "resetAt": 1787727307826,
+          "resetAt": 1787727607927,
           "desc": "100% 잔여 (완전 충전됨)"
         },
         "models": [
@@ -719,32 +719,32 @@
           "status": "active",
           "actualUsage": {
             "daily": {
-              "input": 4270980,
-              "output": 59296,
-              "total": 4330276,
-              "cached": 486019665,
-              "requests": 62
+              "input": 6869762,
+              "output": 71457,
+              "total": 6941219,
+              "cached": 585108499,
+              "requests": 82
             },
             "weekly": {
-              "input": 5484518,
-              "output": 64528,
-              "total": 5549046,
-              "cached": 489155180,
-              "requests": 89
+              "input": 8083300,
+              "output": 76689,
+              "total": 8159989,
+              "cached": 588244014,
+              "requests": 109
             },
             "monthly": {
-              "input": 5484518,
-              "output": 64528,
-              "total": 5549046,
-              "cached": 489155180,
-              "requests": 89
+              "input": 8083300,
+              "output": 76689,
+              "total": 8159989,
+              "cached": 588244014,
+              "requests": 109
             },
             "allTime": {
-              "input": 5484518,
-              "output": 64528,
-              "total": 5549046,
-              "cached": 489155180,
-              "requests": 89
+              "input": 8083300,
+              "output": 76689,
+              "total": 8159989,
+              "cached": 588244014,
+              "requests": 109
             }
           }
         }
@@ -759,7 +759,7 @@
       "account": "sk-s****HZew",
       "weeklyUsagePercent": 0.5,
       "weeklyRemainingPercent": 99.5,
-      "resetAt": 1787727307826,
+      "resetAt": 1787727607927,
       "message": "7일 쿼터 리셋 완료 (정상 가동 중)",
       "promotion": {
         "isPromoActive": true,
@@ -1553,32 +1553,32 @@
       "status": "active",
       "actualUsage": {
         "daily": {
-          "input": 4270980,
-          "output": 59296,
-          "total": 4330276,
-          "cached": 486019665,
-          "requests": 62
+          "input": 6869762,
+          "output": 71457,
+          "total": 6941219,
+          "cached": 585108499,
+          "requests": 82
         },
         "weekly": {
-          "input": 5484518,
-          "output": 64528,
-          "total": 5549046,
-          "cached": 489155180,
-          "requests": 89
+          "input": 8083300,
+          "output": 76689,
+          "total": 8159989,
+          "cached": 588244014,
+          "requests": 109
         },
         "monthly": {
-          "input": 5484518,
-          "output": 64528,
-          "total": 5549046,
-          "cached": 489155180,
-          "requests": 89
+          "input": 8083300,
+          "output": 76689,
+          "total": 8159989,
+          "cached": 588244014,
+          "requests": 109
         },
         "allTime": {
-          "input": 5484518,
-          "output": 64528,
-          "total": 5549046,
-          "cached": 489155180,
-          "requests": 89
+          "input": 8083300,
+          "output": 76689,
+          "total": 8159989,
+          "cached": 588244014,
+          "requests": 109
         }
       }
     },

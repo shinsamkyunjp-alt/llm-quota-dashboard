@@ -3,7 +3,7 @@
 import React, { useState, useMemo } from 'react';
 import {
   TrendingUp, BarChart3, DollarSign, Award, Zap, Activity,
-  Calendar, Layers, ArrowUpRight, Clock, Hash,
+  Calendar, Layers, ArrowUpRight, Clock, Hash, Sparkles, Moon,
 } from 'lucide-react';
 
 export interface ModelInfo {
@@ -59,16 +59,35 @@ const rankBtnBase = 'flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font
 const rankBtnOn = 'bg-white dark:bg-zinc-700 text-zinc-900 dark:text-zinc-100 shadow';
 const rankBtnOff = 'text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300';
 
-export default function LiveUsageTab({ models }: LiveUsageTabProps) {
+const isNightEligible = (id: string) =>
+  id === 'alibaba-token-plan-intl/qwen3.8-max' ||
+  id === 'alibaba-token-plan-intl/deepseek-v4-pro-0813' ||
+  id.includes('qwen3.8-max') ||
+  id.includes('deepseek-v4-pro');
+
+export default function LiveUsageTab({ models, isNightDiscountNow = false }: LiveUsageTabProps) {
   const [timeframe, setTimeframe]       = useState<Timeframe>('monthly');
   const [rankCriteria, setRankCriteria] = useState<RankCriteria>('tokens');
+  const [applyNightDiscount, setApplyNightDiscount] = useState<boolean>(isNightDiscountNow);
+  const [nightRatio, setNightRatio] = useState<number>(100);
 
   const rankedModels = useMemo(() => {
     return models
       .map(m => {
         const u = m.actualUsage?.[timeframe] ?? { input: 0, output: 0, total: 0, cached: 0, requests: 0 };
-        const costUSD = calcCostUSD(m, { input: u.input, output: u.output });
-        return { model: m, usage: u, costUSD };
+        const rawCostUSD = calcCostUSD(m, { input: u.input, output: u.output });
+        const eligible = isNightEligible(m.id);
+        
+        let costUSD = rawCostUSD;
+        let discountSavedUSD = 0;
+        
+        if (eligible && applyNightDiscount) {
+          const effectiveDiscountRate = 0.5 * (nightRatio / 100);
+          costUSD = rawCostUSD * (1 - effectiveDiscountRate);
+          discountSavedUSD = rawCostUSD - costUSD;
+        }
+
+        return { model: m, usage: u, costUSD, rawCostUSD, discountSavedUSD, isEligible: eligible };
       })
       .filter(item => item.usage.total > 0)
       .sort((a, b) => {
@@ -76,7 +95,7 @@ export default function LiveUsageTab({ models }: LiveUsageTabProps) {
         if (rankCriteria === 'cost')     return b.costUSD        - a.costUSD;
         return b.usage.requests - a.usage.requests;
       });
-  }, [models, timeframe, rankCriteria]);
+  }, [models, timeframe, rankCriteria, applyNightDiscount, nightRatio]);
 
   const totals = useMemo(() => ({
     allTokens: rankedModels.reduce((s, r) => s + r.usage.total,    0),
@@ -84,6 +103,7 @@ export default function LiveUsageTab({ models }: LiveUsageTabProps) {
     allReqs:   rankedModels.reduce((s, r) => s + r.usage.requests, 0),
     allInput:  rankedModels.reduce((s, r) => s + r.usage.input,    0),
     allOutput: rankedModels.reduce((s, r) => s + r.usage.output,   0),
+    allSaved:  rankedModels.reduce((s, r) => s + r.discountSavedUSD, 0),
   }), [rankedModels]);
 
   const providerStats = useMemo(() => {
@@ -125,13 +145,89 @@ export default function LiveUsageTab({ models }: LiveUsageTabProps) {
         </div>
       </div>
 
+      {/* Night 50% Discount Simulator Control Bar */}
+      <div className="bg-gradient-to-r from-amber-500/10 via-amber-500/5 to-transparent border border-amber-300/60 dark:border-amber-700/50 rounded-2xl p-3 sm:p-4 space-y-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5">
+            <div className="p-2 rounded-xl bg-amber-500/15 text-amber-600 dark:text-amber-400 shrink-0">
+              <Moon className="w-4 h-4" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="text-xs sm:text-sm font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-1.5">
+                  알리바바 야간 50% 반값 할인 요율 시뮬레이터
+                </span>
+                <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded-full border ${
+                  isNightDiscountNow
+                    ? "bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 border-emerald-300 dark:border-emerald-700"
+                    : "bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border-amber-300 dark:border-amber-700"
+                }`}>
+                  {isNightDiscountNow ? "🌙 현재 야간 할인 시간대 적용 가능 (23:00~09:00 KST)" : "☀️ 야간 프로모션: 23:00 ~ 09:00 KST (50% OFF)"}
+                </span>
+              </div>
+              <p className="text-[11px] text-zinc-600 dark:text-zinc-400 mt-0.5">
+                대상 모델: <strong className="font-semibold text-zinc-800 dark:text-zinc-200">Qwen 3.8 Max</strong>, <strong className="font-semibold text-zinc-800 dark:text-zinc-200">DeepSeek V4 Pro</strong> (야간 시간대 사용 시 50% 요율 감면)
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3 self-start sm:self-auto shrink-0">
+            <label className="flex items-center gap-2 cursor-pointer select-none text-xs font-bold text-zinc-800 dark:text-zinc-200 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 px-3 py-2 rounded-xl shadow-sm hover:border-amber-400 transition-colors">
+              <input
+                type="checkbox"
+                checked={applyNightDiscount}
+                onChange={(e) => setApplyNightDiscount(e.target.checked)}
+                className="w-4 h-4 accent-amber-600 rounded cursor-pointer"
+              />
+              <span>50% 야간 요율 적용</span>
+            </label>
+          </div>
+        </div>
+
+        {applyNightDiscount && (
+          <div className="pt-2 border-t border-amber-200/60 dark:border-amber-800/40 flex flex-wrap items-center justify-between gap-2 text-xs">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="text-zinc-600 dark:text-zinc-400 font-medium">야간 시간대 사용 비중:</span>
+              <div className="flex gap-1 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg p-0.5">
+                {[
+                  { label: '30% 야간', val: 30 },
+                  { label: '50% 혼합', val: 50 },
+                  { label: '80% 주로 야간', val: 80 },
+                  { label: '100% 야간 집중 (최대 절감)', val: 100 },
+                ].map((item) => (
+                  <button
+                    key={item.val}
+                    type="button"
+                    onClick={() => setNightRatio(item.val)}
+                    className={`px-2.5 py-1 rounded-md text-[11px] font-bold transition-all ${
+                      nightRatio === item.val
+                        ? 'bg-amber-500 text-white shadow-sm'
+                        : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100'
+                    }`}
+                  >
+                    {item.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {totals.allSaved > 0 && (
+              <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-100 dark:bg-emerald-950/70 border border-emerald-300 dark:border-emerald-700 text-emerald-800 dark:text-emerald-300 font-mono font-bold text-[11px]">
+                <Sparkles className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                <span>야간 할인 절감액: -{fmtCost(totals.allSaved)} ({fmtKrw(totals.allSaved)} 절약)</span>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         <SummaryCard icon={<Layers className="w-4 h-4" />} label="총 토큰 사용량"
           value={fmtTokens(totals.allTokens)}
           sub={'입력 ' + fmtTokens(totals.allInput) + ' / 출력 ' + fmtTokens(totals.allOutput)} color="blue" />
         <SummaryCard icon={<DollarSign className="w-4 h-4" />} label="총 소모 비용"
           value={'$' + totals.allCost.toFixed(2)}
-          sub={fmtKrw(totals.allCost)} color="emerald" />
+          sub={totals.allSaved > 0 ? `${fmtKrw(totals.allCost)} (절감 -${fmtCost(totals.allSaved)})` : fmtKrw(totals.allCost)} color="emerald" />
         <SummaryCard icon={<Hash className="w-4 h-4" />} label="총 API 호출"
           value={totals.allReqs.toLocaleString() + '회'}
           sub={rankedModels.length + '개 모델 사용됨'} color="violet" />
@@ -217,6 +313,9 @@ export default function LiveUsageTab({ models }: LiveUsageTabProps) {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
                         <span className="text-sm font-semibold text-zinc-800 dark:text-zinc-200 truncate">{model.name}</span>
+                        {row.discountSavedUSD > 0 ? (
+                          <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-700 font-bold flex-shrink-0">🌙 50% 야간 요율 (-{fmtCost(row.discountSavedUSD)})</span>
+                        ) : null}
                         {model.tag ? <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-zinc-200/70 dark:bg-zinc-700/70 text-zinc-600 dark:text-zinc-400 font-medium flex-shrink-0">{model.tag}</span> : null}
                       </div>
                       <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-xs text-zinc-500 dark:text-zinc-400">
@@ -227,6 +326,9 @@ export default function LiveUsageTab({ models }: LiveUsageTabProps) {
                       </div>
                     </div>
                     <div className="text-right flex-shrink-0">
+                      {row.discountSavedUSD > 0 && (
+                        <div className="text-[10px] text-zinc-400 line-through">{fmtCost(row.rawCostUSD)}</div>
+                      )}
                       <div className="text-sm font-bold text-zinc-800 dark:text-zinc-100">{fmtCost(costUSD)}</div>
                       <div className="text-xs text-zinc-400 dark:text-zinc-500">{fmtKrw(costUSD)}</div>
                     </div>
@@ -258,6 +360,9 @@ export default function LiveUsageTab({ models }: LiveUsageTabProps) {
                   <tr key={model.id} className={'border-b border-zinc-100 dark:border-zinc-800/60 ' + (idx % 2 !== 0 ? 'bg-zinc-50/40 dark:bg-zinc-800/20' : '')}>
                     <td className="py-2 pl-1">
                       <div className="font-medium text-zinc-800 dark:text-zinc-200">{model.name}</div>
+                      {row.discountSavedUSD > 0 && (
+                        <div className="text-[9px] text-amber-600 dark:text-amber-400 font-bold font-mono">🌙 50% 야간 할인 반영됨 (-{fmtCost(row.discountSavedUSD)})</div>
+                      )}
                       <div className="text-zinc-400 dark:text-zinc-600 text-[10px]">{model.providerName}</div>
                     </td>
                     <td className="py-2 text-right text-zinc-600 dark:text-zinc-400 font-mono">{fmtTokens(usage.input)}</td>
