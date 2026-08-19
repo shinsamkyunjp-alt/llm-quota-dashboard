@@ -9,6 +9,7 @@ import json
 import subprocess
 import time
 import os
+import glob
 import datetime
 import urllib.request
 
@@ -284,6 +285,77 @@ def collect_telemetry():
     except Exception as e:
         print(f"Alibaba probe note: {e}")
 
+    # 4. Collect actual cumulative token usage from session telemetry
+    session_dir = os.path.expanduser("~/.codex/sessions")
+    session_files = glob.glob(f"{session_dir}/**/*.jsonl", recursive=True)
+    one_day_ms = 24 * 3600 * 1000
+    seven_days_ms = 7 * one_day_ms
+    thirty_days_ms = 30 * one_day_ms
+
+    actual_usage_map = {}
+    def get_stat(mid):
+        if mid not in actual_usage_map:
+            actual_usage_map[mid] = {
+                "daily": {"input": 0, "output": 0, "total": 0, "cached": 0, "requests": 0},
+                "weekly": {"input": 0, "output": 0, "total": 0, "cached": 0, "requests": 0},
+                "monthly": {"input": 0, "output": 0, "total": 0, "cached": 0, "requests": 0},
+                "allTime": {"input": 0, "output": 0, "total": 0, "cached": 0, "requests": 0}
+            }
+        return actual_usage_map[mid]
+
+    for f in session_files:
+        try:
+            current_model = "google-antigravity/gemini-3.7-flash"
+            prev_in = 0
+            prev_out = 0
+            with open(f, "r", encoding="utf-8", errors="ignore") as fp:
+                for line in fp:
+                    line = line.strip()
+                    if not line:
+                        continue
+                    try:
+                        obj = json.loads(line)
+                        ts_str = obj.get("timestamp")
+                        ts = int(datetime.datetime.fromisoformat(ts_str.replace("Z", "+00:00")).timestamp() * 1000) if ts_str else now_ms
+                        age = now_ms - ts
+
+                        payload = obj.get("payload", {})
+                        if isinstance(payload, dict):
+                            if payload.get("model"):
+                                m_raw = payload["model"]
+                                if m_raw == "alibaba-token-plan-intl/qwen3.8-max-preview":
+                                    current_model = "alibaba-token-plan-intl/qwen3.8-max"
+                                elif m_raw == "google-antigravity/gemini-3.6-flash":
+                                    current_model = "google-antigravity/gemini-3.7-flash"
+                                else:
+                                    current_model = m_raw
+
+                            info = payload.get("info", {})
+                            if isinstance(info, dict) and "total_token_usage" in info:
+                                u = info["total_token_usage"]
+                                in_tokens = u.get("input_tokens", 0)
+                                out_tokens = u.get("output_tokens", 0)
+                                cached_tokens = u.get("cached_input_tokens", 0)
+
+                                delta_in = max(0, in_tokens - prev_in)
+                                delta_out = max(0, out_tokens - prev_out)
+                                delta_tot = delta_in + delta_out
+                                prev_in = in_tokens
+                                prev_out = out_tokens
+
+                                entry = get_stat(current_model)
+                                for p_key, max_a in [("daily", one_day_ms), ("weekly", seven_days_ms), ("monthly", thirty_days_ms), ("allTime", float("inf"))]:
+                                    if age <= max_a:
+                                        entry[p_key]["input"] += delta_in
+                                        entry[p_key]["output"] += delta_out
+                                        entry[p_key]["total"] += delta_tot
+                                        entry[p_key]["cached"] += cached_tokens
+                                        entry[p_key]["requests"] += 1
+                    except:
+                        pass
+        except:
+            pass
+
     # Build model list
     model_list = []
     ready_count = 0
@@ -312,7 +384,13 @@ def collect_telemetry():
             "speed": meta["speed"],
             "reasoning": meta["reasoning"],
             "tag": meta.get("tag", "Active"),
-            "status": status
+            "status": status,
+            "actualUsage": actual_usage_map.get(mid, {
+                "daily": {"input": 0, "output": 0, "total": 0, "cached": 0, "requests": 0},
+                "weekly": {"input": 0, "output": 0, "total": 0, "cached": 0, "requests": 0},
+                "monthly": {"input": 0, "output": 0, "total": 0, "cached": 0, "requests": 0},
+                "allTime": {"input": 0, "output": 0, "total": 0, "cached": 0, "requests": 0}
+            })
         })
 
     # Providers summary
@@ -434,6 +512,7 @@ def collect_telemetry():
             "availableModelCount": ready_count,
             "rateLimitedModelCount": cooldown_count
         },
+        "actualUsageMap": actual_usage_map,
         "providers": providers,
         "allModels": model_list,
         "integrations": [
