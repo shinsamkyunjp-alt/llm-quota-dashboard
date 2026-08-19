@@ -20,8 +20,12 @@ import {
   Moon,
   Calculator,
   Compass,
+  BarChart3,
+  Activity,
+  TrendingUp,
   ChevronRight
 } from 'lucide-react';
+import LiveUsageTab from '@/components/LiveUsageTab';
 
 interface ModelInfo {
   id: string;
@@ -176,6 +180,7 @@ export default function QuotaDashboard() {
   const [calcInputK, setCalcInputK] = useState<number>(200);
   const [calcOutputK, setCalcOutputK] = useState<number>(20);
   const [applyNightDiscount, setApplyNightDiscount] = useState<boolean>(false);
+  const [activeTab, setActiveTab] = useState<'quota' | 'live-usage'>('quota');
 
   useEffect(() => {
     const saved = localStorage.getItem('llm_dashboard_theme');
@@ -541,6 +546,46 @@ const LiveClock = memo(function LiveClock() {
             </button>
           </div>
         </header>
+
+        {/* Primary Navigation Tabs */}
+        <nav aria-label="대시보드 메인 탭 선택" className="w-full flex items-center justify-between gap-2 bg-white dark:bg-zinc-900 border border-zinc-200/90 dark:border-zinc-800 rounded-2xl p-1.5 sm:p-2 shadow-sm box-border">
+          <div className="flex items-center gap-1.5 sm:gap-2 w-full sm:w-auto flex-1">
+            <button
+              type="button"
+              onClick={() => setActiveTab('quota')}
+              className={`flex-1 sm:flex-initial flex items-center justify-center gap-2 px-3.5 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all ${
+                activeTab === 'quota'
+                  ? 'bg-emerald-600 dark:bg-emerald-500 text-white shadow-md shadow-emerald-600/20'
+                  : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-800/80'
+              }`}
+            >
+              <Layers className="w-4 h-4 shrink-0" />
+              <span>쿼터 & 리셋 관제 (Quota)</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveTab('live-usage')}
+              className={`flex-1 sm:flex-initial flex items-center justify-center gap-2 px-3.5 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all ${
+                activeTab === 'live-usage'
+                  ? 'bg-emerald-600 dark:bg-emerald-500 text-white shadow-md shadow-emerald-600/20'
+                  : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-800/80'
+              }`}
+            >
+              <Activity className="w-4 h-4 shrink-0" />
+              <div className="flex items-center gap-1.5">
+                <span>Live Usage & 토큰 예측</span>
+                <span className={`text-[10px] font-mono px-1.5 py-0.2 rounded-full font-bold ${
+                  activeTab === 'live-usage' ? 'bg-white/20 text-white' : 'bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300'
+                }`}>
+                  NEW
+                </span>
+              </div>
+            </button>
+          </div>
+        </nav>
+
+        {activeTab === 'quota' ? (
+          <>
 
         {/* KPI Overview Strip */}
         <section className="w-full grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4 box-border">
@@ -1239,11 +1284,15 @@ const LiveClock = memo(function LiveClock() {
             <div className="bg-zinc-50/70 dark:bg-zinc-800/50 border border-zinc-200/60 dark:border-zinc-700/60 rounded-xl p-2.5 min-w-0">
               <div className="text-zinc-500 dark:text-zinc-400 text-[11px] font-medium truncate">Firecrawl Tool</div>
               <div className="text-zinc-800 dark:text-zinc-200 font-bold mt-1 flex items-center gap-1.5 text-xs truncate">
-                <span className="w-2 h-2 rounded-full bg-purple-500 shrink-0" /> Web Extract
+              <span className="w-2 h-2 rounded-full bg-purple-500 shrink-0" /> Web Extract
               </div>
             </div>
           </div>
         </section>
+          </>
+        ) : (
+          <LiveUsageTab models={rawModels} isNightDiscountNow={isNightDiscountNow} />
+        )}
 
         {/* Footer */}
         <footer className="text-center text-xs text-zinc-500 dark:text-zinc-400 pt-2 pb-6 space-y-1">

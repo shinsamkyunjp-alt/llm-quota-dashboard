@@ -1,11 +1,11 @@
 {
-  "updatedAt": 1786929908241,
+  "updatedAt": 1787115003610,
   "environment": "Live Mac Daemon (Realtime Sync)",
   "catalogSync": {
     "isLiveConnected": true,
     "totalCatalogModels": 16,
-    "lastWeeklySpecUpdate": "2026-08-17 10:25:10 KST",
-    "nextWeeklySpecUpdate": "2026-08-24 10:25:10 KST"
+    "lastWeeklySpecUpdate": "2026-08-19 13:50:06 KST",
+    "nextWeeklySpecUpdate": "2026-08-26 13:50:06 KST"
   },
   "summary": {
     "totalProviders": 3,
@@ -22,12 +22,12 @@
       "name": "Google Antigravity",
       "status": "healthy",
       "account": "s***1@gmail.com",
-      "usagePercent": 9.11,
-      "resetAt": 1786930526000,
+      "usagePercent": 7.54,
+      "resetAt": 1787129353000,
       "fiveHourWindow": {
         "label": "Gemini 5시간 롤링 사용량",
-        "usagePercent": 9.11,
-        "resetAt": 1786930526000
+        "usagePercent": 7.54,
+        "resetAt": 1787129353000
       },
       "weeklyWindow": {
         "label": "Gemini 주간 누적 사용량",
@@ -38,8 +38,8 @@
         "label": "Claude (3rd Party)",
         "status": "healthy",
         "badge": null,
-        "fiveHourUsagePercent": 0,
-        "fiveHourResetAt": 1786947908000,
+        "fiveHourUsagePercent": 43.59,
+        "fiveHourResetAt": 1787132136000,
         "models": [
           "Sonnet 4.6",
           "Opus 4.6 Thinking"
@@ -112,7 +112,7 @@
         "s***2@naver.com",
         "s***9@gmail.com"
       ],
-      "monthlyUsagePercent": 0,
+      "monthlyUsagePercent": 1,
       "monthlyResetAt": 1789487056000,
       "models": [
         {
@@ -178,7 +178,7 @@
       "account": "sk-s****HZew",
       "weeklyUsagePercent": null,
       "weeklyRemainingPercent": null,
-      "resetAt": 1787534708241,
+      "resetAt": 1787719803610,
       "message": "주간 사용률 계측 불가 · HTTP 429 미발생 (정상)",
       "models": [
         {
