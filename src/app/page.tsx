@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect, useMemo, useCallback, memo } from 'react';
 import {
-  RefreshCw,
   Clock,
   ShieldCheck,
   AlertTriangle,
@@ -324,15 +323,11 @@ export default function QuotaDashboard() {
 
   useEffect(() => {
     fetchTelemetry();
-  }, []);
-
-  useEffect(() => {
-    if (refreshInterval <= 0) return;
     const interval = setInterval(() => {
       fetchTelemetry();
-    }, refreshInterval * 1000);
+    }, 15000);
     return () => clearInterval(interval);
-  }, [refreshInterval, fetchTelemetry]);
+  }, [fetchTelemetry]);
 
   const ag = data.antigravity || DEFAULT_TELEMETRY.antigravity;
   const oa = data.openai || DEFAULT_TELEMETRY.openai;
@@ -555,33 +550,6 @@ const LiveClock = memo(function LiveClock() {
             </button>
 
             <LiveClock />
-
-            <div className="flex items-center bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-xl px-2 py-1.5 text-[11px] sm:text-xs shrink-0">
-              <label htmlFor="refresh-interval-select" className="text-zinc-500 dark:text-zinc-400 mr-1 font-medium">갱신:</label>
-              <select
-                id="refresh-interval-select"
-                aria-label="데이터 자동 갱신 주기"
-                value={refreshInterval}
-                onChange={(e) => setRefreshInterval(Number(e.target.value))}
-                className="bg-transparent text-zinc-800 dark:text-zinc-200 font-semibold focus:outline-none cursor-pointer"
-              >
-                <option value={5} className="dark:bg-zinc-800">5초</option>
-                <option value={15} className="dark:bg-zinc-800">15초</option>
-                <option value={30} className="dark:bg-zinc-800">30초</option>
-                <option value={0} className="dark:bg-zinc-800">수동</option>
-              </select>
-            </div>
-
-            <button
-              type="button"
-              onClick={() => fetchTelemetry(true)}
-              disabled={loading}
-              aria-label="실시간 데이터 수동 동기화"
-              className="flex items-center gap-1 bg-emerald-700 hover:bg-emerald-800 text-white px-3 py-1.5 rounded-xl text-[11px] sm:text-xs font-semibold transition-all shadow-sm active:scale-95 disabled:opacity-50 shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
-            >
-              <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
-              <span>동기화</span>
-            </button>
           </div>
         </header>
 
