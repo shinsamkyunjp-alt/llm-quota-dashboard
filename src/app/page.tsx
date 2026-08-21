@@ -163,10 +163,20 @@ const DEFAULT_TELEMETRY = {
   ]
 };
 
+const INITIAL_NIGHT_TIME = false;
+
+const TIME_FMT = new Intl.DateTimeFormat('ko-KR', {
+  hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false, timeZone: 'Asia/Seoul',
+});
+
+function formatTime(date: Date | null): string {
+  return date ? TIME_FMT.format(date) : '--:--:--';
+}
+
 export default function QuotaDashboard() {
   const [data, setData] = useState<any>(DEFAULT_TELEMETRY);
   const [loading, setLoading] = useState(false);
-  const [lastSync, setLastSync] = useState<Date>(() => new Date());
+  const [lastSync, setLastSync] = useState<Date | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterProvider, setFilterProvider] = useState<string>('all');
   const [sortBy, setSortBy] = useState<'default' | 'price' | 'context' | 'speed'>('default');
@@ -187,6 +197,7 @@ export default function QuotaDashboard() {
     if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
       setIsDarkMode(true);
     }
+    setLastSync(new Date());
   }, []);
 
   useEffect(() => {
@@ -203,7 +214,7 @@ export default function QuotaDashboard() {
     }
   }, [isDarkMode]);
 
-  const fetchTelemetry = async (manual = false) => {
+  const fetchTelemetry = useCallback(async (manual = false) => {
     try {
       setLoading(true);
       const res = await fetch('/api/quota', { cache: 'no-store' });
@@ -251,19 +262,26 @@ export default function QuotaDashboard() {
         };
 
         const claudeExhausted = liveClaude.status === "exhausted";
-        const claude5hUsed = typeof liveClaude.fiveHourUsagePercent === "number" ? liveClaude.fiveHourUsagePercent : null;
+        const claude5hUsed = typeof liveClaude.fiveHourWindow?.usagePercent === "number" ? liveClaude.fiveHourWindow.usagePercent : (typeof liveClaude.fiveHourUsagePercent === "number" ? liveClaude.fiveHourUsagePercent : 0);
+        const claude5hRemaining = typeof liveClaude.fiveHourWindow?.remainingPercent === "number" ? liveClaude.fiveHourWindow.remainingPercent : (claude5hUsed != null ? Math.max(0, 100 - claude5hUsed) : 100);
+        const claudeWeeklyUsed = typeof liveClaude.weeklyWindow?.usagePercent === "number" ? liveClaude.weeklyWindow.usagePercent : (typeof liveClaude.weeklyUsagePercent === "number" ? liveClaude.weeklyUsagePercent : 0);
+        const claudeWeeklyRemaining = typeof liveClaude.weeklyWindow?.remainingPercent === "number" ? liveClaude.weeklyWindow.remainingPercent : (claudeWeeklyUsed != null ? Math.max(0, 100 - claudeWeeklyUsed) : 100);
+
         const claudeGptPool = {
           label: "Claude and GPT models",
           status: claudeExhausted ? "exhausted" : "healthy",
           fiveHourWindow: {
             label: "5시간 롤링 한도",
             usagePercent: claude5hUsed,
-            remainingPercent: claude5hUsed != null ? Math.max(0, 100 - claude5hUsed) : null,
-            resetAt: liveClaude.fiveHourResetAt || null,
+            remainingPercent: claude5hRemaining,
+            resetAt: liveClaude.fiveHourWindow?.resetAt || liveClaude.fiveHourResetAt || null,
             desc: ""
           },
           weeklyWindow: {
             label: "주간 누적 한도",
+            usagePercent: claudeWeeklyUsed,
+            remainingPercent: claudeWeeklyRemaining,
+            resetAt: liveClaude.weeklyWindow?.resetAt || liveClaude.weeklyResetAt || null,
             status: claudeExhausted ? "exhausted" : "healthy",
             badge: liveClaude.badge || null,
             desc: claudeExhausted ? "주간 쿼터 소진" : ""
@@ -302,7 +320,7 @@ export default function QuotaDashboard() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchTelemetry();
@@ -331,15 +349,17 @@ const clampPct = (n?: number | null) => Math.min(100, Math.max(0, n ?? 0));
 
 // ── 고성능 독립 카운트다운 컴포넌트 (초당 부모 리렌더링 차단) ──
 const CountdownTimer = memo(function CountdownTimer({ targetTimestamp }: { targetTimestamp?: number | null }) {
-  const [now, setNow] = useState(() => Date.now());
+  const [now, setNow] = useState<number | null>(null);
 
   useEffect(() => {
     if (!targetTimestamp) return;
+    setNow(Date.now());
     const interval = setInterval(() => setNow(Date.now()), 1000);
     return () => clearInterval(interval);
   }, [targetTimestamp]);
 
-  if (!targetTimestamp) return <span className="font-mono text-zinc-400 dark:text-zinc-500">N/A</span>;
+  if (!targetTimestamp) return <span className="font-mono text-zinc-600 dark:text-zinc-300">N/A</span>;
+  if (now == null) return <span className="font-mono text-zinc-600 dark:text-zinc-300">--:--:--</span>;
   
   const diff = targetTimestamp - now;
   if (diff <= 0) return <span className="font-mono text-emerald-600 dark:text-emerald-400 font-semibold">00:00:00 (리셋 완료)</span>;
@@ -361,7 +381,7 @@ const LiveClock = memo(function LiveClock() {
   const [timeStr, setTimeStr] = useState<string>('--:--:--');
 
   useEffect(() => {
-    const update = () => setTimeStr(new Date().toLocaleTimeString('ko-KR', { hour12: false }));
+    const update = () => setTimeStr(formatTime(new Date()));
     update();
     const interval = setInterval(update, 1000);
     return () => clearInterval(interval);
@@ -388,6 +408,8 @@ const LiveClock = memo(function LiveClock() {
   const claude5hUsed = claudePool?.fiveHourWindow?.usagePercent ?? null;
   const claude5hRemaining = claudePool?.fiveHourWindow?.remainingPercent ?? (claude5hUsed != null ? Math.max(0, 100 - claude5hUsed) : null);
   const claudeWeekly = claudePool?.weeklyWindow;
+  const claudeWeeklyUsed = claudeWeekly?.usagePercent ?? (claudeExhausted ? 100 : null);
+  const claudeWeeklyRemaining = claudeWeekly?.remainingPercent ?? (claudeWeeklyUsed != null ? Math.max(0, 100 - claudeWeeklyUsed) : (claudeExhausted ? 0 : null));
 
   const oaUsed = oa.monthlyUsagePercent ?? null;
   const oaRemaining = oa.monthlyRemainingPercent ?? (oaUsed != null ? Math.max(0, 100 - oaUsed) : null);
@@ -404,9 +426,11 @@ const LiveClock = memo(function LiveClock() {
   const totalModels = activeModels || rawModels.length;
 
   // 알리바바 야간 50% 할인 시간대 판별 (22:00 ~ 08:00 UTC+8 = 23:00 ~ 09:00 KST)
-  const isNightDiscountNow = useMemo(() => {
+  const [isNightDiscountNow, setIsNightDiscountNow] = useState<boolean>(INITIAL_NIGHT_TIME);
+
+  useEffect(() => {
     const kstHour = new Date().getHours();
-    return kstHour >= 23 || kstHour < 9;
+    setIsNightDiscountNow(kstHour >= 23 || kstHour < 9);
   }, []);
 
   const filteredModels = useMemo(() => {
@@ -539,7 +563,7 @@ const LiveClock = memo(function LiveClock() {
               onClick={() => fetchTelemetry(true)}
               disabled={loading}
               aria-label="실시간 데이터 수동 동기화"
-              className="flex items-center gap-1 bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-500 dark:hover:bg-emerald-600 text-white px-3 py-1.5 rounded-xl text-[11px] sm:text-xs font-semibold transition-all shadow-sm active:scale-95 disabled:opacity-50 shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+              className="flex items-center gap-1 bg-emerald-700 hover:bg-emerald-800 text-white px-3 py-1.5 rounded-xl text-[11px] sm:text-xs font-semibold transition-all shadow-sm active:scale-95 disabled:opacity-50 shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
             >
               <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
               <span>동기화</span>
@@ -637,7 +661,7 @@ const LiveClock = memo(function LiveClock() {
                   <span className={`text-[9px] font-mono px-1 py-0.2 rounded-full font-bold ${
                     activeTab === 'live-usage'
                       ? 'bg-indigo-100 dark:bg-indigo-950 text-indigo-800 dark:text-indigo-300'
-                      : 'bg-zinc-200 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-400'
+                      : 'bg-zinc-200 dark:bg-zinc-600 text-zinc-600 dark:text-zinc-200'
                   }`}>
                     LIVE
                   </span>
@@ -775,7 +799,7 @@ const LiveClock = memo(function LiveClock() {
                 </div>
               </div>
 
-              {/* Pool 2: Claude and GPT models (복구 완료!) */}
+              {/* Pool 2: Claude and GPT models */}
               <div className="bg-zinc-50/70 dark:bg-zinc-800/50 border border-zinc-200/60 dark:border-zinc-700/60 rounded-xl p-3 space-y-2.5">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-bold text-zinc-900 dark:text-zinc-200 flex items-center gap-1.5">
@@ -783,26 +807,51 @@ const LiveClock = memo(function LiveClock() {
                     Claude and GPT models
                   </span>
                   <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-zinc-200/60 dark:bg-zinc-700/60 text-zinc-700 dark:text-zinc-300 font-medium">
-                    {claudeExhausted ? "주간 쿼터 소진" : claudePool?.status === "unknown" ? "계측 대기" : "리밋 복구 완료 (Ready)"}
+                    {claudeExhausted ? "주간 쿼터 소진" : claudePool?.status === "unknown" ? "계측 대기" : "리밋 정상 가동 (Ready)"}
                   </span>
                 </div>
 
-                {/* Claude 5-Hour & Weekly (라이브) */}
-                <div className="grid grid-cols-2 gap-2 text-[11px]">
-                  <div className="bg-white dark:bg-zinc-900 p-2 rounded-lg border border-zinc-200/60 dark:border-zinc-700/60">
-                    <div className="text-[10px] text-zinc-500 dark:text-zinc-400 font-medium">5-Hour Limit</div>
-                    <div className="font-mono font-bold text-emerald-600 dark:text-emerald-400 text-sm mt-0.5">
-                      {claude5hRemaining != null ? viewMode === "remaining" ? `${fmtPct(claude5hRemaining)} 잔여` : `${fmtPct(claude5hUsed)} 사용` : "Ready"}
-                    </div>
+                {/* Claude 5-Hour Window */}
+                <div className="space-y-1">
+                  <div className="flex items-center justify-between text-[11px]">
+                    <span className="text-zinc-600 dark:text-zinc-400">5-Hour Limit:</span>
+                    <span className="font-mono font-bold text-emerald-700 dark:text-emerald-400">
+                      {claude5hRemaining != null ? (viewMode === "remaining" ? `${fmtPct(claude5hRemaining)} 잔여` : `${fmtPct(claude5hUsed)} 사용`) : "100% 잔여"}
+                    </span>
                   </div>
-                  <div className="bg-white dark:bg-zinc-900 p-2 rounded-lg border border-zinc-200/60 dark:border-zinc-700/60">
-                    <div className="text-[10px] text-zinc-500 dark:text-zinc-400 font-medium">Weekly Limit</div>
-                    <div className="font-mono font-bold text-emerald-600 dark:text-emerald-400 text-sm mt-0.5">
-                      {claudeExhausted ? "소진" : "Ready"}
-                    </div>
+                  <div className="w-full bg-zinc-200 dark:bg-zinc-700 rounded-full h-1.5 overflow-hidden">
+                    <div
+                      className="bg-emerald-500 h-1.5 rounded-full transition-all duration-500"
+                      style={{ width: `${viewMode === "remaining" ? clampPct(claude5hRemaining ?? 100) : clampPct(claude5hUsed ?? 0)}%` }}
+                    />
+                  </div>
+                  <div className="flex items-center justify-between text-[10px] text-zinc-500 dark:text-zinc-400 pt-0.5 font-mono">
+                    <span>완전 충전까지:</span>
+                    <CountdownTimer targetTimestamp={ag.claudeGptPool?.fiveHourWindow?.resetAt} />
                   </div>
                 </div>
-                <div className="text-[10px] text-zinc-600 dark:text-zinc-400 font-medium flex items-center gap-1">
+
+                {/* Claude Weekly Window */}
+                <div className="space-y-1 pt-1.5 border-t border-zinc-200/60 dark:border-zinc-700">
+                  <div className="flex items-center justify-between text-[11px]">
+                    <span className="text-zinc-600 dark:text-zinc-400">Weekly Limit:</span>
+                    <span className="font-mono font-bold text-emerald-700 dark:text-emerald-400">
+                      {claudeWeeklyRemaining != null ? (viewMode === "remaining" ? `${fmtPct(claudeWeeklyRemaining)} 잔여` : `${fmtPct(claudeWeeklyUsed)} 사용`) : (claudeExhausted ? "0% 잔여" : "100% 잔여")}
+                    </span>
+                  </div>
+                  <div className="w-full bg-zinc-200 dark:bg-zinc-700 rounded-full h-1.5 overflow-hidden">
+                    <div
+                      className="bg-emerald-500 h-1.5 rounded-full transition-all duration-500"
+                      style={{ width: `${viewMode === "remaining" ? clampPct(claudeWeeklyRemaining ?? (claudeExhausted ? 0 : 100)) : clampPct(claudeWeeklyUsed ?? (claudeExhausted ? 100 : 0))}%` }}
+                    />
+                  </div>
+                  <div className="flex items-center justify-between text-[10px] text-zinc-500 dark:text-zinc-400 pt-0.5 font-mono">
+                    <span>주간 완전 충전까지:</span>
+                    <CountdownTimer targetTimestamp={ag.claudeGptPool?.weeklyWindow?.resetAt} />
+                  </div>
+                </div>
+
+                <div className="text-[10px] text-zinc-600 dark:text-zinc-400 font-medium flex items-center gap-1 pt-0.5">
                   <Zap className="w-3 h-3 text-amber-500" /> {claudeExhausted ? "Claude 주간 쿼터 소진 (5시간 창은 별도)" : "Claude Sonnet 4.6 & Opus 4.6 Thinking 정상 호출 가능"}
                 </div>
               </div>
@@ -941,7 +990,7 @@ const LiveClock = memo(function LiveClock() {
                     주간 쿼터 리셋까지
                   </span>
                   <span className="font-mono text-xs font-bold text-emerald-700 dark:text-emerald-400">
-                    <CountdownTimer targetTimestamp={al.resetAt || (Date.now() + 7 * 24 * 3600 * 1000)} />
+                    <CountdownTimer targetTimestamp={al.resetAt ?? (1789273515000 + 7 * 24 * 3600 * 1000)} />
                   </span>
                 </div>
                 <div className="text-[11px] text-zinc-500 dark:text-zinc-400">
@@ -1360,7 +1409,7 @@ const LiveClock = memo(function LiveClock() {
         {/* Footer */}
         <footer className="text-center text-xs text-zinc-500 dark:text-zinc-400 pt-2 pb-6 space-y-1">
           <div className="font-medium text-zinc-600 dark:text-zinc-300">LLM Quota & Telemetry Cockpit · Designed for 삼균 님</div>
-          <div className="font-mono text-[11px] text-zinc-500 dark:text-zinc-400">Last Synced: {lastSync.toLocaleTimeString('ko-KR')} · Mode: {data?.environment || 'Live'}</div>
+          <div className="font-mono text-[11px] text-zinc-500 dark:text-zinc-400">Last Synced: {formatTime(lastSync)} · Mode: {data?.environment || 'Live'}</div>
         </footer>
       </main>
     </div>
