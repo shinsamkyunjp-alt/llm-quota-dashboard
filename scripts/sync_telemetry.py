@@ -312,26 +312,19 @@ def collect_telemetry():
         if "anchor_requests_count" in ali_state:
             del ali_state["anchor_requests_count"]
 
-    try:
-        res = subprocess.run(
-            ["bl", "text", "chat", "--model", "qwen3.6-flash", "--message", "ping"],
-            capture_output=True, text=True, timeout=15
-        )
-        combined = (res.stdout + " " + res.stderr).lower()
-        if "429" in combined or "exhausted" in combined:
-            is_ali_exhausted = True
-        else:
-            is_ali_exhausted = False
-    except Exception as e:
-        print(f"Alibaba probe note: {e}")
-
-    # 3.1 Calculate live 7-day rolling requests for Alibaba Token Plan (Standard: 10,000 req/7d)
+    # 3. Passive 429 Error Detection & Request Accounting via usage.jsonl (Zero Quota Waste)
     ali_7d_requests = 0
     ali_limit = 10000
+    is_ali_exhausted = False
     usage_jsonl = os.path.expanduser("~/.opencodex/usage.jsonl")
+    thirty_mins_ago = now_ms - (30 * 60 * 1000)
+    seven_days_ago = now_ms - (7 * 24 * 3600 * 1000)
+
+    latest_200_ts = 0
+    latest_429_ts = 0
+
     if os.path.exists(usage_jsonl):
         seen_rids = set()
-        seven_days_ago = now_ms - (7 * 24 * 3600 * 1000)
         try:
             with open(usage_jsonl, "r", encoding="utf-8") as f:
                 for line in f:
@@ -340,18 +333,28 @@ def collect_telemetry():
                         ts = entry.get("timestamp", 0)
                         prov = str(entry.get("provider", "")).lower()
                         status = entry.get("status")
+                        err_code = str(entry.get("errorCode", "")).lower() + " " + str(entry.get("upstreamError", "")).lower()
                         rid = entry.get("requestId")
-                        if ts >= seven_days_ago and ("alibaba" in prov or "dashscope" in prov or "bailian" in prov or "qwen" in prov):
-                            if status == 200:
-                                if rid and rid in seen_rids:
-                                    continue
-                                if rid:
-                                    seen_rids.add(rid)
-                                ali_7d_requests += 1
+                        if "alibaba" in prov or "dashscope" in prov or "bailian" in prov or "qwen" in prov:
+                            if ts >= seven_days_ago and status == 200:
+                                if not (rid and rid in seen_rids):
+                                    if rid:
+                                        seen_rids.add(rid)
+                                    ali_7d_requests += 1
+                                if ts > latest_200_ts:
+                                    latest_200_ts = ts
+                            elif status == 429:
+                                if ts > latest_429_ts:
+                                    if "quota" in err_code or "insufficient" in err_code or "exhaust" in err_code or "rate" in err_code:
+                                        latest_429_ts = ts
                     except Exception:
                         pass
         except Exception as e:
             print(f"Alibaba usage.jsonl read error: {e}")
+
+    # If recent 429 occurred within 30m and no newer 200 success arrived afterwards, mark exhausted
+    if latest_429_ts > thirty_mins_ago and latest_429_ts >= latest_200_ts:
+        is_ali_exhausted = True
 
     # Dynamic sliding & anchor calibration
     target_reset_at = ali_state.get("calibrated_reset_at", DEFAULT_ALI_RESET_TS)
