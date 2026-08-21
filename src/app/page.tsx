@@ -242,7 +242,7 @@ export default function QuotaDashboard() {
 
         const geminiPool = {
           label: "Gemini Models",
-          status: "healthy",
+          status: gemini5hUsed != null && gemini5hUsed >= 100 ? "exhausted" : "healthy",
           fiveHourWindow: {
             label: "5시간 롤링 한도",
             usagePercent: gemini5hUsed,
@@ -265,6 +265,7 @@ export default function QuotaDashboard() {
         const claude5hRemaining = typeof liveClaude.fiveHourWindow?.remainingPercent === "number" ? liveClaude.fiveHourWindow.remainingPercent : (claude5hUsed != null ? Math.max(0, 100 - claude5hUsed) : 100);
         const claudeWeeklyUsed = typeof liveClaude.weeklyWindow?.usagePercent === "number" ? liveClaude.weeklyWindow.usagePercent : (typeof liveClaude.weeklyUsagePercent === "number" ? liveClaude.weeklyUsagePercent : 0);
         const claudeWeeklyRemaining = typeof liveClaude.weeklyWindow?.remainingPercent === "number" ? liveClaude.weeklyWindow.remainingPercent : (claudeWeeklyUsed != null ? Math.max(0, 100 - claudeWeeklyUsed) : 100);
+        const claudeWeeklyExhausted = typeof claudeWeeklyRemaining === "number" && claudeWeeklyRemaining <= 0;
 
         const claudeGptPool = {
           label: "Claude and GPT models",
@@ -281,9 +282,9 @@ export default function QuotaDashboard() {
             usagePercent: claudeWeeklyUsed,
             remainingPercent: claudeWeeklyRemaining,
             resetAt: liveClaude.weeklyWindow?.resetAt || liveClaude.weeklyResetAt || null,
-            status: claudeExhausted ? "exhausted" : "healthy",
+            status: claudeWeeklyExhausted ? "exhausted" : "healthy",
             badge: liveClaude.badge || null,
-            desc: claudeExhausted ? "주간 쿼터 소진" : ""
+            desc: claudeWeeklyExhausted ? "주간 쿼터 소진" : ""
           },
           models: liveClaude.models || ["Claude Sonnet 4.6", "Claude Opus 4.6 Thinking"]
         };
