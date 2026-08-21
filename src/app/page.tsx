@@ -347,6 +347,20 @@ export default function QuotaDashboard() {
   };
 const clampPct = (n?: number | null) => Math.min(100, Math.max(0, n ?? 0));
 
+const getProgressBarColor = (remaining?: number | null, used?: number | null) => {
+  const rem = remaining != null ? remaining : (used != null ? 100 - used : 100);
+  if (rem <= 10) return "bg-rose-500";
+  if (rem <= 25) return "bg-amber-500";
+  return "bg-emerald-500";
+};
+
+const getStatusTextColor = (remaining?: number | null, used?: number | null) => {
+  const rem = remaining != null ? remaining : (used != null ? 100 - used : 100);
+  if (rem <= 10) return "text-rose-600 dark:text-rose-400";
+  if (rem <= 25) return "text-amber-600 dark:text-amber-400";
+  return "text-emerald-700 dark:text-emerald-400";
+};
+
 // ── 고성능 독립 카운트다운 컴포넌트 (초당 부모 리렌더링 차단) ──
 const CountdownTimer = memo(function CountdownTimer({ targetTimestamp }: { targetTimestamp?: number | null }) {
   const [now, setNow] = useState<number | null>(null);
@@ -761,14 +775,19 @@ const LiveClock = memo(function LiveClock() {
                 {/* Gemini 5-Hour Window */}
                 <div className="space-y-1">
                   <div className="flex items-center justify-between text-[11px]">
-                    <span className="text-zinc-600 dark:text-zinc-400">5-Hour Limit:</span>
-                    <span className="font-mono font-bold text-emerald-700 dark:text-emerald-400">
+                    <div className="flex items-center gap-1">
+                      <span className="text-zinc-600 dark:text-zinc-400">5-Hour Limit:</span>
+                      {gemini5hRemaining != null && gemini5hRemaining <= 10 && (
+                        <span className="px-1 py-0.2 rounded bg-rose-100 dark:bg-rose-950 text-rose-600 dark:text-rose-400 font-bold text-[9px]">소진 임박</span>
+                      )}
+                    </div>
+                    <span className={`font-mono font-bold ${getStatusTextColor(gemini5hRemaining, gemini5hUsed)}`}>
                       {viewMode === "remaining" ? `${fmtPct(gemini5hRemaining)} 잔여` : `${fmtPct(gemini5hUsed)} 사용`}
                     </span>
                   </div>
                   <div className="w-full bg-zinc-200 dark:bg-zinc-700 rounded-full h-1.5 overflow-hidden">
                     <div
-                      className="bg-emerald-500 h-1.5 rounded-full transition-all duration-500"
+                      className={`${getProgressBarColor(gemini5hRemaining, gemini5hUsed)} h-1.5 rounded-full transition-all duration-500`}
                       style={{ width: `${viewMode === "remaining" ? clampPct(gemini5hRemaining) : clampPct(gemini5hUsed)}%` }}
                     />
                   </div>
@@ -781,14 +800,19 @@ const LiveClock = memo(function LiveClock() {
                {/* Gemini Weekly Window */}
                 <div className="space-y-1 pt-1.5 border-t border-zinc-200/60 dark:border-zinc-700">
                   <div className="flex items-center justify-between text-[11px]">
-                    <span className="text-zinc-600 dark:text-zinc-400">Weekly Limit:</span>
-                    <span className="font-mono font-bold text-emerald-700 dark:text-emerald-400">
+                    <div className="flex items-center gap-1">
+                      <span className="text-zinc-600 dark:text-zinc-400">Weekly Limit:</span>
+                      {geminiWeeklyRemaining != null && geminiWeeklyRemaining <= 10 && (
+                        <span className="px-1 py-0.2 rounded bg-rose-100 dark:bg-rose-950 text-rose-600 dark:text-rose-400 font-bold text-[9px]">소진 임박</span>
+                      )}
+                    </div>
+                    <span className={`font-mono font-bold ${getStatusTextColor(geminiWeeklyRemaining, geminiWeeklyUsed)}`}>
                       {viewMode === "remaining" ? `${fmtPct(geminiWeeklyRemaining)} 잔여` : `${fmtPct(geminiWeeklyUsed)} 사용`}
                     </span>
                   </div>
                   <div className="w-full bg-zinc-200 dark:bg-zinc-700 rounded-full h-1.5 overflow-hidden">
                     <div
-                      className="bg-emerald-500 h-1.5 rounded-full transition-all duration-500"
+                      className={`${getProgressBarColor(geminiWeeklyRemaining, geminiWeeklyUsed)} h-1.5 rounded-full transition-all duration-500`}
                       style={{ width: `${viewMode === "remaining" ? clampPct(geminiWeeklyRemaining) : clampPct(geminiWeeklyUsed)}%` }}
                     />
                   </div>
@@ -814,14 +838,19 @@ const LiveClock = memo(function LiveClock() {
                 {/* Claude 5-Hour Window */}
                 <div className="space-y-1">
                   <div className="flex items-center justify-between text-[11px]">
-                    <span className="text-zinc-600 dark:text-zinc-400">5-Hour Limit:</span>
-                    <span className="font-mono font-bold text-emerald-700 dark:text-emerald-400">
+                    <div className="flex items-center gap-1">
+                      <span className="text-zinc-600 dark:text-zinc-400">5-Hour Limit:</span>
+                      {claude5hRemaining != null && claude5hRemaining <= 10 && (
+                        <span className="px-1 py-0.2 rounded bg-rose-100 dark:bg-rose-950 text-rose-600 dark:text-rose-400 font-bold text-[9px]">소진 임박</span>
+                      )}
+                    </div>
+                    <span className={`font-mono font-bold ${getStatusTextColor(claude5hRemaining, claude5hUsed)}`}>
                       {claude5hRemaining != null ? (viewMode === "remaining" ? `${fmtPct(claude5hRemaining)} 잔여` : `${fmtPct(claude5hUsed)} 사용`) : "100% 잔여"}
                     </span>
                   </div>
                   <div className="w-full bg-zinc-200 dark:bg-zinc-700 rounded-full h-1.5 overflow-hidden">
                     <div
-                      className="bg-emerald-500 h-1.5 rounded-full transition-all duration-500"
+                      className={`${getProgressBarColor(claude5hRemaining, claude5hUsed)} h-1.5 rounded-full transition-all duration-500`}
                       style={{ width: `${viewMode === "remaining" ? clampPct(claude5hRemaining ?? 100) : clampPct(claude5hUsed ?? 0)}%` }}
                     />
                   </div>
@@ -834,14 +863,19 @@ const LiveClock = memo(function LiveClock() {
                 {/* Claude Weekly Window */}
                 <div className="space-y-1 pt-1.5 border-t border-zinc-200/60 dark:border-zinc-700">
                   <div className="flex items-center justify-between text-[11px]">
-                    <span className="text-zinc-600 dark:text-zinc-400">Weekly Limit:</span>
-                    <span className="font-mono font-bold text-emerald-700 dark:text-emerald-400">
+                    <div className="flex items-center gap-1">
+                      <span className="text-zinc-600 dark:text-zinc-400">Weekly Limit:</span>
+                      {claudeWeeklyRemaining != null && claudeWeeklyRemaining <= 10 && (
+                        <span className="px-1 py-0.2 rounded bg-rose-100 dark:bg-rose-950 text-rose-600 dark:text-rose-400 font-bold text-[9px]">소진 임박</span>
+                      )}
+                    </div>
+                    <span className={`font-mono font-bold ${getStatusTextColor(claudeWeeklyRemaining, claudeWeeklyUsed)}`}>
                       {claudeWeeklyRemaining != null ? (viewMode === "remaining" ? `${fmtPct(claudeWeeklyRemaining)} 잔여` : `${fmtPct(claudeWeeklyUsed)} 사용`) : (claudeExhausted ? "0% 잔여" : "100% 잔여")}
                     </span>
                   </div>
                   <div className="w-full bg-zinc-200 dark:bg-zinc-700 rounded-full h-1.5 overflow-hidden">
                     <div
-                      className="bg-emerald-500 h-1.5 rounded-full transition-all duration-500"
+                      className={`${getProgressBarColor(claudeWeeklyRemaining, claudeWeeklyUsed)} h-1.5 rounded-full transition-all duration-500`}
                       style={{ width: `${viewMode === "remaining" ? clampPct(claudeWeeklyRemaining ?? (claudeExhausted ? 0 : 100)) : clampPct(claudeWeeklyUsed ?? (claudeExhausted ? 100 : 0))}%` }}
                     />
                   </div>
@@ -893,13 +927,18 @@ const LiveClock = memo(function LiveClock() {
                     <Calendar className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
                     월간 쿼터 현황
                   </span>
-                  <span className="font-mono text-xs font-bold text-emerald-700 dark:text-emerald-400">
-                    {viewMode === "remaining" ? `${fmtPct(oaRemaining)} 잔여` : `${fmtPct(oaUsed)} 사용`}
-                  </span>
+                  <div className="flex items-center gap-1">
+                    {oaRemaining != null && oaRemaining <= 10 && (
+                      <span className="px-1 py-0.2 rounded bg-rose-100 dark:bg-rose-950 text-rose-600 dark:text-rose-400 font-bold text-[9px]">소진 임박</span>
+                    )}
+                    <span className={`font-mono text-xs font-bold ${getStatusTextColor(oaRemaining, oaUsed)}`}>
+                      {viewMode === "remaining" ? `${fmtPct(oaRemaining)} 잔여` : `${fmtPct(oaUsed)} 사용`}
+                    </span>
+                  </div>
                 </div>
                 <div className="w-full bg-zinc-200 dark:bg-zinc-700 rounded-full h-1.5 overflow-hidden">
                   <div
-                    className="bg-emerald-500 h-1.5 rounded-full transition-all duration-500"
+                    className={`${getProgressBarColor(oaRemaining, oaUsed)} h-1.5 rounded-full transition-all duration-500`}
                     style={{ width: `${viewMode === "remaining" ? clampPct(oaRemaining) : clampPct(oaUsed)}%` }}
                   />
                 </div>
@@ -967,13 +1006,18 @@ const LiveClock = memo(function LiveClock() {
                     <Calendar className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
                     주간 쿼터 사용 현황
                   </span>
-                  <span className="font-mono text-xs font-bold text-emerald-700 dark:text-emerald-400">
-                    {alUsed == null ? "계측 불가" : viewMode === "remaining" ? `${fmtPct(alRemaining)} 잔여` : `${fmtPct(alUsed)} 사용`}
-                  </span>
+                  <div className="flex items-center gap-1">
+                    {alRemaining != null && alRemaining <= 10 && (
+                      <span className="px-1 py-0.2 rounded bg-rose-100 dark:bg-rose-950 text-rose-600 dark:text-rose-400 font-bold text-[9px]">소진 임박</span>
+                    )}
+                    <span className={`font-mono text-xs font-bold ${getStatusTextColor(alRemaining, alUsed)}`}>
+                      {alUsed == null ? "계측 대기" : viewMode === "remaining" ? `${fmtPct(alRemaining)} 잔여` : `${fmtPct(alUsed)} 사용`}
+                    </span>
+                  </div>
                 </div>
                 <div className="w-full bg-zinc-200 dark:bg-zinc-700 rounded-full h-1.5 overflow-hidden">
                   <div
-                    className="bg-emerald-500 h-1.5 rounded-full transition-all duration-500"
+                    className={`${getProgressBarColor(alRemaining, alUsed)} h-1.5 rounded-full transition-all duration-500`}
                     style={{ width: `${viewMode === "remaining" ? clampPct(alRemaining) : clampPct(alUsed)}%` }}
                   />
                 </div>
