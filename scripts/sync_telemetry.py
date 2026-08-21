@@ -334,6 +334,41 @@ def collect_telemetry():
     except Exception as e:
         print(f"Failed to save alibaba state: {e}")
 
+    # 3.1 Calculate live 7-day rolling requests for Alibaba Token Plan (Standard: 10,000 req/7d)
+    ali_7d_requests = 0
+    ali_limit = 10000
+    usage_jsonl = os.path.expanduser("~/.opencodex/usage.jsonl")
+    if os.path.exists(usage_jsonl):
+        seen_rids = set()
+        seven_days_ago = now_ms - (7 * 24 * 3600 * 1000)
+        try:
+            with open(usage_jsonl, "r", encoding="utf-8") as f:
+                for line in f:
+                    try:
+                        entry = json.loads(line)
+                        ts = entry.get("timestamp", 0)
+                        prov = str(entry.get("provider", "")).lower()
+                        status = entry.get("status")
+                        rid = entry.get("requestId")
+                        if ts >= seven_days_ago and ("alibaba" in prov or "dashscope" in prov or "bailian" in prov or "qwen" in prov):
+                            if status == 200:
+                                if rid and rid in seen_rids:
+                                    continue
+                                if rid:
+                                    seen_rids.add(rid)
+                                ali_7d_requests += 1
+                    except Exception:
+                        pass
+        except Exception as e:
+            print(f"Alibaba usage.jsonl read error: {e}")
+
+    ali_used_pct = round((ali_7d_requests / float(ali_limit)) * 100, 2)
+    ali_remaining_pct = round(max(0.0, 100.0 - ali_used_pct), 2)
+
+    if is_ali_exhausted:
+        ali_used_pct = 100.0
+        ali_remaining_pct = 0.0
+
     # 4. Collect actual cumulative token usage from session telemetry
     session_dir = os.path.expanduser("~/.codex/sessions")
     session_files = glob.glob(f"{session_dir}/**/*.jsonl", recursive=True)
@@ -506,14 +541,17 @@ def collect_telemetry():
         {
             "provider": "alibaba-token-plan-intl",
             "name": "Alibaba Token Plan",
+            "plan": "Standard (10,000 req/7d)",
             "status": "exhausted" if is_ali_exhausted else "healthy",
             "badge": "HTTP 429 · Insufficient Quota" if is_ali_exhausted else "정상 가동 (Active)",
             "region": "ap-southeast-1 (Singapore)",
             "account": "sk-s****HZew",
-            "weeklyUsagePercent": 100.0 if is_ali_exhausted else 0.5,
-            "weeklyRemainingPercent": 0.0 if is_ali_exhausted else 99.5,
+            "weeklyUsagePercent": ali_used_pct,
+            "weeklyRemainingPercent": ali_remaining_pct,
+            "weeklyRequests": ali_7d_requests,
+            "weeklyLimit": ali_limit,
             "resetAt": ali_reset_ts,
-            "message": "1-week quota exhausted" if is_ali_exhausted else "7일 쿼터 리셋 완료 (정상 가동 중)",
+            "message": "1-week quota exhausted" if is_ali_exhausted else f"7일 슬라이딩 윈도우: {ali_7d_requests:,} / {ali_limit:,} req ({ali_used_pct}%) 사용 중",
             "promotion": {
                 "isPromoActive": True,
                 "promoTitle": "야간 50% 반값 크레딧 할인 프로모션 (Night Discount)",

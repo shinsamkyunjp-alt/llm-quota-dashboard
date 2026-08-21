@@ -1,11 +1,11 @@
 {
-  "updatedAt": 1787319288529,
+  "updatedAt": 1787320160013,
   "environment": "Live Antigravity & ocx Telemetry",
   "catalogSync": {
     "isLiveConnected": true,
     "totalCatalogModels": 17,
-    "lastWeeklySpecUpdate": "2026-08-21 22:34:50 KST",
-    "nextWeeklySpecUpdate": "2026-08-28 22:34:50 KST"
+    "lastWeeklySpecUpdate": "2026-08-21 22:49:23 KST",
+    "nextWeeklySpecUpdate": "2026-08-28 22:49:23 KST"
   },
   "summary": {
     "totalProviders": 3,
@@ -330,8 +330,8 @@
         "status": "healthy",
         "fiveHourWindow": {
           "label": "5시간 롤링 한도",
-          "remainingPercent": 88.94,
-          "usagePercent": 11.06,
+          "remainingPercent": 85.61,
+          "usagePercent": 14.39,
           "resetAt": 1787332594000,
           "desc": "2시간 34분 후 완전 충전"
         },
@@ -339,7 +339,7 @@
           "label": "주간 누적 한도",
           "remainingPercent": 99.0,
           "usagePercent": 1.0,
-          "resetAt": 1787909688529,
+          "resetAt": 1787910560013,
           "desc": "6일 20시간 후 완전 충전"
         },
         "models": [
@@ -354,14 +354,14 @@
           "label": "5시간 롤링 한도",
           "remainingPercent": 100.0,
           "usagePercent": 0.0,
-          "resetAt": 1787337264000,
+          "resetAt": 1787338161000,
           "desc": "100% 잔여 (완전 충전됨)"
         },
         "weeklyWindow": {
           "label": "주간 누적 한도",
           "remainingPercent": 100.0,
           "usagePercent": 0.0,
-          "resetAt": 1787924088529,
+          "resetAt": 1787924960013,
           "desc": "100% 잔여 (완전 충전됨)"
         },
         "models": [
@@ -753,14 +753,17 @@
     {
       "provider": "alibaba-token-plan-intl",
       "name": "Alibaba Token Plan",
+      "plan": "Standard (10,000 req/7d)",
       "status": "healthy",
       "badge": "정상 가동 (Active)",
       "region": "ap-southeast-1 (Singapore)",
       "account": "sk-s****HZew",
-      "weeklyUsagePercent": 0.5,
-      "weeklyRemainingPercent": 99.5,
-      "resetAt": 1787924088529,
-      "message": "7일 쿼터 리셋 완료 (정상 가동 중)",
+      "weeklyUsagePercent": 7.52,
+      "weeklyRemainingPercent": 92.48,
+      "weeklyRequests": 752,
+      "weeklyLimit": 10000,
+      "resetAt": 1787924960013,
+      "message": "7일 슬라이딩 윈도우: 752 / 10,000 req (7.52%) 사용 중",
       "promotion": {
         "isPromoActive": true,
         "promoTitle": "야간 50% 반값 크레딧 할인 프로모션 (Night Discount)",

@@ -990,7 +990,7 @@ const LiveClock = memo(function LiveClock() {
                   <h2 className="text-base sm:text-lg font-bold text-zinc-900 dark:text-zinc-100 truncate">Alibaba Token Plan</h2>
                 </div>
                 <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium border border-zinc-200/60 dark:border-zinc-700/60 shrink-0">
-                  {al.badge || "정상 가동 (Active)"}
+                  {al.status === "exhausted" ? "HTTP 429 · Insufficient Quota" : (al.plan || "Standard (10,000 req/7d)")}
                 </span>
               </div>
 
