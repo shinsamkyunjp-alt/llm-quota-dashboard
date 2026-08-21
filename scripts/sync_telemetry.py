@@ -12,6 +12,7 @@ import os
 import glob
 import datetime
 import urllib.request
+import math
 
 GIST_ID = "67c16a5d365eddf3da98129350171338"
 
@@ -312,13 +313,15 @@ def collect_telemetry():
         if "anchor_requests_count" in ali_state:
             del ali_state["anchor_requests_count"]
 
-    # 3. Passive 429 Error Detection & Request Accounting via usage.jsonl (Zero Quota Waste)
+    # 3. Passive 429 Error Detection & 8K Block-Weighted Accounting + Night 50% Promo via usage.jsonl
     ali_7d_requests = 0
+    ali_7d_weighted_units = 0.0
     ali_limit = 10000
     is_ali_exhausted = False
     usage_jsonl = os.path.expanduser("~/.opencodex/usage.jsonl")
     thirty_mins_ago = now_ms - (30 * 60 * 1000)
     seven_days_ago = now_ms - (7 * 24 * 3600 * 1000)
+    tz_cst = datetime.timezone(datetime.timedelta(hours=8))
 
     latest_200_ts = 0
     latest_429_ts = 0
@@ -335,12 +338,22 @@ def collect_telemetry():
                         status = entry.get("status")
                         err_code = str(entry.get("errorCode", "")).lower() + " " + str(entry.get("upstreamError", "")).lower()
                         rid = entry.get("requestId")
+                        m = str(entry.get("model", ""))
                         if "alibaba" in prov or "dashscope" in prov or "bailian" in prov or "qwen" in prov:
                             if ts >= seven_days_ago and status == 200:
                                 if not (rid and rid in seen_rids):
                                     if rid:
                                         seen_rids.add(rid)
                                     ali_7d_requests += 1
+                                    tot_tokens = entry.get("totalTokens", 0)
+                                    base_units = math.ceil(tot_tokens / 8192.0) if tot_tokens > 0 else 1
+                                    
+                                    # Night 50% discount check (22:00~08:00 UTC+8 / 23:00~09:00 KST)
+                                    dt = datetime.datetime.fromtimestamp(ts / 1000.0, tz=tz_cst)
+                                    is_night = dt.hour >= 22 or dt.hour < 8
+                                    discount = 0.5 if (is_night and ("qwen3.8-max" in m.lower() or "deepseek-v4-pro-0813" in m.lower())) else 1.0
+                                    ali_7d_weighted_units += (base_units * discount)
+
                                 if ts > latest_200_ts:
                                     latest_200_ts = ts
                             elif status == 429:
@@ -358,7 +371,6 @@ def collect_telemetry():
 
     # Dynamic sliding & anchor calibration
     target_reset_at = ali_state.get("calibrated_reset_at", DEFAULT_ALI_RESET_TS)
-    # If passed the reset time, roll forward by 7 days
     while now_ms > target_reset_at:
         target_reset_at += 7 * 24 * 3600 * 1000
         ali_state["calibrated_reset_at"] = target_reset_at
@@ -368,18 +380,18 @@ def collect_telemetry():
     ali_reset_ts = target_reset_at
     baseline_pct = ali_state.get("baseline_usage_percent", DEFAULT_BASELINE_USAGE)
     
-    # Incremental local requests tracked
-    anchor_reqs = ali_state.get("anchor_requests_count", ali_7d_requests)
-    if "anchor_requests_count" not in ali_state:
-        ali_state["anchor_requests_count"] = ali_7d_requests
-        anchor_reqs = ali_7d_requests
+    # Incremental weighted units tracked since anchor
+    anchor_units = ali_state.get("anchor_weighted_units", ali_7d_weighted_units)
+    if "anchor_weighted_units" not in ali_state:
+        ali_state["anchor_weighted_units"] = ali_7d_weighted_units
+        anchor_units = ali_7d_weighted_units
 
-    incremental_reqs = max(0, ali_7d_requests - anchor_reqs)
-    incremental_pct = (incremental_reqs / float(ali_limit)) * 100.0
+    incremental_units = max(0.0, ali_7d_weighted_units - anchor_units)
+    incremental_pct = (incremental_units / float(ali_limit)) * 100.0
 
     ali_used_pct = round(min(100.0, baseline_pct + incremental_pct), 2)
     ali_remaining_pct = round(max(0.0, 100.0 - ali_used_pct), 2)
-    total_effective_reqs = int(round(ali_used_pct * (ali_limit / 100.0)))
+    total_effective_units = int(round(ali_used_pct * (ali_limit / 100.0)))
 
     if is_ali_exhausted:
         ali_used_pct = 100.0
@@ -390,6 +402,7 @@ def collect_telemetry():
 
     ali_state["last_checked_at"] = now_ms
     ali_state["current_usage_percent"] = ali_used_pct
+    ali_state["current_weighted_units"] = ali_7d_weighted_units
 
     try:
         with open(ali_state_file, "w", encoding="utf-8") as f:
@@ -576,10 +589,10 @@ def collect_telemetry():
             "account": "sk-s****HZew",
             "weeklyUsagePercent": ali_used_pct,
             "weeklyRemainingPercent": ali_remaining_pct,
-            "weeklyRequests": total_effective_reqs,
+            "weeklyRequests": total_effective_units,
             "weeklyLimit": ali_limit,
             "resetAt": ali_reset_ts,
-            "message": "1-week quota exhausted" if is_ali_exhausted else f"7일 쿼터: {total_effective_reqs:,} / {ali_limit:,} req ({ali_used_pct}%) 사용 중 (리셋: 8/22 17:29 KST)",
+            "message": "1-week quota exhausted" if is_ali_exhausted else f"7일 쿼터: {total_effective_units:,} / {ali_limit:,} units ({ali_used_pct}%) 사용 중 (리셋: 8/22 17:29 KST)",
             "promotion": {
                 "isPromoActive": True,
                 "promoTitle": "야간 50% 반값 크레딧 할인 프로모션 (Night Discount)",
