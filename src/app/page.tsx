@@ -235,9 +235,9 @@ export default function QuotaDashboard() {
 
         // ocx 라이브 윈도우(fiveHourWindow/weeklyWindow/claudeCompact)를 대시보드 풀 구조로 정규화.
         // 잔여량은 항상 100 - 사용량으로 계산해 하드코딩을 제거한다.
-        const live5h = agData.fiveHourWindow || {};
-        const liveWeekly = agData.weeklyWindow || {};
-        const liveClaude = agData.claudeCompact || {};
+        const live5h = agData.geminiPool?.fiveHourWindow || agData.fiveHourWindow || {};
+        const liveWeekly = agData.geminiPool?.weeklyWindow || agData.weeklyWindow || {};
+        const liveClaude = agData.claudeGptPool || agData.claudeCompact || {};
         const gemini5hUsed = typeof live5h.usagePercent === "number" ? live5h.usagePercent : null;
         const geminiWeeklyUsed = typeof liveWeekly.usagePercent === "number" ? liveWeekly.usagePercent : null;
 
