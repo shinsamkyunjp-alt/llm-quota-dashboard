@@ -293,9 +293,9 @@ def collect_telemetry():
     ali_state_file = os.path.join(cache_dir, "alibaba_quota_state.json")
     
     # Official Ground Truth Anchor from Alibaba My Subscriptions:
-    # 68.42% used, Reset at 2026-08-22 16:29:00 UTC+8 (1787387340000 ms)
+    # 70.38% used (Updated: 2026-08-21 23:03:39), Reset at 2026-08-22 16:29:00 UTC+8 (1787387340000 ms)
     DEFAULT_ALI_RESET_TS = 1787387340000
-    DEFAULT_BASELINE_USAGE = 68.42
+    DEFAULT_BASELINE_USAGE = 70.38
 
     ali_state = {}
     if os.path.exists(ali_state_file):
@@ -305,10 +305,12 @@ def collect_telemetry():
         except Exception:
             ali_state = {}
 
-    if not ali_state.get("calibrated_reset_at"):
+    if not ali_state.get("calibrated_reset_at") or ali_state.get("baseline_usage_percent", 0) < DEFAULT_BASELINE_USAGE:
         ali_state["calibrated_reset_at"] = DEFAULT_ALI_RESET_TS
         ali_state["baseline_usage_percent"] = DEFAULT_BASELINE_USAGE
         ali_state["anchor_time_ms"] = now_ms
+        if "anchor_requests_count" in ali_state:
+            del ali_state["anchor_requests_count"]
 
     try:
         res = subprocess.run(
