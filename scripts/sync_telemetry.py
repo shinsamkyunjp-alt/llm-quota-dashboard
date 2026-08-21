@@ -14,6 +14,7 @@ import datetime
 import urllib.request
 import urllib.parse
 import math
+import base64
 
 GIST_ID = "67c16a5d365eddf3da98129350171338"
 
@@ -157,6 +158,132 @@ def _pool_desc(remaining, reset_ms, now_ms):
     if remaining <= 0:
         return f"한도 소진 — {cd} 후 재충전" if cd else "한도 소진"
     return f"{cd} 후 완전 충전" if cd else f"{remaining}% 잔여"
+
+# ── OpenAI Codex pooled monthly quota ───────────────────────────────────────
+# ocx 프록시 없이 ~/.opencodex/codex-quota-cache.json 을 직접 읽어
+# 풀링된 계정 전체의 월간 사용량을 집계한다.
+CODEX_QUOTA_CACHE_FILE = os.path.expanduser("~/.opencodex/codex-quota-cache.json")
+CODEX_ACCOUNTS_FILE = os.path.expanduser("~/.opencodex/codex-accounts.json")
+OCX_CONFIG_FILE = os.path.expanduser("~/.opencodex/config.json")
+MAIN_ACCOUNT_LABEL = "s***n@gmail.com (Main)"
+
+
+def _mask_email(email):
+    if not email or "@" not in email:
+        return None
+    local, domain = email.rsplit("@", 1)
+    if len(local) <= 1:
+        return f"{local}***@{domain}"
+    return f"{local[0]}***{local[-1]}@{domain}"
+
+
+def _jwt_email(token):
+    """access token(JWT) 페이로드에서 이메일만 추출 (토큰 자체는 사용하지 않음)."""
+    try:
+        part = token.split(".")[1]
+        payload = json.loads(base64.urlsafe_b64decode(part + "=" * (-len(part) % 4)))
+    except Exception:
+        return None
+
+    def find_email(obj, depth=0):
+        if depth > 4:
+            return None
+        if isinstance(obj, dict):
+            for k, v in obj.items():
+                if k == "email" and isinstance(v, str):
+                    return v
+                hit = find_email(v, depth + 1)
+                if hit:
+                    return hit
+        return None
+
+    return find_email(payload)
+
+
+def collect_codex_pool_quota():
+    """풀링 계정 월간 쿼터 집계.
+
+    Returns:
+        (pooled_usage_pct, earliest_reset_ms, per_account_rows, active_label)
+        또는 실패 시 None
+    """
+    if not os.path.exists(CODEX_QUOTA_CACHE_FILE):
+        return None
+    try:
+        with open(CODEX_QUOTA_CACHE_FILE, "r", encoding="utf-8") as f:
+            cache = json.load(f)
+    except Exception:
+        return None
+    quotas = cache.get("quotas") or {}
+    if not quotas:
+        return None
+
+    email_by_id = {}
+    if os.path.exists(CODEX_ACCOUNTS_FILE):
+        try:
+            with open(CODEX_ACCOUNTS_FILE, "r", encoding="utf-8") as f:
+                accounts = json.load(f)
+            for aid, av in accounts.items():
+                if not isinstance(av, dict) or av.get("deletedAt"):
+                    continue
+                tok = (av.get("credential") or {}).get("accessToken")
+                em = _jwt_email(tok) if tok else None
+                if em:
+                    email_by_id[aid] = em
+        except Exception:
+            pass
+
+    active_id = None
+    if os.path.exists(OCX_CONFIG_FILE):
+        try:
+            with open(OCX_CONFIG_FILE, "r", encoding="utf-8") as f:
+                active_id = json.load(f).get("activeCodexAccountId")
+        except Exception:
+            pass
+
+    rows = []
+    usage_values = []
+    reset_values = []
+    for aid, q in quotas.items():
+        if not isinstance(q, dict):
+            continue
+        pct = q.get("monthlyPercent")
+        if pct is None:
+            continue
+        pct = round(float(pct), 2)
+        reset_s = q.get("monthlyResetAt")
+        reset_ms = int(reset_s) * 1000 if reset_s else None
+        if aid == "__main__":
+            label = MAIN_ACCOUNT_LABEL
+        else:
+            em = email_by_id.get(aid)
+            label = _mask_email(em) if em else aid
+        is_active = aid == active_id or (aid == "__main__" and active_id is None)
+        if pct >= 90.0:
+            state = "exhausted"
+        elif is_active:
+            state = "active"
+        else:
+            state = "standby"
+        rows.append({
+            "account": label,
+            "accountId": aid,
+            "usagePercent": pct,
+            "remainingPercent": round(max(0.0, 100.0 - pct), 2),
+            "resetAt": reset_ms,
+            "state": state,
+        })
+        usage_values.append(pct)
+        if reset_ms:
+            reset_values.append(reset_ms)
+
+    if not usage_values:
+        return None
+
+    pooled_usage = round(sum(usage_values) / float(len(usage_values)), 2)
+    earliest_reset = min(reset_values) if reset_values else None
+    active_row = next((r for r in rows if r["state"] == "active"), None)
+    return pooled_usage, earliest_reset, rows, (active_row["account"] if active_row else None)
 
 MODEL_METADATA = {
     # Google Antigravity
@@ -416,24 +543,40 @@ def collect_telemetry():
     gemini_pool_exhausted = gemini_5h_remaining is not None and gemini_5h_remaining <= 0.0
     claude_pool_exhausted = claude_gpt_5h_remaining is not None and claude_gpt_5h_remaining <= 0.0
 
-    # 2. Probe ocx quota (OpenAI monthly only — Antigravity는 공식 API로 직접 조회)
-    oa_monthly_usage = 85.0
-    oa_monthly_reset = 1789273515000
+    # 2. OpenAI Codex 풀링 월간 쿼터 — 캐시 직접 조회(프록시 불필요), 폴백은 ocx CLI
+    oa_monthly_usage = None
+    oa_monthly_reset = None
+    oa_pool_rows = []
+    oa_active_account = None
 
     try:
-        res = subprocess.run(["ocx", "provider", "quota", "--json"], capture_output=True, text=True, timeout=5)
-        if res.returncode == 0 and res.stdout.strip():
-            data = json.loads(res.stdout)
-            if "reports" in data:
-                for r in data["reports"]:
-                    prov = r.get("provider")
-                    if prov == "openai":
-                        q = r.get("quota", {})
-                        oa_monthly_usage = round(q.get("monthlyPercent", 85.0), 2)
-                        if q.get("monthlyResetAt"):
-                            oa_monthly_reset = q.get("monthlyResetAt") * 1000
+        pool_info = collect_codex_pool_quota()
     except Exception as e:
-        print(f"ocx probe note: {e}")
+        pool_info = None
+        print(f"codex pool quota note: {e}")
+
+    if pool_info:
+        oa_monthly_usage, oa_monthly_reset, oa_pool_rows, oa_active_account = pool_info
+    else:
+        oa_monthly_usage = 85.0
+        oa_monthly_reset = 1789273515000
+        try:
+            res = subprocess.run(["ocx", "provider", "quota", "--json"], capture_output=True, text=True, timeout=5)
+            if res.returncode == 0 and res.stdout.strip():
+                data = json.loads(res.stdout)
+                if "reports" in data:
+                    for r in data["reports"]:
+                        prov = r.get("provider")
+                        if prov == "openai":
+                            q = r.get("quota", {})
+                            oa_monthly_usage = round(q.get("monthlyPercent", 85.0), 2)
+                            if q.get("monthlyResetAt"):
+                                oa_monthly_reset = q.get("monthlyResetAt") * 1000
+        except Exception as e:
+            print(f"ocx probe note: {e}")
+
+    oa_monthly_remaining = round(max(0.0, 100.0 - oa_monthly_usage), 2) if oa_monthly_usage is not None else None
+    oa_pool_exhausted = oa_monthly_usage is not None and oa_monthly_usage >= 100.0
 
     # 3. Probe Alibaba status with persistent caching for 429 rate limit & Subscription Calibrated State
     is_ali_exhausted = False
@@ -644,6 +787,9 @@ def collect_telemetry():
         elif is_ag and pool == "claude-gpt" and claude_pool_exhausted:
             status = "rate_limited"
             cooldown_count += 1
+        elif meta["providerId"] == "openai" and oa_pool_exhausted:
+            status = "rate_limited"
+            cooldown_count += 1
         else:
             status = "active"
             ready_count += 1
@@ -725,14 +871,16 @@ def collect_telemetry():
         {
             "provider": "openai",
             "name": "OpenAI Codex",
-            "status": "healthy",
+            "status": "exhausted" if oa_pool_exhausted else "healthy",
             "plan": "Free Multi-Account Pool",
-            "accountCount": 3,
-            "activeAccount": "s***n@gmail.com",
-            "pooledAccounts": ["s***n@gmail.com (Main)", "s***2@naver.com", "s***9@gmail.com"],
+            "accountCount": len(oa_pool_rows) if oa_pool_rows else 3,
+            "activeAccount": oa_active_account or "s***n@gmail.com",
+            "pooledAccounts": [r["account"] for r in oa_pool_rows] if oa_pool_rows else ["s***n@gmail.com (Main)", "s***2@naver.com", "s***9@gmail.com"],
+            "pooledAccountDetails": oa_pool_rows,
             "monthlyUsagePercent": oa_monthly_usage,
-            "monthlyRemainingPercent": round(100.0 - oa_monthly_usage, 1),
+            "monthlyRemainingPercent": oa_monthly_remaining,
             "monthlyResetAt": oa_monthly_reset,
+            "resetBasis": "earliest-account-reset",
             "models": [m for m in model_list if m["providerId"] == "openai"]
         },
         {

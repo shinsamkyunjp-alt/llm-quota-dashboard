@@ -10,6 +10,7 @@ import {
   Cpu,
   Layers,
   CheckCircle2,
+  XCircle,
   Search,
   HardDrive,
   Sparkles,
@@ -854,9 +855,9 @@ const LiveClock = memo(function LiveClock() {
                   </div>
                 </div>
 
-                <div className="text-[10px] text-zinc-600 dark:text-zinc-400 font-medium flex items-center gap-1 pt-0.5">
-                  <Zap className="w-3 h-3 text-amber-500" /> {claudeExhausted ? "Claude 주간 쿼터 소진 (5시간 창은 별도)" : "Claude Sonnet 4.6 & Opus 4.6 Thinking 정상 호출 가능"}
-                </div>
+               <div className="text-[10px] text-zinc-600 dark:text-zinc-400 font-medium flex items-center gap-1 pt-0.5">
+                  <Zap className="w-3 h-3 text-amber-500" /> {claudeExhausted ? "Claude & GPT 5시간 한도 소진 — 리셋 후 호출 재개" : "Claude Sonnet 4.6 & Opus 4.6 Thinking 정상 호출 가능"}
+               </div>
               </div>
             </div>
 
@@ -884,8 +885,8 @@ const LiveClock = memo(function LiveClock() {
                 </span>
               </div>
 
-              <div className="text-xs text-zinc-600 dark:text-zinc-400 flex items-center justify-between border-b border-zinc-100 dark:border-zinc-800 pb-2">
-                <span>활성 계정: <strong className="text-zinc-900 dark:text-zinc-200 font-mono">s***n@gmail.com</strong></span>
+             <div className="text-xs text-zinc-600 dark:text-zinc-400 flex items-center justify-between border-b border-zinc-100 dark:border-zinc-800 pb-2">
+                <span>활성 계정: <strong className="text-zinc-900 dark:text-zinc-200 font-mono">{oa.activeAccount || 's***n@gmail.com'}</strong></span>
                 <span className="text-emerald-700 dark:text-emerald-400 font-semibold text-[11px]">3개 계정 풀링</span>
               </div>
 
@@ -912,7 +913,7 @@ const LiveClock = memo(function LiveClock() {
                   />
                 </div>
                 <div className="text-[11px] text-zinc-500 dark:text-zinc-400 flex items-center justify-between pt-0.5 font-mono">
-                  <span>월간 리셋 D-Day:</span>
+                  <span>월간 리셋 D-Day (가장 빠른 계정 기준):</span>
                   <CountdownTimer targetTimestamp={oa.monthlyResetAt} />
                 </div>
               </div>
@@ -920,22 +921,30 @@ const LiveClock = memo(function LiveClock() {
              {/* Pooled Accounts List */}
               <div className="bg-zinc-50/70 dark:bg-zinc-800/50 border border-zinc-200/60 dark:border-zinc-700/60 rounded-xl p-3 space-y-1.5">
                 <div className="text-xs font-bold text-zinc-900 dark:text-zinc-200 flex items-center justify-between">
-                  <span>풀링된 계정 목록 (3)</span>
+                  <span>풀링된 계정 목록 ({oa.pooledAccountDetails?.length || oa.pooledAccounts?.length || 3})</span>
                   <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold">순환 로테이션</span>
                 </div>
                 <div className="space-y-1 font-mono text-[11px]">
-                  <div className="flex items-center justify-between text-zinc-800 dark:text-zinc-300">
-                    <span>• s***n@gmail.com</span>
-                    <span className="text-emerald-600 dark:text-emerald-400 font-bold text-[10px]">Active Main</span>
-                  </div>
-                  <div className="flex items-center justify-between text-zinc-600 dark:text-zinc-400">
-                    <span>• s***2@naver.com</span>
-                    <span className="text-zinc-400 text-[10px]">Standby</span>
-                  </div>
-                  <div className="flex items-center justify-between text-zinc-600 dark:text-zinc-400">
-                    <span>• s***9@gmail.com</span>
-                    <span className="text-zinc-400 text-[10px]">Standby</span>
-                  </div>
+                  {(oa.pooledAccountDetails && oa.pooledAccountDetails.length > 0
+                    ? oa.pooledAccountDetails
+                    : (oa.pooledAccounts || ['s***n@gmail.com (Main)', 's***2@naver.com', 's***9@gmail.com']).map((a: string) => ({ account: a, state: 'standby', usagePercent: null }))
+                  ).map((acc: any, idx: number) => (
+                    <div key={acc.accountId || idx} className={`flex items-center justify-between ${acc.state === 'active' ? 'text-zinc-800 dark:text-zinc-300' : 'text-zinc-600 dark:text-zinc-400'}`}>
+                      <span>• {acc.account}</span>
+                      <span className="flex items-center gap-1.5">
+                        {typeof acc.usagePercent === 'number' && (
+                          <span className="text-zinc-400 text-[10px]">{acc.usagePercent}% 사용</span>
+                        )}
+                        {acc.state === 'active' ? (
+                          <span className="text-emerald-600 dark:text-emerald-400 font-bold text-[10px]">Active</span>
+                        ) : acc.state === 'exhausted' ? (
+                          <span className="text-rose-500 dark:text-rose-400 font-bold text-[10px]">소진</span>
+                        ) : (
+                          <span className="text-zinc-400 text-[10px]">Standby</span>
+                        )}
+                      </span>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
@@ -1319,9 +1328,15 @@ const LiveClock = memo(function LiveClock() {
                       <div className="text-zinc-400 text-[10px]">{item.reasoning}</div>
                     </td>
                     <td className="py-3.5 px-4 font-sans text-center">
-                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-400 text-[11px] font-semibold">
-                        <CheckCircle2 className="w-3 h-3 text-emerald-600 dark:text-emerald-400" /> 호출 가능 (Ready)
-                      </span>
+                      {item.status === 'rate_limited' ? (
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-rose-50 dark:bg-rose-950/60 border border-rose-200 dark:border-rose-800 text-rose-700 dark:text-rose-400 text-[11px] font-semibold">
+                          <XCircle className="w-3 h-3 text-rose-600 dark:text-rose-400" /> 호출 불가 (Rate Limited)
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-400 text-[11px] font-semibold">
+                          <CheckCircle2 className="w-3 h-3 text-emerald-600 dark:text-emerald-400" /> 호출 가능 (Ready)
+                        </span>
+                      )}
                     </td>
                   </tr>
                 ))} 
@@ -1347,9 +1362,15 @@ const LiveClock = memo(function LiveClock() {
                      </span>
                    )}
                  </div>
-                  <span className="shrink-0 inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-400 text-[10px] font-semibold">
-                    <CheckCircle2 className="w-2.5 h-2.5 text-emerald-600" /> 가능
-                  </span>
+                  {item.status === 'rate_limited' ? (
+                    <span className="shrink-0 inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-rose-50 dark:bg-rose-950 border border-rose-200 dark:border-rose-800 text-rose-700 dark:text-rose-400 text-[10px] font-semibold">
+                      <XCircle className="w-2.5 h-2.5 text-rose-600" /> 불가
+                    </span>
+                  ) : (
+                    <span className="shrink-0 inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-400 text-[10px] font-semibold">
+                      <CheckCircle2 className="w-2.5 h-2.5 text-emerald-600" /> 가능
+                    </span>
+                  )}
                 </div>
                 <div className="flex items-center justify-between text-[11px] text-zinc-600 dark:text-zinc-400 pt-1 border-t border-zinc-200/60 dark:border-zinc-800 font-mono">
                   <span>{item.providerName} ({item.context})</span>
