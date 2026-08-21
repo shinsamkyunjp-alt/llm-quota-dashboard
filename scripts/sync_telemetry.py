@@ -286,12 +286,17 @@ def collect_telemetry():
     except Exception as e:
         print(f"ocx probe note: {e}")
 
-    # 3. Probe Alibaba status with persistent caching for 429 rate limit
+    # 3. Probe Alibaba status with persistent caching for 429 rate limit & Subscription Calibrated State
     is_ali_exhausted = False
     cache_dir = os.path.expanduser("~/.hermes/cache")
     os.makedirs(cache_dir, exist_ok=True)
     ali_state_file = os.path.join(cache_dir, "alibaba_quota_state.json")
     
+    # Official Ground Truth Anchor from Alibaba My Subscriptions:
+    # 68.42% used, Reset at 2026-08-22 16:29:00 UTC+8 (1787387340000 ms)
+    DEFAULT_ALI_RESET_TS = 1787387340000
+    DEFAULT_BASELINE_USAGE = 68.42
+
     ali_state = {}
     if os.path.exists(ali_state_file):
         try:
@@ -299,6 +304,11 @@ def collect_telemetry():
                 ali_state = json.load(f)
         except Exception:
             ali_state = {}
+
+    if not ali_state.get("calibrated_reset_at"):
+        ali_state["calibrated_reset_at"] = DEFAULT_ALI_RESET_TS
+        ali_state["baseline_usage_percent"] = DEFAULT_BASELINE_USAGE
+        ali_state["anchor_time_ms"] = now_ms
 
     try:
         res = subprocess.run(
@@ -312,27 +322,6 @@ def collect_telemetry():
             is_ali_exhausted = False
     except Exception as e:
         print(f"Alibaba probe note: {e}")
-
-    seven_days_ms = 7 * 24 * 3600 * 1000
-    if is_ali_exhausted:
-        first_exhausted = ali_state.get("first_exhausted_at")
-        if not first_exhausted or (now_ms - first_exhausted > seven_days_ms):
-            first_exhausted = now_ms
-            ali_state["first_exhausted_at"] = first_exhausted
-        ali_reset_ts = first_exhausted + seven_days_ms
-        ali_state["last_checked_at"] = now_ms
-        ali_state["status"] = "exhausted"
-    else:
-        ali_state["first_exhausted_at"] = None
-        ali_state["last_checked_at"] = now_ms
-        ali_state["status"] = "healthy"
-        ali_reset_ts = now_ms + seven_days_ms
-
-    try:
-        with open(ali_state_file, "w", encoding="utf-8") as f:
-            json.dump(ali_state, f, indent=2)
-    except Exception as e:
-        print(f"Failed to save alibaba state: {e}")
 
     # 3.1 Calculate live 7-day rolling requests for Alibaba Token Plan (Standard: 10,000 req/7d)
     ali_7d_requests = 0
@@ -362,12 +351,46 @@ def collect_telemetry():
         except Exception as e:
             print(f"Alibaba usage.jsonl read error: {e}")
 
-    ali_used_pct = round((ali_7d_requests / float(ali_limit)) * 100, 2)
+    # Dynamic sliding & anchor calibration
+    target_reset_at = ali_state.get("calibrated_reset_at", DEFAULT_ALI_RESET_TS)
+    # If passed the reset time, roll forward by 7 days
+    while now_ms > target_reset_at:
+        target_reset_at += 7 * 24 * 3600 * 1000
+        ali_state["calibrated_reset_at"] = target_reset_at
+        ali_state["baseline_usage_percent"] = 0.0
+        ali_state["anchor_time_ms"] = now_ms
+
+    ali_reset_ts = target_reset_at
+    baseline_pct = ali_state.get("baseline_usage_percent", DEFAULT_BASELINE_USAGE)
+    
+    # Incremental local requests tracked
+    anchor_reqs = ali_state.get("anchor_requests_count", ali_7d_requests)
+    if "anchor_requests_count" not in ali_state:
+        ali_state["anchor_requests_count"] = ali_7d_requests
+        anchor_reqs = ali_7d_requests
+
+    incremental_reqs = max(0, ali_7d_requests - anchor_reqs)
+    incremental_pct = (incremental_reqs / float(ali_limit)) * 100.0
+
+    ali_used_pct = round(min(100.0, baseline_pct + incremental_pct), 2)
     ali_remaining_pct = round(max(0.0, 100.0 - ali_used_pct), 2)
+    total_effective_reqs = int(round(ali_used_pct * (ali_limit / 100.0)))
 
     if is_ali_exhausted:
         ali_used_pct = 100.0
         ali_remaining_pct = 0.0
+        ali_state["status"] = "exhausted"
+    else:
+        ali_state["status"] = "healthy"
+
+    ali_state["last_checked_at"] = now_ms
+    ali_state["current_usage_percent"] = ali_used_pct
+
+    try:
+        with open(ali_state_file, "w", encoding="utf-8") as f:
+            json.dump(ali_state, f, indent=2)
+    except Exception as e:
+        print(f"Failed to save alibaba state: {e}")
 
     # 4. Collect actual cumulative token usage from session telemetry
     session_dir = os.path.expanduser("~/.codex/sessions")
@@ -548,10 +571,10 @@ def collect_telemetry():
             "account": "sk-s****HZew",
             "weeklyUsagePercent": ali_used_pct,
             "weeklyRemainingPercent": ali_remaining_pct,
-            "weeklyRequests": ali_7d_requests,
+            "weeklyRequests": total_effective_reqs,
             "weeklyLimit": ali_limit,
             "resetAt": ali_reset_ts,
-            "message": "1-week quota exhausted" if is_ali_exhausted else f"7일 슬라이딩 윈도우: {ali_7d_requests:,} / {ali_limit:,} req ({ali_used_pct}%) 사용 중",
+            "message": "1-week quota exhausted" if is_ali_exhausted else f"7일 쿼터: {total_effective_reqs:,} / {ali_limit:,} req ({ali_used_pct}%) 사용 중 (리셋: 8/22 17:29 KST)",
             "promotion": {
                 "isPromoActive": True,
                 "promoTitle": "야간 50% 반값 크레딧 할인 프로모션 (Night Discount)",
