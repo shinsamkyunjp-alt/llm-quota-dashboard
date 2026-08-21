@@ -294,9 +294,9 @@ def collect_telemetry():
     ali_state_file = os.path.join(cache_dir, "alibaba_quota_state.json")
     
     # Official Ground Truth Anchor from Alibaba My Subscriptions:
-    # 70.38% used (Updated: 2026-08-21 23:03:39), Reset at 2026-08-22 16:29:00 UTC+8 (1787387340000 ms)
+    # 75.74% used (Updated: 2026-08-21 23:34:16), Reset at 2026-08-22 16:29:00 UTC+8 (1787387340000 ms)
     DEFAULT_ALI_RESET_TS = 1787387340000
-    DEFAULT_BASELINE_USAGE = 70.38
+    DEFAULT_BASELINE_USAGE = 75.74
 
     ali_state = {}
     if os.path.exists(ali_state_file):
@@ -312,8 +312,10 @@ def collect_telemetry():
         ali_state["anchor_time_ms"] = now_ms
         if "anchor_requests_count" in ali_state:
             del ali_state["anchor_requests_count"]
+        if "anchor_weighted_units" in ali_state:
+            del ali_state["anchor_weighted_units"]
 
-    # 3. Passive 429 Error Detection & 8K Block-Weighted Accounting + Night 50% Promo via usage.jsonl
+    # 3. Passive 429 Error Detection & 8K Block-Weighted Accounting via usage.jsonl (Zero Quota Waste)
     ali_7d_requests = 0
     ali_7d_weighted_units = 0.0
     ali_limit = 10000
@@ -321,7 +323,6 @@ def collect_telemetry():
     usage_jsonl = os.path.expanduser("~/.opencodex/usage.jsonl")
     thirty_mins_ago = now_ms - (30 * 60 * 1000)
     seven_days_ago = now_ms - (7 * 24 * 3600 * 1000)
-    tz_cst = datetime.timezone(datetime.timedelta(hours=8))
 
     latest_200_ts = 0
     latest_429_ts = 0
@@ -347,12 +348,7 @@ def collect_telemetry():
                                     ali_7d_requests += 1
                                     tot_tokens = entry.get("totalTokens", 0)
                                     base_units = math.ceil(tot_tokens / 8192.0) if tot_tokens > 0 else 1
-                                    
-                                    # Night 50% discount check (22:00~08:00 UTC+8 / 23:00~09:00 KST)
-                                    dt = datetime.datetime.fromtimestamp(ts / 1000.0, tz=tz_cst)
-                                    is_night = dt.hour >= 22 or dt.hour < 8
-                                    discount = 0.5 if (is_night and ("qwen3.8-max" in m.lower() or "deepseek-v4-pro-0813" in m.lower())) else 1.0
-                                    ali_7d_weighted_units += (base_units * discount)
+                                    ali_7d_weighted_units += base_units
 
                                 if ts > latest_200_ts:
                                     latest_200_ts = ts

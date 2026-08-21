@@ -1,11 +1,11 @@
 {
-  "updatedAt": 1787322451644,
+  "updatedAt": 1787322911679,
   "environment": "Live Antigravity & ocx Telemetry",
   "catalogSync": {
     "isLiveConnected": true,
     "totalCatalogModels": 17,
-    "lastWeeklySpecUpdate": "2026-08-21 23:27:33 KST",
-    "nextWeeklySpecUpdate": "2026-08-28 23:27:33 KST"
+    "lastWeeklySpecUpdate": "2026-08-21 23:35:12 KST",
+    "nextWeeklySpecUpdate": "2026-08-28 23:35:12 KST"
   },
   "summary": {
     "totalProviders": 3,
@@ -330,8 +330,8 @@
         "status": "healthy",
         "fiveHourWindow": {
           "label": "5시간 롤링 한도",
-          "remainingPercent": 73.06,
-          "usagePercent": 26.94,
+          "remainingPercent": 70.28,
+          "usagePercent": 29.72,
           "resetAt": 1787332594000,
           "desc": "2시간 34분 후 완전 충전"
         },
@@ -339,7 +339,7 @@
           "label": "주간 누적 한도",
           "remainingPercent": 99.0,
           "usagePercent": 1.0,
-          "resetAt": 1787912851644,
+          "resetAt": 1787913311679,
           "desc": "6일 20시간 후 완전 충전"
         },
         "models": [
@@ -354,14 +354,14 @@
           "label": "5시간 롤링 한도",
           "remainingPercent": 100.0,
           "usagePercent": 0.0,
-          "resetAt": 1787340453000,
+          "resetAt": 1787340902000,
           "desc": "100% 잔여 (완전 충전됨)"
         },
         "weeklyWindow": {
           "label": "주간 누적 한도",
           "remainingPercent": 100.0,
           "usagePercent": 0.0,
-          "resetAt": 1787927251644,
+          "resetAt": 1787927711679,
           "desc": "100% 잔여 (완전 충전됨)"
         },
         "models": [
@@ -758,12 +758,12 @@
       "badge": "정상 가동 (Active)",
       "region": "ap-southeast-1 (Singapore)",
       "account": "sk-s****HZew",
-      "weeklyUsagePercent": 70.38,
-      "weeklyRemainingPercent": 29.62,
-      "weeklyRequests": 7038,
+      "weeklyUsagePercent": 75.74,
+      "weeklyRemainingPercent": 24.26,
+      "weeklyRequests": 7574,
       "weeklyLimit": 10000,
       "resetAt": 1787387340000,
-      "message": "7일 쿼터: 7,038 / 10,000 units (70.38%) 사용 중 (리셋: 8/22 17:29 KST)",
+      "message": "7일 쿼터: 7,574 / 10,000 units (75.74%) 사용 중 (리셋: 8/22 17:29 KST)",
       "promotion": {
         "isPromoActive": true,
         "promoTitle": "야간 50% 반값 크레딧 할인 프로모션 (Night Discount)",
