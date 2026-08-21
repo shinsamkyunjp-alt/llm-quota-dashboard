@@ -1,11 +1,11 @@
 {
-  "updatedAt": 1787318765956,
+  "updatedAt": 1787319288529,
   "environment": "Live Antigravity & ocx Telemetry",
   "catalogSync": {
     "isLiveConnected": true,
     "totalCatalogModels": 17,
-    "lastWeeklySpecUpdate": "2026-08-21 22:26:09 KST",
-    "nextWeeklySpecUpdate": "2026-08-28 22:26:09 KST"
+    "lastWeeklySpecUpdate": "2026-08-21 22:34:50 KST",
+    "nextWeeklySpecUpdate": "2026-08-28 22:34:50 KST"
   },
   "summary": {
     "totalProviders": 3,
@@ -330,16 +330,16 @@
         "status": "healthy",
         "fiveHourWindow": {
           "label": "5시간 롤링 한도",
-          "remainingPercent": 91.0,
-          "usagePercent": 9.0,
-          "resetAt": 1787328005956,
+          "remainingPercent": 88.94,
+          "usagePercent": 11.06,
+          "resetAt": 1787332594000,
           "desc": "2시간 34분 후 완전 충전"
         },
         "weeklyWindow": {
           "label": "주간 누적 한도",
           "remainingPercent": 99.0,
           "usagePercent": 1.0,
-          "resetAt": 1787909165956,
+          "resetAt": 1787909688529,
           "desc": "6일 20시간 후 완전 충전"
         },
         "models": [
@@ -354,14 +354,14 @@
           "label": "5시간 롤링 한도",
           "remainingPercent": 100.0,
           "usagePercent": 0.0,
-          "resetAt": 1787336765956,
+          "resetAt": 1787337264000,
           "desc": "100% 잔여 (완전 충전됨)"
         },
         "weeklyWindow": {
           "label": "주간 누적 한도",
           "remainingPercent": 100.0,
           "usagePercent": 0.0,
-          "resetAt": 1787923565956,
+          "resetAt": 1787924088529,
           "desc": "100% 잔여 (완전 충전됨)"
         },
         "models": [
@@ -759,7 +759,7 @@
       "account": "sk-s****HZew",
       "weeklyUsagePercent": 0.5,
       "weeklyRemainingPercent": 99.5,
-      "resetAt": 1787923565956,
+      "resetAt": 1787924088529,
       "message": "7일 쿼터 리셋 완료 (정상 가동 중)",
       "promotion": {
         "isPromoActive": true,

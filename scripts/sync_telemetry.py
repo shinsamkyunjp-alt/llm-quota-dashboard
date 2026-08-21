@@ -233,7 +233,6 @@ def collect_telemetry():
     now_ms = int(time.time() * 1000)
     
     # 1. Antigravity Dual Quota Pools (Live Telemetry from Antigravity IDE)
-    # Gemini: 91% remaining (9% used, 2h 34m reset), Weekly: 99% remaining (1% used, 6d 20h reset)
     gemini_5h_remaining = 91.0
     gemini_5h_used = 9.0
     gemini_5h_reset = now_ms + int((2 * 3600 + 34 * 60) * 1000)
@@ -251,27 +250,56 @@ def collect_telemetry():
     claude_gpt_weekly_used = 0.0
     claude_gpt_weekly_reset = now_ms + 7 * 24 * 3600 * 1000
 
-    # 2. Probe ocx quota
+    # 2. Probe ocx quota (OpenAI & Antigravity Live Custom Windows)
     oa_monthly_usage = 85.0
     oa_monthly_reset = 1789273515000
 
     try:
-        res = subprocess.run(["ocx", "provider", "quota", "--json"], capture_output=True, text=True, timeout=3)
+        res = subprocess.run(["ocx", "provider", "quota", "--json"], capture_output=True, text=True, timeout=5)
         if res.returncode == 0 and res.stdout.strip():
             data = json.loads(res.stdout)
             if "reports" in data:
                 for r in data["reports"]:
-                    if r.get("provider") == "openai":
+                    prov = r.get("provider")
+                    if prov == "openai":
                         q = r.get("quota", {})
                         oa_monthly_usage = round(q.get("monthlyPercent", 85.0), 2)
                         if q.get("monthlyResetAt"):
                             oa_monthly_reset = q.get("monthlyResetAt") * 1000
+                    elif prov == "google-antigravity":
+                        q = r.get("quota", {})
+                        custom_windows = q.get("customWindows", [])
+                        for win in custom_windows:
+                            lbl = win.get("label", "").lower()
+                            pct = win.get("percent", 0)
+                            rst = win.get("resetAt")
+                            if "gem" in lbl:
+                                gemini_5h_used = round(float(pct), 2)
+                                gemini_5h_remaining = round(max(0.0, 100.0 - gemini_5h_used), 2)
+                                if rst:
+                                    gemini_5h_reset = rst
+                            elif "cla" in lbl:
+                                claude_gpt_5h_used = round(float(pct), 2)
+                                claude_gpt_5h_remaining = round(max(0.0, 100.0 - claude_gpt_5h_used), 2)
+                                if rst:
+                                    claude_gpt_5h_reset = rst
     except Exception as e:
-        pass
+        print(f"ocx probe note: {e}")
 
-    # 3. Probe Alibaba status
+    # 3. Probe Alibaba status with persistent caching for 429 rate limit
     is_ali_exhausted = False
-    ali_reset_ts = now_ms + 7 * 24 * 3600 * 1000 # 7 days from now
+    cache_dir = os.path.expanduser("~/.hermes/cache")
+    os.makedirs(cache_dir, exist_ok=True)
+    ali_state_file = os.path.join(cache_dir, "alibaba_quota_state.json")
+    
+    ali_state = {}
+    if os.path.exists(ali_state_file):
+        try:
+            with open(ali_state_file, "r", encoding="utf-8") as f:
+                ali_state = json.load(f)
+        except Exception:
+            ali_state = {}
+
     try:
         res = subprocess.run(
             ["bl", "text", "chat", "--model", "qwen3.6-flash", "--message", "ping"],
@@ -284,6 +312,27 @@ def collect_telemetry():
             is_ali_exhausted = False
     except Exception as e:
         print(f"Alibaba probe note: {e}")
+
+    seven_days_ms = 7 * 24 * 3600 * 1000
+    if is_ali_exhausted:
+        first_exhausted = ali_state.get("first_exhausted_at")
+        if not first_exhausted or (now_ms - first_exhausted > seven_days_ms):
+            first_exhausted = now_ms
+            ali_state["first_exhausted_at"] = first_exhausted
+        ali_reset_ts = first_exhausted + seven_days_ms
+        ali_state["last_checked_at"] = now_ms
+        ali_state["status"] = "exhausted"
+    else:
+        ali_state["first_exhausted_at"] = None
+        ali_state["last_checked_at"] = now_ms
+        ali_state["status"] = "healthy"
+        ali_reset_ts = now_ms + seven_days_ms
+
+    try:
+        with open(ali_state_file, "w", encoding="utf-8") as f:
+            json.dump(ali_state, f, indent=2)
+    except Exception as e:
+        print(f"Failed to save alibaba state: {e}")
 
     # 4. Collect actual cumulative token usage from session telemetry
     session_dir = os.path.expanduser("~/.codex/sessions")
@@ -566,13 +615,15 @@ def push_to_gist(payload):
         )
 
         with urllib.request.urlopen(req) as resp:
-            print(f"[{datetime.datetime.now()}] Gist updated successfully (Status {resp.status})!")
+            if os.environ.get("VERBOSE"):
+                print(f"[{datetime.datetime.now()}] Gist updated successfully (Status {resp.status})!")
     except Exception as e:
         print(f"Error updating Gist: {e}")
 
 if __name__ == "__main__":
     data = collect_telemetry()
-    print(f"Collected telemetry. Ready: {data['summary']['availableModelCount']} models, Cooldown: {data['summary']['rateLimitedModelCount']}")
-    print(f"Antigravity Gemini 5h Usage: {data['providers'][0]['geminiPool']['fiveHourWindow']['usagePercent']}%")
-    print(f"Alibaba Status: {data['providers'][2]['status']} (Usage: {data['providers'][2]['weeklyUsagePercent']}%)")
+    if os.environ.get("VERBOSE"):
+        print(f"Collected telemetry. Ready: {data['summary']['availableModelCount']} models, Cooldown: {data['summary']['rateLimitedModelCount']}")
+        print(f"Antigravity Gemini 5h Usage: {data['providers'][0]['geminiPool']['fiveHourWindow']['usagePercent']}%")
+        print(f"Alibaba Status: {data['providers'][2]['status']} (Usage: {data['providers'][2]['weeklyUsagePercent']}%)")
     push_to_gist(data)
