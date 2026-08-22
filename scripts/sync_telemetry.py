@@ -777,7 +777,17 @@ def collect_telemetry():
     cooldown_count = 0
     active_specs = DYNAMIC_SPECS if DYNAMIC_SPECS else MODEL_METADATA
 
-    for mid, meta in active_specs.items():
+    prov_order_map = {"google-antigravity": 1, "openai": 2, "alibaba-token-plan-intl": 3}
+    spec_keys_order = list(MODEL_METADATA.keys())
+    sorted_entries = sorted(
+        active_specs.items(),
+        key=lambda kv: (
+            prov_order_map.get(kv[1].get("providerId"), 99),
+            spec_keys_order.index(kv[0]) if kv[0] in spec_keys_order else 999
+        )
+    )
+
+    for mid, meta in sorted_entries:
         is_alibaba = mid.startswith("alibaba-token-plan")
         is_ag = meta["providerId"] == "google-antigravity"
         pool = meta.get("pool")
