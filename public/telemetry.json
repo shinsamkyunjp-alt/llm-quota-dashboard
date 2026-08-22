@@ -1,11 +1,12 @@
 {
-  "updatedAt": 1787361738627,
+  "updatedAt": 1787362376307,
   "environment": "Live Antigravity & ocx Telemetry",
   "catalogSync": {
     "isLiveConnected": true,
-    "totalCatalogModels": 15,
-    "lastWeeklySpecUpdate": "2026-08-22 10:22:19 KST",
-    "nextWeeklySpecUpdate": "2026-08-29 10:22:19 KST"
+    "totalCatalogModels": 11,
+    "source": "OpenCodex http://localhost:10100/#models & Official Provider API Specs",
+    "pricingDailySync": "Active (1회/일 자동 갱신)",
+    "lastDailyUpdate": "2026-08-22 10:32:56 KST"
   },
   "summary": {
     "totalProviders": 3,
@@ -13,9 +14,9 @@
     "partiallyExhaustedProviders": 1,
     "exhaustedProviders": 1,
     "totalLinkedAccounts": 5,
-    "activeLLMCount": 15,
-    "availableModelCount": 5,
-    "rateLimitedModelCount": 10
+    "activeLLMCount": 11,
+    "availableModelCount": 4,
+    "rateLimitedModelCount": 7
   },
   "actualUsageMap": {
     "gpt-5.6-terra": {
@@ -54,36 +55,36 @@
     },
     "google-antigravity/gemini-3.7-flash": {
       "daily": {
-        "input": 62169714,
-        "uncached": 3380238,
-        "cached": 58789476,
-        "output": 174807,
-        "total": 62344521,
-        "requests": 205
+        "input": 71401720,
+        "uncached": 4064892,
+        "cached": 67336828,
+        "output": 183900,
+        "total": 71585620,
+        "requests": 233
       },
       "weekly": {
-        "input": 226724562,
-        "uncached": 18701694,
-        "cached": 208022868,
-        "output": 892502,
-        "total": 227617064,
-        "requests": 1348
+        "input": 235956568,
+        "uncached": 19386348,
+        "cached": 216570220,
+        "output": 901595,
+        "total": 236858163,
+        "requests": 1376
       },
       "monthly": {
-        "input": 231423721,
-        "uncached": 19425893,
-        "cached": 211997828,
-        "output": 898113,
-        "total": 232321834,
-        "requests": 1388
+        "input": 240655727,
+        "uncached": 20110547,
+        "cached": 220545180,
+        "output": 907206,
+        "total": 241562933,
+        "requests": 1416
       },
       "allTime": {
-        "input": 231423721,
-        "uncached": 19425893,
-        "cached": 211997828,
-        "output": 898113,
-        "total": 232321834,
-        "requests": 1388
+        "input": 240655727,
+        "uncached": 20110547,
+        "cached": 220545180,
+        "output": 907206,
+        "total": 241562933,
+        "requests": 1416
       }
     },
     "alibaba-token-plan-intl/qwen3.8-max": {
@@ -373,17 +374,17 @@
         "isLive": true,
         "fiveHourWindow": {
           "label": "5시간 롤링 한도",
-          "remainingPercent": 70.99,
-          "usagePercent": 29.01,
+          "remainingPercent": 64.66,
+          "usagePercent": 35.34,
           "resetAt": 1787367020000,
-          "desc": "1시간 28분 후 완전 충전"
+          "desc": "1시간 17분 후 완전 충전"
         },
         "weeklyWindow": {
           "label": "주간 누적 한도",
-          "remainingPercent": 60.93,
-          "usagePercent": 39.07,
+          "remainingPercent": 59.88,
+          "usagePercent": 40.12,
           "resetAt": 1787454080000,
-          "desc": "1일 1시간 39분 후 완전 충전"
+          "desc": "1일 1시간 28분 후 완전 충전"
         },
         "models": [
           "Gemini 3.7 Flash",
@@ -400,14 +401,14 @@
           "remainingPercent": 42.37,
           "usagePercent": 57.63,
           "resetAt": 1787376665000,
-          "desc": "4시간 8분 후 완전 충전"
+          "desc": "3시간 58분 후 완전 충전"
         },
         "weeklyWindow": {
           "label": "주간 누적 한도",
           "remainingPercent": 0.0,
           "usagePercent": 100.0,
           "resetAt": 1787448710000,
-          "desc": "한도 소진 — 1일 9분 후 재충전"
+          "desc": "한도 소진 — 23시간 58분 후 재충전"
         },
         "models": [
           "Claude Sonnet 4.6",
@@ -432,136 +433,36 @@
           "status": "active",
           "actualUsage": {
             "daily": {
-              "input": 62169714,
-              "uncached": 3380238,
-              "cached": 58789476,
-              "output": 174807,
-              "total": 62344521,
-              "requests": 205
+              "input": 71401720,
+              "uncached": 4064892,
+              "cached": 67336828,
+              "output": 183900,
+              "total": 71585620,
+              "requests": 233
             },
             "weekly": {
-              "input": 226724562,
-              "uncached": 18701694,
-              "cached": 208022868,
-              "output": 892502,
-              "total": 227617064,
-              "requests": 1348
+              "input": 235956568,
+              "uncached": 19386348,
+              "cached": 216570220,
+              "output": 901595,
+              "total": 236858163,
+              "requests": 1376
             },
             "monthly": {
-              "input": 231423721,
-              "uncached": 19425893,
-              "cached": 211997828,
-              "output": 898113,
-              "total": 232321834,
-              "requests": 1388
+              "input": 240655727,
+              "uncached": 20110547,
+              "cached": 220545180,
+              "output": 907206,
+              "total": 241562933,
+              "requests": 1416
             },
             "allTime": {
-              "input": 231423721,
-              "uncached": 19425893,
-              "cached": 211997828,
-              "output": 898113,
-              "total": 232321834,
-              "requests": 1388
-            }
-          }
-        },
-        {
-          "id": "google-antigravity/gemini-3.1-pro",
-          "name": "Gemini 3.1 Pro",
-          "providerId": "google-antigravity",
-          "providerName": "Google Antigravity",
-          "pool": "gemini",
-          "context": "1M",
-          "contextTokens": 1048576,
-          "inputPrice1M": 1.25,
-          "cachedPrice1M": 0.3125,
-          "outputPrice1M": 5.0,
-          "speed": "Fast (80+ t/s)",
-          "reasoning": "Deep Reasoning",
-          "tag": "1M Deep Context",
-          "status": "active",
-          "actualUsage": {
-            "daily": {
-              "input": 0,
-              "uncached": 0,
-              "cached": 0,
-              "output": 0,
-              "total": 0,
-              "requests": 0
-            },
-            "weekly": {
-              "input": 0,
-              "uncached": 0,
-              "cached": 0,
-              "output": 0,
-              "total": 0,
-              "requests": 0
-            },
-            "monthly": {
-              "input": 0,
-              "uncached": 0,
-              "cached": 0,
-              "output": 0,
-              "total": 0,
-              "requests": 0
-            },
-            "allTime": {
-              "input": 0,
-              "uncached": 0,
-              "cached": 0,
-              "output": 0,
-              "total": 0,
-              "requests": 0
-            }
-          }
-        },
-        {
-          "id": "google-antigravity/claude-sonnet-4-6",
-          "name": "Claude Sonnet 4.6",
-          "providerId": "google-antigravity",
-          "providerName": "Google Antigravity",
-          "pool": "claude-gpt",
-          "context": "200k",
-          "contextTokens": 200000,
-          "inputPrice1M": 3.0,
-          "cachedPrice1M": 0.3,
-          "outputPrice1M": 15.0,
-          "speed": "Balanced (60+ t/s)",
-          "reasoning": "High Nuance Coding",
-          "tag": "Top Coder",
-          "status": "rate_limited",
-          "actualUsage": {
-            "daily": {
-              "input": 4369969,
-              "uncached": 408733,
-              "cached": 3961236,
-              "output": 11216,
-              "total": 4381185,
-              "requests": 28
-            },
-            "weekly": {
-              "input": 4369969,
-              "uncached": 408733,
-              "cached": 3961236,
-              "output": 11216,
-              "total": 4381185,
-              "requests": 28
-            },
-            "monthly": {
-              "input": 5529825,
-              "uncached": 913073,
-              "cached": 4616752,
-              "output": 18658,
-              "total": 5548483,
-              "requests": 52
-            },
-            "allTime": {
-              "input": 5529825,
-              "uncached": 913073,
-              "cached": 4616752,
-              "output": 18658,
-              "total": 5548483,
-              "requests": 52
+              "input": 240655727,
+              "uncached": 20110547,
+              "cached": 220545180,
+              "output": 907206,
+              "total": 241562933,
+              "requests": 1416
             }
           }
         },
@@ -614,6 +515,56 @@
               "requests": 84
             }
           }
+        },
+        {
+          "id": "google-antigravity/claude-sonnet-4-6",
+          "name": "Claude Sonnet 4.6",
+          "providerId": "google-antigravity",
+          "providerName": "Google Antigravity",
+          "pool": "claude-gpt",
+          "context": "200k",
+          "contextTokens": 200000,
+          "inputPrice1M": 3.0,
+          "cachedPrice1M": 0.3,
+          "outputPrice1M": 15.0,
+          "speed": "Balanced (60+ t/s)",
+          "reasoning": "High Nuance Coding",
+          "tag": "Top Coder",
+          "status": "rate_limited",
+          "actualUsage": {
+            "daily": {
+              "input": 4369969,
+              "uncached": 408733,
+              "cached": 3961236,
+              "output": 11216,
+              "total": 4381185,
+              "requests": 28
+            },
+            "weekly": {
+              "input": 4369969,
+              "uncached": 408733,
+              "cached": 3961236,
+              "output": 11216,
+              "total": 4381185,
+              "requests": 28
+            },
+            "monthly": {
+              "input": 5529825,
+              "uncached": 913073,
+              "cached": 4616752,
+              "output": 18658,
+              "total": 5548483,
+              "requests": 52
+            },
+            "allTime": {
+              "input": 5529825,
+              "uncached": 913073,
+              "cached": 4616752,
+              "output": 18658,
+              "total": 5548483,
+              "requests": 52
+            }
+          }
         }
       ]
     },
@@ -660,56 +611,6 @@
       "monthlyResetAt": 1789010269000,
       "resetBasis": "earliest-account-reset",
       "models": [
-        {
-          "id": "gpt-5.6-sol",
-          "name": "GPT-5.6 Sol",
-          "providerId": "openai",
-          "providerName": "OpenAI Codex",
-          "pool": null,
-          "context": "1M",
-          "contextTokens": 1048576,
-          "inputPrice1M": 5.0,
-          "cachedPrice1M": 1.25,
-          "outputPrice1M": 30.0,
-          "speed": "Flagship Intelligence (750 t/s on Cerebras)",
-          "reasoning": "Ultra Reasoning",
-          "tag": "Flagship AI",
-          "status": "active",
-          "actualUsage": {
-            "daily": {
-              "input": 0,
-              "uncached": 0,
-              "cached": 0,
-              "output": 0,
-              "total": 0,
-              "requests": 0
-            },
-            "weekly": {
-              "input": 0,
-              "uncached": 0,
-              "cached": 0,
-              "output": 0,
-              "total": 0,
-              "requests": 0
-            },
-            "monthly": {
-              "input": 0,
-              "uncached": 0,
-              "cached": 0,
-              "output": 0,
-              "total": 0,
-              "requests": 0
-            },
-            "allTime": {
-              "input": 0,
-              "uncached": 0,
-              "cached": 0,
-              "output": 0,
-              "total": 0,
-              "requests": 0
-            }
-          }
-        },
         {
           "id": "gpt-5.6-terra",
           "name": "GPT-5.6 Terra",
@@ -809,6 +710,56 @@
               "requests": 11
             }
           }
+        },
+        {
+          "id": "gpt-5.6-sol",
+          "name": "GPT-5.6 Sol",
+          "providerId": "openai",
+          "providerName": "OpenAI Codex",
+          "pool": null,
+          "context": "1M",
+          "contextTokens": 1048576,
+          "inputPrice1M": 5.0,
+          "cachedPrice1M": 1.25,
+          "outputPrice1M": 30.0,
+          "speed": "Flagship Intelligence (750 t/s on Cerebras)",
+          "reasoning": "Ultra Reasoning",
+          "tag": "Flagship AI",
+          "status": "active",
+          "actualUsage": {
+            "daily": {
+              "input": 0,
+              "uncached": 0,
+              "cached": 0,
+              "output": 0,
+              "total": 0,
+              "requests": 0
+            },
+            "weekly": {
+              "input": 0,
+              "uncached": 0,
+              "cached": 0,
+              "output": 0,
+              "total": 0,
+              "requests": 0
+            },
+            "monthly": {
+              "input": 0,
+              "uncached": 0,
+              "cached": 0,
+              "output": 0,
+              "total": 0,
+              "requests": 0
+            },
+            "allTime": {
+              "input": 0,
+              "uncached": 0,
+              "cached": 0,
+              "output": 0,
+              "total": 0,
+              "requests": 0
+            }
+          }
         }
       ]
     },
@@ -879,106 +830,6 @@
       },
       "models": [
         {
-          "id": "alibaba-token-plan-intl/qwen3.8-max",
-          "name": "Qwen 3.8 Max",
-          "providerId": "alibaba-token-plan-intl",
-          "providerName": "Alibaba Token Plan",
-          "pool": null,
-          "context": "1M",
-          "contextTokens": 1000000,
-          "inputPrice1M": 1.6,
-          "cachedPrice1M": 0.32,
-          "outputPrice1M": 6.4,
-          "speed": "Heavy Duty MoE (2.4T)",
-          "reasoning": "XHigh Reasoning",
-          "tag": "Flagship MoE",
-          "status": "rate_limited",
-          "actualUsage": {
-            "daily": {
-              "input": 21391509,
-              "uncached": 560405,
-              "cached": 20831104,
-              "output": 147385,
-              "total": 21538894,
-              "requests": 252
-            },
-            "weekly": {
-              "input": 21391509,
-              "uncached": 560405,
-              "cached": 20831104,
-              "output": 147385,
-              "total": 21538894,
-              "requests": 252
-            },
-            "monthly": {
-              "input": 71583729,
-              "uncached": 3357681,
-              "cached": 68226048,
-              "output": 486940,
-              "total": 72070669,
-              "requests": 718
-            },
-            "allTime": {
-              "input": 71583729,
-              "uncached": 3357681,
-              "cached": 68226048,
-              "output": 486940,
-              "total": 72070669,
-              "requests": 718
-            }
-          }
-        },
-        {
-          "id": "alibaba-token-plan-intl/qwen3.7-max",
-          "name": "Qwen 3.7 Max",
-          "providerId": "alibaba-token-plan-intl",
-          "providerName": "Alibaba Token Plan",
-          "pool": null,
-          "context": "1M",
-          "contextTokens": 1000000,
-          "inputPrice1M": 1.6,
-          "cachedPrice1M": 0.32,
-          "outputPrice1M": 6.4,
-          "speed": "Heavy Duty",
-          "reasoning": "XHigh Reasoning",
-          "tag": "Power Model",
-          "status": "rate_limited",
-          "actualUsage": {
-            "daily": {
-              "input": 0,
-              "uncached": 0,
-              "cached": 0,
-              "output": 0,
-              "total": 0,
-              "requests": 0
-            },
-            "weekly": {
-              "input": 0,
-              "uncached": 0,
-              "cached": 0,
-              "output": 0,
-              "total": 0,
-              "requests": 0
-            },
-            "monthly": {
-              "input": 0,
-              "uncached": 0,
-              "cached": 0,
-              "output": 0,
-              "total": 0,
-              "requests": 0
-            },
-            "allTime": {
-              "input": 0,
-              "uncached": 0,
-              "cached": 0,
-              "output": 0,
-              "total": 0,
-              "requests": 0
-            }
-          }
-        },
-        {
           "id": "alibaba-token-plan-intl/qwen3.7-plus",
           "name": "Qwen 3.7 Plus",
           "providerId": "alibaba-token-plan-intl",
@@ -1025,106 +876,6 @@
               "output": 18929,
               "total": 933998,
               "requests": 25
-            }
-          }
-        },
-        {
-          "id": "alibaba-token-plan-intl/qwen3.6-flash",
-          "name": "Qwen 3.6 Flash",
-          "providerId": "alibaba-token-plan-intl",
-          "providerName": "Alibaba Token Plan",
-          "pool": null,
-          "context": "1M",
-          "contextTokens": 1000000,
-          "inputPrice1M": 0.05,
-          "cachedPrice1M": 0.01,
-          "outputPrice1M": 0.2,
-          "speed": "Ultra Fast",
-          "reasoning": "Low-Medium",
-          "tag": "Ultra Cheap ($0.05)",
-          "status": "rate_limited",
-          "actualUsage": {
-            "daily": {
-              "input": 0,
-              "uncached": 0,
-              "cached": 0,
-              "output": 0,
-              "total": 0,
-              "requests": 0
-            },
-            "weekly": {
-              "input": 0,
-              "uncached": 0,
-              "cached": 0,
-              "output": 0,
-              "total": 0,
-              "requests": 0
-            },
-            "monthly": {
-              "input": 0,
-              "uncached": 0,
-              "cached": 0,
-              "output": 0,
-              "total": 0,
-              "requests": 0
-            },
-            "allTime": {
-              "input": 0,
-              "uncached": 0,
-              "cached": 0,
-              "output": 0,
-              "total": 0,
-              "requests": 0
-            }
-          }
-        },
-        {
-          "id": "alibaba-token-plan-intl/deepseek-v4-pro",
-          "name": "DeepSeek V4 Pro",
-          "providerId": "alibaba-token-plan-intl",
-          "providerName": "Alibaba Token Plan",
-          "pool": null,
-          "context": "1M",
-          "contextTokens": 1000000,
-          "inputPrice1M": 0.27,
-          "cachedPrice1M": 0.07,
-          "outputPrice1M": 1.1,
-          "speed": "Code & Math Specialist",
-          "reasoning": "High-Max",
-          "tag": "Code Specialist",
-          "status": "rate_limited",
-          "actualUsage": {
-            "daily": {
-              "input": 0,
-              "uncached": 0,
-              "cached": 0,
-              "output": 0,
-              "total": 0,
-              "requests": 0
-            },
-            "weekly": {
-              "input": 0,
-              "uncached": 0,
-              "cached": 0,
-              "output": 0,
-              "total": 0,
-              "requests": 0
-            },
-            "monthly": {
-              "input": 0,
-              "uncached": 0,
-              "cached": 0,
-              "output": 0,
-              "total": 0,
-              "requests": 0
-            },
-            "allTime": {
-              "input": 0,
-              "uncached": 0,
-              "cached": 0,
-              "output": 0,
-              "total": 0,
-              "requests": 0
             }
           }
         },
@@ -1179,19 +930,19 @@
           }
         },
         {
-          "id": "alibaba-token-plan-intl/deepseek-v4-flash-0731",
-          "name": "DeepSeek V4 Flash",
+          "id": "alibaba-token-plan-intl/qwen3.6-flash",
+          "name": "Qwen 3.6 Flash",
           "providerId": "alibaba-token-plan-intl",
           "providerName": "Alibaba Token Plan",
           "pool": null,
           "context": "1M",
           "contextTokens": 1000000,
-          "inputPrice1M": 0.14,
-          "cachedPrice1M": 0.035,
-          "outputPrice1M": 0.28,
-          "speed": "Fast Inference",
-          "reasoning": "Standard",
-          "tag": "Fast Coder",
+          "inputPrice1M": 0.05,
+          "cachedPrice1M": 0.01,
+          "outputPrice1M": 0.2,
+          "speed": "Ultra Fast",
+          "reasoning": "Low-Medium",
+          "tag": "Ultra Cheap ($0.05)",
           "status": "rate_limited",
           "actualUsage": {
             "daily": {
@@ -1203,28 +954,28 @@
               "requests": 0
             },
             "weekly": {
-              "input": 10055353,
-              "uncached": 402105,
-              "cached": 9653248,
-              "output": 76781,
-              "total": 10132134,
-              "requests": 167
+              "input": 0,
+              "uncached": 0,
+              "cached": 0,
+              "output": 0,
+              "total": 0,
+              "requests": 0
             },
             "monthly": {
-              "input": 34709315,
-              "uncached": 1661507,
-              "cached": 33047808,
-              "output": 204549,
-              "total": 34913864,
-              "requests": 477
+              "input": 0,
+              "uncached": 0,
+              "cached": 0,
+              "output": 0,
+              "total": 0,
+              "requests": 0
             },
             "allTime": {
-              "input": 34709315,
-              "uncached": 1661507,
-              "cached": 33047808,
-              "output": 204549,
-              "total": 34913864,
-              "requests": 477
+              "input": 0,
+              "uncached": 0,
+              "cached": 0,
+              "output": 0,
+              "total": 0,
+              "requests": 0
             }
           }
         },
@@ -1277,261 +1028,61 @@
               "requests": 0
             }
           }
+        },
+        {
+          "id": "alibaba-token-plan-intl/qwen3.8-max",
+          "name": "Qwen 3.8 Max",
+          "providerId": "alibaba-token-plan-intl",
+          "providerName": "Alibaba Token Plan",
+          "pool": null,
+          "context": "1M",
+          "contextTokens": 1000000,
+          "inputPrice1M": 1.6,
+          "cachedPrice1M": 0.32,
+          "outputPrice1M": 6.4,
+          "speed": "Heavy Duty MoE (2.4T)",
+          "reasoning": "XHigh Reasoning",
+          "tag": "Flagship MoE",
+          "status": "rate_limited",
+          "actualUsage": {
+            "daily": {
+              "input": 21391509,
+              "uncached": 560405,
+              "cached": 20831104,
+              "output": 147385,
+              "total": 21538894,
+              "requests": 252
+            },
+            "weekly": {
+              "input": 21391509,
+              "uncached": 560405,
+              "cached": 20831104,
+              "output": 147385,
+              "total": 21538894,
+              "requests": 252
+            },
+            "monthly": {
+              "input": 71583729,
+              "uncached": 3357681,
+              "cached": 68226048,
+              "output": 486940,
+              "total": 72070669,
+              "requests": 718
+            },
+            "allTime": {
+              "input": 71583729,
+              "uncached": 3357681,
+              "cached": 68226048,
+              "output": 486940,
+              "total": 72070669,
+              "requests": 718
+            }
+          }
         }
       ]
     }
   ],
   "allModels": [
-    {
-      "id": "google-antigravity/gemini-3.7-flash",
-      "name": "Gemini 3.7 Flash",
-      "providerId": "google-antigravity",
-      "providerName": "Google Antigravity",
-      "pool": "gemini",
-      "context": "1M",
-      "contextTokens": 1048576,
-      "inputPrice1M": 0.15,
-      "cachedPrice1M": 0.0375,
-      "outputPrice1M": 0.6,
-      "speed": "Ultra High (150+ t/s)",
-      "reasoning": "Hybrid Thinking",
-      "tag": "Best Speed",
-      "status": "active",
-      "actualUsage": {
-        "daily": {
-          "input": 62169714,
-          "uncached": 3380238,
-          "cached": 58789476,
-          "output": 174807,
-          "total": 62344521,
-          "requests": 205
-        },
-        "weekly": {
-          "input": 226724562,
-          "uncached": 18701694,
-          "cached": 208022868,
-          "output": 892502,
-          "total": 227617064,
-          "requests": 1348
-        },
-        "monthly": {
-          "input": 231423721,
-          "uncached": 19425893,
-          "cached": 211997828,
-          "output": 898113,
-          "total": 232321834,
-          "requests": 1388
-        },
-        "allTime": {
-          "input": 231423721,
-          "uncached": 19425893,
-          "cached": 211997828,
-          "output": 898113,
-          "total": 232321834,
-          "requests": 1388
-        }
-      }
-    },
-    {
-      "id": "google-antigravity/gemini-3.1-pro",
-      "name": "Gemini 3.1 Pro",
-      "providerId": "google-antigravity",
-      "providerName": "Google Antigravity",
-      "pool": "gemini",
-      "context": "1M",
-      "contextTokens": 1048576,
-      "inputPrice1M": 1.25,
-      "cachedPrice1M": 0.3125,
-      "outputPrice1M": 5.0,
-      "speed": "Fast (80+ t/s)",
-      "reasoning": "Deep Reasoning",
-      "tag": "1M Deep Context",
-      "status": "active",
-      "actualUsage": {
-        "daily": {
-          "input": 0,
-          "uncached": 0,
-          "cached": 0,
-          "output": 0,
-          "total": 0,
-          "requests": 0
-        },
-        "weekly": {
-          "input": 0,
-          "uncached": 0,
-          "cached": 0,
-          "output": 0,
-          "total": 0,
-          "requests": 0
-        },
-        "monthly": {
-          "input": 0,
-          "uncached": 0,
-          "cached": 0,
-          "output": 0,
-          "total": 0,
-          "requests": 0
-        },
-        "allTime": {
-          "input": 0,
-          "uncached": 0,
-          "cached": 0,
-          "output": 0,
-          "total": 0,
-          "requests": 0
-        }
-      }
-    },
-    {
-      "id": "google-antigravity/claude-sonnet-4-6",
-      "name": "Claude Sonnet 4.6",
-      "providerId": "google-antigravity",
-      "providerName": "Google Antigravity",
-      "pool": "claude-gpt",
-      "context": "200k",
-      "contextTokens": 200000,
-      "inputPrice1M": 3.0,
-      "cachedPrice1M": 0.3,
-      "outputPrice1M": 15.0,
-      "speed": "Balanced (60+ t/s)",
-      "reasoning": "High Nuance Coding",
-      "tag": "Top Coder",
-      "status": "rate_limited",
-      "actualUsage": {
-        "daily": {
-          "input": 4369969,
-          "uncached": 408733,
-          "cached": 3961236,
-          "output": 11216,
-          "total": 4381185,
-          "requests": 28
-        },
-        "weekly": {
-          "input": 4369969,
-          "uncached": 408733,
-          "cached": 3961236,
-          "output": 11216,
-          "total": 4381185,
-          "requests": 28
-        },
-        "monthly": {
-          "input": 5529825,
-          "uncached": 913073,
-          "cached": 4616752,
-          "output": 18658,
-          "total": 5548483,
-          "requests": 52
-        },
-        "allTime": {
-          "input": 5529825,
-          "uncached": 913073,
-          "cached": 4616752,
-          "output": 18658,
-          "total": 5548483,
-          "requests": 52
-        }
-      }
-    },
-    {
-      "id": "google-antigravity/claude-opus-4-6-thinking",
-      "name": "Claude Opus 4.6 Thinking",
-      "providerId": "google-antigravity",
-      "providerName": "Google Antigravity",
-      "pool": "claude-gpt",
-      "context": "200k",
-      "contextTokens": 200000,
-      "inputPrice1M": 15.0,
-      "cachedPrice1M": 1.5,
-      "outputPrice1M": 75.0,
-      "speed": "Deep Thinking (35+ t/s)",
-      "reasoning": "Max Reasoning",
-      "tag": "Ultra Brain",
-      "status": "rate_limited",
-      "actualUsage": {
-        "daily": {
-          "input": 447007,
-          "uncached": 225598,
-          "cached": 221409,
-          "output": 309,
-          "total": 447316,
-          "requests": 5
-        },
-        "weekly": {
-          "input": 1038018,
-          "uncached": 503511,
-          "cached": 534507,
-          "output": 6975,
-          "total": 1044993,
-          "requests": 26
-        },
-        "monthly": {
-          "input": 5300004,
-          "uncached": 857723,
-          "cached": 4442281,
-          "output": 43793,
-          "total": 5343797,
-          "requests": 84
-        },
-        "allTime": {
-          "input": 5300004,
-          "uncached": 857723,
-          "cached": 4442281,
-          "output": 43793,
-          "total": 5343797,
-          "requests": 84
-        }
-      }
-    },
-    {
-      "id": "gpt-5.6-sol",
-      "name": "GPT-5.6 Sol",
-      "providerId": "openai",
-      "providerName": "OpenAI Codex",
-      "pool": null,
-      "context": "1M",
-      "contextTokens": 1048576,
-      "inputPrice1M": 5.0,
-      "cachedPrice1M": 1.25,
-      "outputPrice1M": 30.0,
-      "speed": "Flagship Intelligence (750 t/s on Cerebras)",
-      "reasoning": "Ultra Reasoning",
-      "tag": "Flagship AI",
-      "status": "active",
-      "actualUsage": {
-        "daily": {
-          "input": 0,
-          "uncached": 0,
-          "cached": 0,
-          "output": 0,
-          "total": 0,
-          "requests": 0
-        },
-        "weekly": {
-          "input": 0,
-          "uncached": 0,
-          "cached": 0,
-          "output": 0,
-          "total": 0,
-          "requests": 0
-        },
-        "monthly": {
-          "input": 0,
-          "uncached": 0,
-          "cached": 0,
-          "output": 0,
-          "total": 0,
-          "requests": 0
-        },
-        "allTime": {
-          "input": 0,
-          "uncached": 0,
-          "cached": 0,
-          "output": 0,
-          "total": 0,
-          "requests": 0
-        }
-      }
-    },
     {
       "id": "gpt-5.6-terra",
       "name": "GPT-5.6 Terra",
@@ -1579,156 +1130,6 @@
           "output": 10997,
           "total": 2044460,
           "requests": 42
-        }
-      }
-    },
-    {
-      "id": "gpt-5.6-luna",
-      "name": "GPT-5.6 Luna",
-      "providerId": "openai",
-      "providerName": "OpenAI Codex",
-      "pool": null,
-      "context": "1M",
-      "contextTokens": 1048576,
-      "inputPrice1M": 0.2,
-      "cachedPrice1M": 0.05,
-      "outputPrice1M": 1.2,
-      "speed": "Fast & Cost-Effective",
-      "reasoning": "Medium-Max",
-      "tag": "Best OpenAI Value",
-      "status": "active",
-      "actualUsage": {
-        "daily": {
-          "input": 0,
-          "uncached": 0,
-          "cached": 0,
-          "output": 0,
-          "total": 0,
-          "requests": 0
-        },
-        "weekly": {
-          "input": 72091,
-          "uncached": 2764,
-          "cached": 69327,
-          "output": 154,
-          "total": 72245,
-          "requests": 2
-        },
-        "monthly": {
-          "input": 579445,
-          "uncached": 79270,
-          "cached": 500175,
-          "output": 2307,
-          "total": 581752,
-          "requests": 11
-        },
-        "allTime": {
-          "input": 579445,
-          "uncached": 79270,
-          "cached": 500175,
-          "output": 2307,
-          "total": 581752,
-          "requests": 11
-        }
-      }
-    },
-    {
-      "id": "alibaba-token-plan-intl/qwen3.8-max",
-      "name": "Qwen 3.8 Max",
-      "providerId": "alibaba-token-plan-intl",
-      "providerName": "Alibaba Token Plan",
-      "pool": null,
-      "context": "1M",
-      "contextTokens": 1000000,
-      "inputPrice1M": 1.6,
-      "cachedPrice1M": 0.32,
-      "outputPrice1M": 6.4,
-      "speed": "Heavy Duty MoE (2.4T)",
-      "reasoning": "XHigh Reasoning",
-      "tag": "Flagship MoE",
-      "status": "rate_limited",
-      "actualUsage": {
-        "daily": {
-          "input": 21391509,
-          "uncached": 560405,
-          "cached": 20831104,
-          "output": 147385,
-          "total": 21538894,
-          "requests": 252
-        },
-        "weekly": {
-          "input": 21391509,
-          "uncached": 560405,
-          "cached": 20831104,
-          "output": 147385,
-          "total": 21538894,
-          "requests": 252
-        },
-        "monthly": {
-          "input": 71583729,
-          "uncached": 3357681,
-          "cached": 68226048,
-          "output": 486940,
-          "total": 72070669,
-          "requests": 718
-        },
-        "allTime": {
-          "input": 71583729,
-          "uncached": 3357681,
-          "cached": 68226048,
-          "output": 486940,
-          "total": 72070669,
-          "requests": 718
-        }
-      }
-    },
-    {
-      "id": "alibaba-token-plan-intl/qwen3.7-max",
-      "name": "Qwen 3.7 Max",
-      "providerId": "alibaba-token-plan-intl",
-      "providerName": "Alibaba Token Plan",
-      "pool": null,
-      "context": "1M",
-      "contextTokens": 1000000,
-      "inputPrice1M": 1.6,
-      "cachedPrice1M": 0.32,
-      "outputPrice1M": 6.4,
-      "speed": "Heavy Duty",
-      "reasoning": "XHigh Reasoning",
-      "tag": "Power Model",
-      "status": "rate_limited",
-      "actualUsage": {
-        "daily": {
-          "input": 0,
-          "uncached": 0,
-          "cached": 0,
-          "output": 0,
-          "total": 0,
-          "requests": 0
-        },
-        "weekly": {
-          "input": 0,
-          "uncached": 0,
-          "cached": 0,
-          "output": 0,
-          "total": 0,
-          "requests": 0
-        },
-        "monthly": {
-          "input": 0,
-          "uncached": 0,
-          "cached": 0,
-          "output": 0,
-          "total": 0,
-          "requests": 0
-        },
-        "allTime": {
-          "input": 0,
-          "uncached": 0,
-          "cached": 0,
-          "output": 0,
-          "total": 0,
-          "requests": 0
         }
       }
     },
@@ -1783,106 +1184,6 @@
       }
     },
     {
-      "id": "alibaba-token-plan-intl/qwen3.6-flash",
-      "name": "Qwen 3.6 Flash",
-      "providerId": "alibaba-token-plan-intl",
-      "providerName": "Alibaba Token Plan",
-      "pool": null,
-      "context": "1M",
-      "contextTokens": 1000000,
-      "inputPrice1M": 0.05,
-      "cachedPrice1M": 0.01,
-      "outputPrice1M": 0.2,
-      "speed": "Ultra Fast",
-      "reasoning": "Low-Medium",
-      "tag": "Ultra Cheap ($0.05)",
-      "status": "rate_limited",
-      "actualUsage": {
-        "daily": {
-          "input": 0,
-          "uncached": 0,
-          "cached": 0,
-          "output": 0,
-          "total": 0,
-          "requests": 0
-        },
-        "weekly": {
-          "input": 0,
-          "uncached": 0,
-          "cached": 0,
-          "output": 0,
-          "total": 0,
-          "requests": 0
-        },
-        "monthly": {
-          "input": 0,
-          "uncached": 0,
-          "cached": 0,
-          "output": 0,
-          "total": 0,
-          "requests": 0
-        },
-        "allTime": {
-          "input": 0,
-          "uncached": 0,
-          "cached": 0,
-          "output": 0,
-          "total": 0,
-          "requests": 0
-        }
-      }
-    },
-    {
-      "id": "alibaba-token-plan-intl/deepseek-v4-pro",
-      "name": "DeepSeek V4 Pro",
-      "providerId": "alibaba-token-plan-intl",
-      "providerName": "Alibaba Token Plan",
-      "pool": null,
-      "context": "1M",
-      "contextTokens": 1000000,
-      "inputPrice1M": 0.27,
-      "cachedPrice1M": 0.07,
-      "outputPrice1M": 1.1,
-      "speed": "Code & Math Specialist",
-      "reasoning": "High-Max",
-      "tag": "Code Specialist",
-      "status": "rate_limited",
-      "actualUsage": {
-        "daily": {
-          "input": 0,
-          "uncached": 0,
-          "cached": 0,
-          "output": 0,
-          "total": 0,
-          "requests": 0
-        },
-        "weekly": {
-          "input": 0,
-          "uncached": 0,
-          "cached": 0,
-          "output": 0,
-          "total": 0,
-          "requests": 0
-        },
-        "monthly": {
-          "input": 0,
-          "uncached": 0,
-          "cached": 0,
-          "output": 0,
-          "total": 0,
-          "requests": 0
-        },
-        "allTime": {
-          "input": 0,
-          "uncached": 0,
-          "cached": 0,
-          "output": 0,
-          "total": 0,
-          "requests": 0
-        }
-      }
-    },
-    {
       "id": "alibaba-token-plan-intl/deepseek-v4-pro-0813",
       "name": "DeepSeek V4 Pro (0813 Snapshot)",
       "providerId": "alibaba-token-plan-intl",
@@ -1933,19 +1234,69 @@
       }
     },
     {
-      "id": "alibaba-token-plan-intl/deepseek-v4-flash-0731",
-      "name": "DeepSeek V4 Flash",
+      "id": "google-antigravity/gemini-3.7-flash",
+      "name": "Gemini 3.7 Flash",
+      "providerId": "google-antigravity",
+      "providerName": "Google Antigravity",
+      "pool": "gemini",
+      "context": "1M",
+      "contextTokens": 1048576,
+      "inputPrice1M": 0.15,
+      "cachedPrice1M": 0.0375,
+      "outputPrice1M": 0.6,
+      "speed": "Ultra High (150+ t/s)",
+      "reasoning": "Hybrid Thinking",
+      "tag": "Best Speed",
+      "status": "active",
+      "actualUsage": {
+        "daily": {
+          "input": 71401720,
+          "uncached": 4064892,
+          "cached": 67336828,
+          "output": 183900,
+          "total": 71585620,
+          "requests": 233
+        },
+        "weekly": {
+          "input": 235956568,
+          "uncached": 19386348,
+          "cached": 216570220,
+          "output": 901595,
+          "total": 236858163,
+          "requests": 1376
+        },
+        "monthly": {
+          "input": 240655727,
+          "uncached": 20110547,
+          "cached": 220545180,
+          "output": 907206,
+          "total": 241562933,
+          "requests": 1416
+        },
+        "allTime": {
+          "input": 240655727,
+          "uncached": 20110547,
+          "cached": 220545180,
+          "output": 907206,
+          "total": 241562933,
+          "requests": 1416
+        }
+      }
+    },
+    {
+      "id": "alibaba-token-plan-intl/qwen3.6-flash",
+      "name": "Qwen 3.6 Flash",
       "providerId": "alibaba-token-plan-intl",
       "providerName": "Alibaba Token Plan",
       "pool": null,
       "context": "1M",
       "contextTokens": 1000000,
-      "inputPrice1M": 0.14,
-      "cachedPrice1M": 0.035,
-      "outputPrice1M": 0.28,
-      "speed": "Fast Inference",
-      "reasoning": "Standard",
-      "tag": "Fast Coder",
+      "inputPrice1M": 0.05,
+      "cachedPrice1M": 0.01,
+      "outputPrice1M": 0.2,
+      "speed": "Ultra Fast",
+      "reasoning": "Low-Medium",
+      "tag": "Ultra Cheap ($0.05)",
       "status": "rate_limited",
       "actualUsage": {
         "daily": {
@@ -1957,28 +1308,78 @@
           "requests": 0
         },
         "weekly": {
-          "input": 10055353,
-          "uncached": 402105,
-          "cached": 9653248,
-          "output": 76781,
-          "total": 10132134,
-          "requests": 167
+          "input": 0,
+          "uncached": 0,
+          "cached": 0,
+          "output": 0,
+          "total": 0,
+          "requests": 0
         },
         "monthly": {
-          "input": 34709315,
-          "uncached": 1661507,
-          "cached": 33047808,
-          "output": 204549,
-          "total": 34913864,
-          "requests": 477
+          "input": 0,
+          "uncached": 0,
+          "cached": 0,
+          "output": 0,
+          "total": 0,
+          "requests": 0
         },
         "allTime": {
-          "input": 34709315,
-          "uncached": 1661507,
-          "cached": 33047808,
-          "output": 204549,
-          "total": 34913864,
-          "requests": 477
+          "input": 0,
+          "uncached": 0,
+          "cached": 0,
+          "output": 0,
+          "total": 0,
+          "requests": 0
+        }
+      }
+    },
+    {
+      "id": "gpt-5.6-luna",
+      "name": "GPT-5.6 Luna",
+      "providerId": "openai",
+      "providerName": "OpenAI Codex",
+      "pool": null,
+      "context": "1M",
+      "contextTokens": 1048576,
+      "inputPrice1M": 0.2,
+      "cachedPrice1M": 0.05,
+      "outputPrice1M": 1.2,
+      "speed": "Fast & Cost-Effective",
+      "reasoning": "Medium-Max",
+      "tag": "Best OpenAI Value",
+      "status": "active",
+      "actualUsage": {
+        "daily": {
+          "input": 0,
+          "uncached": 0,
+          "cached": 0,
+          "output": 0,
+          "total": 0,
+          "requests": 0
+        },
+        "weekly": {
+          "input": 72091,
+          "uncached": 2764,
+          "cached": 69327,
+          "output": 154,
+          "total": 72245,
+          "requests": 2
+        },
+        "monthly": {
+          "input": 579445,
+          "uncached": 79270,
+          "cached": 500175,
+          "output": 2307,
+          "total": 581752,
+          "requests": 11
+        },
+        "allTime": {
+          "input": 579445,
+          "uncached": 79270,
+          "cached": 500175,
+          "output": 2307,
+          "total": 581752,
+          "requests": 11
         }
       }
     },
@@ -1997,6 +1398,206 @@
       "reasoning": "Medium Reasoning",
       "tag": "Bilingual",
       "status": "rate_limited",
+      "actualUsage": {
+        "daily": {
+          "input": 0,
+          "uncached": 0,
+          "cached": 0,
+          "output": 0,
+          "total": 0,
+          "requests": 0
+        },
+        "weekly": {
+          "input": 0,
+          "uncached": 0,
+          "cached": 0,
+          "output": 0,
+          "total": 0,
+          "requests": 0
+        },
+        "monthly": {
+          "input": 0,
+          "uncached": 0,
+          "cached": 0,
+          "output": 0,
+          "total": 0,
+          "requests": 0
+        },
+        "allTime": {
+          "input": 0,
+          "uncached": 0,
+          "cached": 0,
+          "output": 0,
+          "total": 0,
+          "requests": 0
+        }
+      }
+    },
+    {
+      "id": "google-antigravity/claude-opus-4-6-thinking",
+      "name": "Claude Opus 4.6 Thinking",
+      "providerId": "google-antigravity",
+      "providerName": "Google Antigravity",
+      "pool": "claude-gpt",
+      "context": "200k",
+      "contextTokens": 200000,
+      "inputPrice1M": 15.0,
+      "cachedPrice1M": 1.5,
+      "outputPrice1M": 75.0,
+      "speed": "Deep Thinking (35+ t/s)",
+      "reasoning": "Max Reasoning",
+      "tag": "Ultra Brain",
+      "status": "rate_limited",
+      "actualUsage": {
+        "daily": {
+          "input": 447007,
+          "uncached": 225598,
+          "cached": 221409,
+          "output": 309,
+          "total": 447316,
+          "requests": 5
+        },
+        "weekly": {
+          "input": 1038018,
+          "uncached": 503511,
+          "cached": 534507,
+          "output": 6975,
+          "total": 1044993,
+          "requests": 26
+        },
+        "monthly": {
+          "input": 5300004,
+          "uncached": 857723,
+          "cached": 4442281,
+          "output": 43793,
+          "total": 5343797,
+          "requests": 84
+        },
+        "allTime": {
+          "input": 5300004,
+          "uncached": 857723,
+          "cached": 4442281,
+          "output": 43793,
+          "total": 5343797,
+          "requests": 84
+        }
+      }
+    },
+    {
+      "id": "google-antigravity/claude-sonnet-4-6",
+      "name": "Claude Sonnet 4.6",
+      "providerId": "google-antigravity",
+      "providerName": "Google Antigravity",
+      "pool": "claude-gpt",
+      "context": "200k",
+      "contextTokens": 200000,
+      "inputPrice1M": 3.0,
+      "cachedPrice1M": 0.3,
+      "outputPrice1M": 15.0,
+      "speed": "Balanced (60+ t/s)",
+      "reasoning": "High Nuance Coding",
+      "tag": "Top Coder",
+      "status": "rate_limited",
+      "actualUsage": {
+        "daily": {
+          "input": 4369969,
+          "uncached": 408733,
+          "cached": 3961236,
+          "output": 11216,
+          "total": 4381185,
+          "requests": 28
+        },
+        "weekly": {
+          "input": 4369969,
+          "uncached": 408733,
+          "cached": 3961236,
+          "output": 11216,
+          "total": 4381185,
+          "requests": 28
+        },
+        "monthly": {
+          "input": 5529825,
+          "uncached": 913073,
+          "cached": 4616752,
+          "output": 18658,
+          "total": 5548483,
+          "requests": 52
+        },
+        "allTime": {
+          "input": 5529825,
+          "uncached": 913073,
+          "cached": 4616752,
+          "output": 18658,
+          "total": 5548483,
+          "requests": 52
+        }
+      }
+    },
+    {
+      "id": "alibaba-token-plan-intl/qwen3.8-max",
+      "name": "Qwen 3.8 Max",
+      "providerId": "alibaba-token-plan-intl",
+      "providerName": "Alibaba Token Plan",
+      "pool": null,
+      "context": "1M",
+      "contextTokens": 1000000,
+      "inputPrice1M": 1.6,
+      "cachedPrice1M": 0.32,
+      "outputPrice1M": 6.4,
+      "speed": "Heavy Duty MoE (2.4T)",
+      "reasoning": "XHigh Reasoning",
+      "tag": "Flagship MoE",
+      "status": "rate_limited",
+      "actualUsage": {
+        "daily": {
+          "input": 21391509,
+          "uncached": 560405,
+          "cached": 20831104,
+          "output": 147385,
+          "total": 21538894,
+          "requests": 252
+        },
+        "weekly": {
+          "input": 21391509,
+          "uncached": 560405,
+          "cached": 20831104,
+          "output": 147385,
+          "total": 21538894,
+          "requests": 252
+        },
+        "monthly": {
+          "input": 71583729,
+          "uncached": 3357681,
+          "cached": 68226048,
+          "output": 486940,
+          "total": 72070669,
+          "requests": 718
+        },
+        "allTime": {
+          "input": 71583729,
+          "uncached": 3357681,
+          "cached": 68226048,
+          "output": 486940,
+          "total": 72070669,
+          "requests": 718
+        }
+      }
+    },
+    {
+      "id": "gpt-5.6-sol",
+      "name": "GPT-5.6 Sol",
+      "providerId": "openai",
+      "providerName": "OpenAI Codex",
+      "pool": null,
+      "context": "1M",
+      "contextTokens": 1048576,
+      "inputPrice1M": 5.0,
+      "cachedPrice1M": 1.25,
+      "outputPrice1M": 30.0,
+      "speed": "Flagship Intelligence (750 t/s on Cerebras)",
+      "reasoning": "Ultra Reasoning",
+      "tag": "Flagship AI",
+      "status": "active",
       "actualUsage": {
         "daily": {
           "input": 0,

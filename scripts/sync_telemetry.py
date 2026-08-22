@@ -16,6 +16,12 @@ import urllib.parse
 import math
 import base64
 
+try:
+    from update_pricing_catalog import update_pricing_catalog, discover_opencodex_catalog
+    DYNAMIC_SPECS = update_pricing_catalog(force=False)
+except Exception:
+    DYNAMIC_SPECS = None
+
 GIST_ID = "67c16a5d365eddf3da98129350171338"
 
 # ── Google Antigravity live quota ────────────────────────────────────────────
@@ -769,8 +775,9 @@ def collect_telemetry():
     model_list = []
     ready_count = 0
     cooldown_count = 0
+    active_specs = DYNAMIC_SPECS if DYNAMIC_SPECS else MODEL_METADATA
 
-    for mid, meta in MODEL_METADATA.items():
+    for mid, meta in active_specs.items():
         is_alibaba = mid.startswith("alibaba-token-plan")
         is_ag = meta["providerId"] == "google-antigravity"
         pool = meta.get("pool")
@@ -931,8 +938,9 @@ def collect_telemetry():
         "catalogSync": {
             "isLiveConnected": True,
             "totalCatalogModels": len(model_list),
-            "lastWeeklySpecUpdate": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S KST"),
-            "nextWeeklySpecUpdate": (datetime.datetime.now() + datetime.timedelta(days=7)).strftime("%Y-%m-%d %H:%M:%S KST")
+            "source": "OpenCodex http://localhost:10100/#models & Official Provider API Specs",
+            "pricingDailySync": "Active (1회/일 자동 갱신)",
+            "lastDailyUpdate": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S KST")
         },
         "summary": {
             "totalProviders": 3,
