@@ -389,9 +389,17 @@ export default function LiveUsageTab({ models, isNightDiscountNow = false }: Liv
             </div>
           </div>
 
-          <div className="text-[10px] text-zinc-500 dark:text-zinc-400 pt-0.5 border-t border-zinc-200/50 dark:border-zinc-800/50 flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-            <span>※ 7일 쿼터 리셋 주기(8/22 17:29 KST)에 맞춰 초기화된 실측 토큰 기준입니다. (10,000 크레딧 완충 잠재 가치: ~$11.60 / 야간 50% ~$6.01)</span>
-            <span className="font-mono font-semibold text-amber-600 dark:text-amber-400 shrink-0">실질 가성비 {(alibabaCreditValue.dayTotalUSD / 4.88).toFixed(1)}배 수준</span>
+          <div className="text-[10px] text-zinc-500 dark:text-zinc-400 pt-1.5 border-t border-zinc-200/50 dark:border-zinc-800/50 flex flex-col gap-1">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+              <span>※ 7일 쿼터 리셋 주기(8/22 17:29 KST)에 맞춰 초기화된 실측 토큰 기준입니다.</span>
+              <span className="font-mono font-bold text-emerald-600 dark:text-emerald-400 shrink-0">
+                현재 소모분 실질 가성비: {alibabaCreditValue.dayTotalUSD > 0 ? (alibabaCreditValue.dayTotalUSD / 0.426).toFixed(1) : "1.5"}배 (소모 구독료 $0.43 대비 ${alibabaCreditValue.dayTotalUSD.toFixed(2)} 가치 획득)
+              </span>
+            </div>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between text-zinc-400 dark:text-zinc-500 text-[10px]">
+              <span>• 10,000 크레딧 완충 시 예상 총가치: 약 $7.55 (Flash 위주 1.5배) ~ 최대 $44.78 (Qwen 3.8 Max 위주 9.2배)</span>
+              <span className="text-amber-600 dark:text-amber-400 font-medium">💡 Qwen 3.8 Max 등 고성능 모델 사용 시 가성비 레버리지 극대화</span>
+            </div>
           </div>
         </div>
       </div>
