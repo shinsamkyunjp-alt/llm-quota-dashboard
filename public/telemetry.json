@@ -1,22 +1,22 @@
 {
-  "updatedAt": 1787362821601,
+  "updatedAt": 1787387822403,
   "environment": "Live Antigravity & ocx Telemetry",
   "catalogSync": {
     "isLiveConnected": true,
     "totalCatalogModels": 11,
     "source": "OpenCodex http://localhost:10100/#models & Official Provider API Specs",
     "pricingDailySync": "Active (1회/일 자동 갱신)",
-    "lastDailyUpdate": "2026-08-22 10:40:22 KST"
+    "lastDailyUpdate": "2026-08-22 17:37:03 KST"
   },
   "summary": {
     "totalProviders": 3,
-    "healthyProviders": 1,
+    "healthyProviders": 2,
     "partiallyExhaustedProviders": 1,
-    "exhaustedProviders": 1,
+    "exhaustedProviders": 0,
     "totalLinkedAccounts": 5,
     "activeLLMCount": 11,
-    "availableModelCount": 4,
-    "rateLimitedModelCount": 7
+    "availableModelCount": 9,
+    "rateLimitedModelCount": 2
   },
   "actualUsageMap": {
     "gpt-5.6-terra": {
@@ -55,36 +55,36 @@
     },
     "google-antigravity/gemini-3.7-flash": {
       "daily": {
-        "input": 80629700,
-        "uncached": 4596606,
-        "cached": 76033094,
-        "output": 190741,
-        "total": 80820441,
-        "requests": 264
+        "input": 96063779,
+        "uncached": 5479867,
+        "cached": 90583912,
+        "output": 212848,
+        "total": 96276627,
+        "requests": 326
       },
       "weekly": {
-        "input": 245184548,
-        "uncached": 19918062,
-        "cached": 225266486,
-        "output": 908436,
-        "total": 246092984,
-        "requests": 1407
+        "input": 263806957,
+        "uncached": 21287087,
+        "cached": 242519870,
+        "output": 939167,
+        "total": 264746124,
+        "requests": 1506
       },
       "monthly": {
-        "input": 249883707,
-        "uncached": 20642261,
-        "cached": 229241446,
-        "output": 914047,
-        "total": 250797754,
-        "requests": 1447
+        "input": 268506116,
+        "uncached": 22011286,
+        "cached": 246494830,
+        "output": 944778,
+        "total": 269450894,
+        "requests": 1546
       },
       "allTime": {
-        "input": 249883707,
-        "uncached": 20642261,
-        "cached": 229241446,
-        "output": 914047,
-        "total": 250797754,
-        "requests": 1447
+        "input": 268506116,
+        "uncached": 22011286,
+        "cached": 246494830,
+        "output": 944778,
+        "total": 269450894,
+        "requests": 1546
       }
     },
     "alibaba-token-plan-intl/qwen3.8-max": {
@@ -374,17 +374,17 @@
         "isLive": true,
         "fiveHourWindow": {
           "label": "5시간 롤링 한도",
-          "remainingPercent": 59.17,
-          "usagePercent": 40.83,
-          "resetAt": 1787367020000,
-          "desc": "1시간 9분 후 완전 충전"
+          "remainingPercent": 87.97,
+          "usagePercent": 12.03,
+          "resetAt": 1787396911000,
+          "desc": "2시간 31분 후 완전 충전"
         },
         "weeklyWindow": {
           "label": "주간 누적 한도",
-          "remainingPercent": 58.96,
-          "usagePercent": 41.04,
+          "remainingPercent": 56.63,
+          "usagePercent": 43.37,
           "resetAt": 1787454080000,
-          "desc": "1일 1시간 20분 후 완전 충전"
+          "desc": "18시간 24분 후 완전 충전"
         },
         "models": [
           "Gemini 3.7 Flash",
@@ -398,17 +398,17 @@
         "isLive": true,
         "fiveHourWindow": {
           "label": "5시간 롤링 한도",
-          "remainingPercent": 42.37,
-          "usagePercent": 57.63,
-          "resetAt": 1787376665000,
-          "desc": "3시간 50분 후 완전 충전"
+          "remainingPercent": 100.0,
+          "usagePercent": 0.0,
+          "resetAt": 1787405822000,
+          "desc": "4시간 59분 후 완전 충전"
         },
         "weeklyWindow": {
           "label": "주간 누적 한도",
           "remainingPercent": 0.0,
           "usagePercent": 100.0,
           "resetAt": 1787448710000,
-          "desc": "한도 소진 — 23시간 51분 후 재충전"
+          "desc": "한도 소진 — 16시간 54분 후 재충전"
         },
         "models": [
           "Claude Sonnet 4.6",
@@ -433,36 +433,36 @@
           "status": "active",
           "actualUsage": {
             "daily": {
-              "input": 80629700,
-              "uncached": 4596606,
-              "cached": 76033094,
-              "output": 190741,
-              "total": 80820441,
-              "requests": 264
+              "input": 96063779,
+              "uncached": 5479867,
+              "cached": 90583912,
+              "output": 212848,
+              "total": 96276627,
+              "requests": 326
             },
             "weekly": {
-              "input": 245184548,
-              "uncached": 19918062,
-              "cached": 225266486,
-              "output": 908436,
-              "total": 246092984,
-              "requests": 1407
+              "input": 263806957,
+              "uncached": 21287087,
+              "cached": 242519870,
+              "output": 939167,
+              "total": 264746124,
+              "requests": 1506
             },
             "monthly": {
-              "input": 249883707,
-              "uncached": 20642261,
-              "cached": 229241446,
-              "output": 914047,
-              "total": 250797754,
-              "requests": 1447
+              "input": 268506116,
+              "uncached": 22011286,
+              "cached": 246494830,
+              "output": 944778,
+              "total": 269450894,
+              "requests": 1546
             },
             "allTime": {
-              "input": 249883707,
-              "uncached": 20642261,
-              "cached": 229241446,
-              "output": 914047,
-              "total": 250797754,
-              "requests": 1447
+              "input": 268506116,
+              "uncached": 22011286,
+              "cached": 246494830,
+              "output": 944778,
+              "total": 269450894,
+              "requests": 1546
             }
           }
         },
@@ -574,7 +574,7 @@
       "status": "healthy",
       "plan": "Free Multi-Account Pool",
       "accountCount": 3,
-      "activeAccount": "s***9@gmail.com",
+      "activeAccount": "s***2@naver.com",
       "pooledAccounts": [
         "s***2@naver.com",
         "s***9@gmail.com",
@@ -584,18 +584,18 @@
         {
           "account": "s***2@naver.com",
           "accountId": "chatgpt-1785474763885",
-          "usagePercent": 6.0,
-          "remainingPercent": 94.0,
+          "usagePercent": 74.0,
+          "remainingPercent": 26.0,
           "resetAt": 1789010269000,
-          "state": "standby"
+          "state": "active"
         },
         {
           "account": "s***9@gmail.com",
           "accountId": "chatgpt-1785568744543",
-          "usagePercent": 15.0,
-          "remainingPercent": 85.0,
+          "usagePercent": 93.0,
+          "remainingPercent": 7.0,
           "resetAt": 1789487056000,
-          "state": "active"
+          "state": "exhausted"
         },
         {
           "account": "s***n@gmail.com (Main)",
@@ -606,8 +606,8 @@
           "state": "exhausted"
         }
       ],
-      "monthlyUsagePercent": 37.0,
-      "monthlyRemainingPercent": 63.0,
+      "monthlyUsagePercent": 85.67,
+      "monthlyRemainingPercent": 14.33,
       "monthlyResetAt": 1789010269000,
       "resetBasis": "earliest-account-reset",
       "models": [
@@ -767,16 +767,16 @@
       "provider": "alibaba-token-plan-intl",
       "name": "Alibaba Token Plan",
       "plan": "Standard (10,000 req/7d)",
-      "status": "exhausted",
-      "badge": "주간 쿼터 소진 (HTTP 429)",
+      "status": "healthy",
+      "badge": "정상 가동 (Active)",
       "region": "ap-southeast-1 (Singapore)",
       "account": "sk-s****HZew",
-      "weeklyUsagePercent": 100.0,
-      "weeklyRemainingPercent": 0.0,
-      "weeklyRequests": 10000,
+      "weeklyUsagePercent": 0.0,
+      "weeklyRemainingPercent": 100.0,
+      "weeklyRequests": 0,
       "weeklyLimit": 10000,
-      "resetAt": 1787387340000,
-      "message": "1-week quota exhausted",
+      "resetAt": 1787992140000,
+      "message": "7일 쿼터: 0 / 10,000 units (0.0%) 사용 중 (다음 리셋: 8/29 17:29 KST)",
       "promotion": {
         "isPromoActive": true,
         "promoTitle": "야간 50% 반값 크레딧 할인 프로모션 (Night Discount)",
@@ -843,7 +843,7 @@
           "speed": "Heavy Duty MoE (2.4T)",
           "reasoning": "XHigh Reasoning",
           "tag": "Flagship MoE",
-          "status": "rate_limited",
+          "status": "active",
           "actualUsage": {
             "daily": {
               "input": 21391509,
@@ -893,7 +893,7 @@
           "speed": "High Speed Multimodal",
           "reasoning": "Medium Reasoning",
           "tag": "All-Rounder",
-          "status": "rate_limited",
+          "status": "active",
           "actualUsage": {
             "daily": {
               "input": 0,
@@ -943,7 +943,7 @@
           "speed": "Ultra Fast",
           "reasoning": "Low-Medium",
           "tag": "Ultra Cheap ($0.05)",
-          "status": "rate_limited",
+          "status": "active",
           "actualUsage": {
             "daily": {
               "input": 0,
@@ -993,7 +993,7 @@
           "speed": "Code & Math Specialist (Snapshot)",
           "reasoning": "High-Max Reasoning",
           "tag": "Snapshot Stable",
-          "status": "rate_limited",
+          "status": "active",
           "actualUsage": {
             "daily": {
               "input": 0,
@@ -1043,7 +1043,7 @@
           "speed": "Bilingual Pro",
           "reasoning": "Medium Reasoning",
           "tag": "Bilingual",
-          "status": "rate_limited",
+          "status": "active",
           "actualUsage": {
             "daily": {
               "input": 0,
@@ -1100,36 +1100,36 @@
       "status": "active",
       "actualUsage": {
         "daily": {
-          "input": 80629700,
-          "uncached": 4596606,
-          "cached": 76033094,
-          "output": 190741,
-          "total": 80820441,
-          "requests": 264
+          "input": 96063779,
+          "uncached": 5479867,
+          "cached": 90583912,
+          "output": 212848,
+          "total": 96276627,
+          "requests": 326
         },
         "weekly": {
-          "input": 245184548,
-          "uncached": 19918062,
-          "cached": 225266486,
-          "output": 908436,
-          "total": 246092984,
-          "requests": 1407
+          "input": 263806957,
+          "uncached": 21287087,
+          "cached": 242519870,
+          "output": 939167,
+          "total": 264746124,
+          "requests": 1506
         },
         "monthly": {
-          "input": 249883707,
-          "uncached": 20642261,
-          "cached": 229241446,
-          "output": 914047,
-          "total": 250797754,
-          "requests": 1447
+          "input": 268506116,
+          "uncached": 22011286,
+          "cached": 246494830,
+          "output": 944778,
+          "total": 269450894,
+          "requests": 1546
         },
         "allTime": {
-          "input": 249883707,
-          "uncached": 20642261,
-          "cached": 229241446,
-          "output": 914047,
-          "total": 250797754,
-          "requests": 1447
+          "input": 268506116,
+          "uncached": 22011286,
+          "cached": 246494830,
+          "output": 944778,
+          "total": 269450894,
+          "requests": 1546
         }
       }
     },
@@ -1397,7 +1397,7 @@
       "speed": "Heavy Duty MoE (2.4T)",
       "reasoning": "XHigh Reasoning",
       "tag": "Flagship MoE",
-      "status": "rate_limited",
+      "status": "active",
       "actualUsage": {
         "daily": {
           "input": 21391509,
@@ -1447,7 +1447,7 @@
       "speed": "High Speed Multimodal",
       "reasoning": "Medium Reasoning",
       "tag": "All-Rounder",
-      "status": "rate_limited",
+      "status": "active",
       "actualUsage": {
         "daily": {
           "input": 0,
@@ -1497,7 +1497,7 @@
       "speed": "Ultra Fast",
       "reasoning": "Low-Medium",
       "tag": "Ultra Cheap ($0.05)",
-      "status": "rate_limited",
+      "status": "active",
       "actualUsage": {
         "daily": {
           "input": 0,
@@ -1547,7 +1547,7 @@
       "speed": "Code & Math Specialist (Snapshot)",
       "reasoning": "High-Max Reasoning",
       "tag": "Snapshot Stable",
-      "status": "rate_limited",
+      "status": "active",
       "actualUsage": {
         "daily": {
           "input": 0,
@@ -1597,7 +1597,7 @@
       "speed": "Bilingual Pro",
       "reasoning": "Medium Reasoning",
       "tag": "Bilingual",
-      "status": "rate_limited",
+      "status": "active",
       "actualUsage": {
         "daily": {
           "input": 0,

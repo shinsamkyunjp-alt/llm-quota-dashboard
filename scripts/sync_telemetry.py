@@ -575,16 +575,24 @@ def collect_telemetry():
     oa_monthly_remaining = round(max(0.0, 100.0 - oa_monthly_usage), 2) if oa_monthly_usage is not None else None
     oa_pool_exhausted = oa_monthly_usage is not None and oa_monthly_usage >= 100.0
 
-    # 3. Probe Alibaba status with persistent caching for 429 rate limit & Subscription Calibrated State
+    # 3. Probe Alibaba status: Dynamic 7-day rolling cycle & 8K block-weighted accounting
+    # Base subscription weekly reset anchor: 2026-08-22 17:29:00 KST (1787387340000 ms)
+    BASE_ALI_CYCLE_ANCHOR = 1787387340000
+    CYCLE_MS = 7 * 24 * 3600 * 1000
+    ali_limit = 10000
     is_ali_exhausted = False
     cache_dir = os.path.expanduser("~/.hermes/cache")
     os.makedirs(cache_dir, exist_ok=True)
     ali_state_file = os.path.join(cache_dir, "alibaba_quota_state.json")
-    
-    # Official Ground Truth Anchor from Alibaba My Subscriptions:
-    # 75.74% used (Updated: 2026-08-21 23:34:16), Reset at 2026-08-22 16:29:00 UTC+8 (1787387340000 ms)
-    DEFAULT_ALI_RESET_TS = 1787387340000
-    DEFAULT_BASELINE_USAGE = 75.74
+
+    # Calculate active cycle boundaries dynamically
+    ali_next_reset_ts = BASE_ALI_CYCLE_ANCHOR
+    while now_ms >= ali_next_reset_ts:
+        ali_next_reset_ts += CYCLE_MS
+    ali_cycle_start_ts = ali_next_reset_ts - CYCLE_MS
+    ali_reset_ts = ali_next_reset_ts
+    ali_reset_dt = datetime.datetime.fromtimestamp(ali_next_reset_ts / 1000)
+    ali_reset_str = ali_reset_dt.strftime("%-m/%-d %H:%M KST")
 
     ali_state = {}
     if os.path.exists(ali_state_file):
@@ -594,24 +602,20 @@ def collect_telemetry():
         except Exception:
             ali_state = {}
 
-    if not ali_state.get("calibrated_reset_at") or ali_state.get("baseline_usage_percent", 0) < DEFAULT_BASELINE_USAGE:
-        ali_state["calibrated_reset_at"] = DEFAULT_ALI_RESET_TS
-        ali_state["baseline_usage_percent"] = DEFAULT_BASELINE_USAGE
-        ali_state["anchor_time_ms"] = now_ms
-        if "anchor_requests_count" in ali_state:
-            del ali_state["anchor_requests_count"]
-        if "anchor_weighted_units" in ali_state:
-            del ali_state["anchor_weighted_units"]
+    # Check if cycle rolled over
+    if ali_state.get("cycle_start_ts") != ali_cycle_start_ts:
+        ali_state["cycle_start_ts"] = ali_cycle_start_ts
+        ali_state["calibrated_reset_at"] = ali_next_reset_ts
+        ali_state["baseline_usage_percent"] = 0.0
+        ali_state["anchor_time_ms"] = ali_cycle_start_ts
+        ali_state["anchor_weighted_units"] = 0.0
+        ali_state["status"] = "healthy"
 
-    # 3. Passive 429 Error Detection & 8K Block-Weighted Accounting via usage.jsonl (Zero Quota Waste)
-    ali_7d_requests = 0
-    ali_7d_weighted_units = 0.0
-    ali_limit = 10000
-    is_ali_exhausted = False
+    # Count usage and detect 429 inside the active cycle
+    ali_cycle_requests = 0
+    ali_cycle_weighted_units = 0.0
     usage_jsonl = os.path.expanduser("~/.opencodex/usage.jsonl")
     thirty_mins_ago = now_ms - (30 * 60 * 1000)
-    seven_days_ago = now_ms - (7 * 24 * 3600 * 1000)
-
     latest_200_ts = 0
     latest_429_ts = 0
 
@@ -627,53 +631,32 @@ def collect_telemetry():
                         status = entry.get("status")
                         err_code = str(entry.get("errorCode", "")).lower() + " " + str(entry.get("upstreamError", "")).lower()
                         rid = entry.get("requestId")
-                        m = str(entry.get("model", ""))
-                        if "alibaba" in prov or "dashscope" in prov or "bailian" in prov or "qwen" in prov:
-                            if ts >= seven_days_ago and status == 200:
+                        if any(x in prov for x in ["alibaba", "dashscope", "bailian", "qwen"]):
+                            if ts >= ali_cycle_start_ts and status == 200:
                                 if not (rid and rid in seen_rids):
                                     if rid:
                                         seen_rids.add(rid)
-                                    ali_7d_requests += 1
+                                    ali_cycle_requests += 1
                                     tot_tokens = entry.get("totalTokens", 0)
                                     base_units = math.ceil(tot_tokens / 8192.0) if tot_tokens > 0 else 1
-                                    ali_7d_weighted_units += base_units
-
+                                    ali_cycle_weighted_units += base_units
                                 if ts > latest_200_ts:
                                     latest_200_ts = ts
-                            elif status == 429:
+                            elif status == 429 and ts >= ali_cycle_start_ts:
                                 if ts > latest_429_ts:
-                                    if "quota" in err_code or "insufficient" in err_code or "exhaust" in err_code or "rate" in err_code:
+                                    if any(k in err_code for k in ["quota", "insufficient", "exhaust", "rate"]):
                                         latest_429_ts = ts
                     except Exception:
                         pass
         except Exception as e:
             print(f"Alibaba usage.jsonl read error: {e}")
 
-    # If recent 429 occurred within 30m and no newer 200 success arrived afterwards, mark exhausted
     if latest_429_ts > thirty_mins_ago and latest_429_ts >= latest_200_ts:
         is_ali_exhausted = True
 
-    # Dynamic sliding & anchor calibration
-    target_reset_at = ali_state.get("calibrated_reset_at", DEFAULT_ALI_RESET_TS)
-    while now_ms > target_reset_at:
-        target_reset_at += 7 * 24 * 3600 * 1000
-        ali_state["calibrated_reset_at"] = target_reset_at
-        ali_state["baseline_usage_percent"] = 0.0
-        ali_state["anchor_time_ms"] = now_ms
-
-    ali_reset_ts = target_reset_at
-    baseline_pct = ali_state.get("baseline_usage_percent", DEFAULT_BASELINE_USAGE)
-    
-    # Incremental weighted units tracked since anchor
-    anchor_units = ali_state.get("anchor_weighted_units", ali_7d_weighted_units)
-    if "anchor_weighted_units" not in ali_state:
-        ali_state["anchor_weighted_units"] = ali_7d_weighted_units
-        anchor_units = ali_7d_weighted_units
-
-    incremental_units = max(0.0, ali_7d_weighted_units - anchor_units)
-    incremental_pct = (incremental_units / float(ali_limit)) * 100.0
-
-    ali_used_pct = round(min(100.0, baseline_pct + incremental_pct), 2)
+    baseline_pct = ali_state.get("baseline_usage_percent", 0.0)
+    cycle_pct = (ali_cycle_weighted_units / float(ali_limit)) * 100.0
+    ali_used_pct = round(min(100.0, baseline_pct + cycle_pct), 2)
     ali_remaining_pct = round(max(0.0, 100.0 - ali_used_pct), 2)
     total_effective_units = int(round(ali_used_pct * (ali_limit / 100.0)))
 
@@ -685,9 +668,16 @@ def collect_telemetry():
     else:
         ali_state["status"] = "healthy"
 
+    ali_msg = (
+        f"7일 쿼터 소진 (HTTP 429 · 리셋: {ali_reset_str})"
+        if is_ali_exhausted
+        else f"7일 쿼터: {total_effective_units:,} / {ali_limit:,} units ({ali_used_pct}%) 사용 중 (다음 리셋: {ali_reset_str})"
+    )
+
     ali_state["last_checked_at"] = now_ms
+    ali_state["calibrated_reset_at"] = ali_next_reset_ts
     ali_state["current_usage_percent"] = ali_used_pct
-    ali_state["current_weighted_units"] = ali_7d_weighted_units
+    ali_state["current_weighted_units"] = ali_cycle_weighted_units
 
     try:
         with open(ali_state_file, "w", encoding="utf-8") as f:
@@ -912,7 +902,7 @@ def collect_telemetry():
             "weeklyRequests": total_effective_units,
             "weeklyLimit": ali_limit,
             "resetAt": ali_reset_ts,
-            "message": "1-week quota exhausted" if is_ali_exhausted else f"7일 쿼터: {total_effective_units:,} / {ali_limit:,} units ({ali_used_pct}%) 사용 중 (리셋: 8/22 17:29 KST)",
+            "message": ali_msg,
             "promotion": {
                 "isPromoActive": True,
                 "promoTitle": "야간 50% 반값 크레딧 할인 프로모션 (Night Discount)",
