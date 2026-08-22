@@ -383,19 +383,6 @@ MODEL_METADATA = {
         "reasoning": "Medium-Max",
         "tag": "Best OpenAI Value"
     },
-    "combo/Antigravity": {
-        "name": "Combo Antigravity Failover",
-        "providerId": "openai",
-        "providerName": "OpenCodex Combo",
-        "context": "1M",
-        "contextTokens": 1048576,
-        "inputPrice1M": 0.15,
-        "cachedPrice1M": 0.0375,
-        "outputPrice1M": 0.60,
-        "speed": "Auto Failover",
-        "reasoning": "Auto Failover",
-        "tag": "High Availability"
-    },
     # Alibaba Token Plan (1M Context)
     "alibaba-token-plan-intl/qwen3.8-max": {
         "name": "Qwen 3.8 Max",
@@ -500,19 +487,6 @@ MODEL_METADATA = {
         "speed": "Bilingual Pro",
         "reasoning": "Medium Reasoning",
         "tag": "Bilingual"
-    },
-    "alibaba-token-plan-intl/kimi-k2.5": {
-        "name": "Kimi K2.5",
-        "providerId": "alibaba-token-plan-intl",
-        "providerName": "Alibaba Token Plan",
-        "context": "256k",
-        "contextTokens": 256000,
-        "inputPrice1M": 0.80,
-        "cachedPrice1M": 0.16,
-        "outputPrice1M": 2.40,
-        "speed": "Fast Long-Context",
-        "reasoning": "High Context Reasoning",
-        "tag": "Long Context"
     }
 }
 

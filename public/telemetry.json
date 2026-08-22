@@ -1,11 +1,11 @@
 {
-  "updatedAt": 1787361051456,
+  "updatedAt": 1787361738627,
   "environment": "Live Antigravity & ocx Telemetry",
   "catalogSync": {
     "isLiveConnected": true,
-    "totalCatalogModels": 17,
-    "lastWeeklySpecUpdate": "2026-08-22 10:10:52 KST",
-    "nextWeeklySpecUpdate": "2026-08-29 10:10:52 KST"
+    "totalCatalogModels": 15,
+    "lastWeeklySpecUpdate": "2026-08-22 10:22:19 KST",
+    "nextWeeklySpecUpdate": "2026-08-29 10:22:19 KST"
   },
   "summary": {
     "totalProviders": 3,
@@ -13,9 +13,9 @@
     "partiallyExhaustedProviders": 1,
     "exhaustedProviders": 1,
     "totalLinkedAccounts": 5,
-    "activeLLMCount": 17,
-    "availableModelCount": 6,
-    "rateLimitedModelCount": 11
+    "activeLLMCount": 15,
+    "availableModelCount": 5,
+    "rateLimitedModelCount": 10
   },
   "actualUsageMap": {
     "gpt-5.6-terra": {
@@ -54,36 +54,36 @@
     },
     "google-antigravity/gemini-3.7-flash": {
       "daily": {
-        "input": 53715496,
-        "uncached": 2951445,
-        "cached": 50764051,
-        "output": 166458,
-        "total": 53881954,
-        "requests": 180
+        "input": 62169714,
+        "uncached": 3380238,
+        "cached": 58789476,
+        "output": 174807,
+        "total": 62344521,
+        "requests": 205
       },
       "weekly": {
-        "input": 218270344,
-        "uncached": 18272901,
-        "cached": 199997443,
-        "output": 884153,
-        "total": 219154497,
-        "requests": 1323
+        "input": 226724562,
+        "uncached": 18701694,
+        "cached": 208022868,
+        "output": 892502,
+        "total": 227617064,
+        "requests": 1348
       },
       "monthly": {
-        "input": 222969503,
-        "uncached": 18997100,
-        "cached": 203972403,
-        "output": 889764,
-        "total": 223859267,
-        "requests": 1363
+        "input": 231423721,
+        "uncached": 19425893,
+        "cached": 211997828,
+        "output": 898113,
+        "total": 232321834,
+        "requests": 1388
       },
       "allTime": {
-        "input": 222969503,
-        "uncached": 18997100,
-        "cached": 203972403,
-        "output": 889764,
-        "total": 223859267,
-        "requests": 1363
+        "input": 231423721,
+        "uncached": 19425893,
+        "cached": 211997828,
+        "output": 898113,
+        "total": 232321834,
+        "requests": 1388
       }
     },
     "alibaba-token-plan-intl/qwen3.8-max": {
@@ -373,17 +373,17 @@
         "isLive": true,
         "fiveHourWindow": {
           "label": "5시간 롤링 한도",
-          "remainingPercent": 76.47,
-          "usagePercent": 23.53,
+          "remainingPercent": 70.99,
+          "usagePercent": 29.01,
           "resetAt": 1787367020000,
-          "desc": "1시간 39분 후 완전 충전"
+          "desc": "1시간 28분 후 완전 충전"
         },
         "weeklyWindow": {
           "label": "주간 누적 한도",
-          "remainingPercent": 61.84,
-          "usagePercent": 38.16,
+          "remainingPercent": 60.93,
+          "usagePercent": 39.07,
           "resetAt": 1787454080000,
-          "desc": "1일 1시간 50분 후 완전 충전"
+          "desc": "1일 1시간 39분 후 완전 충전"
         },
         "models": [
           "Gemini 3.7 Flash",
@@ -400,14 +400,14 @@
           "remainingPercent": 42.37,
           "usagePercent": 57.63,
           "resetAt": 1787376665000,
-          "desc": "4시간 20분 후 완전 충전"
+          "desc": "4시간 8분 후 완전 충전"
         },
         "weeklyWindow": {
           "label": "주간 누적 한도",
           "remainingPercent": 0.0,
           "usagePercent": 100.0,
           "resetAt": 1787448710000,
-          "desc": "한도 소진 — 1일 20분 후 재충전"
+          "desc": "한도 소진 — 1일 9분 후 재충전"
         },
         "models": [
           "Claude Sonnet 4.6",
@@ -432,36 +432,36 @@
           "status": "active",
           "actualUsage": {
             "daily": {
-              "input": 53715496,
-              "uncached": 2951445,
-              "cached": 50764051,
-              "output": 166458,
-              "total": 53881954,
-              "requests": 180
+              "input": 62169714,
+              "uncached": 3380238,
+              "cached": 58789476,
+              "output": 174807,
+              "total": 62344521,
+              "requests": 205
             },
             "weekly": {
-              "input": 218270344,
-              "uncached": 18272901,
-              "cached": 199997443,
-              "output": 884153,
-              "total": 219154497,
-              "requests": 1323
+              "input": 226724562,
+              "uncached": 18701694,
+              "cached": 208022868,
+              "output": 892502,
+              "total": 227617064,
+              "requests": 1348
             },
             "monthly": {
-              "input": 222969503,
-              "uncached": 18997100,
-              "cached": 203972403,
-              "output": 889764,
-              "total": 223859267,
-              "requests": 1363
+              "input": 231423721,
+              "uncached": 19425893,
+              "cached": 211997828,
+              "output": 898113,
+              "total": 232321834,
+              "requests": 1388
             },
             "allTime": {
-              "input": 222969503,
-              "uncached": 18997100,
-              "cached": 203972403,
-              "output": 889764,
-              "total": 223859267,
-              "requests": 1363
+              "input": 231423721,
+              "uncached": 19425893,
+              "cached": 211997828,
+              "output": 898113,
+              "total": 232321834,
+              "requests": 1388
             }
           }
         },
@@ -807,56 +807,6 @@
               "output": 2307,
               "total": 581752,
               "requests": 11
-            }
-          }
-        },
-        {
-          "id": "combo/Antigravity",
-          "name": "Combo Antigravity Failover",
-          "providerId": "openai",
-          "providerName": "OpenCodex Combo",
-          "pool": null,
-          "context": "1M",
-          "contextTokens": 1048576,
-          "inputPrice1M": 0.15,
-          "cachedPrice1M": 0.0375,
-          "outputPrice1M": 0.6,
-          "speed": "Auto Failover",
-          "reasoning": "Auto Failover",
-          "tag": "High Availability",
-          "status": "active",
-          "actualUsage": {
-            "daily": {
-              "input": 0,
-              "uncached": 0,
-              "cached": 0,
-              "output": 0,
-              "total": 0,
-              "requests": 0
-            },
-            "weekly": {
-              "input": 7639522,
-              "uncached": 646786,
-              "cached": 6992736,
-              "output": 72389,
-              "total": 7711911,
-              "requests": 87
-            },
-            "monthly": {
-              "input": 8853060,
-              "uncached": 1074446,
-              "cached": 7778614,
-              "output": 77621,
-              "total": 8930681,
-              "requests": 114
-            },
-            "allTime": {
-              "input": 8853060,
-              "uncached": 1074446,
-              "cached": 7778614,
-              "output": 77621,
-              "total": 8930681,
-              "requests": 114
             }
           }
         }
@@ -1327,56 +1277,6 @@
               "requests": 0
             }
           }
-        },
-        {
-          "id": "alibaba-token-plan-intl/kimi-k2.5",
-          "name": "Kimi K2.5",
-          "providerId": "alibaba-token-plan-intl",
-          "providerName": "Alibaba Token Plan",
-          "pool": null,
-          "context": "256k",
-          "contextTokens": 256000,
-          "inputPrice1M": 0.8,
-          "cachedPrice1M": 0.16,
-          "outputPrice1M": 2.4,
-          "speed": "Fast Long-Context",
-          "reasoning": "High Context Reasoning",
-          "tag": "Long Context",
-          "status": "rate_limited",
-          "actualUsage": {
-            "daily": {
-              "input": 0,
-              "uncached": 0,
-              "cached": 0,
-              "output": 0,
-              "total": 0,
-              "requests": 0
-            },
-            "weekly": {
-              "input": 0,
-              "uncached": 0,
-              "cached": 0,
-              "output": 0,
-              "total": 0,
-              "requests": 0
-            },
-            "monthly": {
-              "input": 0,
-              "uncached": 0,
-              "cached": 0,
-              "output": 0,
-              "total": 0,
-              "requests": 0
-            },
-            "allTime": {
-              "input": 0,
-              "uncached": 0,
-              "cached": 0,
-              "output": 0,
-              "total": 0,
-              "requests": 0
-            }
-          }
         }
       ]
     }
@@ -1399,36 +1299,36 @@
       "status": "active",
       "actualUsage": {
         "daily": {
-          "input": 53715496,
-          "uncached": 2951445,
-          "cached": 50764051,
-          "output": 166458,
-          "total": 53881954,
-          "requests": 180
+          "input": 62169714,
+          "uncached": 3380238,
+          "cached": 58789476,
+          "output": 174807,
+          "total": 62344521,
+          "requests": 205
         },
         "weekly": {
-          "input": 218270344,
-          "uncached": 18272901,
-          "cached": 199997443,
-          "output": 884153,
-          "total": 219154497,
-          "requests": 1323
+          "input": 226724562,
+          "uncached": 18701694,
+          "cached": 208022868,
+          "output": 892502,
+          "total": 227617064,
+          "requests": 1348
         },
         "monthly": {
-          "input": 222969503,
-          "uncached": 18997100,
-          "cached": 203972403,
-          "output": 889764,
-          "total": 223859267,
-          "requests": 1363
+          "input": 231423721,
+          "uncached": 19425893,
+          "cached": 211997828,
+          "output": 898113,
+          "total": 232321834,
+          "requests": 1388
         },
         "allTime": {
-          "input": 222969503,
-          "uncached": 18997100,
-          "cached": 203972403,
-          "output": 889764,
-          "total": 223859267,
-          "requests": 1363
+          "input": 231423721,
+          "uncached": 19425893,
+          "cached": 211997828,
+          "output": 898113,
+          "total": 232321834,
+          "requests": 1388
         }
       }
     },
@@ -1729,56 +1629,6 @@
           "output": 2307,
           "total": 581752,
           "requests": 11
-        }
-      }
-    },
-    {
-      "id": "combo/Antigravity",
-      "name": "Combo Antigravity Failover",
-      "providerId": "openai",
-      "providerName": "OpenCodex Combo",
-      "pool": null,
-      "context": "1M",
-      "contextTokens": 1048576,
-      "inputPrice1M": 0.15,
-      "cachedPrice1M": 0.0375,
-      "outputPrice1M": 0.6,
-      "speed": "Auto Failover",
-      "reasoning": "Auto Failover",
-      "tag": "High Availability",
-      "status": "active",
-      "actualUsage": {
-        "daily": {
-          "input": 0,
-          "uncached": 0,
-          "cached": 0,
-          "output": 0,
-          "total": 0,
-          "requests": 0
-        },
-        "weekly": {
-          "input": 7639522,
-          "uncached": 646786,
-          "cached": 6992736,
-          "output": 72389,
-          "total": 7711911,
-          "requests": 87
-        },
-        "monthly": {
-          "input": 8853060,
-          "uncached": 1074446,
-          "cached": 7778614,
-          "output": 77621,
-          "total": 8930681,
-          "requests": 114
-        },
-        "allTime": {
-          "input": 8853060,
-          "uncached": 1074446,
-          "cached": 7778614,
-          "output": 77621,
-          "total": 8930681,
-          "requests": 114
         }
       }
     },
@@ -2146,56 +1996,6 @@
       "speed": "Bilingual Pro",
       "reasoning": "Medium Reasoning",
       "tag": "Bilingual",
-      "status": "rate_limited",
-      "actualUsage": {
-        "daily": {
-          "input": 0,
-          "uncached": 0,
-          "cached": 0,
-          "output": 0,
-          "total": 0,
-          "requests": 0
-        },
-        "weekly": {
-          "input": 0,
-          "uncached": 0,
-          "cached": 0,
-          "output": 0,
-          "total": 0,
-          "requests": 0
-        },
-        "monthly": {
-          "input": 0,
-          "uncached": 0,
-          "cached": 0,
-          "output": 0,
-          "total": 0,
-          "requests": 0
-        },
-        "allTime": {
-          "input": 0,
-          "uncached": 0,
-          "cached": 0,
-          "output": 0,
-          "total": 0,
-          "requests": 0
-        }
-      }
-    },
-    {
-      "id": "alibaba-token-plan-intl/kimi-k2.5",
-      "name": "Kimi K2.5",
-      "providerId": "alibaba-token-plan-intl",
-      "providerName": "Alibaba Token Plan",
-      "pool": null,
-      "context": "256k",
-      "contextTokens": 256000,
-      "inputPrice1M": 0.8,
-      "cachedPrice1M": 0.16,
-      "outputPrice1M": 2.4,
-      "speed": "Fast Long-Context",
-      "reasoning": "High Context Reasoning",
-      "tag": "Long Context",
       "status": "rate_limited",
       "actualUsage": {
         "daily": {
