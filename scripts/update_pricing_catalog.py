@@ -221,43 +221,41 @@ OFFICIAL_SPECS = {
     }
 }
 
+MODEL_ALIASES = {
+    "alibaba-token-plan-intl/deepseek-v4-flash": "alibaba-token-plan-intl/deepseek-v4-flash-0731",
+    "alibaba-token-plan-intl/deepseek-v4-pro": "alibaba-token-plan-intl/deepseek-v4-pro-0813",
+    "alibaba-token-plan-intl/qwen3.8-max-preview": "alibaba-token-plan-intl/qwen3.8-max",
+}
+
 def discover_opencodex_catalog():
-    """Read OpenCodex active catalog matching http://localhost:10100/#models."""
     active_set = set()
     if not os.path.exists(CONFIG_FILE):
-        return list(OFFICIAL_SPECS.keys())
-    
+        return OFFICIAL_SPECS
     try:
         with open(CONFIG_FILE, "r", encoding="utf-8") as f:
             cfg = json.load(f)
         disabled = set(cfg.get("disabledModels", []))
         providers = cfg.get("providers", {})
-
-        # Provider configured models
         for prov_id, pval in providers.items():
             for m in pval.get("models", []):
                 full_id = f"{prov_id}/{m}" if prov_id != "openai" else m
-                if full_id not in disabled and m not in disabled:
-                    active_set.add(full_id)
-
-        # Custom models
+                resolved = MODEL_ALIASES.get(full_id, full_id)
+                if full_id not in disabled and m not in disabled and resolved not in disabled:
+                    active_set.add(resolved)
         for cm in cfg.get("customModels", []):
             prov_id = cm.get("provider") or "alibaba-token-plan-intl"
             m = cm.get("modelId")
             full_id = f"{prov_id}/{m}" if prov_id != "openai" else m
-            if full_id not in disabled and m not in disabled:
-                active_set.add(full_id)
-
-        # Native OpenAI Codex models
+            resolved = MODEL_ALIASES.get(full_id, full_id)
+            if full_id not in disabled and m not in disabled and resolved not in disabled:
+                active_set.add(resolved)
         for oa_m in ["gpt-5.6-sol", "gpt-5.6-terra", "gpt-5.6-luna"]:
             if oa_m not in disabled:
                 active_set.add(oa_m)
     except Exception as e:
         print(f"Error reading OpenCodex config: {e}")
-        return list(OFFICIAL_SPECS.keys())
+        return OFFICIAL_SPECS
 
-    # Filter to known specs or synthesize entry
-    # Order: Google -> OpenAI -> Alibaba
     provider_order = {"google-antigravity": 1, "openai": 2, "alibaba-token-plan-intl": 3}
     def sort_key(mid):
         meta = OFFICIAL_SPECS.get(mid, {})

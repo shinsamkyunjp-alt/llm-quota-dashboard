@@ -1,12 +1,12 @@
 {
-  "updatedAt": 1787391828878,
+  "updatedAt": 1787392161762,
   "environment": "Live Antigravity & ocx Telemetry",
   "catalogSync": {
     "isLiveConnected": true,
     "totalCatalogModels": 11,
     "source": "OpenCodex http://localhost:10100/#models & Official Provider API Specs",
     "pricingDailySync": "Active (1회/일 자동 갱신)",
-    "lastDailyUpdate": "2026-08-22 18:43:49 KST"
+    "lastDailyUpdate": "2026-08-22 18:49:22 KST"
   },
   "summary": {
     "totalProviders": 3,
@@ -15,8 +15,8 @@
     "exhaustedProviders": 0,
     "totalLinkedAccounts": 5,
     "activeLLMCount": 11,
-    "availableModelCount": 9,
-    "rateLimitedModelCount": 2
+    "availableModelCount": 10,
+    "rateLimitedModelCount": 1
   },
   "actualUsageMap": {
     "alibaba-token-plan-intl/qwen3.8-max-preview": {
@@ -567,44 +567,44 @@
     },
     "google-antigravity/gemini-3.7-flash": {
       "daily": {
-        "input": 272512115,
-        "uncached": 22723031,
-        "cached": 249789084,
-        "output": 509835,
-        "total": 273021950,
-        "requests": 1393
+        "input": 293338910,
+        "uncached": 24812896,
+        "cached": 268526014,
+        "output": 529827,
+        "total": 293868737,
+        "requests": 1443
       },
       "weekly": {
-        "input": 636043215,
-        "uncached": 62090464,
-        "cached": 573952751,
-        "output": 2054052,
-        "total": 638097267,
-        "requests": 4344
+        "input": 656870010,
+        "uncached": 64180329,
+        "cached": 592689681,
+        "output": 2074044,
+        "total": 658944054,
+        "requests": 4394
       },
       "monthly": {
-        "input": 730322729,
-        "uncached": 74239038,
-        "cached": 656083691,
-        "output": 2382370,
-        "total": 732705099,
-        "requests": 4756
+        "input": 751149524,
+        "uncached": 76328903,
+        "cached": 674820621,
+        "output": 2402362,
+        "total": 753551886,
+        "requests": 4806
       },
       "currentCycle": {
-        "input": 70536251,
-        "uncached": 7658993,
-        "cached": 62877258,
-        "output": 93104,
-        "total": 70629355,
-        "requests": 182
+        "input": 91363046,
+        "uncached": 9748858,
+        "cached": 81614188,
+        "output": 113096,
+        "total": 91476142,
+        "requests": 232
       },
       "allTime": {
-        "input": 730322729,
-        "uncached": 74239038,
-        "cached": 656083691,
-        "output": 2382370,
-        "total": 732705099,
-        "requests": 4756
+        "input": 751149524,
+        "uncached": 76328903,
+        "cached": 674820621,
+        "output": 2402362,
+        "total": 753551886,
+        "requests": 4806
       }
     },
     "alibaba-token-plan-intl/deepseek-v4-pro-0813": {
@@ -664,17 +664,17 @@
         "isLive": true,
         "fiveHourWindow": {
           "label": "5시간 롤링 한도",
-          "remainingPercent": 64.88,
-          "usagePercent": 35.12,
+          "remainingPercent": 57.25,
+          "usagePercent": 42.75,
           "resetAt": 1787396911000,
-          "desc": "1시간 24분 후 완전 충전"
+          "desc": "1시간 19분 후 완전 충전"
         },
         "weeklyWindow": {
           "label": "주간 누적 한도",
-          "remainingPercent": 52.78,
-          "usagePercent": 47.22,
+          "remainingPercent": 51.51,
+          "usagePercent": 48.49,
           "resetAt": 1787454080000,
-          "desc": "17시간 17분 후 완전 충전"
+          "desc": "17시간 11분 후 완전 충전"
         },
         "models": [
           "Gemini 3.7 Flash",
@@ -690,7 +690,7 @@
           "label": "5시간 롤링 한도",
           "remainingPercent": 100.0,
           "usagePercent": 0.0,
-          "resetAt": 1787409829000,
+          "resetAt": 1787410162000,
           "desc": "5시간 후 완전 충전"
         },
         "weeklyWindow": {
@@ -698,7 +698,7 @@
           "remainingPercent": 0.0,
           "usagePercent": 100.0,
           "resetAt": 1787448710000,
-          "desc": "한도 소진 — 15시간 48분 후 재충전"
+          "desc": "한도 소진 — 15시간 42분 후 재충전"
         },
         "models": [
           "Claude Sonnet 4.6",
@@ -723,44 +723,44 @@
           "status": "active",
           "actualUsage": {
             "daily": {
-              "input": 272512115,
-              "uncached": 22723031,
-              "cached": 249789084,
-              "output": 509835,
-              "total": 273021950,
-              "requests": 1393
+              "input": 293338910,
+              "uncached": 24812896,
+              "cached": 268526014,
+              "output": 529827,
+              "total": 293868737,
+              "requests": 1443
             },
             "weekly": {
-              "input": 636043215,
-              "uncached": 62090464,
-              "cached": 573952751,
-              "output": 2054052,
-              "total": 638097267,
-              "requests": 4344
+              "input": 656870010,
+              "uncached": 64180329,
+              "cached": 592689681,
+              "output": 2074044,
+              "total": 658944054,
+              "requests": 4394
             },
             "monthly": {
-              "input": 730322729,
-              "uncached": 74239038,
-              "cached": 656083691,
-              "output": 2382370,
-              "total": 732705099,
-              "requests": 4756
+              "input": 751149524,
+              "uncached": 76328903,
+              "cached": 674820621,
+              "output": 2402362,
+              "total": 753551886,
+              "requests": 4806
             },
             "currentCycle": {
-              "input": 70536251,
-              "uncached": 7658993,
-              "cached": 62877258,
-              "output": 93104,
-              "total": 70629355,
-              "requests": 182
+              "input": 91363046,
+              "uncached": 9748858,
+              "cached": 81614188,
+              "output": 113096,
+              "total": 91476142,
+              "requests": 232
             },
             "allTime": {
-              "input": 730322729,
-              "uncached": 74239038,
-              "cached": 656083691,
-              "output": 2382370,
-              "total": 732705099,
-              "requests": 4756
+              "input": 751149524,
+              "uncached": 76328903,
+              "cached": 674820621,
+              "output": 2402362,
+              "total": 753551886,
+              "requests": 4806
             }
           }
         },
@@ -819,64 +819,6 @@
               "output": 32896,
               "total": 10470034,
               "requests": 90
-            }
-          }
-        },
-        {
-          "id": "google-antigravity/claude-opus-4-6-thinking",
-          "name": "Claude Opus 4.6 Thinking",
-          "providerId": "google-antigravity",
-          "providerName": "Google Antigravity",
-          "pool": "claude-gpt",
-          "context": "200k",
-          "contextTokens": 200000,
-          "inputPrice1M": 15.0,
-          "cachedPrice1M": 1.5,
-          "outputPrice1M": 75.0,
-          "speed": "Deep Thinking (35+ t/s)",
-          "reasoning": "Max Reasoning",
-          "tag": "Ultra Brain",
-          "status": "rate_limited",
-          "actualUsage": {
-            "daily": {
-              "input": 1113447,
-              "uncached": 670629,
-              "cached": 442818,
-              "output": 1845,
-              "total": 1115292,
-              "requests": 8
-            },
-            "weekly": {
-              "input": 2689381,
-              "uncached": 1230026,
-              "cached": 1459355,
-              "output": 64329,
-              "total": 2753710,
-              "requests": 50
-            },
-            "monthly": {
-              "input": 11213353,
-              "uncached": 1938450,
-              "cached": 9274903,
-              "output": 137965,
-              "total": 11351318,
-              "requests": 164
-            },
-            "currentCycle": {
-              "input": 0,
-              "uncached": 0,
-              "cached": 0,
-              "output": 0,
-              "total": 0,
-              "requests": 0
-            },
-            "allTime": {
-              "input": 11213353,
-              "uncached": 1938450,
-              "cached": 9274903,
-              "output": 137965,
-              "total": 11351318,
-              "requests": 164
             }
           }
         }
@@ -1392,6 +1334,64 @@
           }
         },
         {
+          "id": "alibaba-token-plan-intl/deepseek-v4-flash-0731",
+          "name": "DeepSeek V4 Flash",
+          "providerId": "alibaba-token-plan-intl",
+          "providerName": "Alibaba Token Plan",
+          "pool": null,
+          "context": "1M",
+          "contextTokens": 1000000,
+          "inputPrice1M": 0.14,
+          "cachedPrice1M": 0.035,
+          "outputPrice1M": 0.28,
+          "speed": "Fast Inference",
+          "reasoning": "Standard",
+          "tag": "Fast Coder",
+          "status": "active",
+          "actualUsage": {
+            "daily": {
+              "input": 16106742,
+              "uncached": 821494,
+              "cached": 15285248,
+              "output": 56125,
+              "total": 16162867,
+              "requests": 78
+            },
+            "weekly": {
+              "input": 37939244,
+              "uncached": 1883180,
+              "cached": 36056064,
+              "output": 224325,
+              "total": 38163569,
+              "requests": 431
+            },
+            "monthly": {
+              "input": 87528333,
+              "uncached": 4603277,
+              "cached": 82925056,
+              "output": 481687,
+              "total": 88010020,
+              "requests": 1051
+            },
+            "currentCycle": {
+              "input": 15991133,
+              "uncached": 772445,
+              "cached": 15218688,
+              "output": 53162,
+              "total": 16044295,
+              "requests": 74
+            },
+            "allTime": {
+              "input": 87528333,
+              "uncached": 4603277,
+              "cached": 82925056,
+              "output": 481687,
+              "total": 88010020,
+              "requests": 1051
+            }
+          }
+        },
+        {
           "id": "alibaba-token-plan-intl/glm-5.2",
           "name": "GLM 5.2",
           "providerId": "alibaba-token-plan-intl",
@@ -1462,44 +1462,44 @@
       "status": "active",
       "actualUsage": {
         "daily": {
-          "input": 272512115,
-          "uncached": 22723031,
-          "cached": 249789084,
-          "output": 509835,
-          "total": 273021950,
-          "requests": 1393
+          "input": 293338910,
+          "uncached": 24812896,
+          "cached": 268526014,
+          "output": 529827,
+          "total": 293868737,
+          "requests": 1443
         },
         "weekly": {
-          "input": 636043215,
-          "uncached": 62090464,
-          "cached": 573952751,
-          "output": 2054052,
-          "total": 638097267,
-          "requests": 4344
+          "input": 656870010,
+          "uncached": 64180329,
+          "cached": 592689681,
+          "output": 2074044,
+          "total": 658944054,
+          "requests": 4394
         },
         "monthly": {
-          "input": 730322729,
-          "uncached": 74239038,
-          "cached": 656083691,
-          "output": 2382370,
-          "total": 732705099,
-          "requests": 4756
+          "input": 751149524,
+          "uncached": 76328903,
+          "cached": 674820621,
+          "output": 2402362,
+          "total": 753551886,
+          "requests": 4806
         },
         "currentCycle": {
-          "input": 70536251,
-          "uncached": 7658993,
-          "cached": 62877258,
-          "output": 93104,
-          "total": 70629355,
-          "requests": 182
+          "input": 91363046,
+          "uncached": 9748858,
+          "cached": 81614188,
+          "output": 113096,
+          "total": 91476142,
+          "requests": 232
         },
         "allTime": {
-          "input": 730322729,
-          "uncached": 74239038,
-          "cached": 656083691,
-          "output": 2382370,
-          "total": 732705099,
-          "requests": 4756
+          "input": 751149524,
+          "uncached": 76328903,
+          "cached": 674820621,
+          "output": 2402362,
+          "total": 753551886,
+          "requests": 4806
         }
       }
     },
@@ -1558,64 +1558,6 @@
           "output": 32896,
           "total": 10470034,
           "requests": 90
-        }
-      }
-    },
-    {
-      "id": "google-antigravity/claude-opus-4-6-thinking",
-      "name": "Claude Opus 4.6 Thinking",
-      "providerId": "google-antigravity",
-      "providerName": "Google Antigravity",
-      "pool": "claude-gpt",
-      "context": "200k",
-      "contextTokens": 200000,
-      "inputPrice1M": 15.0,
-      "cachedPrice1M": 1.5,
-      "outputPrice1M": 75.0,
-      "speed": "Deep Thinking (35+ t/s)",
-      "reasoning": "Max Reasoning",
-      "tag": "Ultra Brain",
-      "status": "rate_limited",
-      "actualUsage": {
-        "daily": {
-          "input": 1113447,
-          "uncached": 670629,
-          "cached": 442818,
-          "output": 1845,
-          "total": 1115292,
-          "requests": 8
-        },
-        "weekly": {
-          "input": 2689381,
-          "uncached": 1230026,
-          "cached": 1459355,
-          "output": 64329,
-          "total": 2753710,
-          "requests": 50
-        },
-        "monthly": {
-          "input": 11213353,
-          "uncached": 1938450,
-          "cached": 9274903,
-          "output": 137965,
-          "total": 11351318,
-          "requests": 164
-        },
-        "currentCycle": {
-          "input": 0,
-          "uncached": 0,
-          "cached": 0,
-          "output": 0,
-          "total": 0,
-          "requests": 0
-        },
-        "allTime": {
-          "input": 11213353,
-          "uncached": 1938450,
-          "cached": 9274903,
-          "output": 137965,
-          "total": 11351318,
-          "requests": 164
         }
       }
     },
@@ -2014,6 +1956,64 @@
           "output": 937317,
           "total": 65547406,
           "requests": 953
+        }
+      }
+    },
+    {
+      "id": "alibaba-token-plan-intl/deepseek-v4-flash-0731",
+      "name": "DeepSeek V4 Flash",
+      "providerId": "alibaba-token-plan-intl",
+      "providerName": "Alibaba Token Plan",
+      "pool": null,
+      "context": "1M",
+      "contextTokens": 1000000,
+      "inputPrice1M": 0.14,
+      "cachedPrice1M": 0.035,
+      "outputPrice1M": 0.28,
+      "speed": "Fast Inference",
+      "reasoning": "Standard",
+      "tag": "Fast Coder",
+      "status": "active",
+      "actualUsage": {
+        "daily": {
+          "input": 16106742,
+          "uncached": 821494,
+          "cached": 15285248,
+          "output": 56125,
+          "total": 16162867,
+          "requests": 78
+        },
+        "weekly": {
+          "input": 37939244,
+          "uncached": 1883180,
+          "cached": 36056064,
+          "output": 224325,
+          "total": 38163569,
+          "requests": 431
+        },
+        "monthly": {
+          "input": 87528333,
+          "uncached": 4603277,
+          "cached": 82925056,
+          "output": 481687,
+          "total": 88010020,
+          "requests": 1051
+        },
+        "currentCycle": {
+          "input": 15991133,
+          "uncached": 772445,
+          "cached": 15218688,
+          "output": 53162,
+          "total": 16044295,
+          "requests": 74
+        },
+        "allTime": {
+          "input": 87528333,
+          "uncached": 4603277,
+          "cached": 82925056,
+          "output": 481687,
+          "total": 88010020,
+          "requests": 1051
         }
       }
     },
