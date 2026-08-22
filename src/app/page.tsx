@@ -492,6 +492,33 @@ const LiveClock = memo(function LiveClock() {
     setIsNightDiscountNow(kstHour >= 23 || kstHour < 9);
   }, []);
 
+  const PROVIDER_SORT_ORDER: Record<string, number> = {
+    'google-antigravity': 1,
+    'openai': 2,
+    'alibaba-token-plan-intl': 3,
+  };
+
+  const MODEL_SORT_ORDER: Record<string, number> = {
+    // Google
+    'google-antigravity/gemini-3.7-flash': 11,
+    'google-antigravity/gemini-3.1-pro': 12,
+    'google-antigravity/claude-sonnet-4-6': 13,
+    'google-antigravity/claude-opus-4-6-thinking': 14,
+    // OpenAI
+    'gpt-5.6-sol': 21,
+    'gpt-5.6-terra': 22,
+    'gpt-5.6-luna': 23,
+    // Alibaba
+    'alibaba-token-plan-intl/qwen3.8-max': 31,
+    'alibaba-token-plan-intl/qwen3.7-max': 32,
+    'alibaba-token-plan-intl/qwen3.7-plus': 33,
+    'alibaba-token-plan-intl/qwen3.6-flash': 34,
+    'alibaba-token-plan-intl/deepseek-v4-pro': 35,
+    'alibaba-token-plan-intl/deepseek-v4-pro-0813': 36,
+    'alibaba-token-plan-intl/deepseek-v4-flash-0731': 37,
+    'alibaba-token-plan-intl/glm-5.2': 38,
+  };
+
   const filteredModels = useMemo(() => {
     let list = rawModels.filter(m => {
       if (filterProvider !== 'all' && m.providerId !== filterProvider) return false;
@@ -506,6 +533,16 @@ const LiveClock = memo(function LiveClock() {
       list = [...list].sort((a, b) => (a.inputPrice1M ?? 0) - (b.inputPrice1M ?? 0));
     } else if (sortBy === 'context') {
       list = [...list].sort((a, b) => (b.contextTokens ?? 0) - (a.contextTokens ?? 0));
+    } else {
+      // Default: Google -> OpenAI -> Alibaba
+      list = [...list].sort((a, b) => {
+        const pA = PROVIDER_SORT_ORDER[a.providerId] ?? 99;
+        const pB = PROVIDER_SORT_ORDER[b.providerId] ?? 99;
+        if (pA !== pB) return pA - pB;
+        const mA = MODEL_SORT_ORDER[a.id] ?? 99;
+        const mB = MODEL_SORT_ORDER[b.id] ?? 99;
+        return mA - mB;
+      });
     }
 
     return list;
@@ -733,23 +770,43 @@ const LiveClock = memo(function LiveClock() {
           </div>
 
           <div className="bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800/80 rounded-2xl p-3.5 sm:p-4 shadow-sm flex items-center gap-3 min-w-0">
-            <div className="p-2.5 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 shrink-0">
-              <Cpu className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+            <div className={`p-2.5 rounded-xl shrink-0 ${
+              isClaudeExhausted
+                ? "bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 border border-rose-200/60 dark:border-rose-800/60"
+                : "bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300"
+            }`}>
+              <Cpu className="w-4 h-4" />
             </div>
             <div className="min-w-0">
               <div className="text-[10px] sm:text-xs text-zinc-500 dark:text-zinc-400 font-medium truncate">Claude 3rd Party 풀</div>
-              <div className={`text-base sm:text-lg font-bold font-mono mt-0.5 truncate ${
-                isClaudeExhausted ? "text-rose-600 dark:text-rose-400" : "text-emerald-600 dark:text-emerald-400"
-              }`}>
-                {claudeWeeklyExhausted
-                  ? "주간 한도 소진"
-                  : claude5hExhausted
-                  ? "5시간 한도 소진"
-                  : isClaudeExhausted
-                  ? "소진"
-                  : claude5hRemaining != null
-                  ? (viewMode === "remaining" ? `${fmtPct(claude5hRemaining)} 잔여` : `${fmtPct(claude5hUsed)} 사용`)
-                  : "Ready"}
+              <div className="text-base sm:text-lg font-bold font-mono mt-0.5 truncate flex items-baseline gap-1.5">
+                {claudeWeeklyExhausted ? (
+                  <>
+                    <span className="text-rose-600 dark:text-rose-400 font-bold">0%</span>
+                    <span className="text-xs text-zinc-400 font-sans font-normal">/ 주간 한도 소진</span>
+                  </>
+                ) : claude5hExhausted ? (
+                  <>
+                    <span className="text-rose-600 dark:text-rose-400 font-bold">0%</span>
+                    <span className="text-xs text-zinc-400 font-sans font-normal">/ 5시간 한도 소진</span>
+                  </>
+                ) : isClaudeExhausted ? (
+                  <>
+                    <span className="text-rose-600 dark:text-rose-400 font-bold">0%</span>
+                    <span className="text-xs text-zinc-400 font-sans font-normal">/ 쿼터 소진</span>
+                  </>
+                ) : claude5hRemaining != null ? (
+                  <>
+                    <span className="text-emerald-600 dark:text-emerald-400 font-bold">
+                      {viewMode === "remaining" ? fmtPct(claude5hRemaining) : fmtPct(claude5hUsed)}
+                    </span>
+                    <span className="text-xs text-zinc-400 font-sans font-normal">
+                      / {viewMode === "remaining" ? "잔여" : "사용"}
+                    </span>
+                  </>
+                ) : (
+                  <span className="text-emerald-600 dark:text-emerald-400 font-bold">Ready</span>
+                )}
               </div>
             </div>
           </div>

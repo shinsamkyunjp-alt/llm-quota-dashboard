@@ -1,12 +1,12 @@
 {
-  "updatedAt": 1787362376307,
+  "updatedAt": 1787362744780,
   "environment": "Live Antigravity & ocx Telemetry",
   "catalogSync": {
     "isLiveConnected": true,
     "totalCatalogModels": 11,
     "source": "OpenCodex http://localhost:10100/#models & Official Provider API Specs",
     "pricingDailySync": "Active (1회/일 자동 갱신)",
-    "lastDailyUpdate": "2026-08-22 10:32:56 KST"
+    "lastDailyUpdate": "2026-08-22 10:39:05 KST"
   },
   "summary": {
     "totalProviders": 3,
@@ -55,36 +55,36 @@
     },
     "google-antigravity/gemini-3.7-flash": {
       "daily": {
-        "input": 71401720,
-        "uncached": 4064892,
-        "cached": 67336828,
-        "output": 183900,
-        "total": 71585620,
-        "requests": 233
+        "input": 77713248,
+        "uncached": 4359480,
+        "cached": 73353768,
+        "output": 189351,
+        "total": 77902599,
+        "requests": 253
       },
       "weekly": {
-        "input": 235956568,
-        "uncached": 19386348,
-        "cached": 216570220,
-        "output": 901595,
-        "total": 236858163,
-        "requests": 1376
+        "input": 242268096,
+        "uncached": 19680936,
+        "cached": 222587160,
+        "output": 907046,
+        "total": 243175142,
+        "requests": 1396
       },
       "monthly": {
-        "input": 240655727,
-        "uncached": 20110547,
-        "cached": 220545180,
-        "output": 907206,
-        "total": 241562933,
-        "requests": 1416
+        "input": 246967255,
+        "uncached": 20405135,
+        "cached": 226562120,
+        "output": 912657,
+        "total": 247879912,
+        "requests": 1436
       },
       "allTime": {
-        "input": 240655727,
-        "uncached": 20110547,
-        "cached": 220545180,
-        "output": 907206,
-        "total": 241562933,
-        "requests": 1416
+        "input": 246967255,
+        "uncached": 20405135,
+        "cached": 226562120,
+        "output": 912657,
+        "total": 247879912,
+        "requests": 1436
       }
     },
     "alibaba-token-plan-intl/qwen3.8-max": {
@@ -374,17 +374,17 @@
         "isLive": true,
         "fiveHourWindow": {
           "label": "5시간 롤링 한도",
-          "remainingPercent": 64.66,
-          "usagePercent": 35.34,
+          "remainingPercent": 61.1,
+          "usagePercent": 38.9,
           "resetAt": 1787367020000,
-          "desc": "1시간 17분 후 완전 충전"
+          "desc": "1시간 11분 후 완전 충전"
         },
         "weeklyWindow": {
           "label": "주간 누적 한도",
-          "remainingPercent": 59.88,
-          "usagePercent": 40.12,
+          "remainingPercent": 59.28,
+          "usagePercent": 40.72,
           "resetAt": 1787454080000,
-          "desc": "1일 1시간 28분 후 완전 충전"
+          "desc": "1일 1시간 22분 후 완전 충전"
         },
         "models": [
           "Gemini 3.7 Flash",
@@ -401,14 +401,14 @@
           "remainingPercent": 42.37,
           "usagePercent": 57.63,
           "resetAt": 1787376665000,
-          "desc": "3시간 58분 후 완전 충전"
+          "desc": "3시간 52분 후 완전 충전"
         },
         "weeklyWindow": {
           "label": "주간 누적 한도",
           "remainingPercent": 0.0,
           "usagePercent": 100.0,
           "resetAt": 1787448710000,
-          "desc": "한도 소진 — 23시간 58분 후 재충전"
+          "desc": "한도 소진 — 23시간 52분 후 재충전"
         },
         "models": [
           "Claude Sonnet 4.6",
@@ -433,36 +433,36 @@
           "status": "active",
           "actualUsage": {
             "daily": {
-              "input": 71401720,
-              "uncached": 4064892,
-              "cached": 67336828,
-              "output": 183900,
-              "total": 71585620,
-              "requests": 233
+              "input": 77713248,
+              "uncached": 4359480,
+              "cached": 73353768,
+              "output": 189351,
+              "total": 77902599,
+              "requests": 253
             },
             "weekly": {
-              "input": 235956568,
-              "uncached": 19386348,
-              "cached": 216570220,
-              "output": 901595,
-              "total": 236858163,
-              "requests": 1376
+              "input": 242268096,
+              "uncached": 19680936,
+              "cached": 222587160,
+              "output": 907046,
+              "total": 243175142,
+              "requests": 1396
             },
             "monthly": {
-              "input": 240655727,
-              "uncached": 20110547,
-              "cached": 220545180,
-              "output": 907206,
-              "total": 241562933,
-              "requests": 1416
+              "input": 246967255,
+              "uncached": 20405135,
+              "cached": 226562120,
+              "output": 912657,
+              "total": 247879912,
+              "requests": 1436
             },
             "allTime": {
-              "input": 240655727,
-              "uncached": 20110547,
-              "cached": 220545180,
-              "output": 907206,
-              "total": 241562933,
-              "requests": 1416
+              "input": 246967255,
+              "uncached": 20405135,
+              "cached": 226562120,
+              "output": 912657,
+              "total": 247879912,
+              "requests": 1436
             }
           }
         },
@@ -1250,36 +1250,36 @@
       "status": "active",
       "actualUsage": {
         "daily": {
-          "input": 71401720,
-          "uncached": 4064892,
-          "cached": 67336828,
-          "output": 183900,
-          "total": 71585620,
-          "requests": 233
+          "input": 77713248,
+          "uncached": 4359480,
+          "cached": 73353768,
+          "output": 189351,
+          "total": 77902599,
+          "requests": 253
         },
         "weekly": {
-          "input": 235956568,
-          "uncached": 19386348,
-          "cached": 216570220,
-          "output": 901595,
-          "total": 236858163,
-          "requests": 1376
+          "input": 242268096,
+          "uncached": 19680936,
+          "cached": 222587160,
+          "output": 907046,
+          "total": 243175142,
+          "requests": 1396
         },
         "monthly": {
-          "input": 240655727,
-          "uncached": 20110547,
-          "cached": 220545180,
-          "output": 907206,
-          "total": 241562933,
-          "requests": 1416
+          "input": 246967255,
+          "uncached": 20405135,
+          "cached": 226562120,
+          "output": 912657,
+          "total": 247879912,
+          "requests": 1436
         },
         "allTime": {
-          "input": 240655727,
-          "uncached": 20110547,
-          "cached": 220545180,
-          "output": 907206,
-          "total": 241562933,
-          "requests": 1416
+          "input": 246967255,
+          "uncached": 20405135,
+          "cached": 226562120,
+          "output": 912657,
+          "total": 247879912,
+          "requests": 1436
         }
       }
     },

@@ -257,10 +257,16 @@ def discover_opencodex_catalog():
         return list(OFFICIAL_SPECS.keys())
 
     # Filter to known specs or synthesize entry
-    catalog = {}
-    for mid in active_set:
-        if mid in OFFICIAL_SPECS:
-            catalog[mid] = OFFICIAL_SPECS[mid]
+    # Order: Google -> OpenAI -> Alibaba
+    provider_order = {"google-antigravity": 1, "openai": 2, "alibaba-token-plan-intl": 3}
+    def sort_key(mid):
+        meta = OFFICIAL_SPECS.get(mid, {})
+        p_order = provider_order.get(meta.get("providerId"), 99)
+        spec_idx = list(OFFICIAL_SPECS.keys()).index(mid) if mid in OFFICIAL_SPECS else 999
+        return (p_order, spec_idx)
+
+    sorted_mids = sorted([m for m in active_set if m in OFFICIAL_SPECS], key=sort_key)
+    catalog = {mid: OFFICIAL_SPECS[mid] for mid in sorted_mids}
 
     return catalog if catalog else OFFICIAL_SPECS
 
