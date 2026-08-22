@@ -295,6 +295,7 @@ MODEL_METADATA = {
         "context": "1M",
         "contextTokens": 1048576,
         "inputPrice1M": 0.15,
+        "cachedPrice1M": 0.0375,
         "outputPrice1M": 0.60,
         "speed": "Ultra High (150+ t/s)",
         "reasoning": "Hybrid Thinking",
@@ -308,6 +309,7 @@ MODEL_METADATA = {
         "context": "1M",
         "contextTokens": 1048576,
         "inputPrice1M": 1.25,
+        "cachedPrice1M": 0.3125,
         "outputPrice1M": 5.00,
         "speed": "Fast (80+ t/s)",
         "reasoning": "Deep Reasoning",
@@ -321,6 +323,7 @@ MODEL_METADATA = {
         "context": "200k",
         "contextTokens": 200000,
         "inputPrice1M": 3.00,
+        "cachedPrice1M": 0.30,
         "outputPrice1M": 15.00,
         "speed": "Balanced (60+ t/s)",
         "reasoning": "High Nuance Coding",
@@ -334,6 +337,7 @@ MODEL_METADATA = {
         "context": "200k",
         "contextTokens": 200000,
         "inputPrice1M": 15.00,
+        "cachedPrice1M": 1.50,
         "outputPrice1M": 75.00,
         "speed": "Deep Thinking (35+ t/s)",
         "reasoning": "Max Reasoning",
@@ -347,6 +351,7 @@ MODEL_METADATA = {
         "context": "1M",
         "contextTokens": 1048576,
         "inputPrice1M": 5.00,
+        "cachedPrice1M": 1.25,
         "outputPrice1M": 30.00,
         "speed": "Flagship Intelligence (750 t/s on Cerebras)",
         "reasoning": "Ultra Reasoning",
@@ -359,6 +364,7 @@ MODEL_METADATA = {
         "context": "1M",
         "contextTokens": 1048576,
         "inputPrice1M": 2.00,
+        "cachedPrice1M": 0.50,
         "outputPrice1M": 12.00,
         "speed": "Balanced Daily Workload",
         "reasoning": "Medium-Ultra",
@@ -371,6 +377,7 @@ MODEL_METADATA = {
         "context": "1M",
         "contextTokens": 1048576,
         "inputPrice1M": 0.20,
+        "cachedPrice1M": 0.05,
         "outputPrice1M": 1.20,
         "speed": "Fast & Cost-Effective",
         "reasoning": "Medium-Max",
@@ -383,6 +390,7 @@ MODEL_METADATA = {
         "context": "1M",
         "contextTokens": 1048576,
         "inputPrice1M": 0.15,
+        "cachedPrice1M": 0.0375,
         "outputPrice1M": 0.60,
         "speed": "Auto Failover",
         "reasoning": "Auto Failover",
@@ -396,6 +404,7 @@ MODEL_METADATA = {
         "context": "1M",
         "contextTokens": 1000000,
         "inputPrice1M": 1.60,
+        "cachedPrice1M": 0.32,
         "outputPrice1M": 6.40,
         "speed": "Heavy Duty MoE (2.4T)",
         "reasoning": "XHigh Reasoning",
@@ -408,6 +417,7 @@ MODEL_METADATA = {
         "context": "1M",
         "contextTokens": 1000000,
         "inputPrice1M": 1.60,
+        "cachedPrice1M": 0.32,
         "outputPrice1M": 6.40,
         "speed": "Heavy Duty",
         "reasoning": "XHigh Reasoning",
@@ -420,6 +430,7 @@ MODEL_METADATA = {
         "context": "1M",
         "contextTokens": 1000000,
         "inputPrice1M": 0.26,
+        "cachedPrice1M": 0.052,
         "outputPrice1M": 0.78,
         "speed": "High Speed Multimodal",
         "reasoning": "Medium Reasoning",
@@ -432,6 +443,7 @@ MODEL_METADATA = {
         "context": "1M",
         "contextTokens": 1000000,
         "inputPrice1M": 0.05,
+        "cachedPrice1M": 0.01,
         "outputPrice1M": 0.20,
         "speed": "Ultra Fast",
         "reasoning": "Low-Medium",
@@ -444,6 +456,7 @@ MODEL_METADATA = {
         "context": "1M",
         "contextTokens": 1000000,
         "inputPrice1M": 0.27,
+        "cachedPrice1M": 0.07,
         "outputPrice1M": 1.10,
         "speed": "Code & Math Specialist",
         "reasoning": "High-Max",
@@ -456,6 +469,7 @@ MODEL_METADATA = {
         "context": "1M",
         "contextTokens": 1000000,
         "inputPrice1M": 0.27,
+        "cachedPrice1M": 0.07,
         "outputPrice1M": 1.10,
         "speed": "Code & Math Specialist (Snapshot)",
         "reasoning": "High-Max Reasoning",
@@ -468,6 +482,7 @@ MODEL_METADATA = {
         "context": "1M",
         "contextTokens": 1000000,
         "inputPrice1M": 0.14,
+        "cachedPrice1M": 0.035,
         "outputPrice1M": 0.28,
         "speed": "Fast Inference",
         "reasoning": "Standard",
@@ -480,6 +495,7 @@ MODEL_METADATA = {
         "context": "128k",
         "contextTokens": 128000,
         "inputPrice1M": 1.00,
+        "cachedPrice1M": 0.20,
         "outputPrice1M": 1.00,
         "speed": "Bilingual Pro",
         "reasoning": "Medium Reasoning",
@@ -492,6 +508,7 @@ MODEL_METADATA = {
         "context": "256k",
         "contextTokens": 256000,
         "inputPrice1M": 0.80,
+        "cachedPrice1M": 0.16,
         "outputPrice1M": 2.40,
         "speed": "Fast Long-Context",
         "reasoning": "High Context Reasoning",
@@ -708,10 +725,10 @@ def collect_telemetry():
     def get_stat(mid):
         if mid not in actual_usage_map:
             actual_usage_map[mid] = {
-                "daily": {"input": 0, "output": 0, "total": 0, "cached": 0, "requests": 0},
-                "weekly": {"input": 0, "output": 0, "total": 0, "cached": 0, "requests": 0},
-                "monthly": {"input": 0, "output": 0, "total": 0, "cached": 0, "requests": 0},
-                "allTime": {"input": 0, "output": 0, "total": 0, "cached": 0, "requests": 0}
+                "daily": {"input": 0, "uncached": 0, "cached": 0, "output": 0, "total": 0, "requests": 0},
+                "weekly": {"input": 0, "uncached": 0, "cached": 0, "output": 0, "total": 0, "requests": 0},
+                "monthly": {"input": 0, "uncached": 0, "cached": 0, "output": 0, "total": 0, "requests": 0},
+                "allTime": {"input": 0, "uncached": 0, "cached": 0, "output": 0, "total": 0, "requests": 0}
             }
         return actual_usage_map[mid]
 
@@ -719,6 +736,7 @@ def collect_telemetry():
         try:
             current_model = "google-antigravity/gemini-3.7-flash"
             prev_in = 0
+            prev_cached = 0
             prev_out = 0
             with open(f, "r", encoding="utf-8", errors="ignore") as fp:
                 for line in fp:
@@ -751,17 +769,21 @@ def collect_telemetry():
 
                                 delta_in = max(0, in_tokens - prev_in)
                                 delta_out = max(0, out_tokens - prev_out)
+                                delta_cached = max(0, min(delta_in, cached_tokens - prev_cached))
+                                delta_uncached = max(0, delta_in - delta_cached)
                                 delta_tot = delta_in + delta_out
                                 prev_in = in_tokens
+                                prev_cached = cached_tokens
                                 prev_out = out_tokens
 
                                 entry = get_stat(current_model)
                                 for p_key, max_a in [("daily", one_day_ms), ("weekly", seven_days_ms), ("monthly", thirty_days_ms), ("allTime", float("inf"))]:
                                     if age <= max_a:
                                         entry[p_key]["input"] += delta_in
+                                        entry[p_key]["uncached"] += delta_uncached
+                                        entry[p_key]["cached"] += delta_cached
                                         entry[p_key]["output"] += delta_out
                                         entry[p_key]["total"] += delta_tot
-                                        entry[p_key]["cached"] += cached_tokens
                                         entry[p_key]["requests"] += 1
                     except:
                         pass
@@ -803,16 +825,17 @@ def collect_telemetry():
             "context": meta["context"],
             "contextTokens": meta["contextTokens"],
             "inputPrice1M": meta["inputPrice1M"],
+            "cachedPrice1M": meta.get("cachedPrice1M", round(meta["inputPrice1M"] * 0.2, 4)),
             "outputPrice1M": meta["outputPrice1M"],
             "speed": meta["speed"],
             "reasoning": meta["reasoning"],
             "tag": meta.get("tag", "Active"),
             "status": status,
             "actualUsage": actual_usage_map.get(mid, {
-                "daily": {"input": 0, "output": 0, "total": 0, "cached": 0, "requests": 0},
-                "weekly": {"input": 0, "output": 0, "total": 0, "cached": 0, "requests": 0},
-                "monthly": {"input": 0, "output": 0, "total": 0, "cached": 0, "requests": 0},
-                "allTime": {"input": 0, "output": 0, "total": 0, "cached": 0, "requests": 0}
+                "daily": {"input": 0, "uncached": 0, "cached": 0, "output": 0, "total": 0, "requests": 0},
+                "weekly": {"input": 0, "uncached": 0, "cached": 0, "output": 0, "total": 0, "requests": 0},
+                "monthly": {"input": 0, "uncached": 0, "cached": 0, "output": 0, "total": 0, "requests": 0},
+                "allTime": {"input": 0, "uncached": 0, "cached": 0, "output": 0, "total": 0, "requests": 0}
             })
         })
 

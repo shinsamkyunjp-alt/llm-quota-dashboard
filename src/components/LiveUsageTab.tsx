@@ -9,13 +9,13 @@ import {
 export interface ModelInfo {
   id: string; name: string; providerId: string; providerName: string;
   pool?: string; speed?: string; context?: string; contextTokens?: number;
-  inputPrice1M?: number; outputPrice1M?: number; reasoning?: string; tag?: string;
+  inputPrice1M?: number; cachedPrice1M?: number; outputPrice1M?: number; reasoning?: string; tag?: string;
   status: 'active' | 'rate_limited' | 'standby';
   actualUsage?: {
-    daily:   { input: number; output: number; total: number; cached: number; requests: number };
-    weekly:  { input: number; output: number; total: number; cached: number; requests: number };
-    monthly: { input: number; output: number; total: number; cached: number; requests: number };
-    allTime: { input: number; output: number; total: number; cached: number; requests: number };
+    daily:   { input: number; uncached?: number; cached: number; output: number; total: number; requests: number };
+    weekly:  { input: number; uncached?: number; cached: number; output: number; total: number; requests: number };
+    monthly: { input: number; uncached?: number; cached: number; output: number; total: number; requests: number };
+    allTime: { input: number; uncached?: number; cached: number; output: number; total: number; requests: number };
   };
 }
 
@@ -31,8 +31,13 @@ function fmtTokens(n: number): string {
   return n.toString();
 }
 
-function calcCostUSD(model: ModelInfo, usage: { input: number; output: number }): number {
-  return ((model.inputPrice1M ?? 0) * usage.input + (model.outputPrice1M ?? 0) * usage.output) / 1000000;
+function calcCostUSD(model: ModelInfo, usage: { input: number; uncached?: number; cached?: number; output: number }): number {
+  const inPrice = model.inputPrice1M ?? 0;
+  const cachedPrice = model.cachedPrice1M ?? (inPrice * 0.2);
+  const outPrice = model.outputPrice1M ?? 0;
+  const uncached = usage.uncached ?? Math.max(0, usage.input - (usage.cached ?? 0));
+  const cached = usage.cached ?? 0;
+  return (inPrice * uncached + cachedPrice * cached + outPrice * usage.output) / 1000000;
 }
 
 const TIMEFRAME_LABELS: Record<Timeframe, string> = {
@@ -80,11 +85,21 @@ export default function LiveUsageTab({ models, isNightDiscountNow = false }: Liv
     let totalTokens = 0;
 
     const breakdown = aliModels.map(m => {
-      const u = m.actualUsage?.weekly ?? m.actualUsage?.[timeframe] ?? { input: 0, output: 0, total: 0, cached: 0, requests: 0 };
+      const u = m.actualUsage?.weekly ?? m.actualUsage?.[timeframe] ?? { input: 0, uncached: 0, cached: 0, output: 0, total: 0, requests: 0 };
       const inTok = u.input || 0;
+      const cachedTok = u.cached || 0;
+      const uncachedTok = u.uncached ?? Math.max(0, inTok - cachedTok);
       const outTok = u.output || 0;
       const totTok = inTok + outTok;
-      const dayCost = ((m.inputPrice1M ?? 0) * inTok + (m.outputPrice1M ?? 0) * outTok) / 1000000;
+
+      const inPrice = m.inputPrice1M ?? 0;
+      const cachedPrice = m.cachedPrice1M ?? (inPrice * 0.2);
+      const outPrice = m.outputPrice1M ?? 0;
+
+      const uncachedCost = (uncachedTok / 1e6) * inPrice;
+      const cachedCost = (cachedTok / 1e6) * cachedPrice;
+      const outCost = (outTok / 1e6) * outPrice;
+      const dayCost = uncachedCost + cachedCost + outCost;
       const eligible = isNightEligible(m.id);
 
       let simCost = dayCost;
@@ -107,7 +122,12 @@ export default function LiveUsageTab({ models, isNightDiscountNow = false }: Liv
         name: m.name,
         tokens: totTok,
         inTokens: inTok,
+        uncachedTokens: uncachedTok,
+        cachedTokens: cachedTok,
         outTokens: outTok,
+        uncachedCost,
+        cachedCost,
+        outCost,
         dayCost,
         simCost,
         maxNightCost,
@@ -117,15 +137,15 @@ export default function LiveUsageTab({ models, isNightDiscountNow = false }: Liv
     }).filter(b => b.tokens > 0);
 
     return {
-      dayTotalUSD: dayTotalUSD > 0 ? dayTotalUSD : 44.78,
-      simulatedTotalUSD: simulatedTotalUSD > 0 ? simulatedTotalUSD : (applyNightDiscount ? 44.78 * (1 - 0.5 * (nightRatio / 100)) : 44.78),
-      maxNightDiscountUSD: maxNightDiscountUSD > 0 ? maxNightDiscountUSD : 23.10,
+      dayTotalUSD: dayTotalUSD > 0 ? dayTotalUSD : 11.60,
+      simulatedTotalUSD: simulatedTotalUSD > 0 ? simulatedTotalUSD : (applyNightDiscount ? 11.60 * (1 - 0.5 * (nightRatio / 100)) : 11.60),
+      maxNightDiscountUSD: maxNightDiscountUSD > 0 ? maxNightDiscountUSD : 6.01,
       totalTokens: totalTokens > 0 ? totalTokens : 60678779,
       savedUSD: Math.max(0, dayTotalUSD - simulatedTotalUSD),
       breakdown: breakdown.length > 0 ? breakdown : [
-        { id: 'qwen3.8-max', name: 'Qwen 3.8 Max', tokens: 21538894, inTokens: 21391509, outTokens: 147385, dayCost: 35.17, simCost: applyNightDiscount ? 35.17 * (1 - 0.5 * (nightRatio / 100)) : 35.17, maxNightCost: 17.58, isEligible: true, requests: 252 },
-        { id: 'deepseek-v4-pro-0813', name: 'DeepSeek V4 Pro (0813)', tokens: 29007751, inTokens: 28593118, outTokens: 414633, dayCost: 8.18, simCost: applyNightDiscount ? 8.18 * (1 - 0.5 * (nightRatio / 100)) : 8.18, maxNightCost: 4.09, isEligible: true, requests: 440 },
-        { id: 'deepseek-v4-flash-0731', name: 'DeepSeek V4 Flash', tokens: 10132134, inTokens: 10055353, outTokens: 76781, dayCost: 1.43, simCost: 1.43, maxNightCost: 1.43, isEligible: false, requests: 167 },
+        { id: 'qwen3.8-max', name: 'Qwen 3.8 Max', tokens: 21538894, inTokens: 21391509, uncachedTokens: 560405, cachedTokens: 20831104, outTokens: 147385, uncachedCost: 0.90, cachedCost: 6.67, outCost: 0.94, dayCost: 8.51, simCost: applyNightDiscount ? 8.51 * (1 - 0.5 * (nightRatio / 100)) : 8.51, maxNightCost: 4.25, isEligible: true, requests: 252 },
+        { id: 'deepseek-v4-pro-0813', name: 'DeepSeek V4 Pro (0813)', tokens: 29007751, inTokens: 28593118, uncachedTokens: 1119198, cachedTokens: 27473920, outTokens: 414633, uncachedCost: 0.30, cachedCost: 1.92, outCost: 0.46, dayCost: 2.68, simCost: applyNightDiscount ? 2.68 * (1 - 0.5 * (nightRatio / 100)) : 2.68, maxNightCost: 1.34, isEligible: true, requests: 440 },
+        { id: 'deepseek-v4-flash-0731', name: 'DeepSeek V4 Flash', tokens: 10132134, inTokens: 10055353, uncachedTokens: 402105, cachedTokens: 9653248, outTokens: 76781, uncachedCost: 0.06, cachedCost: 0.34, outCost: 0.02, dayCost: 0.42, simCost: 0.42, maxNightCost: 0.42, isEligible: false, requests: 167 },
       ],
     };
   }, [models, timeframe, applyNightDiscount, nightRatio]);
@@ -133,8 +153,8 @@ export default function LiveUsageTab({ models, isNightDiscountNow = false }: Liv
   const rankedModels = useMemo(() => {
     return models
       .map(m => {
-        const u = m.actualUsage?.[timeframe] ?? { input: 0, output: 0, total: 0, cached: 0, requests: 0 };
-        const rawCostUSD = calcCostUSD(m, { input: u.input, output: u.output });
+        const u = m.actualUsage?.[timeframe] ?? { input: 0, uncached: 0, cached: 0, output: 0, total: 0, requests: 0 };
+        const rawCostUSD = calcCostUSD(m, { input: u.input, uncached: u.uncached, cached: u.cached, output: u.output });
         const eligible = isNightEligible(m.id);
         
         let costUSD = rawCostUSD;
@@ -161,6 +181,8 @@ export default function LiveUsageTab({ models, isNightDiscountNow = false }: Liv
     allCost:   rankedModels.reduce((s, r) => s + r.costUSD,        0),
     allReqs:   rankedModels.reduce((s, r) => s + r.usage.requests, 0),
     allInput:  rankedModels.reduce((s, r) => s + r.usage.input,    0),
+    allUncached: rankedModels.reduce((s, r) => s + (r.usage.uncached ?? Math.max(0, r.usage.input - (r.usage.cached ?? 0))), 0),
+    allCached: rankedModels.reduce((s, r) => s + (r.usage.cached ?? 0), 0),
     allOutput: rankedModels.reduce((s, r) => s + r.usage.output,   0),
     allSaved:  rankedModels.reduce((s, r) => s + r.discountSavedUSD, 0),
   }), [rankedModels]);
@@ -503,15 +525,17 @@ export default function LiveUsageTab({ models, isNightDiscountNow = false }: Liv
           </h3>
           <table className="w-full text-xs min-w-[640px]">
             <thead>
-              <tr className="border-b border-zinc-200 dark:border-zinc-800">
-                {['모델', '입력 토큰', '출력 토큰', '합계', '호출', '비용 (USD)', '비용 (KRW)'].map((h, i) => (
-                  <th key={h} className={'pb-2 font-semibold text-zinc-500 dark:text-zinc-400 ' + (i === 0 ? 'text-left pl-1' : 'text-right') + (i === 6 ? ' pr-1' : '')}>{h}</th>
+            <tr className="border-b border-zinc-200 dark:border-zinc-800">
+                {['모델', '입력(신규)', '캐시(Cache)', '출력(Output)', '합계', '호출', '비용 (USD)', '비용 (KRW)'].map((h, i) => (
+                  <th key={h} className={'pb-2 font-semibold text-zinc-500 dark:text-zinc-400 ' + (i === 0 ? 'text-left pl-1' : 'text-right') + (i === 7 ? ' pr-1' : '')}>{h}</th>
                 ))}
               </tr>
             </thead>
             <tbody>
               {rankedModels.map((row, idx) => {
                 const model = row.model, usage = row.usage, costUSD = row.costUSD;
+                const uncachedTok = usage.uncached ?? Math.max(0, usage.input - (usage.cached ?? 0));
+                const cachedTok = usage.cached ?? 0;
                 return (
                   <tr key={model.id} className={'border-b border-zinc-100 dark:border-zinc-800/60 ' + (idx % 2 !== 0 ? 'bg-zinc-50/40 dark:bg-zinc-800/20' : '')}>
                     <td className="py-2 pl-1">
@@ -521,7 +545,8 @@ export default function LiveUsageTab({ models, isNightDiscountNow = false }: Liv
                       )}
                       <div className="text-zinc-400 dark:text-zinc-600 text-[10px]">{model.providerName}</div>
                     </td>
-                    <td className="py-2 text-right text-zinc-600 dark:text-zinc-400 font-mono">{fmtTokens(usage.input)}</td>
+                    <td className="py-2 text-right text-zinc-600 dark:text-zinc-400 font-mono">{fmtTokens(uncachedTok)}</td>
+                    <td className="py-2 text-right text-indigo-600 dark:text-indigo-400 font-mono">{fmtTokens(cachedTok)}</td>
                     <td className="py-2 text-right text-zinc-600 dark:text-zinc-400 font-mono">{fmtTokens(usage.output)}</td>
                     <td className="py-2 text-right text-zinc-800 dark:text-zinc-200 font-mono font-semibold">{fmtTokens(usage.total)}</td>
                     <td className="py-2 text-right text-zinc-600 dark:text-zinc-400 font-mono">{usage.requests}</td>
@@ -532,7 +557,8 @@ export default function LiveUsageTab({ models, isNightDiscountNow = false }: Liv
               })}
               <tr className="bg-zinc-50 dark:bg-zinc-800/50 font-semibold">
                 <td className="py-2 pl-1 text-zinc-700 dark:text-zinc-300">합계</td>
-                <td className="py-2 text-right text-zinc-700 dark:text-zinc-300 font-mono">{fmtTokens(totals.allInput)}</td>
+                <td className="py-2 text-right text-zinc-700 dark:text-zinc-300 font-mono">{fmtTokens(totals.allUncached)}</td>
+                <td className="py-2 text-right text-indigo-700 dark:text-indigo-300 font-mono">{fmtTokens(totals.allCached)}</td>
                 <td className="py-2 text-right text-zinc-700 dark:text-zinc-300 font-mono">{fmtTokens(totals.allOutput)}</td>
                 <td className="py-2 text-right text-zinc-900 dark:text-zinc-100 font-mono font-bold">{fmtTokens(totals.allTokens)}</td>
                 <td className="py-2 text-right text-zinc-700 dark:text-zinc-300 font-mono">{totals.allReqs}</td>
