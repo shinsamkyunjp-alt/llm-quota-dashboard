@@ -611,9 +611,21 @@ def collect_telemetry():
         ali_state["anchor_weighted_units"] = 0.0
         ali_state["status"] = "healthy"
 
+    # Alibaba Token Plan credit rates per 1M tokens (calibrated to official billing)
+    ALI_CREDIT_RATES = {
+        "alibaba-token-plan-intl/qwen3.8-max": {"in": 1600, "cached": 320, "out": 6400},
+        "alibaba-token-plan-intl/qwen3.7-max": {"in": 1600, "cached": 320, "out": 6400},
+        "alibaba-token-plan-intl/qwen3.7-plus": {"in": 260, "cached": 52, "out": 780},
+        "alibaba-token-plan-intl/qwen3.6-flash": {"in": 50, "cached": 10, "out": 200},
+        "alibaba-token-plan-intl/deepseek-v4-pro": {"in": 270, "cached": 70, "out": 1100},
+        "alibaba-token-plan-intl/deepseek-v4-pro-0813": {"in": 270, "cached": 70, "out": 1100},
+        "alibaba-token-plan-intl/deepseek-v4-flash-0731": {"in": 140, "cached": 49.3, "out": 280},
+        "alibaba-token-plan-intl/glm-5.2": {"in": 1000, "cached": 200, "out": 1000},
+    }
+
     # Count usage and detect 429 inside the active cycle
     ali_cycle_requests = 0
-    ali_cycle_weighted_units = 0.0
+    ali_cycle_consumed_credits = 0.0
     usage_jsonl = os.path.expanduser("~/.opencodex/usage.jsonl")
     thirty_mins_ago = now_ms - (30 * 60 * 1000)
     latest_200_ts = 0
@@ -631,15 +643,22 @@ def collect_telemetry():
                         status = entry.get("status")
                         err_code = str(entry.get("errorCode", "")).lower() + " " + str(entry.get("upstreamError", "")).lower()
                         rid = entry.get("requestId")
+                        m = str(entry.get("model", ""))
+                        full_mid = f"alibaba-token-plan-intl/{m}" if not m.startswith("alibaba-") else m
                         if any(x in prov for x in ["alibaba", "dashscope", "bailian", "qwen"]):
                             if ts >= ali_cycle_start_ts and status == 200:
                                 if not (rid and rid in seen_rids):
                                     if rid:
                                         seen_rids.add(rid)
                                     ali_cycle_requests += 1
-                                    tot_tokens = entry.get("totalTokens", 0)
-                                    base_units = math.ceil(tot_tokens / 8192.0) if tot_tokens > 0 else 1
-                                    ali_cycle_weighted_units += base_units
+                                    u = entry.get("usage", {})
+                                    in_tok = u.get("inputTokens", 0)
+                                    cached_tok = u.get("cachedInputTokens", 0)
+                                    out_tok = u.get("outputTokens", 0)
+                                    uncached_tok = max(0, in_tok - cached_tok)
+                                    rates = ALI_CREDIT_RATES.get(full_mid, {"in": 140, "cached": 35, "out": 280})
+                                    item_credits = (uncached_tok * rates["in"] + cached_tok * rates["cached"] + out_tok * rates["out"]) / 1e6
+                                    ali_cycle_consumed_credits += item_credits
                                 if ts > latest_200_ts:
                                     latest_200_ts = ts
                             elif status == 429 and ts >= ali_cycle_start_ts:
@@ -655,7 +674,7 @@ def collect_telemetry():
         is_ali_exhausted = True
 
     baseline_pct = ali_state.get("baseline_usage_percent", 0.0)
-    cycle_pct = (ali_cycle_weighted_units / float(ali_limit)) * 100.0
+    cycle_pct = (ali_cycle_consumed_credits / float(ali_limit)) * 100.0
     ali_used_pct = round(min(100.0, baseline_pct + cycle_pct), 2)
     ali_remaining_pct = round(max(0.0, 100.0 - ali_used_pct), 2)
     total_effective_units = int(round(ali_used_pct * (ali_limit / 100.0)))
@@ -677,7 +696,7 @@ def collect_telemetry():
     ali_state["last_checked_at"] = now_ms
     ali_state["calibrated_reset_at"] = ali_next_reset_ts
     ali_state["current_usage_percent"] = ali_used_pct
-    ali_state["current_weighted_units"] = ali_cycle_weighted_units
+    ali_state["current_weighted_units"] = ali_cycle_consumed_credits
 
     try:
         with open(ali_state_file, "w", encoding="utf-8") as f:
@@ -685,9 +704,7 @@ def collect_telemetry():
     except Exception as e:
         print(f"Failed to save alibaba state: {e}")
 
-    # 4. Collect actual cumulative token usage from session telemetry
-    session_dir = os.path.expanduser("~/.codex/sessions")
-    session_files = glob.glob(f"{session_dir}/**/*.jsonl", recursive=True)
+    # 4. Collect actual cumulative token usage from OpenCodex proxy (usage.jsonl) & session telemetry
     one_day_ms = 24 * 3600 * 1000
     seven_days_ms = 7 * one_day_ms
     thirty_days_ms = 30 * one_day_ms
@@ -703,6 +720,62 @@ def collect_telemetry():
                 "allTime": {"input": 0, "uncached": 0, "cached": 0, "output": 0, "total": 0, "requests": 0}
             }
         return actual_usage_map[mid]
+
+    # A. Ingest all OpenCodex proxy requests (covers agents, subagents, tools, scripts, Claude Code)
+    seen_req_ids = set()
+    if os.path.exists(usage_jsonl):
+        try:
+            with open(usage_jsonl, "r", encoding="utf-8") as fp:
+                for line in fp:
+                    try:
+                        d = json.loads(line)
+                        if d.get("status") != 200: continue
+                        rid = d.get("requestId")
+                        if rid and rid in seen_req_ids: continue
+                        if rid: seen_req_ids.add(rid)
+                        
+                        ts = d.get("timestamp", 0)
+                        age = now_ms - ts
+                        prov = str(d.get("provider", "")).lower()
+                        m = str(d.get("model", ""))
+                        if "alibaba" in prov or "dashscope" in prov or "bailian" in prov or "qwen" in prov:
+                            full_id = f"alibaba-token-plan-intl/{m}" if not m.startswith("alibaba-") else m
+                        elif "antigravity" in prov or "google" in prov:
+                            full_id = f"google-antigravity/{m}" if not m.startswith("google-") else m
+                        else:
+                            full_id = m
+                        
+                        u = d.get("usage", {})
+                        in_tok = u.get("inputTokens", 0)
+                        cached_tok = u.get("cachedInputTokens", 0)
+                        out_tok = u.get("outputTokens", 0)
+                        uncached_tok = max(0, in_tok - cached_tok)
+                        tot_tok = in_tok + out_tok
+                        
+                        entry = get_stat(full_id)
+                        for p_key, max_a in [("daily", one_day_ms), ("weekly", seven_days_ms), ("monthly", thirty_days_ms), ("allTime", float("inf"))]:
+                            if age <= max_a:
+                                entry[p_key]["input"] += in_tok
+                                entry[p_key]["uncached"] += uncached_tok
+                                entry[p_key]["cached"] += cached_tok
+                                entry[p_key]["output"] += out_tok
+                                entry[p_key]["total"] += tot_tok
+                                entry[p_key]["requests"] += 1
+                        if ts >= ali_cycle_start_ts:
+                            entry["currentCycle"]["input"] += in_tok
+                            entry["currentCycle"]["uncached"] += uncached_tok
+                            entry["currentCycle"]["cached"] += cached_tok
+                            entry["currentCycle"]["output"] += out_tok
+                            entry["currentCycle"]["total"] += tot_tok
+                            entry["currentCycle"]["requests"] += 1
+                    except Exception:
+                        pass
+        except Exception as e:
+            print(f"Failed to ingest usage.jsonl into telemetry map: {e}")
+
+    # B. Ingest Codex desktop session logs (if not already captured)
+    session_dir = os.path.expanduser("~/.codex/sessions")
+    session_files = glob.glob(f"{session_dir}/**/*.jsonl", recursive=True)
 
     for f in session_files:
         try:
