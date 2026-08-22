@@ -333,8 +333,54 @@ export default function QuotaDashboard() {
 
   const ag = data.antigravity || DEFAULT_TELEMETRY.antigravity;
   const oa = data.openai || DEFAULT_TELEMETRY.openai;
-  const al = data.alibaba || DEFAULT_TELEMETRY.alibaba;
-  const rawModels: ModelInfo[] = data.allModels || DEFAULT_MODELS;
+ const al = data.alibaba || DEFAULT_TELEMETRY.alibaba;
+ const rawModels: ModelInfo[] = data.allModels || DEFAULT_MODELS;
+
+  // ── Alibaba 10,000 크레딧 달러 가치 계산 (실사용 기반) ──
+  const aliDollarValue = useMemo(() => {
+    const usageMap: Record<string, any> = (data as any)?.actualUsageMap || {};
+    const PRICES: Record<string, { input: number; output: number }> = {
+      'alibaba-token-plan-intl/qwen3.8-max':            { input: 1.60, output: 6.40 },
+      'alibaba-token-plan-intl/qwen3.7-max':            { input: 1.60, output: 6.40 },
+      'alibaba-token-plan-intl/qwen3.7-plus':           { input: 0.26, output: 0.78 },
+      'alibaba-token-plan-intl/qwen3.6-flash':          { input: 0.05, output: 0.20 },
+      'alibaba-token-plan-intl/deepseek-v4-pro':        { input: 0.27, output: 1.10 },
+      'alibaba-token-plan-intl/deepseek-v4-pro-0813':   { input: 0.27, output: 1.10 },
+      'alibaba-token-plan-intl/deepseek-v4-flash-0731': { input: 0.14, output: 0.28 },
+      'alibaba-token-plan-intl/glm-5.2':                { input: 1.00, output: 1.00 },
+      'alibaba-token-plan-intl/kimi-k2.5':              { input: 0.80, output: 2.40 },
+    };
+    const NIGHT_MODELS = new Set([
+      'alibaba-token-plan-intl/qwen3.8-max',
+      'alibaba-token-plan-intl/deepseek-v4-pro-0813',
+    ]);
+    let dayTotal = 0;
+    let nightTotal = 0;
+    let hasData = false;
+    const perModel: Array<{ name: string; tokens: number; costDay: number; costNight: number; isNight: boolean }> = [];
+    for (const [mid, mdata] of Object.entries(usageMap)) {
+      if (!mid.startsWith('alibaba-')) continue;
+      const w = (mdata as any)?.weekly || {};
+      const inTok: number = w.input || 0;
+      const outTok: number = w.output || 0;
+      if (inTok + outTok === 0) continue;
+      const p = PRICES[mid];
+      if (!p) continue;
+      hasData = true;
+      const costDay = (inTok / 1e6) * p.input + (outTok / 1e6) * p.output;
+      const costNight = NIGHT_MODELS.has(mid) ? costDay * 0.5 : costDay;
+      dayTotal += costDay;
+      nightTotal += costNight;
+      perModel.push({
+        name: mid.split('/').pop()!,
+        tokens: inTok + outTok,
+        costDay,
+        costNight,
+        isNight: NIGHT_MODELS.has(mid),
+      });
+    }
+    return hasData ? { dayTotal, nightTotal, perModel } : null;
+  }, [data]);
 
   // ── ocx 라이브 값 기반 파생값 (하드코딩 제거) ──
   const fmtPct = (n?: number | null) => {
@@ -1020,9 +1066,55 @@ const LiveClock = memo(function LiveClock() {
                 </div>
               </div>
 
-             {/* Promotion & Plan Highlights */}
-             <div className="bg-zinc-50/70 dark:bg-zinc-800/50 border border-zinc-200/60 dark:border-zinc-700/60 rounded-xl p-3 space-y-2">
+            {/* Promotion & Plan Highlights */}
+            <div className="bg-zinc-50/70 dark:bg-zinc-800/50 border border-zinc-200/60 dark:border-zinc-700/60 rounded-xl p-3 space-y-2">
+              <div className="flex items-center justify-between">
+             {/* 10,000 크레딧 달러 가치 */}
+             {aliDollarValue && (
+             <div className="bg-blue-50/60 dark:bg-blue-950/30 border border-blue-200/60 dark:border-blue-800/60 rounded-xl p-3 space-y-2">
                <div className="flex items-center justify-between">
+                 <span className="text-xs font-bold text-blue-900 dark:text-blue-200 flex items-center gap-1.5">
+                   <DollarSign className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
+                   10,000 크레딧 달러 가치 (실사용 기반)
+                 </span>
+                 <span className="text-[10px] px-1.5 py-0.5 rounded bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-700 font-mono">주간 실측</span>
+               </div>
+               <div className="grid grid-cols-2 gap-2">
+                 <div className="bg-white/70 dark:bg-zinc-800/70 rounded-lg p-2 text-center border border-zinc-200/50 dark:border-zinc-700/50">
+                   <div className="text-[10px] text-zinc-500 dark:text-zinc-400 mb-0.5">주간 요율 (보수적)</div>
+                   <div className="font-mono font-bold text-blue-700 dark:text-blue-300 text-sm">${aliDollarValue.dayTotal.toFixed(2)}</div>
+                   <div className="text-[10px] text-zinc-400">야간 할인 미적용</div>
+                 </div>
+                 <div className="bg-emerald-50/70 dark:bg-emerald-950/30 rounded-lg p-2 text-center border border-emerald-200/50 dark:border-emerald-700/50">
+                   <div className="text-[10px] text-zinc-500 dark:text-zinc-400 mb-0.5">야간 요율 (낙관적)</div>
+                   <div className="font-mono font-bold text-emerald-700 dark:text-emerald-400 text-sm">${aliDollarValue.nightTotal.toFixed(2)}</div>
+                   <div className="text-[10px] text-zinc-400">🌙 50% 할인 전량 적용</div>
+                 </div>
+               </div>
+               <div className="space-y-1">
+                 {aliDollarValue.perModel.map(m => (
+                   <div key={m.name} className="flex items-center justify-between text-[10px] font-mono text-zinc-600 dark:text-zinc-400">
+                     <span className="flex items-center gap-1">
+                       {m.isNight && <span className="text-amber-500">🌙</span>}
+                       <span className="text-zinc-700 dark:text-zinc-300">{m.name}</span>
+                     </span>
+                     <span className="flex items-center gap-1.5">
+                       <span className="text-zinc-400">{(m.tokens / 1e6).toFixed(1)}M tok</span>
+                       {m.isNight ? (
+                         <span className="text-emerald-600 dark:text-emerald-400 font-bold">${m.costNight.toFixed(2)}<span className="text-zinc-400 font-normal"> (→${m.costDay.toFixed(2)})</span></span>
+                       ) : (
+                         <span className="text-blue-600 dark:text-blue-400 font-bold">${m.costDay.toFixed(2)}</span>
+                       )}
+                     </span>
+                   </div>
+                 ))}
+               </div>
+               <div className="text-[10px] text-zinc-400 dark:text-zinc-500 border-t border-zinc-200/60 dark:border-zinc-700/60 pt-1.5">
+                 🌙 야간 50% 할인 대상 · 괄호는 정가 기준 · Alibaba 공식 Model Studio 가격 기준
+               </div>
+             </div>
+             )}
+
                  <span className="text-xs font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-1">
                    <Sparkles className="w-3.5 h-3.5 text-amber-500" />
                     야간 크레딧 50% 반값 할인 프로모션
