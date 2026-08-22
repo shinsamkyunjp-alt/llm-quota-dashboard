@@ -269,11 +269,13 @@ export default function QuotaDashboard() {
         const claude5hRemaining = typeof liveClaude.fiveHourWindow?.remainingPercent === "number" ? liveClaude.fiveHourWindow.remainingPercent : (claude5hUsed != null ? Math.max(0, 100 - claude5hUsed) : 100);
         const claudeWeeklyUsed = typeof liveClaude.weeklyWindow?.usagePercent === "number" ? liveClaude.weeklyWindow.usagePercent : (typeof liveClaude.weeklyUsagePercent === "number" ? liveClaude.weeklyUsagePercent : 0);
         const claudeWeeklyRemaining = typeof liveClaude.weeklyWindow?.remainingPercent === "number" ? liveClaude.weeklyWindow.remainingPercent : (claudeWeeklyUsed != null ? Math.max(0, 100 - claudeWeeklyUsed) : 100);
+        const claude5hExhausted = typeof claude5hRemaining === "number" && claude5hRemaining <= 0;
         const claudeWeeklyExhausted = typeof claudeWeeklyRemaining === "number" && claudeWeeklyRemaining <= 0;
+        const isClaudeExhausted = liveClaude.status === "exhausted" || claude5hExhausted || claudeWeeklyExhausted;
 
         const claudeGptPool = {
           label: "Claude and GPT models",
-          status: claudeExhausted ? "exhausted" : "healthy",
+          status: isClaudeExhausted ? "exhausted" : "healthy",
           fiveHourWindow: {
             label: "5시간 롤링 한도",
             usagePercent: claude5hUsed,
@@ -286,20 +288,60 @@ export default function QuotaDashboard() {
             usagePercent: claudeWeeklyUsed,
             remainingPercent: claudeWeeklyRemaining,
             resetAt: liveClaude.weeklyWindow?.resetAt || liveClaude.weeklyResetAt || null,
-            status: claudeWeeklyExhausted ? "exhausted" : "healthy",
-            badge: liveClaude.badge || null,
-            desc: claudeWeeklyExhausted ? "주간 쿼터 소진" : ""
+            status: claudeWeeklyExhausted ? "exhausted" : (claude5hExhausted ? "exhausted" : "healthy"),
+            badge: claudeWeeklyExhausted ? "주간 한도 소진" : (claude5hExhausted ? "5시간 한도 소진" : (liveClaude.badge || null)),
+            desc: claudeWeeklyExhausted ? "주간 쿼터 소진 (호출 불가)" : (claude5hExhausted ? "5시간 한도 소진" : "")
           },
           models: liveClaude.models || ["Claude Sonnet 4.6", "Claude Opus 4.6 Thinking"]
         };
 
+        const aliData = json.providers[2] || {};
+        const aliWeeklyRemaining = aliData.weeklyRemainingPercent;
+        const isAliExhausted = aliData.status === "exhausted" || (typeof aliWeeklyRemaining === "number" && aliWeeklyRemaining <= 0);
+        const isGeminiExhausted = gemini5hUsed != null && gemini5hUsed >= 100;
+
+        const dynamicModels = rawList.map((m: any) => {
+          const meta = DEFAULT_MODELS.find(d => d.id === m.id);
+          let status = m.status || meta?.status || 'active';
+          if (m.providerId === 'alibaba-token-plan-intl' && isAliExhausted) {
+            status = 'rate_limited';
+          } else if (m.providerId === 'google-antigravity' && m.pool === 'claude-gpt' && isClaudeExhausted) {
+            status = 'rate_limited';
+          } else if (m.providerId === 'google-antigravity' && m.pool === 'gemini' && isGeminiExhausted) {
+            status = 'rate_limited';
+          }
+          return {
+            ...meta,
+            ...m,
+            status,
+            tag: m.tag || meta?.tag,
+            context: meta?.context || m.context || "1M"
+          };
+        });
+
+        const activeCount = dynamicModels.filter((m: any) => m.status === 'active').length;
+        const limitedCount = dynamicModels.filter((m: any) => m.status === 'rate_limited').length;
+        const isAgFullyHealthy = !isClaudeExhausted && !isGeminiExhausted;
+        const isOaHealthy = (json.providers[1]?.monthlyUsagePercent ?? 0) < 100;
+        const isAliHealthy = !isAliExhausted;
+        const healthyProviderCount = (isAgFullyHealthy ? 1 : 0) + (isOaHealthy ? 1 : 0) + (isAliHealthy ? 1 : 0);
+
         setData({
           ...DEFAULT_TELEMETRY,
-          summary: json.summary || DEFAULT_TELEMETRY.summary,
+          summary: {
+            totalProviders: 3,
+            healthyProviders: healthyProviderCount,
+            exhaustedProviders: 3 - healthyProviderCount,
+            totalLinkedAccounts: json.summary?.totalLinkedAccounts || 5,
+            activeLLMCount: dynamicModels.length,
+            availableModelCount: activeCount,
+            rateLimitedModelCount: limitedCount
+          },
           actualUsageMap: json.actualUsageMap || {},
           antigravity: {
             ...DEFAULT_TELEMETRY.antigravity,
             ...agData,
+            status: (isGeminiExhausted && isClaudeExhausted) ? 'exhausted' : (!isAgFullyHealthy ? 'partial' : 'healthy'),
             geminiPool,
             claudeGptPool
           },
@@ -311,7 +353,7 @@ export default function QuotaDashboard() {
             ...DEFAULT_TELEMETRY.alibaba,
             ...(json.providers[2] || {})
           },
-          allModels: mergedModels,
+          allModels: dynamicModels,
           environment: json.environment
         });
       }
@@ -425,12 +467,16 @@ const LiveClock = memo(function LiveClock() {
   const claudeWeekly = claudePool?.weeklyWindow;
   const claudeWeeklyUsed = claudeWeekly?.usagePercent ?? (claudeExhausted ? 100 : null);
   const claudeWeeklyRemaining = claudeWeekly?.remainingPercent ?? (claudeWeeklyUsed != null ? Math.max(0, 100 - claudeWeeklyUsed) : (claudeExhausted ? 0 : null));
+  const claude5hExhausted = typeof claude5hRemaining === "number" && claude5hRemaining <= 0;
+  const claudeWeeklyExhausted = typeof claudeWeeklyRemaining === "number" && claudeWeeklyRemaining <= 0;
+  const isClaudeExhausted = claudeExhausted || claude5hExhausted || claudeWeeklyExhausted;
 
   const oaUsed = oa.monthlyUsagePercent ?? null;
   const oaRemaining = oa.monthlyRemainingPercent ?? (oaUsed != null ? Math.max(0, 100 - oaUsed) : null);
 
   const alUsed = al.weeklyUsagePercent ?? null;
   const alRemaining = al.weeklyRemainingPercent ?? (alUsed != null ? Math.max(0, 100 - alUsed) : null);
+  const isAliExhausted = al.status === "exhausted" || (typeof alRemaining === "number" && alRemaining <= 0);
 
   const sum = data.summary || DEFAULT_TELEMETRY.summary;
   const healthyProviders = sum.healthyProviders ?? 0;
@@ -694,9 +740,18 @@ const LiveClock = memo(function LiveClock() {
             </div>
             <div className="min-w-0">
               <div className="text-[10px] sm:text-xs text-zinc-500 dark:text-zinc-400 font-medium truncate">Claude 3rd Party 풀</div>
-              <div className="text-base sm:text-lg font-bold font-mono text-emerald-600 dark:text-emerald-400 mt-0.5 truncate">
-                {claudeExhausted ? "소진" : claude5hRemaining != null ? (viewMode === "remaining" ? fmtPct(claude5hRemaining) : fmtPct(claude5hUsed)) : "Ready"}
-                <span className="text-xs text-zinc-400 font-sans font-normal">{claudeExhausted ? "" : claude5hRemaining != null ? (viewMode === "remaining" ? " 잔여" : " 사용") : ""}</span>
+              <div className={`text-base sm:text-lg font-bold font-mono mt-0.5 truncate ${
+                isClaudeExhausted ? "text-rose-600 dark:text-rose-400" : "text-emerald-600 dark:text-emerald-400"
+              }`}>
+                {claudeWeeklyExhausted
+                  ? "주간 한도 소진"
+                  : claude5hExhausted
+                  ? "5시간 한도 소진"
+                  : isClaudeExhausted
+                  ? "소진"
+                  : claude5hRemaining != null
+                  ? (viewMode === "remaining" ? `${fmtPct(claude5hRemaining)} 잔여` : `${fmtPct(claude5hUsed)} 사용`)
+                  : "Ready"}
               </div>
             </div>
           </div>
@@ -708,7 +763,7 @@ const LiveClock = memo(function LiveClock() {
             <div className="min-w-0">
               <div className="text-[10px] sm:text-xs text-zinc-500 dark:text-zinc-400 font-medium truncate">활성 카탈로그 모델</div>
               <div className="text-base sm:text-lg font-bold font-mono text-zinc-900 dark:text-zinc-100 mt-0.5 truncate">
-                {availableModels} <span className="text-xs text-zinc-400 font-sans font-normal">/ {totalModels}개 정상</span>
+                <span className={rateLimitedModels > 0 ? "text-amber-600 dark:text-amber-400 font-extrabold" : "text-emerald-600 dark:text-emerald-400"}>{availableModels}</span> <span className="text-xs text-zinc-400 font-sans font-normal">/ {totalModels}개 정상 {rateLimitedModels > 0 && `(${rateLimitedModels}개 소진)`}</span>
               </div>
             </div>
           </div>
@@ -801,11 +856,15 @@ const LiveClock = memo(function LiveClock() {
               <div className="bg-zinc-50/70 dark:bg-zinc-800/50 border border-zinc-200/60 dark:border-zinc-700/60 rounded-xl p-3 space-y-2.5">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-bold text-zinc-900 dark:text-zinc-200 flex items-center gap-1.5">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                    {isClaudeExhausted ? <XCircle className="w-3.5 h-3.5 text-rose-500" /> : <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />}
                     Claude and GPT models
                   </span>
-                  <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-zinc-200/60 dark:bg-zinc-700/60 text-zinc-700 dark:text-zinc-300 font-medium">
-                    {claudeExhausted ? "주간 쿼터 소진" : claudePool?.status === "unknown" ? "계측 대기" : "리밋 정상 가동 (Ready)"}
+                  <span className={`text-[10px] font-mono px-1.5 py-0.5 rounded font-medium border ${
+                    isClaudeExhausted
+                      ? "bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-300 border-rose-300 dark:border-rose-800"
+                      : "bg-zinc-200/60 dark:bg-zinc-700/60 text-zinc-700 dark:text-zinc-300 border-transparent"
+                  }`}>
+                    {claudeWeeklyExhausted ? "주간 한도 소진 (호출 불가)" : claude5hExhausted ? "5시간 한도 소진 (호출 불가)" : isClaudeExhausted ? "소진 (호출 불가)" : (claudePool?.status === "unknown" ? "계측 대기" : "리밋 정상 가동 (Ready)")}
                   </span>
                 </div>
 
@@ -859,9 +918,9 @@ const LiveClock = memo(function LiveClock() {
                   </div>
                 </div>
 
-               <div className="text-[10px] text-zinc-600 dark:text-zinc-400 font-medium flex items-center gap-1 pt-0.5">
-                  <Zap className="w-3 h-3 text-amber-500" /> {claudeExhausted ? "Claude & GPT 5시간 한도 소진 — 리셋 후 호출 재개" : "Claude Sonnet 4.6 & Opus 4.6 Thinking 정상 호출 가능"}
-               </div>
+                <div className="text-[10px] text-zinc-600 dark:text-zinc-400 font-medium flex items-center gap-1 pt-0.5">
+                  <Zap className="w-3 h-3 text-amber-500" /> {claudeWeeklyExhausted ? "Claude & GPT 주간 쿼터 소진 — 주간 리셋 전까지 호출 불가" : claude5hExhausted ? "Claude & GPT 5시간 한도 소진 — 리셋 후 호출 재개" : isClaudeExhausted ? "Claude & GPT 쿼터 소진" : "Claude Sonnet 4.6 & Opus 4.6 Thinking 정상 호출 가능"}
+                </div>
               </div>
             </div>
 
@@ -971,8 +1030,12 @@ const LiveClock = memo(function LiveClock() {
                   <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 shrink-0" />
                   <h2 className="text-base sm:text-lg font-bold text-zinc-900 dark:text-zinc-100 truncate">Alibaba Token Plan</h2>
                 </div>
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium border border-zinc-200/60 dark:border-zinc-700/60 shrink-0">
-                  {al.status === "exhausted" ? "HTTP 429 · Insufficient Quota" : (al.plan || "Standard (10,000 req/7d)")}
+                <span className={`text-[10px] font-mono px-2 py-0.5 rounded-md font-medium border ${
+                  isAliExhausted
+                    ? "bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-300 border-rose-300 dark:border-rose-800"
+                    : "bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border-zinc-200/60 dark:border-zinc-700/60"
+                } shrink-0`}>
+                  {isAliExhausted ? "HTTP 429 · 주간 쿼터 소진 (호출 불가)" : (al.plan || "Standard (10,000 req/7d)")}
                 </span>
               </div>
 

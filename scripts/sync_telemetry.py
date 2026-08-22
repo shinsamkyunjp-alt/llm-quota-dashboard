@@ -557,8 +557,8 @@ def collect_telemetry():
     claude_gpt_5h_remaining, claude_gpt_5h_used, claude_gpt_5h_reset = ag_window("claude-gpt", "5h")
     claude_gpt_weekly_remaining, claude_gpt_weekly_used, claude_gpt_weekly_reset = ag_window("claude-gpt", "weekly")
 
-    gemini_pool_exhausted = gemini_5h_remaining is not None and gemini_5h_remaining <= 0.0
-    claude_pool_exhausted = claude_gpt_5h_remaining is not None and claude_gpt_5h_remaining <= 0.0
+    gemini_pool_exhausted = (gemini_5h_remaining is not None and gemini_5h_remaining <= 0.0) or (gemini_weekly_remaining is not None and gemini_weekly_remaining <= 0.0)
+    claude_pool_exhausted = (claude_gpt_5h_remaining is not None and claude_gpt_5h_remaining <= 0.0) or (claude_gpt_weekly_remaining is not None and claude_gpt_weekly_remaining <= 0.0)
 
     # 2. OpenAI Codex 풀링 월간 쿼터 — 캐시 직접 조회(프록시 불필요), 폴백은 ocx CLI
     oa_monthly_usage = None
@@ -697,7 +697,8 @@ def collect_telemetry():
     ali_remaining_pct = round(max(0.0, 100.0 - ali_used_pct), 2)
     total_effective_units = int(round(ali_used_pct * (ali_limit / 100.0)))
 
-    if is_ali_exhausted:
+    if ali_used_pct >= 100.0 or ali_remaining_pct <= 0.0 or is_ali_exhausted:
+        is_ali_exhausted = True
         ali_used_pct = 100.0
         ali_remaining_pct = 0.0
         ali_state["status"] = "exhausted"
@@ -840,12 +841,13 @@ def collect_telemetry():
         })
 
     # Providers summary
+    ag_status = "exhausted" if (gemini_pool_exhausted and claude_pool_exhausted) else ("partial" if (gemini_pool_exhausted or claude_pool_exhausted) else "healthy")
     providers = [
         {
             "provider": "google-antigravity",
             "name": "Google Antigravity",
             "plan": "Google AI Pro",
-            "status": "exhausted" if (gemini_pool_exhausted and claude_pool_exhausted) else "healthy",
+            "status": ag_status,
             "liveQuotaSource": "retrieveUserQuotaSummary" if ag_is_live else "last-known-cache",
             "account": "s***1@gmail.com",
             "geminiPool": {
@@ -871,7 +873,7 @@ def collect_telemetry():
             "claudeGptPool": {
                 "label": "Claude and GPT models",
                 "status": "exhausted" if claude_pool_exhausted else "healthy",
-                "badge": "HTTP 429 · 5시간 한도 소진" if claude_pool_exhausted else "정상 가동 (Active)",
+                "badge": "주간 한도 소진" if (claude_gpt_weekly_remaining is not None and claude_gpt_weekly_remaining <= 0.0) else ("5시간 한도 소진" if (claude_gpt_5h_remaining is not None and claude_gpt_5h_remaining <= 0.0) else "정상 가동 (Active)"),
                 "isLive": ag_is_live,
                 "fiveHourWindow": {
                     "label": "5시간 롤링 한도",
@@ -911,7 +913,7 @@ def collect_telemetry():
             "name": "Alibaba Token Plan",
             "plan": "Standard (10,000 req/7d)",
             "status": "exhausted" if is_ali_exhausted else "healthy",
-            "badge": "HTTP 429 · Insufficient Quota" if is_ali_exhausted else "정상 가동 (Active)",
+            "badge": "주간 쿼터 소진 (HTTP 429)" if is_ali_exhausted else "정상 가동 (Active)",
             "region": "ap-southeast-1 (Singapore)",
             "account": "sk-s****HZew",
             "weeklyUsagePercent": ali_used_pct,
@@ -961,6 +963,7 @@ def collect_telemetry():
         "summary": {
             "totalProviders": 3,
             "healthyProviders": sum(1 for p in providers if p["status"] == "healthy"),
+            "partiallyExhaustedProviders": sum(1 for p in providers if p["status"] == "partial"),
             "exhaustedProviders": sum(1 for p in providers if p["status"] == "exhausted"),
             "totalLinkedAccounts": 5,
             "activeLLMCount": len(model_list),
