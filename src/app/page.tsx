@@ -159,7 +159,7 @@ const DEFAULT_TELEMETRY = {
     { name: 'Google Antigravity IDE', endpoint: 'Google AI Pro Engine', status: 'online', latency: '4ms' },
     { name: 'OpenCodex Proxy', endpoint: 'http://127.0.0.1:10100', status: 'standby', latency: '1ms' },
     { name: 'Hermes Gateway', runtime: 'launchd (PID 33929)', status: 'online', latency: '2ms' },
-    { name: 'ElevenLabs Voice', service: 'Voice Synth (41b6...6484)', status: 'ready', latency: '38ms' },
+    { name: 'Qwen Voice', service: 'CosyVoice (Hermes)', status: 'ready', latency: '25ms' },
     { name: 'Firecrawl Tool', service: 'Web Extract (fc-5...b8ae)', status: 'ready', latency: '45ms' }
   ]
 };
@@ -319,10 +319,11 @@ export default function QuotaDashboard() {
 
         const activeCount = dynamicModels.filter((m: any) => m.status === 'active').length;
         const limitedCount = dynamicModels.filter((m: any) => m.status === 'rate_limited').length;
-        const isAgFullyHealthy = !isClaudeExhausted && !isGeminiExhausted;
+        const isGeminiWeeklyExhausted = typeof geminiWeeklyRemaining === "number" && geminiWeeklyRemaining <= 0;
+        const isAgHealthy = !isGeminiWeeklyExhausted;
         const isOaHealthy = (json.providers[1]?.monthlyUsagePercent ?? 0) < 100;
         const isAliHealthy = !isAliExhausted;
-        const healthyProviderCount = (isAgFullyHealthy ? 1 : 0) + (isOaHealthy ? 1 : 0) + (isAliHealthy ? 1 : 0);
+        const healthyProviderCount = (isAgHealthy ? 1 : 0) + (isOaHealthy ? 1 : 0) + (isAliHealthy ? 1 : 0);
 
         setData({
           ...DEFAULT_TELEMETRY,
@@ -339,7 +340,7 @@ export default function QuotaDashboard() {
           antigravity: {
             ...DEFAULT_TELEMETRY.antigravity,
             ...agData,
-            status: (isGeminiExhausted && isClaudeExhausted) ? 'exhausted' : (!isAgFullyHealthy ? 'partial' : 'healthy'),
+            status: isGeminiWeeklyExhausted ? 'exhausted' : 'healthy',
             geminiPool,
             claudeGptPool
           },
@@ -1544,9 +1545,9 @@ const LiveClock = memo(function LiveClock() {
               </div>
             </div>
             <div className="bg-zinc-50/70 dark:bg-zinc-800/50 border border-zinc-200/60 dark:border-zinc-700/60 rounded-xl p-2.5 min-w-0">
-              <div className="text-zinc-500 dark:text-zinc-400 text-[11px] font-medium truncate">ElevenLabs Voice</div>
+              <div className="text-zinc-500 dark:text-zinc-400 text-[11px] font-medium truncate">Qwen Voice</div>
               <div className="text-zinc-800 dark:text-zinc-200 font-bold mt-1 flex items-center gap-1.5 text-xs truncate">
-                <span className="w-2 h-2 rounded-full bg-sky-500 shrink-0" /> Voice Synth
+                <span className="w-2 h-2 rounded-full bg-sky-500 shrink-0" /> CosyVoice (Active)
               </div>
             </div>
             <div className="bg-zinc-50/70 dark:bg-zinc-800/50 border border-zinc-200/60 dark:border-zinc-700/60 rounded-xl p-2.5 min-w-0">

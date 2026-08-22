@@ -699,6 +699,7 @@ def collect_telemetry():
                 "daily": {"input": 0, "uncached": 0, "cached": 0, "output": 0, "total": 0, "requests": 0},
                 "weekly": {"input": 0, "uncached": 0, "cached": 0, "output": 0, "total": 0, "requests": 0},
                 "monthly": {"input": 0, "uncached": 0, "cached": 0, "output": 0, "total": 0, "requests": 0},
+                "currentCycle": {"input": 0, "uncached": 0, "cached": 0, "output": 0, "total": 0, "requests": 0},
                 "allTime": {"input": 0, "uncached": 0, "cached": 0, "output": 0, "total": 0, "requests": 0}
             }
         return actual_usage_map[mid]
@@ -756,6 +757,13 @@ def collect_telemetry():
                                         entry[p_key]["output"] += delta_out
                                         entry[p_key]["total"] += delta_tot
                                         entry[p_key]["requests"] += 1
+                                if ts >= ali_cycle_start_ts:
+                                    entry["currentCycle"]["input"] += delta_in
+                                    entry["currentCycle"]["uncached"] += delta_uncached
+                                    entry["currentCycle"]["cached"] += delta_cached
+                                    entry["currentCycle"]["output"] += delta_out
+                                    entry["currentCycle"]["total"] += delta_tot
+                                    entry["currentCycle"]["requests"] += 1
                     except:
                         pass
         except:
@@ -822,7 +830,7 @@ def collect_telemetry():
         })
 
     # Providers summary
-    ag_status = "exhausted" if (gemini_pool_exhausted and claude_pool_exhausted) else ("partial" if (gemini_pool_exhausted or claude_pool_exhausted) else "healthy")
+    ag_status = "exhausted" if (gemini_weekly_remaining is not None and gemini_weekly_remaining <= 0.0) else "healthy"
     providers = [
         {
             "provider": "google-antigravity",
@@ -959,7 +967,7 @@ def collect_telemetry():
             {"name": "Google Antigravity IDE", "endpoint": "Google AI Pro Engine", "status": "online"},
             {"name": "OpenCodex Proxy", "endpoint": "http://127.0.0.1:10100", "status": "online"},
             {"name": "Hermes Gateway", "runtime": "launchd (PID 33929)", "status": "online"},
-            {"name": "ElevenLabs Voice", "service": "Voice Synth (41b6...6484)", "status": "ready"},
+            {"name": "Qwen Voice (CosyVoice)", "service": "Hermes Voice Synth", "status": "ready"},
             {"name": "Firecrawl Tool", "service: ": "Web Extract (fc-5...b8ae)", "status": "ready"}
         ]
     }

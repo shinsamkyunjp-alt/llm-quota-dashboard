@@ -15,6 +15,7 @@ export interface ModelInfo {
     daily:   { input: number; uncached?: number; cached: number; output: number; total: number; requests: number };
     weekly:  { input: number; uncached?: number; cached: number; output: number; total: number; requests: number };
     monthly: { input: number; uncached?: number; cached: number; output: number; total: number; requests: number };
+    currentCycle?: { input: number; uncached?: number; cached: number; output: number; total: number; requests: number };
     allTime: { input: number; uncached?: number; cached: number; output: number; total: number; requests: number };
   };
 }
@@ -76,7 +77,7 @@ export default function LiveUsageTab({ models, isNightDiscountNow = false }: Liv
   const [applyNightDiscount, setApplyNightDiscount] = useState<boolean>(isNightDiscountNow);
   const [nightRatio, setNightRatio] = useState<number>(100);
 
-  // ── 알리바바 10,000 크레딧(Standard Plan) 달러 환산 가치 & 실사용 기반 분석 ──
+  // ── 알리바바 10,000 크레딧(Standard Plan) 달러 환산 가치 & 7일 사이클 실사용 기반 분석 ──
   const alibabaCreditValue = useMemo(() => {
     const aliModels = models.filter(m => m.providerId === 'alibaba-token-plan-intl');
     let dayTotalUSD = 0;
@@ -85,7 +86,7 @@ export default function LiveUsageTab({ models, isNightDiscountNow = false }: Liv
     let totalTokens = 0;
 
     const breakdown = aliModels.map(m => {
-      const u = m.actualUsage?.weekly ?? m.actualUsage?.[timeframe] ?? { input: 0, uncached: 0, cached: 0, output: 0, total: 0, requests: 0 };
+      const u = m.actualUsage?.currentCycle ?? { input: 0, uncached: 0, cached: 0, output: 0, total: 0, requests: 0 };
       const inTok = u.input || 0;
       const cachedTok = u.cached || 0;
       const uncachedTok = u.uncached ?? Math.max(0, inTok - cachedTok);
@@ -134,21 +135,17 @@ export default function LiveUsageTab({ models, isNightDiscountNow = false }: Liv
         isEligible: eligible,
         requests: u.requests,
       };
-    }).filter(b => b.tokens > 0);
+    });
 
     return {
-      dayTotalUSD: dayTotalUSD > 0 ? dayTotalUSD : 11.60,
-      simulatedTotalUSD: simulatedTotalUSD > 0 ? simulatedTotalUSD : (applyNightDiscount ? 11.60 * (1 - 0.5 * (nightRatio / 100)) : 11.60),
-      maxNightDiscountUSD: maxNightDiscountUSD > 0 ? maxNightDiscountUSD : 6.01,
-      totalTokens: totalTokens > 0 ? totalTokens : 60678779,
+      dayTotalUSD,
+      simulatedTotalUSD,
+      maxNightDiscountUSD,
+      totalTokens,
       savedUSD: Math.max(0, dayTotalUSD - simulatedTotalUSD),
-      breakdown: breakdown.length > 0 ? breakdown : [
-        { id: 'qwen3.8-max', name: 'Qwen 3.8 Max', tokens: 21538894, inTokens: 21391509, uncachedTokens: 560405, cachedTokens: 20831104, outTokens: 147385, uncachedCost: 0.90, cachedCost: 6.67, outCost: 0.94, dayCost: 8.51, simCost: applyNightDiscount ? 8.51 * (1 - 0.5 * (nightRatio / 100)) : 8.51, maxNightCost: 4.25, isEligible: true, requests: 252 },
-        { id: 'deepseek-v4-pro-0813', name: 'DeepSeek V4 Pro (0813)', tokens: 29007751, inTokens: 28593118, uncachedTokens: 1119198, cachedTokens: 27473920, outTokens: 414633, uncachedCost: 0.30, cachedCost: 1.92, outCost: 0.46, dayCost: 2.68, simCost: applyNightDiscount ? 2.68 * (1 - 0.5 * (nightRatio / 100)) : 2.68, maxNightCost: 1.34, isEligible: true, requests: 440 },
-        { id: 'deepseek-v4-flash-0731', name: 'DeepSeek V4 Flash', tokens: 10132134, inTokens: 10055353, uncachedTokens: 402105, cachedTokens: 9653248, outTokens: 76781, uncachedCost: 0.06, cachedCost: 0.34, outCost: 0.02, dayCost: 0.42, simCost: 0.42, maxNightCost: 0.42, isEligible: false, requests: 167 },
-      ],
+      breakdown,
     };
-  }, [models, timeframe, applyNightDiscount, nightRatio]);
+  }, [models, applyNightDiscount, nightRatio]);
 
   const rankedModels = useMemo(() => {
     return models
@@ -393,7 +390,7 @@ export default function LiveUsageTab({ models, isNightDiscountNow = false }: Liv
           </div>
 
           <div className="text-[10px] text-zinc-500 dark:text-zinc-400 pt-0.5 border-t border-zinc-200/50 dark:border-zinc-800/50 flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-            <span>※ Standard Plan(~$19.5/월) 10,000 크레딧으로 주간 정가 기준 ${alibabaCreditValue.dayTotalUSD.toFixed(2)}(야간 최대 ${alibabaCreditValue.maxNightDiscountUSD.toFixed(2)}) 상당의 LLM 토큰을 활용 중입니다.</span>
+            <span>※ 7일 쿼터 리셋 주기(8/22 17:29 KST)에 맞춰 초기화된 실측 토큰 기준입니다. (10,000 크레딧 완충 잠재 가치: ~$11.60 / 야간 50% ~$6.01)</span>
             <span className="font-mono font-semibold text-amber-600 dark:text-amber-400 shrink-0">실질 가성비 {(alibabaCreditValue.dayTotalUSD / 4.88).toFixed(1)}배 수준</span>
           </div>
         </div>
