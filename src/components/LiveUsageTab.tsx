@@ -50,11 +50,13 @@ const PROVIDER_COLORS: Record<string, string> = {
   'google-antigravity': 'from-blue-500 to-cyan-400',
   'openai': 'from-emerald-500 to-teal-400',
   'alibaba-token-plan-intl': 'from-orange-500 to-amber-400',
+  'nous': 'from-violet-500 to-fuchsia-400',
 };
 const PROVIDER_BG: Record<string, string> = {
   'google-antigravity': 'bg-blue-500/10 border-blue-500/20',
   'openai': 'bg-emerald-500/10 border-emerald-500/20',
   'alibaba-token-plan-intl': 'bg-orange-500/10 border-orange-500/20',
+  'nous': 'bg-violet-500/10 border-violet-500/20',
 };
 
 const actCls = 'flex items-center gap-1';

@@ -37,12 +37,12 @@ export async function GET() {
     updatedAt: Date.now(),
     environment: 'Live Antigravity Snapshot',
     summary: {
-      totalProviders: 3,
-      healthyProviders: 3,
+      totalProviders: 4,
+      healthyProviders: 4,
       exhaustedProviders: 0,
-      totalLinkedAccounts: 5,
-      activeLLMCount: 16,
-      availableModelCount: 16,
+      totalLinkedAccounts: 6,
+      activeLLMCount: 14,
+      availableModelCount: 14,
       rateLimitedModelCount: 0
     },
     providers: [
@@ -114,6 +114,14 @@ export async function GET() {
       weeklyRemainingPercent: null,
       resetAt: Date.now() + 7 * 24 * 3600 * 1000,
         message: '7일 쿼터 리셋 완료 (정상 가동 중)'
+      },
+      {
+        provider: 'nous',
+        name: 'Nous Research',
+        status: 'healthy',
+        plan: 'Hermes Agent (OAuth)',
+        account: 'hermes-cli (nas_organisation)',
+        message: 'OAuth OK / stealth-ox-alpha active'
       }
     ]
   }, {

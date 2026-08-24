@@ -1,8 +1,8 @@
 {
-  "last_updated_at": 1787392161708,
-  "last_updated_date": "2026-08-22 18:49:21 KST",
+  "last_updated_at": 1787542966887,
+  "last_updated_date": "2026-08-24 12:42:46 KST",
   "source": "OpenCodex http://localhost:10100/#models & Official Provider API Specs",
-  "total_models": 11,
+  "total_models": 14,
   "models": {
     "google-antigravity/gemini-3.7-flash": {
       "name": "Gemini 3.7 Flash",
@@ -148,6 +148,45 @@
       "speed": "Bilingual Pro",
       "reasoning": "Medium Reasoning",
       "tag": "Bilingual"
+    },
+    "nous/stealth-ox-alpha": {
+      "name": "Stealth Ox Alpha",
+      "providerId": "nous",
+      "providerName": "Nous Research",
+      "context": "1M",
+      "contextTokens": 1048576,
+      "inputPrice1M": 0.0,
+      "cachedPrice1M": 0.0,
+      "outputPrice1M": 0.0,
+      "speed": "Stealth Coding Agent (1M Context)",
+      "reasoning": "High Reasoning (low-xhigh)",
+      "tag": "Nous Stealth Tier"
+    },
+    "nous/tencent-hy3-free": {
+      "name": "Tencent Hy3",
+      "providerId": "nous",
+      "providerName": "Nous Research",
+      "context": "256k",
+      "contextTokens": 262144,
+      "inputPrice1M": 0.0,
+      "cachedPrice1M": 0.0,
+      "outputPrice1M": 0.0,
+      "speed": "MoE Fast Inference",
+      "reasoning": "Hybrid Thinking",
+      "tag": "Free Tier"
+    },
+    "nous/stepfun-step-3.7-flash-free": {
+      "name": "StepFun Step 3.7 Flash",
+      "providerId": "nous",
+      "providerName": "Nous Research",
+      "context": "256k",
+      "contextTokens": 262144,
+      "inputPrice1M": 0.0,
+      "cachedPrice1M": 0.0,
+      "outputPrice1M": 0.0,
+      "speed": "Ultra Fast Free Tier",
+      "reasoning": "Medium-Max Reasoning",
+      "tag": "Best Free Value"
     }
   }
 }

@@ -61,24 +61,28 @@ const DEFAULT_MODELS: ModelInfo[] = [
 
   // Alibaba Token Plan (Model Studio ap-southeast-1 Marketplace Specs)
   { id: 'alibaba-token-plan-intl/qwen3.8-max', name: 'Qwen 3.8 Max', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Heavy Duty MoE (2.4T)', context: '1M', contextTokens: 1000000, inputPrice1M: 1.60, cachedPrice1M: 0.32, outputPrice1M: 6.40, reasoning: 'XHigh Reasoning', tag: 'Flagship MoE', status: 'active' },
-  { id: 'alibaba-token-plan-intl/qwen3.7-max', name: 'Qwen 3.7 Max', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Heavy Duty', context: '1M', contextTokens: 1000000, inputPrice1M: 1.60, cachedPrice1M: 0.32, outputPrice1M: 6.40, reasoning: 'XHigh Reasoning', tag: 'Power Model', status: 'active' },
   { id: 'alibaba-token-plan-intl/qwen3.7-plus', name: 'Qwen 3.7 Plus', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'High Speed Multimodal', context: '1M', contextTokens: 1000000, inputPrice1M: 0.26, cachedPrice1M: 0.052, outputPrice1M: 0.78, reasoning: 'Medium Reasoning', tag: 'All-Rounder', status: 'active' },
   { id: 'alibaba-token-plan-intl/qwen3.6-flash', name: 'Qwen 3.6 Flash', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Ultra Fast', context: '1M', contextTokens: 1000000, inputPrice1M: 0.05, cachedPrice1M: 0.01, outputPrice1M: 0.20, reasoning: 'Low-Medium', tag: 'Ultra Cheap ($0.05)', status: 'active' },
   { id: 'alibaba-token-plan-intl/deepseek-v4-pro', name: 'DeepSeek V4 Pro', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Code & Math Specialist', context: '1M', contextTokens: 1000000, inputPrice1M: 0.27, cachedPrice1M: 0.07, outputPrice1M: 1.10, reasoning: 'High-Max', tag: 'Code Specialist', status: 'active' },
   { id: 'alibaba-token-plan-intl/deepseek-v4-pro-0813', name: 'DeepSeek V4 Pro (0813 Snapshot)', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Code & Math Specialist (Snapshot)', context: '1M', contextTokens: 1000000, inputPrice1M: 0.27, cachedPrice1M: 0.07, outputPrice1M: 1.10, reasoning: 'High-Max Reasoning', tag: 'Snapshot Stable', status: 'active' },
   { id: 'alibaba-token-plan-intl/deepseek-v4-flash-0731', name: 'DeepSeek V4 Flash', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Fast Inference', context: '1M', contextTokens: 1000000, inputPrice1M: 0.14, cachedPrice1M: 0.035, outputPrice1M: 0.28, reasoning: 'Standard', tag: 'Fast Coder', status: 'active' },
   { id: 'alibaba-token-plan-intl/glm-5.2', name: 'GLM 5.2', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Bilingual Pro', context: '128k', contextTokens: 128000, inputPrice1M: 1.00, cachedPrice1M: 0.20, outputPrice1M: 1.00, reasoning: 'Medium Reasoning', tag: 'Bilingual', status: 'active' },
+
+  // Nous (Hermes Agent / inference-api.nousresearch.com / OAuth)
+  { id: 'nous/stealth-ox-alpha', name: 'Stealth Ox Alpha', providerId: 'nous', providerName: 'Nous Research', speed: 'Stealth Coding Agent (1M Context)', context: '1M', contextTokens: 1048576, inputPrice1M: 0, cachedPrice1M: 0, outputPrice1M: 0, reasoning: 'High Reasoning (effort: low-xhigh)', tag: 'Nous Stealth Tier', status: 'active' },
+  { id: 'nous/tencent-hy3-free', name: 'Tencent Hy3', providerId: 'nous', providerName: 'Nous Research', speed: 'MoE Fast Inference', context: '256k', contextTokens: 262144, inputPrice1M: 0, cachedPrice1M: 0, outputPrice1M: 0, reasoning: 'Hybrid Thinking', tag: 'Free Tier', status: 'active' },
+  { id: 'nous/stepfun-step-3.7-flash-free', name: 'StepFun Step 3.7 Flash', providerId: 'nous', providerName: 'Nous Research', speed: 'Ultra Fast Free Tier', context: '256k', contextTokens: 262144, inputPrice1M: 0, cachedPrice1M: 0, outputPrice1M: 0, reasoning: 'Medium-Max Reasoning', tag: 'Best Free Value', status: 'active' },
 ];
 
 const DEFAULT_TELEMETRY = {
   environment: 'Live Antigravity & ocx Telemetry',
   summary: {
-    totalProviders: 3,
+    totalProviders: 4,
     healthyProviders: 3,
     exhaustedProviders: 0,
-    totalLinkedAccounts: 5,
-    activeLLMCount: 17,
-    availableModelCount: 17,
+    totalLinkedAccounts: 6,
+    activeLLMCount: 11,
+    availableModelCount: 11,
     rateLimitedModelCount: 0
   },
   actualUsageMap: {},
@@ -153,6 +157,16 @@ const DEFAULT_TELEMETRY = {
     resetAt: 1787387476000,
     message: '7일 쿼터 리셋 완료 (전 모델 정상 호출 가능)',
     models: DEFAULT_MODELS.filter(m => m.providerId === 'alibaba-token-plan-intl')
+  },
+  nous: {
+    provider: 'nous',
+    name: 'Nous Research',
+    status: 'healthy',
+    plan: 'Hermes Agent (OAuth)',
+    account: 'hermes-cli (nas_organisation)',
+    endpoint: 'inference-api.nousresearch.com/v1',
+    message: 'OAuth OK / stealth-ox-alpha active',
+    models: DEFAULT_MODELS.filter(m => m.providerId === 'nous')
   },
   allModels: DEFAULT_MODELS,
   integrations: [
@@ -323,15 +337,15 @@ export default function QuotaDashboard() {
         const isAgHealthy = !isGeminiWeeklyExhausted;
         const isOaHealthy = (json.providers[1]?.monthlyUsagePercent ?? 0) < 100;
         const isAliHealthy = !isAliExhausted;
-        const healthyProviderCount = (isAgHealthy ? 1 : 0) + (isOaHealthy ? 1 : 0) + (isAliHealthy ? 1 : 0);
+        const healthyProviderCount = (isAgHealthy ? 1 : 0) + (isOaHealthy ? 1 : 0) + (isAliHealthy ? 1 : 0) + 1; // +1: Nous Research (OAuth 상시 정상)
 
         setData({
           ...DEFAULT_TELEMETRY,
           summary: {
-            totalProviders: 3,
+            totalProviders: 4, // Google Antigravity, OpenAI, Alibaba, Nous
             healthyProviders: healthyProviderCount,
-            exhaustedProviders: 3 - healthyProviderCount,
-            totalLinkedAccounts: json.summary?.totalLinkedAccounts || 5,
+            exhaustedProviders: 4 - healthyProviderCount,
+            totalLinkedAccounts: json.summary?.totalLinkedAccounts || 6,
             activeLLMCount: dynamicModels.length,
             availableModelCount: activeCount,
             rateLimitedModelCount: limitedCount
@@ -349,8 +363,12 @@ export default function QuotaDashboard() {
             ...(json.providers[1] || {})
           },
           alibaba: {
-            ...DEFAULT_TELEMETRY.alibaba,
+          ...DEFAULT_TELEMETRY.alibaba,
             ...(json.providers[2] || {})
+          },
+          nous: {
+            ...DEFAULT_TELEMETRY.nous,
+            ...(json.providers[3] || {})
           },
           allModels: dynamicModels,
           environment: json.environment
@@ -479,7 +497,7 @@ const LiveClock = memo(function LiveClock() {
 
   const sum = data.summary || DEFAULT_TELEMETRY.summary;
   const healthyProviders = sum.healthyProviders ?? 0;
-  const totalProviders = sum.totalProviders ?? 3;
+  const totalProviders = sum.totalProviders ?? 4;
   const availableModels = sum.availableModelCount ?? 0;
   const activeModels = sum.activeLLMCount ?? 0;
   const rateLimitedModels = sum.rateLimitedModelCount ?? 0;
@@ -497,6 +515,7 @@ const LiveClock = memo(function LiveClock() {
     'google-antigravity': 1,
     'openai': 2,
     'alibaba-token-plan-intl': 3,
+    'nous': 4,
   };
 
   const MODEL_SORT_ORDER: Record<string, number> = {
@@ -510,14 +529,18 @@ const LiveClock = memo(function LiveClock() {
     'gpt-5.6-terra': 22,
     'gpt-5.6-luna': 23,
     // Alibaba
+    // Alibaba (disabled: qwen3.7-max, deepseek-v4-pro base)
     'alibaba-token-plan-intl/qwen3.8-max': 31,
-    'alibaba-token-plan-intl/qwen3.7-max': 32,
     'alibaba-token-plan-intl/qwen3.7-plus': 33,
     'alibaba-token-plan-intl/qwen3.6-flash': 34,
-    'alibaba-token-plan-intl/deepseek-v4-pro': 35,
-    'alibaba-token-plan-intl/deepseek-v4-pro-0813': 36,
-    'alibaba-token-plan-intl/deepseek-v4-flash-0731': 37,
-    'alibaba-token-plan-intl/glm-5.2': 38,
+    'alibaba-token-plan-intl/deepseek-v4-pro': 43,
+    'alibaba-token-plan-intl/deepseek-v4-pro-0813': 44,
+    'alibaba-token-plan-intl/deepseek-v4-flash-0731': 45,
+    'alibaba-token-plan-intl/glm-5.2': 46,
+    // Nous
+    'nous/stealth-ox-alpha': 51,
+    'nous/tencent-hy3-free': 52,
+    'nous/stepfun-step-3.7-flash-free': 53,
   };
 
   const filteredModels = useMemo(() => {
@@ -597,7 +620,7 @@ const LiveClock = memo(function LiveClock() {
               </span>
             </div>
             <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
-              <span>Google Antigravity(Gemini & Claude 듀얼 풀), OpenAI Codex, Alibaba Token Plan 실시간 통합 관제</span>
+              <span>Google Antigravity(Gemini & Claude 듀얼 풀), OpenAI Codex, Alibaba Token Plan, Nous Research 실시간 통합 관제</span>
               <span className="text-zinc-300 dark:text-zinc-700 hidden md:inline">|</span>
               <span className="text-emerald-600 dark:text-emerald-400 flex items-center gap-1 font-mono text-xs font-semibold">
                 <Sparkles className="w-3.5 h-3.5" /> {totalModels}개 전체 모델 · {availableModels}개 호출 가능
@@ -739,7 +762,8 @@ const LiveClock = memo(function LiveClock() {
               </button>
             </div>
           </div>
-        </section>
+         </section>
+
 
         {activeTab === 'quota' ? (
           <>
@@ -1193,10 +1217,53 @@ const LiveClock = memo(function LiveClock() {
                 <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium">GLM 5.2 (128k)</span>
               </div>
             </div>
-          </div>
-        </section>
+        </div>
+
+      </section>
 
         {/* Model Capability & Pricing Matrix */}
+        <div className="w-full bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800/80 rounded-2xl p-4 sm:p-6 flex flex-col justify-between space-y-4 shadow-sm hover:shadow-md transition-shadow box-border overflow-hidden">
+          <div className="space-y-4">
+            <div className="flex items-center justify-between gap-2">
+              <div className="flex items-center gap-2 min-w-0">
+                <div className="w-2.5 h-2.5 rounded-full bg-violet-500 shrink-0" />
+                <h2 className="text-base sm:text-lg font-bold text-zinc-900 dark:text-zinc-100 truncate">Nous Research</h2>
+              </div>
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded-md font-medium border bg-violet-50 dark:bg-violet-950 text-violet-700 dark:text-violet-300 border-violet-200 dark:border-violet-800 shrink-0">Hermes Agent (OAuth)</span>
+            </div>
+            <div className="text-xs text-zinc-600 dark:text-zinc-400 flex items-center justify-between border-b border-zinc-100 dark:border-zinc-800 pb-2">
+              <span>Endpoint: <strong className="text-zinc-900 dark:text-zinc-200 font-mono">inference-api.nousresearch.com</strong></span>
+              <span className="text-zinc-500 dark:text-zinc-400 font-mono text-[11px]">hermes-cli</span>
+            </div>
+            <div className="bg-zinc-50/70 dark:bg-zinc-800/50 border border-zinc-200/60 dark:border-zinc-700/60 rounded-xl p-3 space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold text-zinc-900 dark:text-zinc-200 flex items-center gap-1.5"><Zap className="w-3.5 h-3.5 text-violet-600 dark:text-violet-400" />Provider Status</span>
+                <span className="font-mono text-xs font-bold text-emerald-700 dark:text-emerald-400">Active</span>
+              </div>
+              <div className="text-[11px] text-zinc-600 dark:text-zinc-400 leading-tight">stealth-ox-alpha (1M Context) 사용 중 / Free Tier 모델 2개 대기</div>
+            </div>
+            <div className="bg-zinc-50/70 dark:bg-zinc-800/50 border border-zinc-200/60 dark:border-zinc-700/60 rounded-xl p-3 space-y-1.5">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold text-zinc-900 dark:text-zinc-200 flex items-center gap-1"><Sparkles className="w-3.5 h-3.5 text-violet-500" />Pricing Highlights</span>
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700">$0 All Models</span>
+              </div>
+              <div className="space-y-1 text-[11px] text-zinc-700 dark:text-zinc-300">
+                <div className="flex items-center justify-between font-mono"><span>- stealth-ox-alpha (Stealth Tier)</span><span className="text-emerald-600 dark:text-emerald-400 font-bold text-[10px]">Free (OAuth)</span></div>
+                <div className="flex items-center justify-between font-mono"><span>- tencent-hy3 (MoE, 256k)</span><span className="text-emerald-600 dark:text-emerald-400 font-bold text-[10px]">Free</span></div>
+                <div className="flex items-center justify-between font-mono"><span>- stepfun-step-3.7-flash (256k)</span><span className="text-emerald-600 dark:text-emerald-400 font-bold text-[10px]">Free</span></div>
+                <div className="text-[10px] text-zinc-500 dark:text-zinc-400 pt-0.5">※ poolside-laguna S/XS는 disabledModels로 비활성화됨</div>
+              </div>
+            </div>
+          </div>
+          <div className="space-y-1.5 pt-2.5 border-t border-zinc-100 dark:border-zinc-800">
+            <div className="text-[10px] font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Active Models</div>
+            <div className="flex flex-wrap gap-1">
+              <span className="text-[11px] px-2 py-0.5 rounded-lg bg-violet-50 dark:bg-violet-900/40 text-violet-700 dark:text-violet-300 font-medium">Stealth Ox Alpha (1M)</span>
+              <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium">Tencent Hy3 (256k)</span>
+              <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium">StepFun 3.7 Flash (256k)</span>
+            </div>
+          </div>
+        </div>
         {/* Interactive Token Cost Calculator (실시간 토큰 단가 계산기) */}
         <section aria-label="토큰 비용 계산기" className="w-full bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800/80 rounded-2xl p-4 sm:p-6 space-y-4 shadow-sm box-border">
           <button
@@ -1348,7 +1415,7 @@ const LiveClock = memo(function LiveClock() {
                 </span>
               </div>
               <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
-                Google Antigravity · OpenAI Codex · Alibaba Token Plan 공식 토큰 단가 및 컨텍스트 스펙
+                Google Antigravity · OpenAI Codex · Alibaba Token Plan · Nous Research 공식 토큰 단가 및 컨텍스트 스펙
               </p>
             </div>
 
@@ -1378,6 +1445,7 @@ const LiveClock = memo(function LiveClock() {
                 <option value="google-antigravity">Google Antigravity</option>
                 <option value="openai">OpenAI Codex</option>
                 <option value="alibaba-token-plan-intl">Alibaba Token Plan</option>
+                <option value="nous">Nous Research</option>
               </select>
 
               <select

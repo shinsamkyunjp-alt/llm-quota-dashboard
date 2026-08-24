@@ -848,7 +848,7 @@ def collect_telemetry():
     cooldown_count = 0
     active_specs = DYNAMIC_SPECS if DYNAMIC_SPECS else MODEL_METADATA
 
-    prov_order_map = {"google-antigravity": 1, "openai": 2, "alibaba-token-plan-intl": 3}
+    prov_order_map = {"google-antigravity": 1, "openai": 2, "alibaba-token-plan-intl": 3, "nous": 4}
     spec_keys_order = list(MODEL_METADATA.keys())
     sorted_entries = sorted(
         active_specs.items(),
@@ -1010,6 +1010,16 @@ def collect_telemetry():
                 ]
             },
             "models": [m for m in model_list if m["providerId"] == "alibaba-token-plan-intl"]
+        },
+        {
+            "provider": "nous",
+            "name": "Nous Research",
+            "status": "healthy",
+            "plan": "Hermes Agent (OAuth)",
+            "account": "hermes-cli (nas_organisation)",
+            "endpoint": "inference-api.nousresearch.com/v1",
+            "message": "OAuth auth OK / stealth-ox-alpha active",
+            "models": [m for m in model_list if m["providerId"] == "nous"]
         }
     ]
 
@@ -1024,7 +1034,7 @@ def collect_telemetry():
             "lastDailyUpdate": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S KST")
         },
         "summary": {
-            "totalProviders": 3,
+            "totalProviders": 4,
             "healthyProviders": sum(1 for p in providers if p["status"] == "healthy"),
             "partiallyExhaustedProviders": sum(1 for p in providers if p["status"] == "partial"),
             "exhaustedProviders": sum(1 for p in providers if p["status"] == "exhausted"),
@@ -1039,6 +1049,7 @@ def collect_telemetry():
         "integrations": [
             {"name": "Google Antigravity IDE", "endpoint": "Google AI Pro Engine", "status": "online"},
             {"name": "OpenCodex Proxy", "endpoint": "http://127.0.0.1:10100", "status": "online"},
+            {"name": "Nous Inference API", "endpoint": "https://inference-api.nousresearch.com/v1", "status": "online"},
             {"name": "Hermes Gateway", "runtime": "launchd (PID 33929)", "status": "online"},
             {"name": "Qwen Voice (CosyVoice)", "service": "Hermes Voice Synth", "status": "ready"},
             {"name": "Firecrawl Tool", "service: ": "Web Extract (fc-5...b8ae)", "status": "ready"}

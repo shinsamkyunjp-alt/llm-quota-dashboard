@@ -219,6 +219,47 @@ OFFICIAL_SPECS = {
         "reasoning": "Medium Reasoning",
         "tag": "Bilingual"
     }
+    ,
+    # Nous Research (Hermes Agent OAuth / inference-api.nousresearch.com)
+    "nous/stealth-ox-alpha": {
+        "name": "Stealth Ox Alpha",
+        "providerId": "nous",
+        "providerName": "Nous Research",
+        "context": "1M",
+        "contextTokens": 1048576,
+        "inputPrice1M": 0.0,
+        "cachedPrice1M": 0.0,
+        "outputPrice1M": 0.0,
+        "speed": "Stealth Coding Agent (1M Context)",
+        "reasoning": "High Reasoning (low-xhigh)",
+        "tag": "Nous Stealth Tier"
+    },
+    "nous/tencent-hy3-free": {
+        "name": "Tencent Hy3",
+        "providerId": "nous",
+        "providerName": "Nous Research",
+        "context": "256k",
+        "contextTokens": 262144,
+        "inputPrice1M": 0.0,
+        "cachedPrice1M": 0.0,
+        "outputPrice1M": 0.0,
+        "speed": "MoE Fast Inference",
+        "reasoning": "Hybrid Thinking",
+        "tag": "Free Tier"
+    },
+    "nous/stepfun-step-3.7-flash-free": {
+        "name": "StepFun Step 3.7 Flash",
+        "providerId": "nous",
+        "providerName": "Nous Research",
+        "context": "256k",
+        "contextTokens": 262144,
+        "inputPrice1M": 0.0,
+        "cachedPrice1M": 0.0,
+        "outputPrice1M": 0.0,
+        "speed": "Ultra Fast Free Tier",
+        "reasoning": "Medium-Max Reasoning",
+        "tag": "Best Free Value"
+    }
 }
 
 MODEL_ALIASES = {
@@ -256,12 +297,33 @@ def discover_opencodex_catalog():
         print(f"Error reading OpenCodex config: {e}")
         return OFFICIAL_SPECS
 
-    provider_order = {"google-antigravity": 1, "openai": 2, "alibaba-token-plan-intl": 3}
+    provider_order = {"google-antigravity": 1, "openai": 2, "alibaba-token-plan-intl": 3, "nous": 4}
     def sort_key(mid):
         meta = OFFICIAL_SPECS.get(mid, {})
         p_order = provider_order.get(meta.get("providerId"), 99)
         spec_idx = list(OFFICIAL_SPECS.keys()).index(mid) if mid in OFFICIAL_SPECS else 999
         return (p_order, spec_idx)
+
+    # Nous config model IDs use vendor/model:tag form (double slash) -> normalize to catalog slugs
+    def _nous_normalize(fid):
+        if not fid.startswith("nous/"):
+            return fid
+        rest = fid[len("nous/"):]
+        if "/" in rest:
+            vendor, model = rest.split("/", 1)
+            return "nous/" + (vendor + "-" + model).lower().replace(":", "-")
+        return fid
+
+    normalized = set()
+    for mid in active_set:
+        norm = _nous_normalize(mid)
+        normalized.add(norm if norm in OFFICIAL_SPECS else mid)
+    for cm in cfg.get("customModels", []):
+        if cm.get("provider") == "nous" and cm.get("modelId"):
+            norm = _nous_normalize("nous/" + cm["modelId"])
+            if norm in OFFICIAL_SPECS and norm not in disabled:
+                normalized.add(norm)
+    active_set = normalized
 
     sorted_mids = sorted([m for m in active_set if m in OFFICIAL_SPECS], key=sort_key)
     catalog = {mid: OFFICIAL_SPECS[mid] for mid in sorted_mids}
