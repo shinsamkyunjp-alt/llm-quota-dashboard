@@ -850,7 +850,7 @@ const LiveClock = memo(function LiveClock() {
         </section>
 
         {/* Main Provider Telemetry Grid */}
-        <section className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 box-border items-stretch">
+        <section className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-4 box-border items-stretch">
           {/* 1. Google Antigravity Card (Gemini & Claude 듀얼 풀 완벽 반영) */}
           <div className="w-full bg-white dark:bg-zinc-900 border border-zinc-200/90 dark:border-zinc-800 rounded-2xl p-4 sm:p-6 flex flex-col justify-between space-y-4 shadow-sm hover:shadow-md transition-shadow box-border overflow-hidden">
             <div className="space-y-4">
@@ -1219,9 +1219,7 @@ const LiveClock = memo(function LiveClock() {
             </div>
         </div>
 
-      </section>
-
-        {/* Model Capability & Pricing Matrix */}
+        {/* 4. Nous Research Card (Hermes Agent / inference-api.nousresearch.com / OAuth) */}
         <div className="w-full bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800/80 rounded-2xl p-4 sm:p-6 flex flex-col justify-between space-y-4 shadow-sm hover:shadow-md transition-shadow box-border overflow-hidden">
           <div className="space-y-4">
             <div className="flex items-center justify-between gap-2">
@@ -1251,7 +1249,6 @@ const LiveClock = memo(function LiveClock() {
                 <div className="flex items-center justify-between font-mono"><span>- stealth-ox-alpha (Stealth Tier)</span><span className="text-emerald-600 dark:text-emerald-400 font-bold text-[10px]">Free (OAuth)</span></div>
                 <div className="flex items-center justify-between font-mono"><span>- tencent-hy3 (MoE, 256k)</span><span className="text-emerald-600 dark:text-emerald-400 font-bold text-[10px]">Free</span></div>
                 <div className="flex items-center justify-between font-mono"><span>- stepfun-step-3.7-flash (256k)</span><span className="text-emerald-600 dark:text-emerald-400 font-bold text-[10px]">Free</span></div>
-                <div className="text-[10px] text-zinc-500 dark:text-zinc-400 pt-0.5">※ poolside-laguna S/XS는 disabledModels로 비활성화됨</div>
               </div>
             </div>
           </div>
@@ -1264,6 +1261,8 @@ const LiveClock = memo(function LiveClock() {
             </div>
           </div>
         </div>
+
+      </section>
         {/* Interactive Token Cost Calculator (실시간 토큰 단가 계산기) */}
         <section aria-label="토큰 비용 계산기" className="w-full bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800/80 rounded-2xl p-4 sm:p-6 space-y-4 shadow-sm box-border">
           <button
