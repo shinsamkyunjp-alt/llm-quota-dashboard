@@ -31,10 +31,8 @@ GIST_ID = "67c16a5d365eddf3da98129350171338"
 # 한 번에 반환한다. (ocx CLI의 customWindows는 5시간만 주고 주간은 누락함)
 # OAuth 클라이언트 상수는 Antigravity IDE에 내장된 공개 데스크톱 클라이언트 값이며
 # (opencodex src/oauth/google-antigravity.ts와 동일) 사용자 비밀이 아니다.
-AG_CLIENT_ID = os.environ.get("GOOGLE_ANTIGRAVITY_CLIENT_ID") \
-    or "GOOGLE_ANTIGRAVITY_CLIENT_ID_ENV_VAR"
-AG_CLIENT_SECRET = os.environ.get("GOOGLE_ANTIGRAVITY_CLIENT_SECRET") \
-    or "GOOGLE_ANTIGRAVITY_CLIENT_SECRET_ENV_VAR"
+AG_CLIENT_ID = os.environ.get("GOOGLE_ANTIGRAVITY_CLIENT_ID", "")
+AG_CLIENT_SECRET = os.environ.get("GOOGLE_ANTIGRAVITY_CLIENT_SECRET", "")
 AG_UA = os.environ.get("GOOGLE_ANTIGRAVITY_USER_AGENT") \
     or "antigravity/ide/2.5.5 (os_type=windows; arch=amd64; aidev_client; auth_method=oauth)"
 AG_TOKEN_ENDPOINT = "https://oauth2.googleapis.com/token"
