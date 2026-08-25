@@ -1187,11 +1187,9 @@ const LiveClock = memo(function LiveClock() {
                     <span>• <strong>deepseek-v4-pro-0813</strong> (Snapshot)</span>
                     <span className="text-emerald-600 dark:text-emerald-400 font-bold text-[10px]">50% Off (반값)</span>
                   </div>
-                  <div className="text-[10px] text-zinc-500 dark:text-zinc-400 pt-0.5">
-                    ※ 22:00~08:00 (UTC+8) = 23:00~09:00 (KST) 호출 시 크레딧 50% 절감
-                  </div>
-                  <div className="text-[10px] text-zinc-600 dark:text-zinc-400 bg-zinc-100 dark:bg-zinc-800 p-1.5 rounded font-mono">
-                    ℹ️ qwen3.8-max-preview 호출 시 qwen3.8-max로 자동 라우팅
+                  <div className="flex items-center justify-between font-mono">
+                    <span>• <strong>deepseek-v4-flash-0731</strong> (Flash)</span>
+                    <span className="text-emerald-600 dark:text-emerald-400 font-bold text-[10px]">50% Off (반값)</span>
                   </div>
                 </div>
                 <div className="flex items-center justify-between text-[10px] text-zinc-500 dark:text-zinc-400 font-medium pt-0.5 border-t border-zinc-200/60 dark:border-zinc-700/60">
