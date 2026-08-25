@@ -70,8 +70,10 @@ const rankBtnOff = 'text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300';
 const isNightEligible = (id: string) =>
   id === 'alibaba-token-plan-intl/qwen3.8-max' ||
   id === 'alibaba-token-plan-intl/deepseek-v4-pro-0813' ||
+  id === 'alibaba-token-plan-intl/deepseek-v4-flash-0731' ||
   id.includes('qwen3.8-max') ||
-  id.includes('deepseek-v4-pro');
+  id.includes('deepseek-v4-pro') ||
+  id.includes('deepseek-v4-flash');
 
 export default function LiveUsageTab({ models, isNightDiscountNow = false }: LiveUsageTabProps) {
   const [timeframe, setTimeframe]       = useState<Timeframe>('monthly');
@@ -246,7 +248,7 @@ export default function LiveUsageTab({ models, isNightDiscountNow = false }: Liv
                 </span>
               </div>
               <p className="text-[11px] text-zinc-600 dark:text-zinc-400 mt-0.5">
-                대상 모델: <strong className="font-semibold text-zinc-800 dark:text-zinc-200">Qwen 3.8 Max</strong>, <strong className="font-semibold text-zinc-800 dark:text-zinc-200">DeepSeek V4 Pro</strong> (야간 시간대 사용 시 50% 요율 감면)
+                대상 모델: <strong className="font-semibold text-zinc-800 dark:text-zinc-200">Qwen 3.8 Max</strong>, <strong className="font-semibold text-zinc-800 dark:text-zinc-200">DeepSeek V4 Pro</strong>, <strong className="font-semibold text-zinc-800 dark:text-zinc-200">DeepSeek V4 Flash</strong> (야간 시간대 사용 시 50% 요율 감면)
               </p>
             </div>
           </div>

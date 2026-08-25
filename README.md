@@ -9,7 +9,7 @@ Real-time executive observability dashboard for AI providers (Google Antigravity
   - **Claude (3rd Party) Independent Pool:** Tracks Anthropic models (`Claude Sonnet 4.6`, `Claude Opus 4.6 Thinking`).
 - **OpenAI Codex Multi-Account Pool:** Tracks monthly quota, pooled accounts (3 accounts), and monthly reset D-Day.
 - **Alibaba Token Plan Monitor:** Real-time 429 quota exhaustion alert with weekly reset countdown.
-- **Master Routing Matrix:** Interactive search and provider filter across all 13 supported models.
+- **Master Routing Matrix:** Interactive search and provider filter across all supported models (token plan billing models only).
 - **Responsive Architecture:** Fully optimized for desktop and mobile viewports.
 - **Live Sync & Auto-Refresh:** Supports 5s, 15s, 30s polling intervals and manual synchronization.
 

@@ -577,7 +577,7 @@ const LiveClock = memo(function LiveClock() {
     return rawModels.map(m => {
       let inPrice = m.inputPrice1M ?? 0;
       let outPrice = m.outputPrice1M ?? 0;
-      const isEligibleNightModel = m.id === 'alibaba-token-plan-intl/qwen3.8-max' || m.id === 'alibaba-token-plan-intl/deepseek-v4-pro-0813';
+      const isEligibleNightModel = m.id === 'alibaba-token-plan-intl/qwen3.8-max' || m.id === 'alibaba-token-plan-intl/deepseek-v4-pro-0813' || m.id === 'alibaba-token-plan-intl/deepseek-v4-flash-0731';
       
       if ((applyNightDiscount || isNightDiscountNow) && isEligibleNightModel) {
         inPrice = inPrice * 0.5;
@@ -1359,7 +1359,7 @@ const LiveClock = memo(function LiveClock() {
                 <div className="flex items-center gap-2">
                   <Sparkles className="w-4 h-4 text-amber-500" />
                   <span className="font-semibold text-zinc-800 dark:text-zinc-200">
-                    알리바바 야간 50% 반값 프로모션 요율 시뮬레이션 (qwen3.8-max & deepseek-v4-pro-0813)
+                    알리바바 야간 50% 반값 프로모션 요율 시뮬레이션 (qwen3.8-max, deepseek-v4-pro-0813, deepseek-v4-flash-0731)
                   </span>
                 </div>
                 <label className="flex items-center gap-2 cursor-pointer select-none font-bold text-amber-900 dark:text-amber-300">
@@ -1487,7 +1487,7 @@ const LiveClock = memo(function LiveClock() {
                             {item.tag}
                           </span>
                         )}
-                       {(item.id === "alibaba-token-plan-intl/qwen3.8-max" || item.id === "alibaba-token-plan-intl/deepseek-v4-pro-0813") && (
+                       {(item.id === "alibaba-token-plan-intl/qwen3.8-max" || item.id === "alibaba-token-plan-intl/deepseek-v4-pro-0813" || item.id === "alibaba-token-plan-intl/deepseek-v4-flash-0731") && (
                          <span title="야간(23:00~09:00 KST) 크레딧 50% 할인 모델" className="text-[10px] px-1.5 py-0.2 rounded bg-amber-100 dark:bg-amber-950 text-amber-900 dark:text-amber-300 font-sans font-bold border border-amber-300 dark:border-amber-700 flex items-center gap-0.5">
                             🌙 50%
                          </span>
@@ -1546,7 +1546,7 @@ const LiveClock = memo(function LiveClock() {
                        {item.tag}
                      </span>
                    )}
-                  {(item.id === "alibaba-token-plan-intl/qwen3.8-max" || item.id === "alibaba-token-plan-intl/deepseek-v4-pro-0813") && (
+                  {(item.id === "alibaba-token-plan-intl/qwen3.8-max" || item.id === "alibaba-token-plan-intl/deepseek-v4-pro-0813" || item.id === "alibaba-token-plan-intl/deepseek-v4-flash-0731") && (
                      <span className="text-[9px] px-1.5 py-0.2 rounded bg-amber-100 dark:bg-amber-950 text-amber-900 dark:text-amber-300 font-sans font-bold border border-amber-300 dark:border-amber-700">
                         🌙 50%
                      </span>
