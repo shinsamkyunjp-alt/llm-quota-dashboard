@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 
-const GIST_URL = 'https://api.github.com/gists/67c16a5d365eddf3da98129350171338';
+const GIST_ID = process.env.GIST_ID || '67c16a5d365eddf3da98129350171338';
+const GIST_URL = `https://api.github.com/gists/${GIST_ID}`;
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -112,7 +113,7 @@ export async function GET() {
       account: 'sk-s****HZew',
       weeklyUsagePercent: null,
       weeklyRemainingPercent: null,
-      resetAt: Date.now() + 7 * 24 * 3600 * 1000,
+      resetAt: null,
         message: '7일 쿼터 리셋 완료 (정상 가동 중)'
       },
       {

@@ -26,159 +26,10 @@ import {
   ChevronRight
 } from 'lucide-react';
 import LiveUsageTab from '@/components/LiveUsageTab';
-
-interface ModelInfo {
-  id: string;
-  name: string;
-  providerId: string;
-  providerName: string;
-  pool?: string;
-  speed?: string;
-  context?: string;
-  contextTokens?: number;
-  inputPrice1M?: number;
-  cachedPrice1M?: number;
-  outputPrice1M?: number;
-  reasoning?: string;
-  tag?: string;
-  status: 'active' | 'rate_limited' | 'standby';
-  actualUsage?: any;
-}
-
-const DEFAULT_MODELS: ModelInfo[] = [
-  // Google Antigravity - Gemini Pool
-  { id: 'google-antigravity/gemini-3.7-flash', name: 'Gemini 3.7 Flash', providerId: 'google-antigravity', providerName: 'Google Antigravity', pool: 'gemini', speed: 'Ultra High (150+ t/s)', context: '1M', contextTokens: 1048576, inputPrice1M: 0.15, cachedPrice1M: 0.0375, outputPrice1M: 0.60, reasoning: 'Hybrid Thinking', tag: 'Best Speed', status: 'active' },
-  { id: 'google-antigravity/gemini-3.1-pro', name: 'Gemini 3.1 Pro', providerId: 'google-antigravity', providerName: 'Google Antigravity', pool: 'gemini', speed: 'Fast (80+ t/s)', context: '1M', contextTokens: 1048576, inputPrice1M: 1.25, cachedPrice1M: 0.3125, outputPrice1M: 5.00, reasoning: 'Deep Reasoning', tag: '1M Deep Context', status: 'active' },
-  
-  // Google Antigravity - Claude and GPT models Pool (복구 완료 / 100% 잔여)
-  { id: 'google-antigravity/claude-sonnet-4-6', name: 'Claude Sonnet 4.6', providerId: 'google-antigravity', providerName: 'Google Antigravity', pool: 'claude-gpt', speed: 'Balanced (60+ t/s)', context: '200k', contextTokens: 200000, inputPrice1M: 3.00, cachedPrice1M: 0.30, outputPrice1M: 15.00, reasoning: 'High Nuance Coding', tag: 'Top Coder', status: 'active' },
-  { id: 'google-antigravity/claude-opus-4-6-thinking', name: 'Claude Opus 4.6 Thinking', providerId: 'google-antigravity', providerName: 'Google Antigravity', pool: 'claude-gpt', speed: 'Deep Thinking (35+ t/s)', context: '200k', contextTokens: 200000, inputPrice1M: 15.00, cachedPrice1M: 1.50, outputPrice1M: 75.00, reasoning: 'Max Reasoning', tag: 'Ultra Brain', status: 'active' },
-
-  // OpenAI Codex (Official OpenAI GPT-5.6 Sol Launch Pricing: Sol $5/$30, Terra $2/$12, Luna $0.20/$1.20)
-  { id: 'gpt-5.6-sol', name: 'GPT-5.6 Sol', providerId: 'openai', providerName: 'OpenAI Codex', speed: 'Flagship Intelligence (750 t/s on Cerebras)', context: '1M', contextTokens: 1048576, inputPrice1M: 5.00, cachedPrice1M: 1.25, outputPrice1M: 30.00, reasoning: 'Ultra Reasoning', tag: 'Flagship AI', status: 'active' },
-  { id: 'gpt-5.6-terra', name: 'GPT-5.6 Terra', providerId: 'openai', providerName: 'OpenAI Codex', speed: 'Balanced Daily Workload', context: '1M', contextTokens: 1048576, inputPrice1M: 2.00, cachedPrice1M: 0.50, outputPrice1M: 12.00, reasoning: 'Medium-Ultra', tag: 'Balanced Daily', status: 'active' },
-  { id: 'gpt-5.6-luna', name: 'GPT-5.6 Luna', providerId: 'openai', providerName: 'OpenAI Codex', speed: 'Fast & Cost-Effective', context: '1M', contextTokens: 1048576, inputPrice1M: 0.20, cachedPrice1M: 0.05, outputPrice1M: 1.20, reasoning: 'Medium-Max', tag: 'Best OpenAI Value', status: 'active' },
-
-  // Alibaba Token Plan (Model Studio ap-southeast-1 Marketplace Specs)
-  { id: 'alibaba-token-plan-intl/qwen3.8-max', name: 'Qwen 3.8 Max', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Heavy Duty MoE (2.4T)', context: '1M', contextTokens: 1000000, inputPrice1M: 1.60, cachedPrice1M: 0.32, outputPrice1M: 6.40, reasoning: 'XHigh Reasoning', tag: 'Flagship MoE', status: 'active' },
-  { id: 'alibaba-token-plan-intl/qwen3.7-plus', name: 'Qwen 3.7 Plus', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'High Speed Multimodal', context: '1M', contextTokens: 1000000, inputPrice1M: 0.26, cachedPrice1M: 0.052, outputPrice1M: 0.78, reasoning: 'Medium Reasoning', tag: 'All-Rounder', status: 'active' },
-  { id: 'alibaba-token-plan-intl/qwen3.6-flash', name: 'Qwen 3.6 Flash', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Ultra Fast', context: '1M', contextTokens: 1000000, inputPrice1M: 0.05, cachedPrice1M: 0.01, outputPrice1M: 0.20, reasoning: 'Low-Medium', tag: 'Ultra Cheap ($0.05)', status: 'active' },
-  { id: 'alibaba-token-plan-intl/deepseek-v4-pro', name: 'DeepSeek V4 Pro', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Code & Math Specialist', context: '1M', contextTokens: 1000000, inputPrice1M: 0.27, cachedPrice1M: 0.07, outputPrice1M: 1.10, reasoning: 'High-Max', tag: 'Code Specialist', status: 'active' },
-  { id: 'alibaba-token-plan-intl/deepseek-v4-pro-0813', name: 'DeepSeek V4 Pro (0813 Snapshot)', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Code & Math Specialist (Snapshot)', context: '1M', contextTokens: 1000000, inputPrice1M: 0.27, cachedPrice1M: 0.07, outputPrice1M: 1.10, reasoning: 'High-Max Reasoning', tag: 'Snapshot Stable', status: 'active' },
-  { id: 'alibaba-token-plan-intl/deepseek-v4-flash-0731', name: 'DeepSeek V4 Flash', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Fast Inference', context: '1M', contextTokens: 1000000, inputPrice1M: 0.14, cachedPrice1M: 0.035, outputPrice1M: 0.28, reasoning: 'Standard', tag: 'Fast Coder', status: 'active' },
-  { id: 'alibaba-token-plan-intl/glm-5.2', name: 'GLM 5.2', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Bilingual Pro', context: '128k', contextTokens: 128000, inputPrice1M: 1.00, cachedPrice1M: 0.20, outputPrice1M: 1.00, reasoning: 'Medium Reasoning', tag: 'Bilingual', status: 'active' },
-
-  // Nous (Hermes Agent / inference-api.nousresearch.com / OAuth)
-  { id: 'nous/stealth-ox-alpha', name: 'Stealth Ox Alpha', providerId: 'nous', providerName: 'Nous Research', speed: 'Stealth Coding Agent (1M Context)', context: '1M', contextTokens: 1048576, inputPrice1M: 0, cachedPrice1M: 0, outputPrice1M: 0, reasoning: 'High Reasoning (effort: low-xhigh)', tag: 'Nous Stealth Tier', status: 'active' },
-  { id: 'nous/tencent-hy3-free', name: 'Tencent Hy3', providerId: 'nous', providerName: 'Nous Research', speed: 'MoE Fast Inference', context: '256k', contextTokens: 262144, inputPrice1M: 0, cachedPrice1M: 0, outputPrice1M: 0, reasoning: 'Hybrid Thinking', tag: 'Free Tier', status: 'active' },
-  { id: 'nous/stepfun-step-3.7-flash-free', name: 'StepFun Step 3.7 Flash', providerId: 'nous', providerName: 'Nous Research', speed: 'Ultra Fast Free Tier', context: '256k', contextTokens: 262144, inputPrice1M: 0, cachedPrice1M: 0, outputPrice1M: 0, reasoning: 'Medium-Max Reasoning', tag: 'Best Free Value', status: 'active' },
-];
-
-const DEFAULT_TELEMETRY = {
-  environment: 'Live Antigravity & ocx Telemetry',
-  summary: {
-    totalProviders: 4,
-    healthyProviders: 3,
-    exhaustedProviders: 0,
-    totalLinkedAccounts: 6,
-    activeLLMCount: 11,
-    availableModelCount: 11,
-    rateLimitedModelCount: 0
-  },
-  actualUsageMap: {},
-  antigravity: {
-    provider: 'google-antigravity',
-    name: 'Google Antigravity',
-    plan: 'Google AI Pro',
-    status: 'healthy',
-    account: 's***1@gmail.com',
-    geminiPool: {
-      label: 'Gemini Models',
-      status: 'healthy',
-      fiveHourWindow: {
-        label: '5시간 롤링 한도',
-        remainingPercent: null,
-        usagePercent: null,
-        resetAt: null,
-        desc: ''
-      },
-      weeklyWindow: {
-        label: '주간 누적 한도',
-        remainingPercent: null,
-        usagePercent: null,
-        resetAt: null,
-        desc: ''
-      },
-      models: ['Gemini 3.7 Flash', 'Gemini 3.1 Pro']
-    },
-    claudeGptPool: {
-      label: 'Claude and GPT models',
-      status: 'unknown',
-      fiveHourWindow: {
-        label: '5시간 롤링 한도',
-        remainingPercent: null,
-        usagePercent: null,
-        resetAt: null,
-        desc: ''
-      },
-      weeklyWindow: {
-        label: '주간 누적 한도',
-        remainingPercent: null,
-        usagePercent: null,
-        resetAt: null,
-        desc: ''
-      },
-      models: ['Sonnet 4.6', 'Opus 4.6 Thinking']
-    },
-    models: DEFAULT_MODELS.filter(m => m.providerId === 'google-antigravity')
-  },
-  openai: {
-    provider: 'openai',
-    name: 'OpenAI Codex',
-    status: 'healthy',
-    plan: 'Free Multi-Account Pool',
-    accountCount: 3,
-    activeAccount: 's***n@gmail.com',
-    pooledAccounts: ['s***n@gmail.com (Main)', 's***2@naver.com', 's***9@gmail.com'],
-    monthlyUsagePercent: null,
-    monthlyRemainingPercent: null,
-    monthlyResetAt: 1789273515000,
-    models: DEFAULT_MODELS.filter(m => m.providerId === 'openai')
-  },
-  alibaba: {
-    provider: 'alibaba-token-plan-intl',
-    name: 'Alibaba Token Plan',
-    status: 'healthy',
-    badge: '정상 가동 (Active)',
-    region: 'ap-southeast-1 (Singapore)',
-    account: 'sk-s****HZew',
-    weeklyUsagePercent: null,
-    weeklyRemainingPercent: null,
-    resetAt: 1787387476000,
-    message: '7일 쿼터 리셋 완료 (전 모델 정상 호출 가능)',
-    models: DEFAULT_MODELS.filter(m => m.providerId === 'alibaba-token-plan-intl')
-  },
-  nous: {
-    provider: 'nous',
-    name: 'Nous Research',
-    status: 'healthy',
-    plan: 'Hermes Agent (OAuth)',
-    account: 'hermes-cli (nas_organisation)',
-    endpoint: 'inference-api.nousresearch.com/v1',
-    message: 'OAuth OK / stealth-ox-alpha active',
-    models: DEFAULT_MODELS.filter(m => m.providerId === 'nous')
-  },
-  allModels: DEFAULT_MODELS,
-  integrations: [
-    { name: 'Google Antigravity IDE', endpoint: 'Google AI Pro Engine', status: 'online', latency: '4ms' },
-    { name: 'OpenCodex Proxy', endpoint: 'http://127.0.0.1:10100', status: 'standby', latency: '1ms' },
-    { name: 'Hermes Gateway', runtime: 'launchd (PID 33929)', status: 'online', latency: '2ms' },
-    { name: 'Qwen Voice', service: 'CosyVoice (Hermes)', status: 'ready', latency: '25ms' },
-    { name: 'Firecrawl Tool', service: 'Web Extract (fc-5...b8ae)', status: 'ready', latency: '45ms' }
-  ]
-};
-
-const INITIAL_NIGHT_TIME = false;
+import type { ModelInfo, PooledAccountDetail } from '@/types/telemetry';
+import { DEFAULT_MODELS, NIGHT_DISCOUNT_MODEL_IDS } from '@/data/models';
+import { DEFAULT_TELEMETRY } from '@/data/defaultTelemetry';
+import { useTelemetry } from '@/hooks/useTelemetry';
 
 const TIME_FMT = new Intl.DateTimeFormat('ko-KR', {
   hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false, timeZone: 'Asia/Seoul',
@@ -188,223 +39,13 @@ function formatTime(date: Date | null): string {
   return date ? TIME_FMT.format(date) : '--:--:--';
 }
 
-export default function QuotaDashboard() {
-  const [data, setData] = useState<any>(DEFAULT_TELEMETRY);
-  const [loading, setLoading] = useState(false);
-  const [lastSync, setLastSync] = useState<Date | null>(null);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filterProvider, setFilterProvider] = useState<string>('all');
-  const [sortBy, setSortBy] = useState<'default' | 'price' | 'context' | 'speed'>('default');
-  const [refreshInterval, setRefreshInterval] = useState<number>(15);
-  const [syncToast, setSyncToast] = useState<string | null>(null);
+// ── ocx 라이브 값 기반 파생값 헬퍼 함수 ──
+const fmtPct = (n?: number | null) => {
+  if (n == null || Number.isNaN(n)) return "N/A";
+  const v = Math.round(n * 10) / 10;
+  return (Number.isInteger(v) ? String(v) : v.toFixed(1)) + "%";
+};
 
-  // 다크모드, 뷰 모드(잔여량/소모량), 토큰 계산기 상태
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
-  const [viewMode, setViewMode] = useState<'remaining' | 'usage'>('remaining');
-  const [showCalculator, setShowCalculator] = useState<boolean>(false);
-  const [calcInputK, setCalcInputK] = useState<number>(200);
-  const [calcOutputK, setCalcOutputK] = useState<number>(20);
-  const [applyNightDiscount, setApplyNightDiscount] = useState<boolean>(false);
-  const [activeTab, setActiveTab] = useState<'quota' | 'live-usage'>('quota');
-
-  useEffect(() => {
-    const saved = localStorage.getItem('llm_dashboard_theme');
-    if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-      setIsDarkMode(true);
-    }
-    setLastSync(new Date());
-  }, []);
-
-  useEffect(() => {
-    if (isDarkMode) {
-      document.documentElement.classList.add('dark');
-      document.documentElement.classList.remove('light');
-      document.documentElement.style.colorScheme = 'dark';
-      localStorage.setItem('llm_dashboard_theme', 'dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-      document.documentElement.classList.add('light');
-      document.documentElement.style.colorScheme = 'light';
-      localStorage.setItem('llm_dashboard_theme', 'light');
-    }
-  }, [isDarkMode]);
-
-  const fetchTelemetry = useCallback(async (manual = false) => {
-    try {
-      setLoading(true);
-      const res = await fetch('/api/quota', { cache: 'no-store' });
-      if (!res.ok) throw new Error('API fetch failed');
-      const json = await res.json();
-      if (json.providers) {
-        const agData = json.providers[0] || {};
-        const rawList = (json.allModels && json.allModels.length > 0) ? json.allModels : DEFAULT_MODELS;
-        const mergedModels = rawList.map((m: any) => {
-          const meta = DEFAULT_MODELS.find(d => d.id === m.id);
-        return {
-            ...meta,
-            ...m,
-            tag: m.tag || meta?.tag,
-            context: meta?.context || m.context || "1M"
-          };
-        });
-
-        // ocx 라이브 윈도우(fiveHourWindow/weeklyWindow/claudeCompact)를 대시보드 풀 구조로 정규화.
-        // 잔여량은 항상 100 - 사용량으로 계산해 하드코딩을 제거한다.
-        const live5h = agData.geminiPool?.fiveHourWindow || agData.fiveHourWindow || {};
-        const liveWeekly = agData.geminiPool?.weeklyWindow || agData.weeklyWindow || {};
-        const liveClaude = agData.claudeGptPool || agData.claudeCompact || {};
-        const gemini5hUsed = typeof live5h.usagePercent === "number" ? live5h.usagePercent : null;
-        const geminiWeeklyUsed = typeof liveWeekly.usagePercent === "number" ? liveWeekly.usagePercent : null;
-
-        const geminiPool = {
-          label: "Gemini Models",
-          status: gemini5hUsed != null && gemini5hUsed >= 100 ? "exhausted" : "healthy",
-          fiveHourWindow: {
-            label: "5시간 롤링 한도",
-            usagePercent: gemini5hUsed,
-            remainingPercent: gemini5hUsed != null ? Math.max(0, 100 - gemini5hUsed) : null,
-            resetAt: live5h.resetAt || null,
-            desc: ""
-          },
-          weeklyWindow: {
-            label: "주간 누적 한도",
-            usagePercent: geminiWeeklyUsed,
-            remainingPercent: geminiWeeklyUsed != null ? Math.max(0, 100 - geminiWeeklyUsed) : null,
-            resetAt: liveWeekly.resetAt || null,
-            desc: ""
-          },
-          models: ["Gemini 3.7 Flash", "Gemini 3.1 Pro"]
-        };
-
-        const claudeExhausted = liveClaude.status === "exhausted";
-        const claude5hUsed = typeof liveClaude.fiveHourWindow?.usagePercent === "number" ? liveClaude.fiveHourWindow.usagePercent : (typeof liveClaude.fiveHourUsagePercent === "number" ? liveClaude.fiveHourUsagePercent : 0);
-        const claude5hRemaining = typeof liveClaude.fiveHourWindow?.remainingPercent === "number" ? liveClaude.fiveHourWindow.remainingPercent : (claude5hUsed != null ? Math.max(0, 100 - claude5hUsed) : 100);
-        const claudeWeeklyUsed = typeof liveClaude.weeklyWindow?.usagePercent === "number" ? liveClaude.weeklyWindow.usagePercent : (typeof liveClaude.weeklyUsagePercent === "number" ? liveClaude.weeklyUsagePercent : 0);
-        const claudeWeeklyRemaining = typeof liveClaude.weeklyWindow?.remainingPercent === "number" ? liveClaude.weeklyWindow.remainingPercent : (claudeWeeklyUsed != null ? Math.max(0, 100 - claudeWeeklyUsed) : 100);
-        const claude5hExhausted = typeof claude5hRemaining === "number" && claude5hRemaining <= 0;
-        const claudeWeeklyExhausted = typeof claudeWeeklyRemaining === "number" && claudeWeeklyRemaining <= 0;
-        const isClaudeExhausted = liveClaude.status === "exhausted" || claude5hExhausted || claudeWeeklyExhausted;
-
-        const claudeGptPool = {
-          label: "Claude and GPT models",
-          status: isClaudeExhausted ? "exhausted" : "healthy",
-          fiveHourWindow: {
-            label: "5시간 롤링 한도",
-            usagePercent: claude5hUsed,
-            remainingPercent: claude5hRemaining,
-            resetAt: liveClaude.fiveHourWindow?.resetAt || liveClaude.fiveHourResetAt || null,
-            desc: ""
-          },
-          weeklyWindow: {
-            label: "주간 누적 한도",
-            usagePercent: claudeWeeklyUsed,
-            remainingPercent: claudeWeeklyRemaining,
-            resetAt: liveClaude.weeklyWindow?.resetAt || liveClaude.weeklyResetAt || null,
-            status: claudeWeeklyExhausted ? "exhausted" : (claude5hExhausted ? "exhausted" : "healthy"),
-            badge: claudeWeeklyExhausted ? "주간 한도 소진" : (claude5hExhausted ? "5시간 한도 소진" : (liveClaude.badge || null)),
-            desc: claudeWeeklyExhausted ? "주간 쿼터 소진 (호출 불가)" : (claude5hExhausted ? "5시간 한도 소진" : "")
-          },
-          models: liveClaude.models || ["Claude Sonnet 4.6", "Claude Opus 4.6 Thinking"]
-        };
-
-        const aliData = json.providers[2] || {};
-        const aliWeeklyRemaining = aliData.weeklyRemainingPercent;
-        const isAliExhausted = aliData.status === "exhausted" || (typeof aliWeeklyRemaining === "number" && aliWeeklyRemaining <= 0);
-        const isGeminiExhausted = gemini5hUsed != null && gemini5hUsed >= 100;
-
-        const dynamicModels = rawList.map((m: any) => {
-          const meta = DEFAULT_MODELS.find(d => d.id === m.id);
-          let status = m.status || meta?.status || 'active';
-          if (m.providerId === 'alibaba-token-plan-intl' && isAliExhausted) {
-            status = 'rate_limited';
-          } else if (m.providerId === 'google-antigravity' && m.pool === 'claude-gpt' && isClaudeExhausted) {
-            status = 'rate_limited';
-          } else if (m.providerId === 'google-antigravity' && m.pool === 'gemini' && isGeminiExhausted) {
-            status = 'rate_limited';
-          }
-          return {
-            ...meta,
-            ...m,
-            status,
-            tag: m.tag || meta?.tag,
-            context: meta?.context || m.context || "1M"
-          };
-        });
-
-        const activeCount = dynamicModels.filter((m: any) => m.status === 'active').length;
-        const limitedCount = dynamicModels.filter((m: any) => m.status === 'rate_limited').length;
-        const isGeminiWeeklyExhausted = typeof geminiWeeklyRemaining === "number" && geminiWeeklyRemaining <= 0;
-        const isAgHealthy = !isGeminiWeeklyExhausted;
-        const isOaHealthy = (json.providers[1]?.monthlyUsagePercent ?? 0) < 100;
-        const isAliHealthy = !isAliExhausted;
-        const healthyProviderCount = (isAgHealthy ? 1 : 0) + (isOaHealthy ? 1 : 0) + (isAliHealthy ? 1 : 0) + 1; // +1: Nous Research (OAuth 상시 정상)
-
-        setData({
-          ...DEFAULT_TELEMETRY,
-          summary: {
-            totalProviders: 4, // Google Antigravity, OpenAI, Alibaba, Nous
-            healthyProviders: healthyProviderCount,
-            exhaustedProviders: 4 - healthyProviderCount,
-            totalLinkedAccounts: json.summary?.totalLinkedAccounts || 6,
-            activeLLMCount: dynamicModels.length,
-            availableModelCount: activeCount,
-            rateLimitedModelCount: limitedCount
-          },
-          actualUsageMap: json.actualUsageMap || {},
-          antigravity: {
-            ...DEFAULT_TELEMETRY.antigravity,
-            ...agData,
-            status: isGeminiWeeklyExhausted ? 'exhausted' : 'healthy',
-            geminiPool,
-            claudeGptPool
-          },
-          openai: {
-            ...DEFAULT_TELEMETRY.openai,
-            ...(json.providers[1] || {})
-          },
-          alibaba: {
-          ...DEFAULT_TELEMETRY.alibaba,
-            ...(json.providers[2] || {})
-          },
-          nous: {
-            ...DEFAULT_TELEMETRY.nous,
-            ...(json.providers[3] || {})
-          },
-          allModels: dynamicModels,
-          environment: json.environment
-        });
-      }
-      setLastSync(new Date());
-      if (manual) {
-        setSyncToast('실시간 텔레메트리 동기화 완료!');
-        setTimeout(() => setSyncToast(null), 3000);
-      }
-    } catch (err) {
-      console.error('Failed to load telemetry:', err);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchTelemetry();
-    const interval = setInterval(() => {
-      fetchTelemetry();
-    }, 15000);
-    return () => clearInterval(interval);
-  }, [fetchTelemetry]);
-
-  const ag = data.antigravity || DEFAULT_TELEMETRY.antigravity;
-  const oa = data.openai || DEFAULT_TELEMETRY.openai;
-  const al = data.alibaba || DEFAULT_TELEMETRY.alibaba;
-  const rawModels: ModelInfo[] = data.allModels || DEFAULT_MODELS;
-
-  // ── ocx 라이브 값 기반 파생값 (하드코딩 제거) ──
-  const fmtPct = (n?: number | null) => {
-    if (n == null || Number.isNaN(n)) return "N/A";
-    const v = Math.round(n * 10) / 10;
-    return (Number.isInteger(v) ? String(v) : v.toFixed(1)) + "%";
-  };
 const clampPct = (n?: number | null) => Math.min(100, Math.max(0, n ?? 0));
 
 const getProgressBarColor = (remaining?: number | null, used?: number | null) => {
@@ -469,6 +110,47 @@ const LiveClock = memo(function LiveClock() {
   );
 });
 
+export default function QuotaDashboard() {
+  const { data, loading, lastSync, syncToast, setSyncToast, fetchTelemetry } = useTelemetry();
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filterProvider, setFilterProvider] = useState<string>('all');
+  const [sortBy, setSortBy] = useState<'default' | 'price' | 'context' | 'speed'>('default');
+
+  // 다크모드, 뷰 모드(잔여량/소모량), 토큰 계산기 상태
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
+  const [viewMode, setViewMode] = useState<'remaining' | 'usage'>('remaining');
+  const [showCalculator, setShowCalculator] = useState<boolean>(false);
+  const [calcInputK, setCalcInputK] = useState<number>(200);
+  const [calcOutputK, setCalcOutputK] = useState<number>(20);
+  const [applyNightDiscount, setApplyNightDiscount] = useState<boolean>(false);
+  const [activeTab, setActiveTab] = useState<'quota' | 'live-usage'>('quota');
+
+  useEffect(() => {
+    const saved = localStorage.getItem('llm_dashboard_theme');
+    if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      setIsDarkMode(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark');
+      document.documentElement.classList.remove('light');
+      document.documentElement.style.colorScheme = 'dark';
+      localStorage.setItem('llm_dashboard_theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.add('light');
+      document.documentElement.style.colorScheme = 'light';
+      localStorage.setItem('llm_dashboard_theme', 'light');
+    }
+  }, [isDarkMode]);
+
+  const ag = data.antigravity || DEFAULT_TELEMETRY.antigravity;
+  const oa = data.openai || DEFAULT_TELEMETRY.openai;
+  const al = data.alibaba || DEFAULT_TELEMETRY.alibaba;
+  const rawModels: ModelInfo[] = data.allModels || DEFAULT_MODELS;
+
   const geminiPool = ag.geminiPool;
   const claudePool = ag.claudeGptPool;
   const gemini5h = geminiPool?.fiveHourWindow;
@@ -504,7 +186,7 @@ const LiveClock = memo(function LiveClock() {
   const totalModels = activeModels || rawModels.length;
 
   // 알리바바 야간 50% 할인 시간대 판별 (22:00 ~ 08:00 UTC+8 = 23:00 ~ 09:00 KST)
-  const [isNightDiscountNow, setIsNightDiscountNow] = useState<boolean>(INITIAL_NIGHT_TIME);
+  const [isNightDiscountNow, setIsNightDiscountNow] = useState<boolean>(false);
 
   useEffect(() => {
     const kstHour = new Date().getHours();
@@ -1070,8 +752,8 @@ const LiveClock = memo(function LiveClock() {
                 <div className="space-y-1 font-mono text-[11px]">
                   {(oa.pooledAccountDetails && oa.pooledAccountDetails.length > 0
                     ? oa.pooledAccountDetails
-                    : (oa.pooledAccounts || ['s***n@gmail.com (Main)', 's***2@naver.com', 's***9@gmail.com']).map((a: string) => ({ account: a, state: 'standby', usagePercent: null }))
-                  ).map((acc: any, idx: number) => (
+                    : (oa.pooledAccounts || ['s***n@gmail.com (Main)', 's***2@naver.com', 's***9@gmail.com']).map((a: string) => ({ account: a, state: 'standby' as const, usagePercent: null }))
+                  ).map((acc: { account: string; accountId?: string; state: 'active' | 'standby' | 'exhausted'; usagePercent?: number | null }, idx: number) => (
                     <div key={acc.accountId || idx} className={`flex items-center justify-between ${acc.state === 'active' ? 'text-zinc-800 dark:text-zinc-300' : 'text-zinc-600 dark:text-zinc-400'}`}>
                       <span>• {acc.account}</span>
                       <span className="flex items-center gap-1.5">
@@ -1449,7 +1131,7 @@ const LiveClock = memo(function LiveClock() {
                 id="sort-by-select"
                 aria-label="모델 정렬 기준 선택"
                 value={sortBy}
-                onChange={(e: any) => setSortBy(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSortBy(e.target.value as 'default' | 'price' | 'context' | 'speed')}
                 className="bg-zinc-50 dark:bg-zinc-800 border border-zinc-200/80 dark:border-zinc-700/80 rounded-xl px-2.5 py-1.5 text-xs text-zinc-700 dark:text-zinc-300 font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 cursor-pointer shrink-0"
               >
                 <option value="default">기본 정렬</option>

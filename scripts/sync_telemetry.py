@@ -22,7 +22,7 @@ try:
 except Exception:
     DYNAMIC_SPECS = None
 
-GIST_ID = "67c16a5d365eddf3da98129350171338"
+GIST_ID = os.environ.get("GIST_ID", "67c16a5d365eddf3da98129350171338")
 
 # ── Google Antigravity live quota ────────────────────────────────────────────
 # Antigravity 2.0 앱의 Usage 화면과 동일한 공식 소스:
@@ -553,8 +553,8 @@ def collect_telemetry():
     if pool_info:
         oa_monthly_usage, oa_monthly_reset, oa_pool_rows, oa_active_account = pool_info
     else:
-        oa_monthly_usage = 85.0
-        oa_monthly_reset = 1789273515000
+        oa_monthly_usage = None
+        oa_monthly_reset = None
         try:
             res = subprocess.run(["ocx", "provider", "quota", "--json"], capture_output=True, text=True, timeout=5)
             if res.returncode == 0 and res.stdout.strip():
@@ -564,7 +564,8 @@ def collect_telemetry():
                         prov = r.get("provider")
                         if prov == "openai":
                             q = r.get("quota", {})
-                            oa_monthly_usage = round(q.get("monthlyPercent", 85.0), 2)
+                            if q.get("monthlyPercent") is not None:
+                                oa_monthly_usage = round(float(q.get("monthlyPercent")), 2)
                             if q.get("monthlyResetAt"):
                                 oa_monthly_reset = q.get("monthlyResetAt") * 1000
         except Exception as e:
@@ -835,9 +836,9 @@ def collect_telemetry():
                                     entry["currentCycle"]["output"] += delta_out
                                     entry["currentCycle"]["total"] += delta_tot
                                     entry["currentCycle"]["requests"] += 1
-                    except:
+                    except Exception:
                         pass
-        except:
+        except Exception:
             pass
 
     # Build model list

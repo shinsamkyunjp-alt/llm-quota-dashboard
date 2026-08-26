@@ -1,12 +1,12 @@
 {
-  "updatedAt": 1787643307431,
+  "updatedAt": 1787780430317,
   "environment": "Live Antigravity & ocx Telemetry",
   "catalogSync": {
     "isLiveConnected": true,
     "totalCatalogModels": 11,
     "source": "OpenCodex http://localhost:10100/#models & Official Provider API Specs",
     "pricingDailySync": "Active (1회/일 자동 갱신)",
-    "lastDailyUpdate": "2026-08-25 16:35:08 KST"
+    "lastDailyUpdate": "2026-08-27 06:40:31 KST"
   },
   "summary": {
     "totalProviders": 3,
@@ -163,12 +163,12 @@
         "requests": 79
       },
       "monthly": {
-        "input": 14000540,
-        "uncached": 1010844,
-        "cached": 12989696,
-        "output": 67781,
-        "total": 14068321,
-        "requests": 170
+        "input": 13663326,
+        "uncached": 941662,
+        "cached": 12721664,
+        "output": 67236,
+        "total": 13730562,
+        "requests": 160
       },
       "currentCycle": {
         "input": 0,
@@ -189,12 +189,12 @@
     },
     "google-antigravity/claude-sonnet-4-6": {
       "daily": {
-        "input": 123397,
-        "uncached": 47658,
-        "cached": 75739,
-        "output": 2037,
-        "total": 125434,
-        "requests": 3
+        "input": 0,
+        "uncached": 0,
+        "cached": 0,
+        "output": 0,
+        "total": 0,
+        "requests": 0
       },
       "weekly": {
         "input": 8903155,
@@ -281,12 +281,12 @@
         "requests": 0
       },
       "weekly": {
-        "input": 2144913,
-        "uncached": 875202,
-        "cached": 1269711,
-        "output": 54017,
-        "total": 2198930,
-        "requests": 34
+        "input": 1113447,
+        "uncached": 670629,
+        "cached": 442818,
+        "output": 1845,
+        "total": 1115292,
+        "requests": 8
       },
       "monthly": {
         "input": 11213353,
@@ -323,12 +323,12 @@
         "requests": 0
       },
       "weekly": {
-        "input": 36410430,
-        "uncached": 1783870,
-        "cached": 34626560,
-        "output": 212508,
-        "total": 36622938,
-        "requests": 412
+        "input": 16106742,
+        "uncached": 821494,
+        "cached": 15285248,
+        "output": 56125,
+        "total": 16162867,
+        "requests": 78
       },
       "monthly": {
         "input": 87528333,
@@ -373,12 +373,12 @@
         "requests": 622
       },
       "monthly": {
-        "input": 133094213,
-        "uncached": 5026245,
-        "cached": 128067968,
-        "output": 922270,
-        "total": 134016483,
-        "requests": 1290
+        "input": 132957958,
+        "uncached": 4979462,
+        "cached": 127978496,
+        "output": 921171,
+        "total": 133879129,
+        "requests": 1284
       },
       "currentCycle": {
         "input": 0,
@@ -407,12 +407,12 @@
         "requests": 0
       },
       "weekly": {
-        "input": 15542729,
-        "uncached": 1317621,
-        "cached": 14225108,
-        "output": 169513,
-        "total": 15712242,
-        "requests": 203
+        "input": 5398,
+        "uncached": 5398,
+        "cached": 0,
+        "output": 52,
+        "total": 5450,
+        "requests": 5
       },
       "monthly": {
         "input": 38157458,
@@ -567,44 +567,44 @@
     },
     "google-antigravity/gemini-3.7-flash": {
       "daily": {
-        "input": 374691,
-        "uncached": 126449,
-        "cached": 248242,
-        "output": 2799,
-        "total": 377490,
-        "requests": 15
+        "input": 811046,
+        "uncached": 326235,
+        "cached": 484811,
+        "output": 5445,
+        "total": 816491,
+        "requests": 26
       },
       "weekly": {
-        "input": 382721084,
-        "uncached": 39045375,
-        "cached": 343675709,
-        "output": 1132041,
-        "total": 383853125,
-        "requests": 2431
+        "input": 332876485,
+        "uncached": 32182062,
+        "cached": 300694423,
+        "output": 717560,
+        "total": 333594045,
+        "requests": 1821
       },
       "monthly": {
-        "input": 782818779,
-        "uncached": 82126183,
-        "cached": 700692596,
-        "output": 2563033,
-        "total": 785381812,
-        "requests": 5053
+        "input": 783629825,
+        "uncached": 82452418,
+        "cached": 701177407,
+        "output": 2568478,
+        "total": 786198303,
+        "requests": 5079
       },
       "currentCycle": {
-        "input": 123032301,
-        "uncached": 15546138,
-        "cached": 107486163,
-        "output": 273767,
-        "total": 123306068,
-        "requests": 479
+        "input": 123843347,
+        "uncached": 15872373,
+        "cached": 107970974,
+        "output": 279212,
+        "total": 124122559,
+        "requests": 505
       },
       "allTime": {
-        "input": 782818779,
-        "uncached": 82126183,
-        "cached": 700692596,
-        "output": 2563033,
-        "total": 785381812,
-        "requests": 5053
+        "input": 783629825,
+        "uncached": 82452418,
+        "cached": 701177407,
+        "output": 2568478,
+        "total": 786198303,
+        "requests": 5079
       }
     },
     "alibaba-token-plan-intl/deepseek-v4-pro-0813": {
@@ -617,12 +617,12 @@
         "requests": 0
       },
       "weekly": {
-        "input": 24789329,
-        "uncached": 1295697,
-        "cached": 23493632,
-        "output": 401586,
-        "total": 25190915,
-        "requests": 358
+        "input": 7151744,
+        "uncached": 209024,
+        "cached": 6942720,
+        "output": 98214,
+        "total": 7249958,
+        "requests": 70
       },
       "monthly": {
         "input": 64610089,
@@ -651,128 +651,128 @@
     },
     "stealth/ox-alpha": {
       "daily": {
-        "input": 1455293,
-        "uncached": 171261,
-        "cached": 1284032,
-        "output": 13551,
-        "total": 1468844,
-        "requests": 43
+        "input": 1119561,
+        "uncached": 151753,
+        "cached": 967808,
+        "output": 12811,
+        "total": 1132372,
+        "requests": 28
       },
       "weekly": {
-        "input": 84359655,
-        "uncached": 4639847,
-        "cached": 79719808,
-        "output": 277932,
-        "total": 84637587,
-        "requests": 782
+        "input": 87833200,
+        "uncached": 5320176,
+        "cached": 82513024,
+        "output": 301757,
+        "total": 88134957,
+        "requests": 872
       },
       "monthly": {
-        "input": 84359655,
-        "uncached": 4639847,
-        "cached": 79719808,
-        "output": 277932,
-        "total": 84637587,
-        "requests": 782
+        "input": 87833200,
+        "uncached": 5320176,
+        "cached": 82513024,
+        "output": 301757,
+        "total": 88134957,
+        "requests": 872
       },
       "currentCycle": {
-        "input": 84359655,
-        "uncached": 4639847,
-        "cached": 79719808,
-        "output": 277932,
-        "total": 84637587,
-        "requests": 782
+        "input": 87833200,
+        "uncached": 5320176,
+        "cached": 82513024,
+        "output": 301757,
+        "total": 88134957,
+        "requests": 872
       },
       "allTime": {
-        "input": 84359655,
-        "uncached": 4639847,
-        "cached": 79719808,
-        "output": 277932,
-        "total": 84637587,
-        "requests": 782
+        "input": 87833200,
+        "uncached": 5320176,
+        "cached": 82513024,
+        "output": 301757,
+        "total": 88134957,
+        "requests": 872
       }
     },
     "combo/Fallback": {
       "daily": {
-        "input": 6496352,
-        "uncached": 245658,
-        "cached": 6250694,
-        "output": 17954,
-        "total": 6514306,
-        "requests": 62
+        "input": 32699717,
+        "uncached": 2496633,
+        "cached": 30203084,
+        "output": 171178,
+        "total": 32870895,
+        "requests": 464
       },
       "weekly": {
-        "input": 6496352,
-        "uncached": 245658,
-        "cached": 6250694,
-        "output": 17954,
-        "total": 6514306,
-        "requests": 62
+        "input": 42787206,
+        "uncached": 3076648,
+        "cached": 39710558,
+        "output": 208065,
+        "total": 42995271,
+        "requests": 592
       },
       "monthly": {
-        "input": 6496352,
-        "uncached": 245658,
-        "cached": 6250694,
-        "output": 17954,
-        "total": 6514306,
-        "requests": 62
+        "input": 42787206,
+        "uncached": 3076648,
+        "cached": 39710558,
+        "output": 208065,
+        "total": 42995271,
+        "requests": 592
       },
       "currentCycle": {
-        "input": 6496352,
-        "uncached": 245658,
-        "cached": 6250694,
-        "output": 17954,
-        "total": 6514306,
-        "requests": 62
+        "input": 42787206,
+        "uncached": 3076648,
+        "cached": 39710558,
+        "output": 208065,
+        "total": 42995271,
+        "requests": 592
       },
       "allTime": {
-        "input": 6496352,
-        "uncached": 245658,
-        "cached": 6250694,
-        "output": 17954,
-        "total": 6514306,
-        "requests": 62
+        "input": 42787206,
+        "uncached": 3076648,
+        "cached": 39710558,
+        "output": 208065,
+        "total": 42995271,
+        "requests": 592
       }
     },
     "nous/stealth-ox-alpha": {
       "daily": {
-        "input": 656327,
-        "uncached": 38919,
-        "cached": 617408,
-        "output": 8077,
-        "total": 664404,
-        "requests": 20
+        "input": 654453,
+        "uncached": 47221,
+        "cached": 607232,
+        "output": 2722,
+        "total": 657175,
+        "requests": 18
       },
       "weekly": {
-        "input": 16307830,
-        "uncached": 1791670,
-        "cached": 14516160,
-        "output": 70708,
-        "total": 16378538,
-        "requests": 301
+        "input": 19104500,
+        "uncached": 2280052,
+        "cached": 16824448,
+        "output": 81549,
+        "total": 19186049,
+        "requests": 374
       },
       "monthly": {
-        "input": 16307830,
-        "uncached": 1791670,
-        "cached": 14516160,
-        "output": 70708,
-        "total": 16378538,
-        "requests": 301
+        "input": 19104500,
+        "uncached": 2280052,
+        "cached": 16824448,
+        "output": 81549,
+        "total": 19186049,
+        "requests": 374
       },
       "currentCycle": {
-        "input": 16307830,
-        "uncached": 1791670,
-        "cached": 14516160,
-        "output": 70708,
-        "total": 16378538,
-        "requests": 301
+        "input": 19104500,
+        "uncached": 2280052,
+        "cached": 16824448,
+        "output": 81549,
+        "total": 19186049,
+        "requests": 374
       },
       "allTime": {
-        "input": 16307830,
-        "uncached": 1791670,
-        "cached": 14516160,
-        "output": 70708,
-        "total": 16378538,
-        "requests": 301
+        "input": 19104500,
+        "uncached": 2280052,
+        "cached": 16824448,
+        "output": 81549,
+        "total": 19186049,
+        "requests": 374
       }
     }
   },
@@ -792,15 +792,15 @@
           "label": "5시간 롤링 한도",
           "remainingPercent": 100.0,
           "usagePercent": 0.0,
-          "resetAt": 1787661309000,
-          "desc": "5시간 후 완전 충전"
+          "resetAt": 1787798067000,
+          "desc": "4시간 53분 후 완전 충전"
         },
         "weeklyWindow": {
           "label": "주간 누적 한도",
-          "remainingPercent": 99.72,
-          "usagePercent": 0.28,
+          "remainingPercent": 98.46,
+          "usagePercent": 1.54,
           "resetAt": 1788058880000,
-          "desc": "4일 19시간 26분 후 완전 충전"
+          "desc": "3일 5시간 20분 후 완전 충전"
         },
         "models": [
           "Gemini 3.7 Flash",
@@ -814,17 +814,17 @@
         "isLive": true,
         "fiveHourWindow": {
           "label": "5시간 롤링 한도",
-          "remainingPercent": 64.97,
-          "usagePercent": 35.03,
-          "resetAt": 1787646713000,
-          "desc": "56분 후 완전 충전"
+          "remainingPercent": 100.0,
+          "usagePercent": 0.0,
+          "resetAt": 1787797524000,
+          "desc": "4시간 44분 후 완전 충전"
         },
         "weeklyWindow": {
           "label": "주간 누적 한도",
-          "remainingPercent": 87.34,
-          "usagePercent": 12.66,
+          "remainingPercent": 43.44,
+          "usagePercent": 56.56,
           "resetAt": 1788053510000,
-          "desc": "4일 17시간 56분 후 완전 충전"
+          "desc": "3일 3시간 51분 후 완전 충전"
         },
         "models": [
           "Claude Sonnet 4.6",
@@ -849,44 +849,44 @@
           "status": "active",
           "actualUsage": {
             "daily": {
-              "input": 374691,
-              "uncached": 126449,
-              "cached": 248242,
-              "output": 2799,
-              "total": 377490,
-              "requests": 15
+              "input": 811046,
+              "uncached": 326235,
+              "cached": 484811,
+              "output": 5445,
+              "total": 816491,
+              "requests": 26
             },
             "weekly": {
-              "input": 382721084,
-              "uncached": 39045375,
-              "cached": 343675709,
-              "output": 1132041,
-              "total": 383853125,
-              "requests": 2431
+              "input": 332876485,
+              "uncached": 32182062,
+              "cached": 300694423,
+              "output": 717560,
+              "total": 333594045,
+              "requests": 1821
             },
             "monthly": {
-              "input": 782818779,
-              "uncached": 82126183,
-              "cached": 700692596,
-              "output": 2563033,
-              "total": 785381812,
-              "requests": 5053
+              "input": 783629825,
+              "uncached": 82452418,
+              "cached": 701177407,
+              "output": 2568478,
+              "total": 786198303,
+              "requests": 5079
             },
             "currentCycle": {
-              "input": 123032301,
-              "uncached": 15546138,
-              "cached": 107486163,
-              "output": 273767,
-              "total": 123306068,
-              "requests": 479
+              "input": 123843347,
+              "uncached": 15872373,
+              "cached": 107970974,
+              "output": 279212,
+              "total": 124122559,
+              "requests": 505
             },
             "allTime": {
-              "input": 782818779,
-              "uncached": 82126183,
-              "cached": 700692596,
-              "output": 2563033,
-              "total": 785381812,
-              "requests": 5053
+              "input": 783629825,
+              "uncached": 82452418,
+              "cached": 701177407,
+              "output": 2568478,
+              "total": 786198303,
+              "requests": 5079
             }
           }
         },
@@ -907,12 +907,12 @@
           "status": "active",
           "actualUsage": {
             "daily": {
-              "input": 123397,
-              "uncached": 47658,
-              "cached": 75739,
-              "output": 2037,
-              "total": 125434,
-              "requests": 3
+              "input": 0,
+              "uncached": 0,
+              "cached": 0,
+              "output": 0,
+              "total": 0,
+              "requests": 0
             },
             "weekly": {
               "input": 8903155,
@@ -1076,12 +1076,12 @@
               "requests": 79
             },
             "monthly": {
-              "input": 14000540,
-              "uncached": 1010844,
-              "cached": 12989696,
-              "output": 67781,
-              "total": 14068321,
-              "requests": 170
+              "input": 13663326,
+              "uncached": 941662,
+              "cached": 12721664,
+              "output": 67236,
+              "total": 13730562,
+              "requests": 160
             },
             "currentCycle": {
               "input": 0,
@@ -1260,12 +1260,12 @@
               "requests": 622
             },
             "monthly": {
-              "input": 133094213,
-              "uncached": 5026245,
-              "cached": 128067968,
-              "output": 922270,
-              "total": 134016483,
-              "requests": 1290
+              "input": 132957958,
+              "uncached": 4979462,
+              "cached": 127978496,
+              "output": 921171,
+              "total": 133879129,
+              "requests": 1284
             },
             "currentCycle": {
               "input": 0,
@@ -1426,12 +1426,12 @@
               "requests": 0
             },
             "weekly": {
-              "input": 24789329,
-              "uncached": 1295697,
-              "cached": 23493632,
-              "output": 401586,
-              "total": 25190915,
-              "requests": 358
+              "input": 7151744,
+              "uncached": 209024,
+              "cached": 6942720,
+              "output": 98214,
+              "total": 7249958,
+              "requests": 70
             },
             "monthly": {
               "input": 64610089,
@@ -1484,12 +1484,12 @@
               "requests": 0
             },
             "weekly": {
-              "input": 36410430,
-              "uncached": 1783870,
-              "cached": 34626560,
-              "output": 212508,
-              "total": 36622938,
-              "requests": 412
+              "input": 16106742,
+              "uncached": 821494,
+              "cached": 15285248,
+              "output": 56125,
+              "total": 16162867,
+              "requests": 78
             },
             "monthly": {
               "input": 87528333,
@@ -1588,44 +1588,44 @@
       "status": "active",
       "actualUsage": {
         "daily": {
-          "input": 374691,
-          "uncached": 126449,
-          "cached": 248242,
-          "output": 2799,
-          "total": 377490,
-          "requests": 15
+          "input": 811046,
+          "uncached": 326235,
+          "cached": 484811,
+          "output": 5445,
+          "total": 816491,
+          "requests": 26
         },
         "weekly": {
-          "input": 382721084,
-          "uncached": 39045375,
-          "cached": 343675709,
-          "output": 1132041,
-          "total": 383853125,
-          "requests": 2431
+          "input": 332876485,
+          "uncached": 32182062,
+          "cached": 300694423,
+          "output": 717560,
+          "total": 333594045,
+          "requests": 1821
         },
         "monthly": {
-          "input": 782818779,
-          "uncached": 82126183,
-          "cached": 700692596,
-          "output": 2563033,
-          "total": 785381812,
-          "requests": 5053
+          "input": 783629825,
+          "uncached": 82452418,
+          "cached": 701177407,
+          "output": 2568478,
+          "total": 786198303,
+          "requests": 5079
         },
         "currentCycle": {
-          "input": 123032301,
-          "uncached": 15546138,
-          "cached": 107486163,
-          "output": 273767,
-          "total": 123306068,
-          "requests": 479
+          "input": 123843347,
+          "uncached": 15872373,
+          "cached": 107970974,
+          "output": 279212,
+          "total": 124122559,
+          "requests": 505
         },
         "allTime": {
-          "input": 782818779,
-          "uncached": 82126183,
-          "cached": 700692596,
-          "output": 2563033,
-          "total": 785381812,
-          "requests": 5053
+          "input": 783629825,
+          "uncached": 82452418,
+          "cached": 701177407,
+          "output": 2568478,
+          "total": 786198303,
+          "requests": 5079
         }
       }
     },
@@ -1646,12 +1646,12 @@
       "status": "active",
       "actualUsage": {
         "daily": {
-          "input": 123397,
-          "uncached": 47658,
-          "cached": 75739,
-          "output": 2037,
-          "total": 125434,
-          "requests": 3
+          "input": 0,
+          "uncached": 0,
+          "cached": 0,
+          "output": 0,
+          "total": 0,
+          "requests": 0
         },
         "weekly": {
           "input": 8903155,
@@ -1770,12 +1770,12 @@
           "requests": 79
         },
         "monthly": {
-          "input": 14000540,
-          "uncached": 1010844,
-          "cached": 12989696,
-          "output": 67781,
-          "total": 14068321,
-          "requests": 170
+          "input": 13663326,
+          "uncached": 941662,
+          "cached": 12721664,
+          "output": 67236,
+          "total": 13730562,
+          "requests": 160
         },
         "currentCycle": {
           "input": 0,
@@ -1886,12 +1886,12 @@
           "requests": 622
         },
         "monthly": {
-          "input": 133094213,
-          "uncached": 5026245,
-          "cached": 128067968,
-          "output": 922270,
-          "total": 134016483,
-          "requests": 1290
+          "input": 132957958,
+          "uncached": 4979462,
+          "cached": 127978496,
+          "output": 921171,
+          "total": 133879129,
+          "requests": 1284
         },
         "currentCycle": {
           "input": 0,
@@ -2052,12 +2052,12 @@
           "requests": 0
         },
         "weekly": {
-          "input": 24789329,
-          "uncached": 1295697,
-          "cached": 23493632,
-          "output": 401586,
-          "total": 25190915,
-          "requests": 358
+          "input": 7151744,
+          "uncached": 209024,
+          "cached": 6942720,
+          "output": 98214,
+          "total": 7249958,
+          "requests": 70
         },
         "monthly": {
           "input": 64610089,
@@ -2110,12 +2110,12 @@
           "requests": 0
         },
         "weekly": {
-          "input": 36410430,
-          "uncached": 1783870,
-          "cached": 34626560,
-          "output": 212508,
-          "total": 36622938,
-          "requests": 412
+          "input": 16106742,
+          "uncached": 821494,
+          "cached": 15285248,
+          "output": 56125,
+          "total": 16162867,
+          "requests": 78
         },
         "monthly": {
           "input": 87528333,
