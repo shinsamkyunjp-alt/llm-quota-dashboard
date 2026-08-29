@@ -1,8 +1,8 @@
 {
-  "last_updated_at": 1787716208119,
-  "last_updated_date": "2026-08-26 12:50:08 KST",
+  "last_updated_at": 1787975253870,
+  "last_updated_date": "2026-08-29 12:47:33 KST",
   "source": "OpenCodex http://localhost:10100/#models & Official Provider API Specs",
-  "total_models": 11,
+  "total_models": 12,
   "models": {
     "google-antigravity/gemini-3.7-flash": {
       "name": "Gemini 3.7 Flash",
@@ -84,6 +84,19 @@
       "reasoning": "XHigh Reasoning",
       "tag": "Flagship MoE"
     },
+    "alibaba-token-plan-intl/qwen3.8-flash": {
+      "name": "Qwen 3.8 Flash",
+      "providerId": "alibaba-token-plan-intl",
+      "providerName": "Alibaba Token Plan",
+      "context": "256k",
+      "contextTokens": 256000,
+      "inputPrice1M": 0.167,
+      "cachedPrice1M": 0.0334,
+      "outputPrice1M": 0.488,
+      "speed": "Ultra Fast Multimodal",
+      "reasoning": "Low-Medium",
+      "tag": "Flash Multimodal"
+    },
     "alibaba-token-plan-intl/qwen3.7-plus": {
       "name": "Qwen 3.7 Plus",
       "providerId": "alibaba-token-plan-intl",
@@ -96,19 +109,6 @@
       "speed": "High Speed Multimodal",
       "reasoning": "Medium Reasoning",
       "tag": "All-Rounder"
-    },
-    "alibaba-token-plan-intl/qwen3.6-flash": {
-      "name": "Qwen 3.6 Flash",
-      "providerId": "alibaba-token-plan-intl",
-      "providerName": "Alibaba Token Plan",
-      "context": "1M",
-      "contextTokens": 1000000,
-      "inputPrice1M": 0.05,
-      "cachedPrice1M": 0.01,
-      "outputPrice1M": 0.2,
-      "speed": "Ultra Fast",
-      "reasoning": "Low-Medium",
-      "tag": "Ultra Cheap ($0.05)"
     },
     "alibaba-token-plan-intl/deepseek-v4-pro-0813": {
       "name": "DeepSeek V4 Pro (0813 Snapshot)",
@@ -136,18 +136,31 @@
       "reasoning": "Standard",
       "tag": "Fast Coder"
     },
-    "alibaba-token-plan-intl/glm-5.2": {
-      "name": "GLM 5.2",
-      "providerId": "alibaba-token-plan-intl",
-      "providerName": "Alibaba Token Plan",
-      "context": "128k",
-      "contextTokens": 128000,
-      "inputPrice1M": 1.0,
-      "cachedPrice1M": 0.2,
-      "outputPrice1M": 1.0,
-      "speed": "Bilingual Pro",
-      "reasoning": "Medium Reasoning",
-      "tag": "Bilingual"
+    "nous/tencent-hy3-free": {
+      "name": "Tencent Hy3",
+      "providerId": "nous",
+      "providerName": "Nous Research",
+      "context": "256k",
+      "contextTokens": 262144,
+      "inputPrice1M": 0.0,
+      "cachedPrice1M": 0.0,
+      "outputPrice1M": 0.0,
+      "speed": "MoE Fast Inference",
+      "reasoning": "Hybrid Thinking",
+      "tag": "Free Tier"
+    },
+    "nous/stepfun-step-3.7-flash-free": {
+      "name": "StepFun Step 3.7 Flash",
+      "providerId": "nous",
+      "providerName": "Nous Research",
+      "context": "256k",
+      "contextTokens": 262144,
+      "inputPrice1M": 0.0,
+      "cachedPrice1M": 0.0,
+      "outputPrice1M": 0.0,
+      "speed": "Ultra Fast Free Tier",
+      "reasoning": "Medium-Max Reasoning",
+      "tag": "Best Free Value"
     }
   }
 }

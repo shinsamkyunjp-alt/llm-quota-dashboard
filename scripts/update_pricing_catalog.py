@@ -128,6 +128,19 @@ OFFICIAL_SPECS = {
         "reasoning": "XHigh Reasoning",
         "tag": "Flagship MoE"
     },
+    "alibaba-token-plan-intl/qwen3.8-flash": {
+        "name": "Qwen 3.8 Flash",
+        "providerId": "alibaba-token-plan-intl",
+        "providerName": "Alibaba Token Plan",
+        "context": "256k",
+        "contextTokens": 256000,
+        "inputPrice1M": 0.167,
+        "cachedPrice1M": 0.0334,
+        "outputPrice1M": 0.488,
+        "speed": "Ultra Fast Multimodal",
+        "reasoning": "Low-Medium",
+        "tag": "Flash Multimodal"
+    },
     "alibaba-token-plan-intl/qwen3.7-max": {
         "name": "Qwen 3.7 Max",
         "providerId": "alibaba-token-plan-intl",

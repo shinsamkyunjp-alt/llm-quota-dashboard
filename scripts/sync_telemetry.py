@@ -401,6 +401,19 @@ MODEL_METADATA = {
         "reasoning": "XHigh Reasoning",
         "tag": "Flagship MoE"
     },
+    "alibaba-token-plan-intl/qwen3.8-flash": {
+        "name": "Qwen 3.8 Flash",
+        "providerId": "alibaba-token-plan-intl",
+        "providerName": "Alibaba Token Plan",
+        "context": "256k",
+        "contextTokens": 256000,
+        "inputPrice1M": 0.167,
+        "cachedPrice1M": 0.0334,
+        "outputPrice1M": 0.488,
+        "speed": "Ultra Fast Multimodal",
+        "reasoning": "Low-Medium",
+        "tag": "Flash Multimodal"
+    },
     "alibaba-token-plan-intl/qwen3.7-max": {
         "name": "Qwen 3.7 Max",
         "providerId": "alibaba-token-plan-intl",
@@ -615,6 +628,7 @@ def collect_telemetry():
         "alibaba-token-plan-intl/qwen3.8-max": {"in": 1600, "cached": 320, "out": 6400},
         "alibaba-token-plan-intl/qwen3.7-max": {"in": 1600, "cached": 320, "out": 6400},
         "alibaba-token-plan-intl/qwen3.7-plus": {"in": 260, "cached": 52, "out": 780},
+        "alibaba-token-plan-intl/qwen3.8-flash": {"in": 167, "cached": 33.4, "out": 488},
         "alibaba-token-plan-intl/qwen3.6-flash": {"in": 50, "cached": 10, "out": 200},
         "alibaba-token-plan-intl/deepseek-v4-pro": {"in": 270, "cached": 70, "out": 1100},
         "alibaba-token-plan-intl/deepseek-v4-pro-0813": {"in": 270, "cached": 70, "out": 1100},
@@ -991,7 +1005,8 @@ def collect_telemetry():
                 "discountRate": 0.5,
                 "eligibleModels": [
                     {"id": "qwen3.8-max", "name": "Qwen 3.8 Max", "note": "qwen3.8-max-preview는 qwen3.8-max로 자동 라우팅"},
-                    {"id": "deepseek-v4-pro-0813", "name": "DeepSeek V4 Pro (0813 Snapshot)", "note": "야간 50% 크레딧 차감"}
+                    {"id": "deepseek-v4-pro-0813", "name": "DeepSeek V4 Pro (0813 Snapshot)", "note": "야간 50% 크레딧 차감"},
+                    {"id": "deepseek-v4-flash-0731", "name": "DeepSeek V4 Flash (0731)", "note": "야간 50% 크레딧 차감"}
                 ],
                 "routingNote": "qwen3.8-max-preview 요청은 자동으로 qwen3.8-max로 라우팅되며 동일 요율 적용",
                 "officialDocUrl": "https://www.alibabacloud.com/help/en/model-studio/token-plan-personal-overview#tpp01-h-models",
