@@ -303,6 +303,20 @@ def discover_opencodex_catalog():
             resolved = MODEL_ALIASES.get(full_id, full_id)
             if full_id not in disabled and m not in disabled and resolved not in disabled:
                 active_set.add(resolved)
+        # OpenCodex can migrate custom models into modelDiscovery.knownModels
+        # (customModelCatalogMigration) and remove them from customModels.
+        # Scan discovered IDs too, otherwise migrated models such as
+        # alibaba-token-plan-intl/qwen3.8-flash silently vanish from the catalog.
+        known = cfg.get("modelDiscovery", {}).get("knownModels", {})
+        for prov_id, pinfo in known.items():
+            removed = set(pinfo.get("removed", []))
+            for m in pinfo.get("ids", []):
+                if m in removed:
+                    continue
+                full_id = f"{prov_id}/{m}" if prov_id != "openai" else m
+                resolved = MODEL_ALIASES.get(full_id, full_id)
+                if full_id not in disabled and m not in disabled and resolved not in disabled:
+                    active_set.add(resolved)
         for oa_m in ["gpt-5.6-sol", "gpt-5.6-terra", "gpt-5.6-luna"]:
             if oa_m not in disabled:
                 active_set.add(oa_m)
