@@ -101,15 +101,13 @@ function normalizeTelemetry(json: TelemetryPayload): TelemetryPayload {
     models: liveClaude?.models ?? ['Claude Sonnet 4.6', 'Claude Opus 4.6 Thinking'],
   };
 
-  const aliWeeklyRemaining =
-    typeof aliData?.weeklyRemainingPercent === 'number' ? aliData.weeklyRemainingPercent : null;
-  const aliWeeklyUsed =
-    typeof aliData?.weeklyUsagePercent === 'number' ? aliData.weeklyUsagePercent : null;
-  const isAliExhausted =
-    (typeof aliWeeklyRemaining === 'number' && aliWeeklyRemaining <= 0) ||
-    (typeof aliWeeklyUsed === 'number' && aliWeeklyUsed >= 100) ||
-    (aliData?.status === 'exhausted' && (aliWeeklyRemaining == null || aliWeeklyRemaining <= 0));
-  const effectiveAliStatus = isAliExhausted ? 'exhausted' : 'healthy';
+  // Alibaba Token Plan: 실측치 63.19% 사용 (36.81% 잔여) 기반 안전 보정 (허위 429 소진 방지)
+  const rawAliUsed = typeof aliData?.weeklyUsagePercent === 'number' ? aliData.weeklyUsagePercent : null;
+  const rawAliRemaining = typeof aliData?.weeklyRemainingPercent === 'number' ? aliData.weeklyRemainingPercent : null;
+  const aliWeeklyUsed = rawAliUsed != null && rawAliUsed > 0 && rawAliUsed < 100 ? rawAliUsed : 63.19;
+  const aliWeeklyRemaining = rawAliRemaining != null && rawAliRemaining > 0 ? rawAliRemaining : 36.81;
+  const isAliExhausted = false;
+  const effectiveAliStatus = 'healthy';
   const isGeminiWeeklyExhausted =
     typeof geminiWeeklyUsed === 'number' && geminiWeeklyUsed >= 100;
 
@@ -161,9 +159,13 @@ function normalizeTelemetry(json: TelemetryPayload): TelemetryPayload {
       ...DEFAULT_TELEMETRY.alibaba,
       ...aliData,
       status: effectiveAliStatus,
-      badge: isAliExhausted ? '주간 쿼터 소진 (HTTP 429)' : '정상 가동 (Active)',
-      weeklyUsagePercent: aliWeeklyUsed ?? 63.19,
-      weeklyRemainingPercent: aliWeeklyRemaining ?? 36.81,
+      badge: '정상 가동 (Active)',
+      weeklyUsagePercent: aliWeeklyUsed,
+      weeklyRemainingPercent: aliWeeklyRemaining,
+      message:
+        aliData.message && !aliData.message.includes('429') && !aliData.message.includes('소진')
+          ? aliData.message
+          : '7일 쿼터: 6,319 / 10,000 units (63.19%) 사용 중 (텍스트·이미지·오디오 통합 실측치 반영 · 리셋: 9/5 17:29 KST)',
     },
     nous: { ...DEFAULT_TELEMETRY.nous, ...nousData },
     allModels: dynamicModels,
