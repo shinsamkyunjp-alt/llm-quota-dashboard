@@ -6,7 +6,6 @@ import type { ModelInfo, TelemetryPayload } from '@/types/telemetry';
 import { DEFAULT_MODELS } from '@/data/models';
 
 const GIST_ID = process.env.GIST_ID || '67c16a5d365eddf3da98129350171338';
-const GIST_URL = `https://api.github.com/gists/${GIST_ID}`;
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -92,7 +91,8 @@ export async function GET() {
 
   // 1. GitHub Gist로부터 라이브 동기화 데이터 시도
   try {
-    const res = await fetch(GIST_URL, {
+    const gistUrlWithCacheBust = `https://api.github.com/gists/${GIST_ID}?t=${Date.now()}`;
+    const res = await fetch(gistUrlWithCacheBust, {
       cache: 'no-store',
       headers: {
         'User-Agent': 'LLM-Quota-Dashboard-App',
