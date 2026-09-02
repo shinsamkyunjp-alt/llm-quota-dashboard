@@ -8,7 +8,15 @@ import { DEFAULT_TELEMETRY } from '@/data/defaultTelemetry';
 const POLL_INTERVAL_MS = 15_000;
 
 function normalizeTelemetry(json: TelemetryPayload): TelemetryPayload {
-  const agData: Partial<ProviderInfo> = json.providers?.[0] ?? json.antigravity ?? {};
+  const agData: Partial<ProviderInfo> =
+    json.providers?.find((p) => p.provider === 'google-antigravity') ?? json.antigravity ?? {};
+  const oaData: Partial<ProviderInfo> =
+    json.providers?.find((p) => p.provider === 'openai') ?? json.openai ?? {};
+  const aliData: Partial<ProviderInfo> =
+    json.providers?.find((p) => p.provider === 'alibaba-token-plan-intl') ?? json.alibaba ?? {};
+  const nousData: Partial<ProviderInfo> =
+    json.providers?.find((p) => p.provider === 'nous') ?? json.nous ?? {};
+
   const rawList: ModelInfo[] =
     json.allModels && json.allModels.length > 0 ? json.allModels : DEFAULT_MODELS;
 
@@ -93,7 +101,6 @@ function normalizeTelemetry(json: TelemetryPayload): TelemetryPayload {
     models: liveClaude?.models ?? ['Claude Sonnet 4.6', 'Claude Opus 4.6 Thinking'],
   };
 
-  const aliData = json.providers?.[2] ?? json.alibaba;
   const aliWeeklyRemaining = aliData?.weeklyRemainingPercent ?? null;
   const isAliExhausted =
     aliData?.status === 'exhausted' ||
@@ -109,7 +116,7 @@ function normalizeTelemetry(json: TelemetryPayload): TelemetryPayload {
       const isGeminiPool = m.pool === 'gemini';
       const isClaudePool = m.pool === 'claude-gpt';
       const isOpenAI = m.providerId === 'openai';
-      const oaExhausted = (json.providers?.[1]?.monthlyUsagePercent ?? 0) >= 100;
+      const oaExhausted = (oaData?.monthlyUsagePercent ?? 0) >= 100;
       if (isAlibaba && isAliExhausted) return 'rate_limited';
       if (isAg && isGeminiPool && gemini5hUsed != null && gemini5hUsed >= 100) return 'rate_limited';
       if (isAg && isClaudePool && isClaudeExhausted) return 'rate_limited';
@@ -120,7 +127,7 @@ function normalizeTelemetry(json: TelemetryPayload): TelemetryPayload {
 
   const activeCount = dynamicModels.filter((m) => m.status === 'active').length;
   const limitedCount = dynamicModels.filter((m) => m.status === 'rate_limited').length;
-  const isOaHealthy = (json.providers?.[1]?.monthlyUsagePercent ?? 0) < 100;
+  const isOaHealthy = (oaData?.monthlyUsagePercent ?? 0) < 100;
   const isAliHealthy = !isAliExhausted;
   const healthyProviderCount =
     (!isGeminiWeeklyExhausted ? 1 : 0) + (isOaHealthy ? 1 : 0) + (isAliHealthy ? 1 : 0) + 1;
@@ -144,9 +151,9 @@ function normalizeTelemetry(json: TelemetryPayload): TelemetryPayload {
       geminiPool,
       claudeGptPool,
     },
-    openai: { ...DEFAULT_TELEMETRY.openai, ...(json.providers?.[1] ?? {}) },
-    alibaba: { ...DEFAULT_TELEMETRY.alibaba, ...(json.providers?.[2] ?? {}) },
-    nous: { ...DEFAULT_TELEMETRY.nous, ...(json.providers?.[3] ?? {}) },
+    openai: { ...DEFAULT_TELEMETRY.openai, ...oaData },
+    alibaba: { ...DEFAULT_TELEMETRY.alibaba, ...aliData },
+    nous: { ...DEFAULT_TELEMETRY.nous, ...nousData },
     allModels: dynamicModels,
     environment: json.environment,
   };
@@ -161,7 +168,7 @@ export function useTelemetry() {
   const fetchTelemetry = useCallback(async (manual = false) => {
     try {
       setLoading(true);
-      const res = await fetch('/api/quota', { cache: 'no-store' });
+      const res = await fetch(`/api/quota?t=${Date.now()}`, { cache: 'no-store' });
       if (!res.ok) throw new Error('API fetch failed');
       const json: TelemetryPayload = await res.json();
       if (json.providers) {
