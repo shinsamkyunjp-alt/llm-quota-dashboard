@@ -1,8 +1,8 @@
 {
-  "last_updated_at": 1788353134565,
-  "last_updated_date": "2026-09-02 21:45:34 KST",
+  "last_updated_at": 1788364349526,
+  "last_updated_date": "2026-09-03 00:52:29 KST",
   "source": "OpenCodex http://localhost:10100/#models & Official Provider API Specs",
-  "total_models": 8,
+  "total_models": 22,
   "models": {
     "google-antigravity/gemini-3.7-flash": {
       "name": "Gemini 3.7 Flash",
@@ -18,6 +18,48 @@
       "reasoning": "Hybrid Thinking",
       "tag": "Best Speed"
     },
+    "google-antigravity/gemini-3.8-flash-high": {
+      "name": "Gemini 3.8 Flash High",
+      "providerId": "google-antigravity",
+      "providerName": "Google Antigravity",
+      "pool": "gemini",
+      "context": "1M",
+      "contextTokens": 1048576,
+      "inputPrice1M": 0.15,
+      "cachedPrice1M": 0.0375,
+      "outputPrice1M": 0.6,
+      "speed": "Ultra High (150+ t/s)",
+      "reasoning": "High Reasoning",
+      "tag": "High Effort"
+    },
+    "google-antigravity/gemini-3.8-flash-medium": {
+      "name": "Gemini 3.8 Flash Medium",
+      "providerId": "google-antigravity",
+      "providerName": "Google Antigravity",
+      "pool": "gemini",
+      "context": "1M",
+      "contextTokens": 1048576,
+      "inputPrice1M": 0.15,
+      "cachedPrice1M": 0.0375,
+      "outputPrice1M": 0.6,
+      "speed": "Ultra High (150+ t/s)",
+      "reasoning": "Medium Reasoning",
+      "tag": "Medium Effort"
+    },
+    "google-antigravity/gemini-3.8-flash-low": {
+      "name": "Gemini 3.8 Flash Low",
+      "providerId": "google-antigravity",
+      "providerName": "Google Antigravity",
+      "pool": "gemini",
+      "context": "1M",
+      "contextTokens": 1048576,
+      "inputPrice1M": 0.15,
+      "cachedPrice1M": 0.0375,
+      "outputPrice1M": 0.6,
+      "speed": "Ultra High (150+ t/s)",
+      "reasoning": "Low Reasoning",
+      "tag": "Low Effort"
+    },
     "google-antigravity/claude-sonnet-4-6": {
       "name": "Claude Sonnet 4.6",
       "providerId": "google-antigravity",
@@ -31,6 +73,19 @@
       "speed": "Balanced (60+ t/s)",
       "reasoning": "High Nuance Coding",
       "tag": "Top Coder"
+    },
+    "combo/Fallback": {
+      "name": "Fallback Router (OpenCodex)",
+      "providerId": "google-antigravity",
+      "providerName": "OpenCodex Failover",
+      "context": "1M",
+      "contextTokens": 1048576,
+      "inputPrice1M": 0.15,
+      "cachedPrice1M": 0.0375,
+      "outputPrice1M": 0.6,
+      "speed": "Automatic Failover Router",
+      "reasoning": "Failover",
+      "tag": "High Availability"
     },
     "gpt-5.6-sol": {
       "name": "GPT-5.6 Sol",
@@ -71,6 +126,58 @@
       "reasoning": "Medium-Max",
       "tag": "Best OpenAI Value"
     },
+    "gpt-5.5": {
+      "name": "GPT-5.5",
+      "providerId": "openai",
+      "providerName": "OpenAI Codex",
+      "context": "1M",
+      "contextTokens": 1048576,
+      "inputPrice1M": 2.0,
+      "cachedPrice1M": 0.5,
+      "outputPrice1M": 10.0,
+      "speed": "Advanced Intelligence",
+      "reasoning": "High Reasoning",
+      "tag": "Codex Engine"
+    },
+    "gpt-5.4": {
+      "name": "GPT-5.4",
+      "providerId": "openai",
+      "providerName": "OpenAI Codex",
+      "context": "1M",
+      "contextTokens": 1048576,
+      "inputPrice1M": 1.0,
+      "cachedPrice1M": 0.25,
+      "outputPrice1M": 5.0,
+      "speed": "Fast Intelligence",
+      "reasoning": "Medium Reasoning",
+      "tag": "Codex Engine"
+    },
+    "gpt-5.4-mini": {
+      "name": "GPT-5.4 Mini",
+      "providerId": "openai",
+      "providerName": "OpenAI Codex",
+      "context": "1M",
+      "contextTokens": 1048576,
+      "inputPrice1M": 0.15,
+      "cachedPrice1M": 0.0375,
+      "outputPrice1M": 0.6,
+      "speed": "Ultra Fast",
+      "reasoning": "Medium",
+      "tag": "Lightweight"
+    },
+    "gpt-5.3-codex-spark": {
+      "name": "GPT-5.3 Codex Spark",
+      "providerId": "openai",
+      "providerName": "OpenAI Codex",
+      "context": "128k",
+      "contextTokens": 128000,
+      "inputPrice1M": 0.2,
+      "cachedPrice1M": 0.05,
+      "outputPrice1M": 1.2,
+      "speed": "Realtime Spark",
+      "reasoning": "Standard",
+      "tag": "Spark Engine"
+    },
     "alibaba-token-plan-intl/qwen3.8-max": {
       "name": "Qwen 3.8 Max",
       "providerId": "alibaba-token-plan-intl",
@@ -83,6 +190,19 @@
       "speed": "Heavy Duty MoE (2.4T)",
       "reasoning": "XHigh Reasoning",
       "tag": "Flagship MoE"
+    },
+    "alibaba-token-plan-intl/qwen3.8-flash": {
+      "name": "Qwen 3.8 Flash",
+      "providerId": "alibaba-token-plan-intl",
+      "providerName": "Alibaba Token Plan",
+      "context": "256k",
+      "contextTokens": 256000,
+      "inputPrice1M": 0.167,
+      "cachedPrice1M": 0.0334,
+      "outputPrice1M": 0.488,
+      "speed": "Ultra Fast Multimodal",
+      "reasoning": "Low-Medium",
+      "tag": "Flash Multimodal"
     },
     "alibaba-token-plan-intl/qwen3.7-plus": {
       "name": "Qwen 3.7 Plus",
@@ -109,6 +229,71 @@
       "speed": "Code & Math Specialist (Snapshot)",
       "reasoning": "High-Max Reasoning",
       "tag": "Snapshot Stable"
+    },
+    "alibaba-token-plan-intl/deepseek-v4-flash-0731": {
+      "name": "DeepSeek V4 Flash",
+      "providerId": "alibaba-token-plan-intl",
+      "providerName": "Alibaba Token Plan",
+      "context": "1M",
+      "contextTokens": 1000000,
+      "inputPrice1M": 0.14,
+      "cachedPrice1M": 0.035,
+      "outputPrice1M": 0.28,
+      "speed": "Fast Inference",
+      "reasoning": "Standard",
+      "tag": "Fast Coder"
+    },
+    "alibaba-token-plan-intl/qwen-image-3.0-pro": {
+      "name": "Qwen Image 3.0 Pro",
+      "providerId": "alibaba-token-plan-intl",
+      "providerName": "Alibaba Token Plan",
+      "context": "Vision / Image",
+      "contextTokens": 32000,
+      "inputPrice1M": 30.0,
+      "cachedPrice1M": 30.0,
+      "outputPrice1M": 30.0,
+      "speed": "High-Res Image Generation",
+      "reasoning": "Text-to-Image",
+      "tag": "Image Gen (Multimodal)"
+    },
+    "alibaba-token-plan-intl/qwen-audio-3.0-realtime-plus": {
+      "name": "Qwen Audio 3.0 Realtime Plus",
+      "providerId": "alibaba-token-plan-intl",
+      "providerName": "Alibaba Token Plan",
+      "context": "Audio Stream",
+      "contextTokens": 128000,
+      "inputPrice1M": 2.0,
+      "cachedPrice1M": 0.5,
+      "outputPrice1M": 6.0,
+      "speed": "Realtime Audio Streaming",
+      "reasoning": "Audio/Voice",
+      "tag": "Audio Realtime (Multimodal)"
+    },
+    "nous/tencent-hy3-free": {
+      "name": "Tencent Hy3",
+      "providerId": "nous",
+      "providerName": "Nous Research",
+      "context": "256k",
+      "contextTokens": 262144,
+      "inputPrice1M": 0.0,
+      "cachedPrice1M": 0.0,
+      "outputPrice1M": 0.0,
+      "speed": "MoE Fast Inference",
+      "reasoning": "Hybrid Thinking",
+      "tag": "Free Tier"
+    },
+    "nous/stepfun-step-3.7-flash-free": {
+      "name": "StepFun Step 3.7 Flash",
+      "providerId": "nous",
+      "providerName": "Nous Research",
+      "context": "256k",
+      "contextTokens": 262144,
+      "inputPrice1M": 0.0,
+      "cachedPrice1M": 0.0,
+      "outputPrice1M": 0.0,
+      "speed": "Ultra Fast Free Tier",
+      "reasoning": "Medium-Max Reasoning",
+      "tag": "Best Free Value"
     }
   }
 }

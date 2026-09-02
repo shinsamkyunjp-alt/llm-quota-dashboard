@@ -1,7 +1,7 @@
 'use client';
 
 import React, { memo } from 'react';
-import { Sparkles, Sun, Moon } from 'lucide-react';
+import { Sparkles, Sun, Moon, RefreshCw } from 'lucide-react';
 import { LiveClock } from '@/components/common/LiveClock';
 
 interface DashboardHeaderProps {
@@ -11,6 +11,8 @@ interface DashboardHeaderProps {
   setViewMode: (mode: 'remaining' | 'usage') => void;
   isDarkMode: boolean;
   setIsDarkMode: (val: boolean) => void;
+  onRefresh?: () => void;
+  loading?: boolean;
 }
 
 export const DashboardHeader = memo(function DashboardHeader({
@@ -20,6 +22,8 @@ export const DashboardHeader = memo(function DashboardHeader({
   setViewMode,
   isDarkMode,
   setIsDarkMode,
+  onRefresh,
+  loading = false,
 }: DashboardHeaderProps) {
   return (
     <header className="w-full bg-white dark:bg-zinc-900 border border-zinc-200/90 dark:border-zinc-800 rounded-2xl p-4 sm:p-6 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-3 box-border">
@@ -73,6 +77,19 @@ export const DashboardHeader = memo(function DashboardHeader({
         >
           {isDarkMode ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-zinc-600" />}
         </button>
+
+        {onRefresh && (
+          <button
+            type="button"
+            onClick={onRefresh}
+            disabled={loading}
+            aria-label="텔레메트리 실시간 새로고침"
+            className="p-2 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-300/80 dark:border-emerald-700/80 hover:bg-emerald-100 dark:hover:bg-emerald-900 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 disabled:opacity-50"
+            title="실시간 ocx 모델 맵핑 & 텔레메트리 새로고침"
+          >
+            <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+          </button>
+        )}
 
         <LiveClock />
       </div>

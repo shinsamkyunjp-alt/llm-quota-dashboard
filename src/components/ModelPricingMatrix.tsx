@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useMemo, memo } from 'react';
-import { Server, Search, CheckCircle2, XCircle, Calendar } from 'lucide-react';
+import { Server, Search, CheckCircle2, XCircle, Calendar, RefreshCw } from 'lucide-react';
 import type { ModelInfo } from '@/types/telemetry';
 import { PROVIDER_SORT_ORDER, MODEL_SORT_ORDER, isNightEligibleModel } from '@/data/models';
 
@@ -13,6 +13,8 @@ interface ModelPricingMatrixProps {
   setFilterProvider: (p: string) => void;
   sortBy: 'default' | 'price' | 'context' | 'speed';
   setSortBy: (s: 'default' | 'price' | 'context' | 'speed') => void;
+  onRefresh?: () => void;
+  loading?: boolean;
 }
 
 export const ModelPricingMatrix = memo(function ModelPricingMatrix({
@@ -23,6 +25,8 @@ export const ModelPricingMatrix = memo(function ModelPricingMatrix({
   setFilterProvider,
   sortBy,
   setSortBy,
+  onRefresh,
+  loading = false,
 }: ModelPricingMatrixProps) {
   const filteredModels = useMemo(() => {
     let list = models.filter((m) => {
@@ -117,6 +121,19 @@ export const ModelPricingMatrix = memo(function ModelPricingMatrix({
             <option value="price">입력 단가 낮은 순</option>
             <option value="context">컨텍스트 큰 순</option>
           </select>
+
+          {onRefresh && (
+            <button
+              type="button"
+              onClick={onRefresh}
+              disabled={loading}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-300/80 dark:border-emerald-700/80 hover:bg-emerald-100 dark:hover:bg-emerald-900 transition-all font-semibold text-xs cursor-pointer shadow-sm disabled:opacity-50 shrink-0"
+              title="실시간 ocx 모델 맵핑 & 텔레메트리 동기화"
+            >
+              <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
+              <span>새로고침</span>
+            </button>
+          )}
         </div>
       </div>
 

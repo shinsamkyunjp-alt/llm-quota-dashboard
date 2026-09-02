@@ -32,6 +32,48 @@ OFFICIAL_SPECS = {
         "reasoning": "Hybrid Thinking",
         "tag": "Best Speed"
     },
+    "google-antigravity/gemini-3.8-flash-high": {
+        "name": "Gemini 3.8 Flash High",
+        "providerId": "google-antigravity",
+        "providerName": "Google Antigravity",
+        "pool": "gemini",
+        "context": "1M",
+        "contextTokens": 1048576,
+        "inputPrice1M": 0.15,
+        "cachedPrice1M": 0.0375,
+        "outputPrice1M": 0.60,
+        "speed": "Ultra High (150+ t/s)",
+        "reasoning": "High Reasoning",
+        "tag": "High Effort"
+    },
+    "google-antigravity/gemini-3.8-flash-medium": {
+        "name": "Gemini 3.8 Flash Medium",
+        "providerId": "google-antigravity",
+        "providerName": "Google Antigravity",
+        "pool": "gemini",
+        "context": "1M",
+        "contextTokens": 1048576,
+        "inputPrice1M": 0.15,
+        "cachedPrice1M": 0.0375,
+        "outputPrice1M": 0.60,
+        "speed": "Ultra High (150+ t/s)",
+        "reasoning": "Medium Reasoning",
+        "tag": "Medium Effort"
+    },
+    "google-antigravity/gemini-3.8-flash-low": {
+        "name": "Gemini 3.8 Flash Low",
+        "providerId": "google-antigravity",
+        "providerName": "Google Antigravity",
+        "pool": "gemini",
+        "context": "1M",
+        "contextTokens": 1048576,
+        "inputPrice1M": 0.15,
+        "cachedPrice1M": 0.0375,
+        "outputPrice1M": 0.60,
+        "speed": "Ultra High (150+ t/s)",
+        "reasoning": "Low Reasoning",
+        "tag": "Low Effort"
+    },
     "google-antigravity/gemini-3.1-pro": {
         "name": "Gemini 3.1 Pro",
         "providerId": "google-antigravity",
@@ -113,6 +155,58 @@ OFFICIAL_SPECS = {
         "speed": "Fast & Cost-Effective",
         "reasoning": "Medium-Max",
         "tag": "Best OpenAI Value"
+    },
+    "gpt-5.5": {
+        "name": "GPT-5.5",
+        "providerId": "openai",
+        "providerName": "OpenAI Codex",
+        "context": "1M",
+        "contextTokens": 1048576,
+        "inputPrice1M": 2.00,
+        "cachedPrice1M": 0.50,
+        "outputPrice1M": 10.00,
+        "speed": "Advanced Intelligence",
+        "reasoning": "High Reasoning",
+        "tag": "Codex Engine"
+    },
+    "gpt-5.4": {
+        "name": "GPT-5.4",
+        "providerId": "openai",
+        "providerName": "OpenAI Codex",
+        "context": "1M",
+        "contextTokens": 1048576,
+        "inputPrice1M": 1.00,
+        "cachedPrice1M": 0.25,
+        "outputPrice1M": 5.00,
+        "speed": "Fast Intelligence",
+        "reasoning": "Medium Reasoning",
+        "tag": "Codex Engine"
+    },
+    "gpt-5.4-mini": {
+        "name": "GPT-5.4 Mini",
+        "providerId": "openai",
+        "providerName": "OpenAI Codex",
+        "context": "1M",
+        "contextTokens": 1048576,
+        "inputPrice1M": 0.15,
+        "cachedPrice1M": 0.0375,
+        "outputPrice1M": 0.60,
+        "speed": "Ultra Fast",
+        "reasoning": "Medium",
+        "tag": "Lightweight"
+    },
+    "gpt-5.3-codex-spark": {
+        "name": "GPT-5.3 Codex Spark",
+        "providerId": "openai",
+        "providerName": "OpenAI Codex",
+        "context": "128k",
+        "contextTokens": 128000,
+        "inputPrice1M": 0.20,
+        "cachedPrice1M": 0.05,
+        "outputPrice1M": 1.20,
+        "speed": "Realtime Spark",
+        "reasoning": "Standard",
+        "tag": "Spark Engine"
     },
     # Alibaba Token Plan
     "alibaba-token-plan-intl/qwen3.8-max": {
@@ -231,6 +325,45 @@ OFFICIAL_SPECS = {
         "speed": "Bilingual Pro",
         "reasoning": "Medium Reasoning",
         "tag": "Bilingual"
+    },
+    "alibaba-token-plan-intl/qwen-image-3.0-pro": {
+        "name": "Qwen Image 3.0 Pro",
+        "providerId": "alibaba-token-plan-intl",
+        "providerName": "Alibaba Token Plan",
+        "context": "Vision / Image",
+        "contextTokens": 32000,
+        "inputPrice1M": 30.00,
+        "cachedPrice1M": 30.00,
+        "outputPrice1M": 30.00,
+        "speed": "High-Res Image Generation",
+        "reasoning": "Text-to-Image",
+        "tag": "Image Gen (Multimodal)"
+    },
+    "alibaba-token-plan-intl/qwen-audio-3.0-realtime-plus": {
+        "name": "Qwen Audio 3.0 Realtime Plus",
+        "providerId": "alibaba-token-plan-intl",
+        "providerName": "Alibaba Token Plan",
+        "context": "Audio Stream",
+        "contextTokens": 128000,
+        "inputPrice1M": 2.00,
+        "cachedPrice1M": 0.50,
+        "outputPrice1M": 6.00,
+        "speed": "Realtime Audio Streaming",
+        "reasoning": "Audio/Voice",
+        "tag": "Audio Realtime (Multimodal)"
+    },
+    "combo/Fallback": {
+        "name": "Fallback Router (OpenCodex)",
+        "providerId": "google-antigravity",
+        "providerName": "OpenCodex Failover",
+        "context": "1M",
+        "contextTokens": 1048576,
+        "inputPrice1M": 0.15,
+        "cachedPrice1M": 0.0375,
+        "outputPrice1M": 0.60,
+        "speed": "Automatic Failover Router",
+        "reasoning": "Failover",
+        "tag": "High Availability"
     }
     ,
     # Nous Research (Hermes Agent OAuth / inference-api.nousresearch.com)
@@ -283,6 +416,23 @@ MODEL_ALIASES = {
 
 def discover_opencodex_catalog():
     active_set = set()
+    codex_cat_file = os.path.expanduser("~/.codex/opencodex-catalog.json")
+    if os.path.exists(codex_cat_file):
+        try:
+            with open(codex_cat_file, "r", encoding="utf-8") as f:
+                ccfg = json.load(f)
+            for m in ccfg.get("models", []):
+                s = m.get("slug")
+                if s:
+                    resolved = MODEL_ALIASES.get(s, s)
+                    active_set.add(resolved)
+        except Exception as e:
+            print(f"Note reading opencodex-catalog: {e}")
+
+    # Always include multimodal models referenced by user
+    active_set.add("alibaba-token-plan-intl/qwen-image-3.0-pro")
+    active_set.add("alibaba-token-plan-intl/qwen-audio-3.0-realtime-plus")
+
     if not os.path.exists(CONFIG_FILE):
         return OFFICIAL_SPECS
     try:

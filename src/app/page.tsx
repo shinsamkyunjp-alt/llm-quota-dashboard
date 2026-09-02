@@ -17,7 +17,7 @@ import { DEFAULT_TELEMETRY } from '@/data/defaultTelemetry';
 import { useTelemetry } from '@/hooks/useTelemetry';
 
 export default function QuotaDashboard() {
-  const { data, lastSync, syncToast } = useTelemetry();
+  const { data, loading, lastSync, syncToast, fetchTelemetry } = useTelemetry();
   const [searchTerm, setSearchTerm] = useState('');
   const [filterProvider, setFilterProvider] = useState<string>('all');
   const [sortBy, setSortBy] = useState<'default' | 'price' | 'context' | 'speed'>('default');
@@ -117,6 +117,8 @@ export default function QuotaDashboard() {
           setViewMode={setViewMode}
           isDarkMode={isDarkMode}
           setIsDarkMode={setIsDarkMode}
+          onRefresh={() => fetchTelemetry(true)}
+          loading={loading}
         />
 
         {/* View Mode Toggle Switch (Quota <-> Live Usage) */}
@@ -174,6 +176,8 @@ export default function QuotaDashboard() {
               setFilterProvider={setFilterProvider}
               sortBy={sortBy}
               setSortBy={setSortBy}
+              onRefresh={() => fetchTelemetry(true)}
+              loading={loading}
             />
 
             {/* Infrastructure & Auxiliary Services */}
