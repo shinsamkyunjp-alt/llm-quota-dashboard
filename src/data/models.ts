@@ -43,6 +43,45 @@ export const NIGHT_DISCOUNT_MODEL_IDS = new Set([
   'alibaba-token-plan-intl/deepseek-v4-flash-0731',
 ]);
 
+/** 야간 50% 할인 대상 여부 확인 */
+export function isNightEligibleModel(id: string): boolean {
+  return NIGHT_DISCOUNT_MODEL_IDS.has(id);
+}
+
+/** 프로바이더 정렬 순서 */
+export const PROVIDER_SORT_ORDER: Record<string, number> = {
+  'google-antigravity': 1,
+  'openai': 2,
+  'alibaba-token-plan-intl': 3,
+  'nous': 4,
+};
+
+/** 모델 표시 정렬 순서 */
+export const MODEL_SORT_ORDER: Record<string, number> = {
+  // Google
+  'google-antigravity/gemini-3.7-flash': 11,
+  'google-antigravity/gemini-3.1-pro': 12,
+  'google-antigravity/claude-sonnet-4-6': 13,
+  'google-antigravity/claude-opus-4-6-thinking': 14,
+  // OpenAI
+  'gpt-5.6-sol': 21,
+  'gpt-5.6-terra': 22,
+  'gpt-5.6-luna': 23,
+  // Alibaba
+  'alibaba-token-plan-intl/qwen3.8-max': 31,
+  'alibaba-token-plan-intl/qwen3.8-flash': 32,
+  'alibaba-token-plan-intl/qwen3.7-plus': 33,
+  'alibaba-token-plan-intl/qwen3.6-flash': 34,
+  'alibaba-token-plan-intl/deepseek-v4-pro': 43,
+  'alibaba-token-plan-intl/deepseek-v4-pro-0813': 44,
+  'alibaba-token-plan-intl/deepseek-v4-flash-0731': 45,
+  'alibaba-token-plan-intl/glm-5.2': 46,
+  // Nous
+  'nous/stealth-ox-alpha': 51,
+  'nous/tencent-hy3-free': 52,
+  'nous/stepfun-step-3.7-flash-free': 53,
+};
+
 /** Gist URL — 환경변수 우선, 없으면 기본값 사용 */
 export const GIST_URL =
   process.env.NEXT_PUBLIC_GIST_URL ??

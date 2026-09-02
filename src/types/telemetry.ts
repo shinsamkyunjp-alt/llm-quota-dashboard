@@ -4,7 +4,7 @@
 
 export interface TokenUsagePeriod {
   input: number;
-  uncached: number;
+  uncached?: number;
   cached: number;
   output: number;
   total: number;

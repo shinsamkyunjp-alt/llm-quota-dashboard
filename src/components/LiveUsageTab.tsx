@@ -5,41 +5,14 @@ import {
   TrendingUp, BarChart3, DollarSign, Award, Zap, Activity,
   Calendar, Layers, ArrowUpRight, Clock, Hash, Sparkles, Moon,
 } from 'lucide-react';
-
-export interface ModelInfo {
-  id: string; name: string; providerId: string; providerName: string;
-  pool?: string; speed?: string; context?: string; contextTokens?: number;
-  inputPrice1M?: number; cachedPrice1M?: number; outputPrice1M?: number; reasoning?: string; tag?: string;
-  status: 'active' | 'rate_limited' | 'standby';
-  actualUsage?: {
-    daily:   { input: number; uncached?: number; cached: number; output: number; total: number; requests: number };
-    weekly:  { input: number; uncached?: number; cached: number; output: number; total: number; requests: number };
-    monthly: { input: number; uncached?: number; cached: number; output: number; total: number; requests: number };
-    currentCycle?: { input: number; uncached?: number; cached: number; output: number; total: number; requests: number };
-    allTime: { input: number; uncached?: number; cached: number; output: number; total: number; requests: number };
-  };
-}
+import type { ModelInfo } from '@/types/telemetry';
+import { isNightEligibleModel } from '@/data/models';
+import { fmtTokens, calcCostUSD } from '@/utils/formatters';
 
 interface LiveUsageTabProps { models: ModelInfo[]; isNightDiscountNow?: boolean; }
 type Timeframe = 'daily' | 'weekly' | 'monthly' | 'allTime';
 type RankCriteria = 'tokens' | 'cost' | 'requests';
 const KRW_RATE = 1390;
-
-function fmtTokens(n: number): string {
-  if (n >= 1000000000) return (n / 1000000000).toFixed(2) + 'B';
-  if (n >= 1000000)    return (n / 1000000).toFixed(2) + 'M';
-  if (n >= 1000)       return (n / 1000).toFixed(1) + 'K';
-  return n.toString();
-}
-
-function calcCostUSD(model: ModelInfo, usage: { input: number; uncached?: number; cached?: number; output: number }): number {
-  const inPrice = model.inputPrice1M ?? 0;
-  const cachedPrice = model.cachedPrice1M ?? (inPrice * 0.2);
-  const outPrice = model.outputPrice1M ?? 0;
-  const uncached = usage.uncached ?? Math.max(0, usage.input - (usage.cached ?? 0));
-  const cached = usage.cached ?? 0;
-  return (inPrice * uncached + cachedPrice * cached + outPrice * usage.output) / 1000000;
-}
 
 const TIMEFRAME_LABELS: Record<Timeframe, string> = {
   daily: '오늘 (24h)', weekly: '이번 주 (7일)', monthly: '이번 달 (30일)', allTime: '전체 누적',
@@ -66,14 +39,6 @@ const btnOff = 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-700 dark:hover:
 const rankBtnBase = 'flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-medium transition-all';
 const rankBtnOn = 'bg-white dark:bg-zinc-700 text-zinc-900 dark:text-zinc-100 shadow';
 const rankBtnOff = 'text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300';
-
-const isNightEligible = (id: string) =>
-  id === 'alibaba-token-plan-intl/qwen3.8-max' ||
-  id === 'alibaba-token-plan-intl/deepseek-v4-pro-0813' ||
-  id === 'alibaba-token-plan-intl/deepseek-v4-flash-0731' ||
-  id.includes('qwen3.8-max') ||
-  id.includes('deepseek-v4-pro') ||
-  id.includes('deepseek-v4-flash');
 
 export default function LiveUsageTab({ models, isNightDiscountNow = false }: LiveUsageTabProps) {
   const [timeframe, setTimeframe]       = useState<Timeframe>('monthly');
@@ -105,7 +70,7 @@ export default function LiveUsageTab({ models, isNightDiscountNow = false }: Liv
       const cachedCost = (cachedTok / 1e6) * cachedPrice;
       const outCost = (outTok / 1e6) * outPrice;
       const dayCost = uncachedCost + cachedCost + outCost;
-      const eligible = isNightEligible(m.id);
+      const eligible = isNightEligibleModel(m.id);
 
       let simCost = dayCost;
       let maxNightCost = dayCost;
@@ -156,7 +121,7 @@ export default function LiveUsageTab({ models, isNightDiscountNow = false }: Liv
       .map(m => {
         const u = m.actualUsage?.[timeframe] ?? { input: 0, uncached: 0, cached: 0, output: 0, total: 0, requests: 0 };
         const rawCostUSD = calcCostUSD(m, { input: u.input, uncached: u.uncached, cached: u.cached, output: u.output });
-        const eligible = isNightEligible(m.id);
+        const eligible = isNightEligibleModel(m.id);
         
         let costUSD = rawCostUSD;
         let discountSavedUSD = 0;

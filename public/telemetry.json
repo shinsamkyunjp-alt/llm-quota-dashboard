@@ -1,22 +1,22 @@
 {
-  "updatedAt": 1788093607242,
+  "updatedAt": 1788363327538,
   "environment": "Live Antigravity & ocx Telemetry",
   "catalogSync": {
     "isLiveConnected": true,
-    "totalCatalogModels": 12,
+    "totalCatalogModels": 8,
     "source": "OpenCodex http://localhost:10100/#models & Official Provider API Specs",
     "pricingDailySync": "Active (1회/일 자동 갱신)",
-    "lastDailyUpdate": "2026-08-30 21:40:08 KST"
+    "lastDailyUpdate": "2026-09-03 00:35:29 KST"
   },
   "summary": {
     "totalProviders": 3,
-    "healthyProviders": 3,
+    "healthyProviders": 2,
     "partiallyExhaustedProviders": 0,
-    "exhaustedProviders": 0,
+    "exhaustedProviders": 1,
     "totalLinkedAccounts": 5,
-    "activeLLMCount": 12,
-    "availableModelCount": 12,
-    "rateLimitedModelCount": 0
+    "activeLLMCount": 8,
+    "availableModelCount": 5,
+    "rateLimitedModelCount": 3
   },
   "actualUsageMap": {
     "alibaba-token-plan-intl/qwen3.8-max-preview": {
@@ -37,12 +37,12 @@
         "requests": 0
       },
       "monthly": {
-        "input": 25058083,
-        "uncached": 2397603,
-        "cached": 22660480,
-        "output": 164443,
-        "total": 25222526,
-        "requests": 310
+        "input": 0,
+        "uncached": 0,
+        "cached": 0,
+        "output": 0,
+        "total": 0,
+        "requests": 0
       },
       "currentCycle": {
         "input": 0,
@@ -121,12 +121,12 @@
         "requests": 0
       },
       "monthly": {
-        "input": 7377348,
-        "uncached": 1367351,
-        "cached": 6009997,
-        "output": 25471,
-        "total": 7402819,
-        "requests": 165
+        "input": 4418339,
+        "uncached": 610480,
+        "cached": 3807859,
+        "output": 7094,
+        "total": 4425433,
+        "requests": 61
       },
       "currentCycle": {
         "input": 0,
@@ -189,54 +189,54 @@
     },
     "google-antigravity/claude-sonnet-4-6": {
       "daily": {
-        "input": 53682,
-        "uncached": 53682,
+        "input": 0,
+        "uncached": 0,
         "cached": 0,
-        "output": 36385,
-        "total": 90067,
-        "requests": 20
+        "output": 0,
+        "total": 0,
+        "requests": 0
       },
       "weekly": {
-        "input": 1471239,
-        "uncached": 272837,
-        "cached": 1198402,
-        "output": 44231,
-        "total": 1515470,
-        "requests": 54
+        "input": 1396543,
+        "uncached": 273880,
+        "cached": 1122663,
+        "output": 68721,
+        "total": 1465264,
+        "requests": 66
       },
       "monthly": {
-        "input": 10701249,
-        "uncached": 1486653,
+        "input": 10444808,
+        "uncached": 1230212,
         "cached": 9214596,
-        "output": 68388,
-        "total": 10769637,
-        "requests": 120
+        "output": 93372,
+        "total": 10538180,
+        "requests": 133
       },
       "currentCycle": {
-        "input": 53682,
-        "uncached": 53682,
+        "input": 104307,
+        "uncached": 104307,
         "cached": 0,
-        "output": 36385,
-        "total": 90067,
-        "requests": 20
+        "output": 62923,
+        "total": 167230,
+        "requests": 37
       },
       "allTime": {
-        "input": 11946273,
-        "uncached": 1920137,
+        "input": 11996898,
+        "uncached": 1970762,
         "cached": 10026136,
-        "output": 77228,
-        "total": 12023501,
-        "requests": 148
+        "output": 103766,
+        "total": 12100664,
+        "requests": 165
       }
     },
     "alibaba-token-plan-intl/qwen3.7-plus": {
       "daily": {
-        "input": 956,
-        "uncached": 956,
+        "input": 0,
+        "uncached": 0,
         "cached": 0,
-        "output": 5701,
-        "total": 6657,
-        "requests": 1
+        "output": 0,
+        "total": 0,
+        "requests": 0
       },
       "weekly": {
         "input": 956,
@@ -247,12 +247,12 @@
         "requests": 1
       },
       "monthly": {
-        "input": 1834986,
-        "uncached": 327658,
+        "input": 1831094,
+        "uncached": 323766,
         "cached": 1507328,
-        "output": 44367,
-        "total": 1879353,
-        "requests": 53
+        "output": 43559,
+        "total": 1874653,
+        "requests": 51
       },
       "currentCycle": {
         "input": 956,
@@ -315,86 +315,86 @@
     },
     "alibaba-token-plan-intl/deepseek-v4-flash-0731": {
       "daily": {
-        "input": 94481,
-        "uncached": 79121,
-        "cached": 15360,
-        "output": 149623,
-        "total": 244104,
-        "requests": 70
+        "input": 0,
+        "uncached": 0,
+        "cached": 0,
+        "output": 0,
+        "total": 0,
+        "requests": 0
       },
       "weekly": {
-        "input": 94481,
-        "uncached": 79121,
-        "cached": 15360,
-        "output": 149623,
-        "total": 244104,
-        "requests": 70
+        "input": 116834,
+        "uncached": 95330,
+        "cached": 21504,
+        "output": 175782,
+        "total": 292616,
+        "requests": 84
       },
       "monthly": {
-        "input": 87622814,
-        "uncached": 4682398,
-        "cached": 82940416,
-        "output": 631310,
-        "total": 88254124,
-        "requests": 1121
+        "input": 87645167,
+        "uncached": 4698607,
+        "cached": 82946560,
+        "output": 657469,
+        "total": 88302636,
+        "requests": 1135
       },
       "currentCycle": {
-        "input": 94481,
-        "uncached": 79121,
-        "cached": 15360,
-        "output": 149623,
-        "total": 244104,
-        "requests": 70
+        "input": 116834,
+        "uncached": 95330,
+        "cached": 21504,
+        "output": 175782,
+        "total": 292616,
+        "requests": 84
       },
       "allTime": {
-        "input": 87622814,
-        "uncached": 4682398,
-        "cached": 82940416,
-        "output": 631310,
-        "total": 88254124,
-        "requests": 1121
+        "input": 87645167,
+        "uncached": 4698607,
+        "cached": 82946560,
+        "output": 657469,
+        "total": 88302636,
+        "requests": 1135
       }
     },
     "alibaba-token-plan-intl/qwen3.8-max": {
       "daily": {
-        "input": 2530439,
-        "uncached": 445319,
-        "cached": 2085120,
-        "output": 27699,
-        "total": 2558138,
-        "requests": 19
+        "input": 0,
+        "uncached": 0,
+        "cached": 0,
+        "output": 0,
+        "total": 0,
+        "requests": 0
       },
       "weekly": {
-        "input": 10371338,
-        "uncached": 1398922,
-        "cached": 8972416,
-        "output": 187351,
-        "total": 10558689,
-        "requests": 95
+        "input": 52125082,
+        "uncached": 2189082,
+        "cached": 49936000,
+        "output": 318456,
+        "total": 52443538,
+        "requests": 302
       },
       "monthly": {
-        "input": 143329296,
-        "uncached": 6378384,
-        "cached": 136950912,
-        "output": 1108522,
-        "total": 144437818,
-        "requests": 1379
+        "input": 162121146,
+        "uncached": 5098810,
+        "cached": 157022336,
+        "output": 1088802,
+        "total": 163209948,
+        "requests": 1328
       },
       "currentCycle": {
-        "input": 3173127,
-        "uncached": 768519,
-        "cached": 2404608,
-        "output": 29309,
-        "total": 3202436,
-        "requests": 23
+        "input": 44926871,
+        "uncached": 1558679,
+        "cached": 43368192,
+        "output": 160414,
+        "total": 45087285,
+        "requests": 230
       },
       "allTime": {
-        "input": 143465551,
-        "uncached": 6425167,
-        "cached": 137040384,
-        "output": 1109621,
-        "total": 144575172,
-        "requests": 1385
+        "input": 185219295,
+        "uncached": 7215327,
+        "cached": 178003968,
+        "output": 1240726,
+        "total": 186460021,
+        "requests": 1592
       }
     },
     "combo/Antigravity": {
@@ -567,86 +567,86 @@
     },
     "google-antigravity/gemini-3.7-flash": {
       "daily": {
-        "input": 158660974,
-        "uncached": 16113300,
-        "cached": 142547674,
-        "output": 337403,
-        "total": 158998377,
-        "requests": 909
+        "input": 856187,
+        "uncached": 241913,
+        "cached": 614274,
+        "output": 9362,
+        "total": 865549,
+        "requests": 33
       },
       "weekly": {
-        "input": 162469698,
-        "uncached": 17772886,
-        "cached": 144696812,
-        "output": 364754,
-        "total": 162834452,
-        "requests": 1107
+        "input": 436109748,
+        "uncached": 26513644,
+        "cached": 409596104,
+        "output": 612807,
+        "total": 436722555,
+        "requests": 2240
       },
       "monthly": {
-        "input": 943994210,
-        "uncached": 99378194,
-        "cached": 844616016,
-        "output": 2919596,
-        "total": 946913806,
-        "requests": 6109
+        "input": 1218963282,
+        "uncached": 108589409,
+        "cached": 1110373873,
+        "output": 3177601,
+        "total": 1222140883,
+        "requests": 7298
       },
       "currentCycle": {
-        "input": 158660974,
-        "uncached": 16113300,
-        "cached": 142547674,
-        "output": 337403,
-        "total": 158998377,
-        "requests": 909
+        "input": 433630046,
+        "uncached": 25324515,
+        "cached": 408305531,
+        "output": 595408,
+        "total": 434225454,
+        "requests": 2098
       },
       "allTime": {
-        "input": 944363155,
-        "uncached": 99580038,
-        "cached": 844783117,
-        "output": 2920930,
-        "total": 947284085,
-        "requests": 6121
+        "input": 1219332227,
+        "uncached": 108791253,
+        "cached": 1110540974,
+        "output": 3178935,
+        "total": 1222511162,
+        "requests": 7310
       }
     },
     "alibaba-token-plan-intl/deepseek-v4-pro-0813": {
       "daily": {
-        "input": 78811,
-        "uncached": 62427,
-        "cached": 16384,
-        "output": 87817,
-        "total": 166628,
-        "requests": 31
+        "input": 0,
+        "uncached": 0,
+        "cached": 0,
+        "output": 0,
+        "total": 0,
+        "requests": 0
       },
       "weekly": {
-        "input": 78811,
-        "uncached": 62427,
-        "cached": 16384,
-        "output": 87817,
-        "total": 166628,
-        "requests": 31
+        "input": 16890876,
+        "uncached": 526332,
+        "cached": 16364544,
+        "output": 378721,
+        "total": 17269597,
+        "requests": 277
       },
       "monthly": {
-        "input": 64688900,
-        "uncached": 2755332,
-        "cached": 61933568,
-        "output": 1025134,
-        "total": 65714034,
-        "requests": 984
+        "input": 81500965,
+        "uncached": 3219237,
+        "cached": 78281728,
+        "output": 1316038,
+        "total": 82817003,
+        "requests": 1230
       },
       "currentCycle": {
-        "input": 78811,
-        "uncached": 62427,
-        "cached": 16384,
-        "output": 87817,
-        "total": 166628,
-        "requests": 31
+        "input": 16890876,
+        "uncached": 526332,
+        "cached": 16364544,
+        "output": 378721,
+        "total": 17269597,
+        "requests": 277
       },
       "allTime": {
-        "input": 64688900,
-        "uncached": 2755332,
-        "cached": 61933568,
-        "output": 1025134,
-        "total": 65714034,
-        "requests": 984
+        "input": 81500965,
+        "uncached": 3219237,
+        "cached": 78281728,
+        "output": 1316038,
+        "total": 82817003,
+        "requests": 1230
       }
     },
     "stealth/ox-alpha": {
@@ -659,12 +659,12 @@
         "requests": 0
       },
       "weekly": {
-        "input": 85234788,
-        "uncached": 4914212,
-        "cached": 80320576,
-        "output": 274654,
-        "total": 85509442,
-        "requests": 819
+        "input": 0,
+        "uncached": 0,
+        "cached": 0,
+        "output": 0,
+        "total": 0,
+        "requests": 0
       },
       "monthly": {
         "input": 87833200,
@@ -693,96 +693,96 @@
     },
     "combo/Fallback": {
       "daily": {
-        "input": 118119,
-        "uncached": 118119,
+        "input": 0,
+        "uncached": 0,
         "cached": 0,
-        "output": 96148,
-        "total": 214267,
-        "requests": 38
+        "output": 0,
+        "total": 0,
+        "requests": 0
       },
       "weekly": {
-        "input": 77944944,
-        "uncached": 6342398,
-        "cached": 71602546,
-        "output": 454358,
-        "total": 78399302,
-        "requests": 1076
+        "input": 67942372,
+        "uncached": 5847300,
+        "cached": 62095072,
+        "output": 470392,
+        "total": 68412764,
+        "requests": 991
       },
       "monthly": {
-        "input": 77944944,
-        "uncached": 6342398,
+        "input": 78029861,
+        "uncached": 6427315,
         "cached": 71602546,
-        "output": 454358,
-        "total": 78399302,
-        "requests": 1076
+        "output": 507279,
+        "total": 78537140,
+        "requests": 1119
       },
       "currentCycle": {
-        "input": 118119,
-        "uncached": 118119,
+        "input": 203036,
+        "uncached": 203036,
         "cached": 0,
-        "output": 96148,
-        "total": 214267,
-        "requests": 38
+        "output": 149069,
+        "total": 352105,
+        "requests": 81
       },
       "allTime": {
-        "input": 77944944,
-        "uncached": 6342398,
+        "input": 78029861,
+        "uncached": 6427315,
         "cached": 71602546,
-        "output": 454358,
-        "total": 78399302,
-        "requests": 1076
+        "output": 507279,
+        "total": 78537140,
+        "requests": 1119
       }
     },
     "alibaba-token-plan-intl/qwen3.8-flash": {
       "daily": {
-        "input": 118424800,
-        "uncached": 8526688,
-        "cached": 109898112,
-        "output": 936362,
-        "total": 119361162,
-        "requests": 1551
+        "input": 3549040,
+        "uncached": 229104,
+        "cached": 3319936,
+        "output": 56079,
+        "total": 3605119,
+        "requests": 87
       },
       "weekly": {
-        "input": 231378863,
-        "uncached": 14440111,
-        "cached": 216938752,
-        "output": 2082049,
-        "total": 233460912,
-        "requests": 3064
+        "input": 287056940,
+        "uncached": 17319852,
+        "cached": 269737088,
+        "output": 2769732,
+        "total": 289826672,
+        "requests": 3863
       },
       "monthly": {
-        "input": 231378863,
-        "uncached": 14440111,
-        "cached": 216938752,
-        "output": 2082049,
-        "total": 233460912,
-        "requests": 3064
+        "input": 287056940,
+        "uncached": 17319852,
+        "cached": 269737088,
+        "output": 2769732,
+        "total": 289826672,
+        "requests": 3863
       },
       "currentCycle": {
-        "input": 124917386,
-        "uncached": 8895754,
-        "cached": 116021632,
-        "output": 984732,
-        "total": 125902118,
-        "requests": 1589
+        "input": 180595463,
+        "uncached": 11775495,
+        "cached": 168819968,
+        "output": 1672415,
+        "total": 182267878,
+        "requests": 2388
       },
       "allTime": {
-        "input": 231378863,
-        "uncached": 14440111,
-        "cached": 216938752,
-        "output": 2082049,
-        "total": 233460912,
-        "requests": 3064
+        "input": 287056940,
+        "uncached": 17319852,
+        "cached": 269737088,
+        "output": 2769732,
+        "total": 289826672,
+        "requests": 3863
       }
     },
     "claude-fable-5": {
       "daily": {
-        "input": 4657022,
-        "uncached": 582036,
-        "cached": 4074986,
-        "output": 105183,
-        "total": 4762205,
-        "requests": 65
+        "input": 0,
+        "uncached": 0,
+        "cached": 0,
+        "output": 0,
+        "total": 0,
+        "requests": 0
       },
       "weekly": {
         "input": 4657022,
@@ -819,86 +819,128 @@
     },
     "stepfun/step-3.7-flash:free": {
       "daily": {
-        "input": 175210,
-        "uncached": 142826,
-        "cached": 32384,
-        "output": 418620,
-        "total": 593830,
-        "requests": 155
+        "input": 0,
+        "uncached": 0,
+        "cached": 0,
+        "output": 0,
+        "total": 0,
+        "requests": 0
       },
       "weekly": {
-        "input": 175210,
-        "uncached": 142826,
-        "cached": 32384,
-        "output": 418620,
-        "total": 593830,
-        "requests": 155
+        "input": 186046,
+        "uncached": 150462,
+        "cached": 35584,
+        "output": 466974,
+        "total": 653020,
+        "requests": 172
       },
       "monthly": {
-        "input": 175210,
-        "uncached": 142826,
-        "cached": 32384,
-        "output": 418620,
-        "total": 593830,
-        "requests": 155
+        "input": 186046,
+        "uncached": 150462,
+        "cached": 35584,
+        "output": 466974,
+        "total": 653020,
+        "requests": 172
       },
       "currentCycle": {
-        "input": 175210,
-        "uncached": 142826,
-        "cached": 32384,
-        "output": 418620,
-        "total": 593830,
-        "requests": 155
+        "input": 186046,
+        "uncached": 150462,
+        "cached": 35584,
+        "output": 466974,
+        "total": 653020,
+        "requests": 172
       },
       "allTime": {
-        "input": 175210,
-        "uncached": 142826,
-        "cached": 32384,
-        "output": 418620,
-        "total": 593830,
-        "requests": 155
+        "input": 186046,
+        "uncached": 150462,
+        "cached": 35584,
+        "output": 466974,
+        "total": 653020,
+        "requests": 172
       }
     },
     "tencent/hy3:free": {
       "daily": {
-        "input": 1164,
-        "uncached": 1164,
+        "input": 0,
+        "uncached": 0,
         "cached": 0,
-        "output": 7827,
-        "total": 8991,
-        "requests": 4
+        "output": 0,
+        "total": 0,
+        "requests": 0
       },
       "weekly": {
-        "input": 1164,
-        "uncached": 1164,
-        "cached": 0,
-        "output": 7827,
-        "total": 8991,
-        "requests": 4
+        "input": 18438,
+        "uncached": 8582,
+        "cached": 9856,
+        "output": 103941,
+        "total": 122379,
+        "requests": 22
       },
       "monthly": {
-        "input": 1164,
-        "uncached": 1164,
-        "cached": 0,
-        "output": 7827,
-        "total": 8991,
-        "requests": 4
+        "input": 18438,
+        "uncached": 8582,
+        "cached": 9856,
+        "output": 103941,
+        "total": 122379,
+        "requests": 22
       },
       "currentCycle": {
-        "input": 1164,
-        "uncached": 1164,
-        "cached": 0,
-        "output": 7827,
-        "total": 8991,
-        "requests": 4
+        "input": 18438,
+        "uncached": 8582,
+        "cached": 9856,
+        "output": 103941,
+        "total": 122379,
+        "requests": 22
       },
       "allTime": {
-        "input": 1164,
-        "uncached": 1164,
-        "cached": 0,
-        "output": 7827,
-        "total": 8991,
-        "requests": 4
+        "input": 18438,
+        "uncached": 8582,
+        "cached": 9856,
+        "output": 103941,
+        "total": 122379,
+        "requests": 22
+      }
+    },
+    "google-antigravity/gemini-3.8-flash-high": {
+      "daily": {
+        "input": 14887246,
+        "uncached": 1051116,
+        "cached": 13836130,
+        "output": 114040,
+        "total": 15001286,
+        "requests": 160
+      },
+      "weekly": {
+        "input": 14887246,
+        "uncached": 1051116,
+        "cached": 13836130,
+        "output": 114040,
+        "total": 15001286,
+        "requests": 160
+      },
+      "monthly": {
+        "input": 14887246,
+        "uncached": 1051116,
+        "cached": 13836130,
+        "output": 114040,
+        "total": 15001286,
+        "requests": 160
+      },
+      "currentCycle": {
+        "input": 14887246,
+        "uncached": 1051116,
+        "cached": 13836130,
+        "output": 114040,
+        "total": 15001286,
+        "requests": 160
+      },
+      "allTime": {
+        "input": 14887246,
+        "uncached": 1051116,
+        "cached": 13836130,
+        "output": 114040,
+        "total": 15001286,
+        "requests": 160
       }
     },
     "nous/stealth-ox-alpha": {
@@ -911,12 +953,12 @@
         "requests": 0
       },
       "weekly": {
-        "input": 16506088,
-        "uncached": 1874088,
-        "cached": 14632000,
-        "output": 54446,
-        "total": 16560534,
-        "requests": 321
+        "input": 0,
+        "uncached": 0,
+        "cached": 0,
+        "output": 0,
+        "total": 0,
+        "requests": 0
       },
       "monthly": {
         "input": 19104500,
@@ -945,12 +987,12 @@
     },
     "Zenspark/claude-fable-5": {
       "daily": {
-        "input": 4657022,
-        "uncached": 582036,
-        "cached": 4074986,
-        "output": 105183,
-        "total": 4762205,
-        "requests": 65
+        "input": 0,
+        "uncached": 0,
+        "cached": 0,
+        "output": 0,
+        "total": 0,
+        "requests": 0
       },
       "weekly": {
         "input": 4657022,
@@ -1000,17 +1042,17 @@
         "isLive": true,
         "fiveHourWindow": {
           "label": "5시간 롤링 한도",
-          "remainingPercent": 99.85,
-          "usagePercent": 0.15,
-          "resetAt": 1788104002000,
-          "desc": "2시간 53분 후 완전 충전"
+          "remainingPercent": 93.93,
+          "usagePercent": 6.07,
+          "resetAt": 1788380687000,
+          "desc": "4시간 49분 후 완전 충전"
         },
         "weeklyWindow": {
           "label": "주간 누적 한도",
-          "remainingPercent": 90.03,
-          "usagePercent": 9.97,
+          "remainingPercent": 77.11,
+          "usagePercent": 22.89,
           "resetAt": 1788663680000,
-          "desc": "6일 14시간 21분 후 완전 충전"
+          "desc": "3일 11시간 25분 후 완전 충전"
         },
         "models": [
           "Gemini 3.7 Flash",
@@ -1026,15 +1068,15 @@
           "label": "5시간 롤링 한도",
           "remainingPercent": 100.0,
           "usagePercent": 0.0,
-          "resetAt": 1788111607000,
-          "desc": "4시간 59분 후 완전 충전"
+          "resetAt": 1788381328000,
+          "desc": "5시간 후 완전 충전"
         },
         "weeklyWindow": {
           "label": "주간 누적 한도",
-          "remainingPercent": 83.31,
-          "usagePercent": 16.69,
+          "remainingPercent": 72.65,
+          "usagePercent": 27.35,
           "resetAt": 1788658310000,
-          "desc": "6일 12시간 51분 후 완전 충전"
+          "desc": "3일 9시간 56분 후 완전 충전"
         },
         "models": [
           "Claude Sonnet 4.6",
@@ -1059,44 +1101,44 @@
           "status": "active",
           "actualUsage": {
             "daily": {
-              "input": 158660974,
-              "uncached": 16113300,
-              "cached": 142547674,
-              "output": 337403,
-              "total": 158998377,
-              "requests": 909
+              "input": 856187,
+              "uncached": 241913,
+              "cached": 614274,
+              "output": 9362,
+              "total": 865549,
+              "requests": 33
             },
             "weekly": {
-              "input": 162469698,
-              "uncached": 17772886,
-              "cached": 144696812,
-              "output": 364754,
-              "total": 162834452,
-              "requests": 1107
+              "input": 436109748,
+              "uncached": 26513644,
+              "cached": 409596104,
+              "output": 612807,
+              "total": 436722555,
+              "requests": 2240
             },
             "monthly": {
-              "input": 943994210,
-              "uncached": 99378194,
-              "cached": 844616016,
-              "output": 2919596,
-              "total": 946913806,
-              "requests": 6109
+              "input": 1218963282,
+              "uncached": 108589409,
+              "cached": 1110373873,
+              "output": 3177601,
+              "total": 1222140883,
+              "requests": 7298
             },
             "currentCycle": {
-              "input": 158660974,
-              "uncached": 16113300,
-              "cached": 142547674,
-              "output": 337403,
-              "total": 158998377,
-              "requests": 909
+              "input": 433630046,
+              "uncached": 25324515,
+              "cached": 408305531,
+              "output": 595408,
+              "total": 434225454,
+              "requests": 2098
             },
             "allTime": {
-              "input": 944363155,
-              "uncached": 99580038,
-              "cached": 844783117,
-              "output": 2920930,
-              "total": 947284085,
-              "requests": 6121
+              "input": 1219332227,
+              "uncached": 108791253,
+              "cached": 1110540974,
+              "output": 3178935,
+              "total": 1222511162,
+              "requests": 7310
             }
           }
         },
@@ -1117,44 +1159,44 @@
           "status": "active",
           "actualUsage": {
             "daily": {
-              "input": 53682,
-              "uncached": 53682,
+              "input": 0,
+              "uncached": 0,
               "cached": 0,
-              "output": 36385,
-              "total": 90067,
-              "requests": 20
+              "output": 0,
+              "total": 0,
+              "requests": 0
             },
             "weekly": {
-              "input": 1471239,
-              "uncached": 272837,
-              "cached": 1198402,
-              "output": 44231,
-              "total": 1515470,
-              "requests": 54
+              "input": 1396543,
+              "uncached": 273880,
+              "cached": 1122663,
+              "output": 68721,
+              "total": 1465264,
+              "requests": 66
             },
             "monthly": {
-              "input": 10701249,
-              "uncached": 1486653,
+              "input": 10444808,
+              "uncached": 1230212,
               "cached": 9214596,
-              "output": 68388,
-              "total": 10769637,
-              "requests": 120
+              "output": 93372,
+              "total": 10538180,
+              "requests": 133
             },
             "currentCycle": {
-              "input": 53682,
-              "uncached": 53682,
+              "input": 104307,
+              "uncached": 104307,
               "cached": 0,
-              "output": 36385,
-              "total": 90067,
-              "requests": 20
+              "output": 62923,
+              "total": 167230,
+              "requests": 37
             },
             "allTime": {
-              "input": 11946273,
-              "uncached": 1920137,
+              "input": 11996898,
+              "uncached": 1970762,
               "cached": 10026136,
-              "output": 77228,
-              "total": 12023501,
-              "requests": 148
+              "output": 103766,
+              "total": 12100664,
+              "requests": 165
             }
           }
         }
@@ -1169,8 +1211,8 @@
       "activeAccount": "s***2@naver.com",
       "pooledAccounts": [
         "s***n@gmail.com (Main)",
-        "s***9@gmail.com",
-        "s***2@naver.com"
+        "s***2@naver.com",
+        "s***9@gmail.com"
       ],
       "pooledAccountDetails": [
         {
@@ -1182,20 +1224,20 @@
           "state": "exhausted"
         },
         {
-          "account": "s***9@gmail.com",
-          "accountId": "chatgpt-1785568744543",
-          "usagePercent": 93.0,
-          "remainingPercent": 7.0,
-          "resetAt": 1789487056000,
-          "state": "exhausted"
-        },
-        {
           "account": "s***2@naver.com",
           "accountId": "chatgpt-1785474763885",
           "usagePercent": 77.0,
           "remainingPercent": 23.0,
           "resetAt": 1789010269000,
           "state": "active"
+        },
+        {
+          "account": "s***9@gmail.com",
+          "accountId": "chatgpt-1785568744543",
+          "usagePercent": 93.0,
+          "remainingPercent": 7.0,
+          "resetAt": 1789487057000,
+          "state": "exhausted"
         }
       ],
       "monthlyUsagePercent": 86.67,
@@ -1375,16 +1417,16 @@
       "provider": "alibaba-token-plan-intl",
       "name": "Alibaba Token Plan",
       "plan": "Standard (10,000 req/7d)",
-      "status": "healthy",
-      "badge": "정상 가동 (Active)",
+      "status": "exhausted",
+      "badge": "주간 쿼터 소진 (HTTP 429)",
       "region": "ap-southeast-1 (Singapore)",
       "account": "sk-s****HZew",
-      "weeklyUsagePercent": 45.35,
-      "weeklyRemainingPercent": 54.65,
-      "weeklyRequests": 4535,
+      "weeklyUsagePercent": 100.0,
+      "weeklyRemainingPercent": 0.0,
+      "weeklyRequests": 10000,
       "weeklyLimit": 10000,
       "resetAt": 1788596940000,
-      "message": "7일 쿼터: 4,535 / 10,000 units (45.35%) 사용 중 (다음 리셋: 9/5 17:29 KST)",
+      "message": "7일 쿼터 소진 (HTTP 429 · 리셋: 9/5 17:29 KST)",
       "promotion": {
         "isPromoActive": true,
         "promoTitle": "야간 50% 반값 크레딧 할인 프로모션 (Night Discount)",
@@ -1451,47 +1493,47 @@
           "speed": "Heavy Duty MoE (2.4T)",
           "reasoning": "XHigh Reasoning",
           "tag": "Flagship MoE",
-          "status": "active",
+          "status": "rate_limited",
           "actualUsage": {
             "daily": {
-              "input": 2530439,
-              "uncached": 445319,
-              "cached": 2085120,
-              "output": 27699,
-              "total": 2558138,
-              "requests": 19
+              "input": 0,
+              "uncached": 0,
+              "cached": 0,
+              "output": 0,
+              "total": 0,
+              "requests": 0
             },
             "weekly": {
-              "input": 10371338,
-              "uncached": 1398922,
-              "cached": 8972416,
-              "output": 187351,
-              "total": 10558689,
-              "requests": 95
+              "input": 52125082,
+              "uncached": 2189082,
+              "cached": 49936000,
+              "output": 318456,
+              "total": 52443538,
+              "requests": 302
             },
             "monthly": {
-              "input": 143329296,
-              "uncached": 6378384,
-              "cached": 136950912,
-              "output": 1108522,
-              "total": 144437818,
-              "requests": 1379
+              "input": 162121146,
+              "uncached": 5098810,
+              "cached": 157022336,
+              "output": 1088802,
+              "total": 163209948,
+              "requests": 1328
             },
             "currentCycle": {
-              "input": 3173127,
-              "uncached": 768519,
-              "cached": 2404608,
-              "output": 29309,
-              "total": 3202436,
-              "requests": 23
+              "input": 44926871,
+              "uncached": 1558679,
+              "cached": 43368192,
+              "output": 160414,
+              "total": 45087285,
+              "requests": 230
             },
             "allTime": {
-              "input": 143465551,
-              "uncached": 6425167,
-              "cached": 137040384,
-              "output": 1109621,
-              "total": 144575172,
-              "requests": 1385
+              "input": 185219295,
+              "uncached": 7215327,
+              "cached": 178003968,
+              "output": 1240726,
+              "total": 186460021,
+              "requests": 1592
             }
           }
         },
@@ -1509,15 +1551,15 @@
           "speed": "High Speed Multimodal",
           "reasoning": "Medium Reasoning",
           "tag": "All-Rounder",
-          "status": "active",
+          "status": "rate_limited",
           "actualUsage": {
             "daily": {
-              "input": 956,
-              "uncached": 956,
+              "input": 0,
+              "uncached": 0,
               "cached": 0,
-              "output": 5701,
-              "total": 6657,
-              "requests": 1
+              "output": 0,
+              "total": 0,
+              "requests": 0
             },
             "weekly": {
               "input": 956,
@@ -1528,12 +1570,12 @@
               "requests": 1
             },
             "monthly": {
-              "input": 1834986,
-              "uncached": 327658,
+              "input": 1831094,
+              "uncached": 323766,
               "cached": 1507328,
-              "output": 44367,
-              "total": 1879353,
-              "requests": 53
+              "output": 43559,
+              "total": 1874653,
+              "requests": 51
             },
             "currentCycle": {
               "input": 956,
@@ -1567,163 +1609,47 @@
           "speed": "Code & Math Specialist (Snapshot)",
           "reasoning": "High-Max Reasoning",
           "tag": "Snapshot Stable",
-          "status": "active",
+          "status": "rate_limited",
           "actualUsage": {
             "daily": {
-              "input": 78811,
-              "uncached": 62427,
-              "cached": 16384,
-              "output": 87817,
-              "total": 166628,
-              "requests": 31
+              "input": 0,
+              "uncached": 0,
+              "cached": 0,
+              "output": 0,
+              "total": 0,
+              "requests": 0
             },
             "weekly": {
-              "input": 78811,
-              "uncached": 62427,
-              "cached": 16384,
-              "output": 87817,
-              "total": 166628,
-              "requests": 31
+              "input": 16890876,
+              "uncached": 526332,
+              "cached": 16364544,
+              "output": 378721,
+              "total": 17269597,
+              "requests": 277
             },
             "monthly": {
-              "input": 64688900,
-              "uncached": 2755332,
-              "cached": 61933568,
-              "output": 1025134,
-              "total": 65714034,
-              "requests": 984
+              "input": 81500965,
+              "uncached": 3219237,
+              "cached": 78281728,
+              "output": 1316038,
+              "total": 82817003,
+              "requests": 1230
             },
             "currentCycle": {
-              "input": 78811,
-              "uncached": 62427,
-              "cached": 16384,
-              "output": 87817,
-              "total": 166628,
-              "requests": 31
+              "input": 16890876,
+              "uncached": 526332,
+              "cached": 16364544,
+              "output": 378721,
+              "total": 17269597,
+              "requests": 277
             },
             "allTime": {
-              "input": 64688900,
-              "uncached": 2755332,
-              "cached": 61933568,
-              "output": 1025134,
-              "total": 65714034,
-              "requests": 984
-            }
-          }
-        },
-        {
-          "id": "alibaba-token-plan-intl/deepseek-v4-flash-0731",
-          "name": "DeepSeek V4 Flash",
-          "providerId": "alibaba-token-plan-intl",
-          "providerName": "Alibaba Token Plan",
-          "pool": null,
-          "context": "1M",
-          "contextTokens": 1000000,
-          "inputPrice1M": 0.14,
-          "cachedPrice1M": 0.035,
-          "outputPrice1M": 0.28,
-          "speed": "Fast Inference",
-          "reasoning": "Standard",
-          "tag": "Fast Coder",
-          "status": "active",
-          "actualUsage": {
-            "daily": {
-              "input": 94481,
-              "uncached": 79121,
-              "cached": 15360,
-              "output": 149623,
-              "total": 244104,
-              "requests": 70
-            },
-            "weekly": {
-              "input": 94481,
-              "uncached": 79121,
-              "cached": 15360,
-              "output": 149623,
-              "total": 244104,
-              "requests": 70
-            },
-            "monthly": {
-              "input": 87622814,
-              "uncached": 4682398,
-              "cached": 82940416,
-              "output": 631310,
-              "total": 88254124,
-              "requests": 1121
-            },
-            "currentCycle": {
-              "input": 94481,
-              "uncached": 79121,
-              "cached": 15360,
-              "output": 149623,
-              "total": 244104,
-              "requests": 70
-            },
-            "allTime": {
-              "input": 87622814,
-              "uncached": 4682398,
-              "cached": 82940416,
-              "output": 631310,
-              "total": 88254124,
-              "requests": 1121
-            }
-          }
-        },
-        {
-          "id": "alibaba-token-plan-intl/qwen3.8-flash",
-          "name": "Qwen 3.8 Flash",
-          "providerId": "alibaba-token-plan-intl",
-          "providerName": "Alibaba Token Plan",
-          "pool": null,
-          "context": "256k",
-          "contextTokens": 256000,
-          "inputPrice1M": 0.167,
-          "cachedPrice1M": 0.0334,
-          "outputPrice1M": 0.488,
-          "speed": "Ultra Fast Multimodal",
-          "reasoning": "Low-Medium",
-          "tag": "Flash Multimodal",
-          "status": "active",
-          "actualUsage": {
-            "daily": {
-              "input": 118424800,
-              "uncached": 8526688,
-              "cached": 109898112,
-              "output": 936362,
-              "total": 119361162,
-              "requests": 1551
-            },
-            "weekly": {
-              "input": 231378863,
-              "uncached": 14440111,
-              "cached": 216938752,
-              "output": 2082049,
-              "total": 233460912,
-              "requests": 3064
-            },
-            "monthly": {
-              "input": 231378863,
-              "uncached": 14440111,
-              "cached": 216938752,
-              "output": 2082049,
-              "total": 233460912,
-              "requests": 3064
-            },
-            "currentCycle": {
-              "input": 124917386,
-              "uncached": 8895754,
-              "cached": 116021632,
-              "output": 984732,
-              "total": 125902118,
-              "requests": 1589
-            },
-            "allTime": {
-              "input": 231378863,
-              "uncached": 14440111,
-              "cached": 216938752,
-              "output": 2082049,
-              "total": 233460912,
-              "requests": 3064
+              "input": 81500965,
+              "uncached": 3219237,
+              "cached": 78281728,
+              "output": 1316038,
+              "total": 82817003,
+              "requests": 1230
             }
           }
         }
@@ -1748,44 +1674,44 @@
       "status": "active",
       "actualUsage": {
         "daily": {
-          "input": 158660974,
-          "uncached": 16113300,
-          "cached": 142547674,
-          "output": 337403,
-          "total": 158998377,
-          "requests": 909
+          "input": 856187,
+          "uncached": 241913,
+          "cached": 614274,
+          "output": 9362,
+          "total": 865549,
+          "requests": 33
         },
         "weekly": {
-          "input": 162469698,
-          "uncached": 17772886,
-          "cached": 144696812,
-          "output": 364754,
-          "total": 162834452,
-          "requests": 1107
+          "input": 436109748,
+          "uncached": 26513644,
+          "cached": 409596104,
+          "output": 612807,
+          "total": 436722555,
+          "requests": 2240
         },
         "monthly": {
-          "input": 943994210,
-          "uncached": 99378194,
-          "cached": 844616016,
-          "output": 2919596,
-          "total": 946913806,
-          "requests": 6109
+          "input": 1218963282,
+          "uncached": 108589409,
+          "cached": 1110373873,
+          "output": 3177601,
+          "total": 1222140883,
+          "requests": 7298
         },
         "currentCycle": {
-          "input": 158660974,
-          "uncached": 16113300,
-          "cached": 142547674,
-          "output": 337403,
-          "total": 158998377,
-          "requests": 909
+          "input": 433630046,
+          "uncached": 25324515,
+          "cached": 408305531,
+          "output": 595408,
+          "total": 434225454,
+          "requests": 2098
         },
         "allTime": {
-          "input": 944363155,
-          "uncached": 99580038,
-          "cached": 844783117,
-          "output": 2920930,
-          "total": 947284085,
-          "requests": 6121
+          "input": 1219332227,
+          "uncached": 108791253,
+          "cached": 1110540974,
+          "output": 3178935,
+          "total": 1222511162,
+          "requests": 7310
         }
       }
     },
@@ -1806,44 +1732,44 @@
       "status": "active",
       "actualUsage": {
         "daily": {
-          "input": 53682,
-          "uncached": 53682,
+          "input": 0,
+          "uncached": 0,
           "cached": 0,
-          "output": 36385,
-          "total": 90067,
-          "requests": 20
+          "output": 0,
+          "total": 0,
+          "requests": 0
         },
         "weekly": {
-          "input": 1471239,
-          "uncached": 272837,
-          "cached": 1198402,
-          "output": 44231,
-          "total": 1515470,
-          "requests": 54
+          "input": 1396543,
+          "uncached": 273880,
+          "cached": 1122663,
+          "output": 68721,
+          "total": 1465264,
+          "requests": 66
         },
         "monthly": {
-          "input": 10701249,
-          "uncached": 1486653,
+          "input": 10444808,
+          "uncached": 1230212,
           "cached": 9214596,
-          "output": 68388,
-          "total": 10769637,
-          "requests": 120
+          "output": 93372,
+          "total": 10538180,
+          "requests": 133
         },
         "currentCycle": {
-          "input": 53682,
-          "uncached": 53682,
+          "input": 104307,
+          "uncached": 104307,
           "cached": 0,
-          "output": 36385,
-          "total": 90067,
-          "requests": 20
+          "output": 62923,
+          "total": 167230,
+          "requests": 37
         },
         "allTime": {
-          "input": 11946273,
-          "uncached": 1920137,
+          "input": 11996898,
+          "uncached": 1970762,
           "cached": 10026136,
-          "output": 77228,
-          "total": 12023501,
-          "requests": 148
+          "output": 103766,
+          "total": 12100664,
+          "requests": 165
         }
       }
     },
@@ -2027,47 +1953,47 @@
       "speed": "Heavy Duty MoE (2.4T)",
       "reasoning": "XHigh Reasoning",
       "tag": "Flagship MoE",
-      "status": "active",
+      "status": "rate_limited",
       "actualUsage": {
         "daily": {
-          "input": 2530439,
-          "uncached": 445319,
-          "cached": 2085120,
-          "output": 27699,
-          "total": 2558138,
-          "requests": 19
+          "input": 0,
+          "uncached": 0,
+          "cached": 0,
+          "output": 0,
+          "total": 0,
+          "requests": 0
         },
         "weekly": {
-          "input": 10371338,
-          "uncached": 1398922,
-          "cached": 8972416,
-          "output": 187351,
-          "total": 10558689,
-          "requests": 95
+          "input": 52125082,
+          "uncached": 2189082,
+          "cached": 49936000,
+          "output": 318456,
+          "total": 52443538,
+          "requests": 302
         },
         "monthly": {
-          "input": 143329296,
-          "uncached": 6378384,
-          "cached": 136950912,
-          "output": 1108522,
-          "total": 144437818,
-          "requests": 1379
+          "input": 162121146,
+          "uncached": 5098810,
+          "cached": 157022336,
+          "output": 1088802,
+          "total": 163209948,
+          "requests": 1328
         },
         "currentCycle": {
-          "input": 3173127,
-          "uncached": 768519,
-          "cached": 2404608,
-          "output": 29309,
-          "total": 3202436,
-          "requests": 23
+          "input": 44926871,
+          "uncached": 1558679,
+          "cached": 43368192,
+          "output": 160414,
+          "total": 45087285,
+          "requests": 230
         },
         "allTime": {
-          "input": 143465551,
-          "uncached": 6425167,
-          "cached": 137040384,
-          "output": 1109621,
-          "total": 144575172,
-          "requests": 1385
+          "input": 185219295,
+          "uncached": 7215327,
+          "cached": 178003968,
+          "output": 1240726,
+          "total": 186460021,
+          "requests": 1592
         }
       }
     },
@@ -2085,15 +2011,15 @@
       "speed": "High Speed Multimodal",
       "reasoning": "Medium Reasoning",
       "tag": "All-Rounder",
-      "status": "active",
+      "status": "rate_limited",
       "actualUsage": {
         "daily": {
-          "input": 956,
-          "uncached": 956,
+          "input": 0,
+          "uncached": 0,
           "cached": 0,
-          "output": 5701,
-          "total": 6657,
-          "requests": 1
+          "output": 0,
+          "total": 0,
+          "requests": 0
         },
         "weekly": {
           "input": 956,
@@ -2104,12 +2030,12 @@
           "requests": 1
         },
         "monthly": {
-          "input": 1834986,
-          "uncached": 327658,
+          "input": 1831094,
+          "uncached": 323766,
           "cached": 1507328,
-          "output": 44367,
-          "total": 1879353,
-          "requests": 53
+          "output": 43559,
+          "total": 1874653,
+          "requests": 51
         },
         "currentCycle": {
           "input": 956,
@@ -2143,263 +2069,47 @@
       "speed": "Code & Math Specialist (Snapshot)",
       "reasoning": "High-Max Reasoning",
       "tag": "Snapshot Stable",
-      "status": "active",
+      "status": "rate_limited",
       "actualUsage": {
         "daily": {
-          "input": 78811,
-          "uncached": 62427,
-          "cached": 16384,
-          "output": 87817,
-          "total": 166628,
-          "requests": 31
+          "input": 0,
+          "uncached": 0,
+          "cached": 0,
+          "output": 0,
+          "total": 0,
+          "requests": 0
         },
         "weekly": {
-          "input": 78811,
-          "uncached": 62427,
-          "cached": 16384,
-          "output": 87817,
-          "total": 166628,
-          "requests": 31
+          "input": 16890876,
+          "uncached": 526332,
+          "cached": 16364544,
+          "output": 378721,
+          "total": 17269597,
+          "requests": 277
         },
         "monthly": {
-          "input": 64688900,
-          "uncached": 2755332,
-          "cached": 61933568,
-          "output": 1025134,
-          "total": 65714034,
-          "requests": 984
+          "input": 81500965,
+          "uncached": 3219237,
+          "cached": 78281728,
+          "output": 1316038,
+          "total": 82817003,
+          "requests": 1230
         },
         "currentCycle": {
-          "input": 78811,
-          "uncached": 62427,
-          "cached": 16384,
-          "output": 87817,
-          "total": 166628,
-          "requests": 31
+          "input": 16890876,
+          "uncached": 526332,
+          "cached": 16364544,
+          "output": 378721,
+          "total": 17269597,
+          "requests": 277
         },
         "allTime": {
-          "input": 64688900,
-          "uncached": 2755332,
-          "cached": 61933568,
-          "output": 1025134,
-          "total": 65714034,
-          "requests": 984
-        }
-      }
-    },
-    {
-      "id": "alibaba-token-plan-intl/deepseek-v4-flash-0731",
-      "name": "DeepSeek V4 Flash",
-      "providerId": "alibaba-token-plan-intl",
-      "providerName": "Alibaba Token Plan",
-      "pool": null,
-      "context": "1M",
-      "contextTokens": 1000000,
-      "inputPrice1M": 0.14,
-      "cachedPrice1M": 0.035,
-      "outputPrice1M": 0.28,
-      "speed": "Fast Inference",
-      "reasoning": "Standard",
-      "tag": "Fast Coder",
-      "status": "active",
-      "actualUsage": {
-        "daily": {
-          "input": 94481,
-          "uncached": 79121,
-          "cached": 15360,
-          "output": 149623,
-          "total": 244104,
-          "requests": 70
-        },
-        "weekly": {
-          "input": 94481,
-          "uncached": 79121,
-          "cached": 15360,
-          "output": 149623,
-          "total": 244104,
-          "requests": 70
-        },
-        "monthly": {
-          "input": 87622814,
-          "uncached": 4682398,
-          "cached": 82940416,
-          "output": 631310,
-          "total": 88254124,
-          "requests": 1121
-        },
-        "currentCycle": {
-          "input": 94481,
-          "uncached": 79121,
-          "cached": 15360,
-          "output": 149623,
-          "total": 244104,
-          "requests": 70
-        },
-        "allTime": {
-          "input": 87622814,
-          "uncached": 4682398,
-          "cached": 82940416,
-          "output": 631310,
-          "total": 88254124,
-          "requests": 1121
-        }
-      }
-    },
-    {
-      "id": "alibaba-token-plan-intl/qwen3.8-flash",
-      "name": "Qwen 3.8 Flash",
-      "providerId": "alibaba-token-plan-intl",
-      "providerName": "Alibaba Token Plan",
-      "pool": null,
-      "context": "256k",
-      "contextTokens": 256000,
-      "inputPrice1M": 0.167,
-      "cachedPrice1M": 0.0334,
-      "outputPrice1M": 0.488,
-      "speed": "Ultra Fast Multimodal",
-      "reasoning": "Low-Medium",
-      "tag": "Flash Multimodal",
-      "status": "active",
-      "actualUsage": {
-        "daily": {
-          "input": 118424800,
-          "uncached": 8526688,
-          "cached": 109898112,
-          "output": 936362,
-          "total": 119361162,
-          "requests": 1551
-        },
-        "weekly": {
-          "input": 231378863,
-          "uncached": 14440111,
-          "cached": 216938752,
-          "output": 2082049,
-          "total": 233460912,
-          "requests": 3064
-        },
-        "monthly": {
-          "input": 231378863,
-          "uncached": 14440111,
-          "cached": 216938752,
-          "output": 2082049,
-          "total": 233460912,
-          "requests": 3064
-        },
-        "currentCycle": {
-          "input": 124917386,
-          "uncached": 8895754,
-          "cached": 116021632,
-          "output": 984732,
-          "total": 125902118,
-          "requests": 1589
-        },
-        "allTime": {
-          "input": 231378863,
-          "uncached": 14440111,
-          "cached": 216938752,
-          "output": 2082049,
-          "total": 233460912,
-          "requests": 3064
-        }
-      }
-    },
-    {
-      "id": "nous/tencent-hy3-free",
-      "name": "Tencent Hy3",
-      "providerId": "nous",
-      "providerName": "Nous Research",
-      "pool": null,
-      "context": "256k",
-      "contextTokens": 262144,
-      "inputPrice1M": 0.0,
-      "cachedPrice1M": 0.0,
-      "outputPrice1M": 0.0,
-      "speed": "MoE Fast Inference",
-      "reasoning": "Hybrid Thinking",
-      "tag": "Free Tier",
-      "status": "active",
-      "actualUsage": {
-        "daily": {
-          "input": 0,
-          "uncached": 0,
-          "cached": 0,
-          "output": 0,
-          "total": 0,
-          "requests": 0
-        },
-        "weekly": {
-          "input": 0,
-          "uncached": 0,
-          "cached": 0,
-          "output": 0,
-          "total": 0,
-          "requests": 0
-        },
-        "monthly": {
-          "input": 0,
-          "uncached": 0,
-          "cached": 0,
-          "output": 0,
-          "total": 0,
-          "requests": 0
-        },
-        "allTime": {
-          "input": 0,
-          "uncached": 0,
-          "cached": 0,
-          "output": 0,
-          "total": 0,
-          "requests": 0
-        }
-      }
-    },
-    {
-      "id": "nous/stepfun-step-3.7-flash-free",
-      "name": "StepFun Step 3.7 Flash",
-      "providerId": "nous",
-      "providerName": "Nous Research",
-      "pool": null,
-      "context": "256k",
-      "contextTokens": 262144,
-      "inputPrice1M": 0.0,
-      "cachedPrice1M": 0.0,
-      "outputPrice1M": 0.0,
-      "speed": "Ultra Fast Free Tier",
-      "reasoning": "Medium-Max Reasoning",
-      "tag": "Best Free Value",
-      "status": "active",
-      "actualUsage": {
-        "daily": {
-          "input": 0,
-          "uncached": 0,
-          "cached": 0,
-          "output": 0,
-          "total": 0,
-          "requests": 0
-        },
-        "weekly": {
-          "input": 0,
-          "uncached": 0,
-          "cached": 0,
-          "output": 0,
-          "total": 0,
-          "requests": 0
-        },
-        "monthly": {
-          "input": 0,
-          "uncached": 0,
-          "cached": 0,
-          "output": 0,
-          "total": 0,
-          "requests": 0
-        },
-        "allTime": {
-          "input": 0,
-          "uncached": 0,
-          "cached": 0,
-          "output": 0,
-          "total": 0,
-          "requests": 0
+          "input": 81500965,
+          "uncached": 3219237,
+          "cached": 78281728,
+          "output": 1316038,
+          "total": 82817003,
+          "requests": 1230
         }
       }
     }

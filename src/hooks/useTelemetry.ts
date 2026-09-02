@@ -50,23 +50,23 @@ function normalizeTelemetry(json: TelemetryPayload): TelemetryPayload {
     models: ['Gemini 3.7 Flash', 'Gemini 3.1 Pro'],
   };
 
-  // Claude pool 정규화
-  const liveClaude = agData.claudeGptPool;
-  const claude5hUsed =
-    typeof liveClaude.fiveHourWindow?.usagePercent === 'number'
-      ? liveClaude.fiveHourWindow.usagePercent
-      : 0;
-  const claude5hRemaining =
-    typeof liveClaude.fiveHourWindow?.remainingPercent === 'number'
-      ? liveClaude.fiveHourWindow.remainingPercent
+ // Claude pool 정규화
+ const liveClaude = agData.claudeGptPool;
+ const claude5hUsed =
+   typeof liveClaude?.fiveHourWindow?.usagePercent === 'number'
+     ? liveClaude.fiveHourWindow.usagePercent
+     : 0;
+ const claude5hRemaining =
+    typeof liveClaude?.fiveHourWindow?.remainingPercent === 'number'
+      ? liveClaude.fiveHourWindow.remainingPercent!
       : Math.max(0, 100 - claude5hUsed);
   const claudeWeeklyUsed =
-    typeof liveClaude.weeklyWindow?.usagePercent === 'number'
-      ? liveClaude.weeklyWindow.usagePercent
+    typeof liveClaude?.weeklyWindow?.usagePercent === 'number'
+      ? liveClaude.weeklyWindow.usagePercent!
       : 0;
   const claudeWeeklyRemaining =
-    typeof liveClaude.weeklyWindow?.remainingPercent === 'number'
-      ? liveClaude.weeklyWindow.remainingPercent
+    typeof liveClaude?.weeklyWindow?.remainingPercent === 'number'
+      ? liveClaude.weeklyWindow.remainingPercent!
       : Math.max(0, 100 - claudeWeeklyUsed);
   const isClaudeExhausted =
     liveClaude?.status === 'exhausted' || claude5hRemaining <= 0 || claudeWeeklyRemaining <= 0;
