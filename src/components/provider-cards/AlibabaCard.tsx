@@ -17,11 +17,17 @@ export const AlibabaCard = memo(function AlibabaCard({
   viewMode,
   isNightDiscountNow,
 }: AlibabaCardProps) {
-  const alUsed = al.weeklyUsagePercent ?? null;
+  const alUsed = typeof al.weeklyUsagePercent === 'number' ? al.weeklyUsagePercent : null;
   const alRemaining =
-    al.weeklyRemainingPercent ?? (alUsed != null ? Math.max(0, 100 - alUsed) : null);
+    typeof al.weeklyRemainingPercent === 'number'
+      ? al.weeklyRemainingPercent
+      : alUsed != null
+      ? Math.max(0, 100 - alUsed)
+      : null;
   const isAliExhausted =
-    al.status === 'exhausted' || (typeof alRemaining === 'number' && alRemaining <= 0);
+    (typeof alRemaining === 'number' && alRemaining <= 0) ||
+    (typeof alUsed === 'number' && alUsed >= 100) ||
+    (al.status === 'exhausted' && (alRemaining == null || alRemaining <= 0));
 
   return (
     <div className="w-full bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800/80 rounded-2xl p-4 sm:p-6 flex flex-col justify-between space-y-4 shadow-sm hover:shadow-md transition-shadow box-border overflow-hidden">

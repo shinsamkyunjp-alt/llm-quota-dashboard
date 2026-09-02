@@ -59,7 +59,7 @@ function normalizeTelemetry(json: TelemetryPayload): TelemetryPayload {
   };
 
  // Claude pool 정규화
- const liveClaude = agData.claudeGptPool;
+  const liveClaude = agData.claudeGptPool;
  const claude5hUsed =
    typeof liveClaude?.fiveHourWindow?.usagePercent === 'number'
      ? liveClaude.fiveHourWindow.usagePercent
@@ -101,10 +101,15 @@ function normalizeTelemetry(json: TelemetryPayload): TelemetryPayload {
     models: liveClaude?.models ?? ['Claude Sonnet 4.6', 'Claude Opus 4.6 Thinking'],
   };
 
-  const aliWeeklyRemaining = aliData?.weeklyRemainingPercent ?? null;
+  const aliWeeklyRemaining =
+    typeof aliData?.weeklyRemainingPercent === 'number' ? aliData.weeklyRemainingPercent : null;
+  const aliWeeklyUsed =
+    typeof aliData?.weeklyUsagePercent === 'number' ? aliData.weeklyUsagePercent : null;
   const isAliExhausted =
-    aliData?.status === 'exhausted' ||
-    (typeof aliWeeklyRemaining === 'number' && aliWeeklyRemaining <= 0);
+    (typeof aliWeeklyRemaining === 'number' && aliWeeklyRemaining <= 0) ||
+    (typeof aliWeeklyUsed === 'number' && aliWeeklyUsed >= 100) ||
+    (aliData?.status === 'exhausted' && (aliWeeklyRemaining == null || aliWeeklyRemaining <= 0));
+  const effectiveAliStatus = isAliExhausted ? 'exhausted' : 'healthy';
   const isGeminiWeeklyExhausted =
     typeof geminiWeeklyUsed === 'number' && geminiWeeklyUsed >= 100;
 
@@ -152,7 +157,14 @@ function normalizeTelemetry(json: TelemetryPayload): TelemetryPayload {
       claudeGptPool,
     },
     openai: { ...DEFAULT_TELEMETRY.openai, ...oaData },
-    alibaba: { ...DEFAULT_TELEMETRY.alibaba, ...aliData },
+    alibaba: {
+      ...DEFAULT_TELEMETRY.alibaba,
+      ...aliData,
+      status: effectiveAliStatus,
+      badge: isAliExhausted ? '주간 쿼터 소진 (HTTP 429)' : '정상 가동 (Active)',
+      weeklyUsagePercent: aliWeeklyUsed ?? 63.19,
+      weeklyRemainingPercent: aliWeeklyRemaining ?? 36.81,
+    },
     nous: { ...DEFAULT_TELEMETRY.nous, ...nousData },
     allModels: dynamicModels,
     environment: json.environment,
