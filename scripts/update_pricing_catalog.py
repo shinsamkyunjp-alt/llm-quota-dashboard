@@ -660,6 +660,8 @@ def discover_opencodex_catalog():
             with open(CONFIG_FILE, 'r', encoding='utf-8') as f: cfg = json.load(f)
         except Exception as e: print('Config read note:', e)
     disabled_raw = set(cfg.get('disabledModels', []))
+    # gpt-6-astra fails upstream: 'The gpt-6-astra model is not supported when using Codex with a ChatGPT account.'
+    disabled_raw.add('gpt-6-astra')
     norm_disabled = {d.replace(':', '-').replace('/', '-') for d in disabled_raw}
     def is_disabled(mid):
         if mid in disabled_raw or mid.replace(':', '-').replace('/', '-') in norm_disabled: return True

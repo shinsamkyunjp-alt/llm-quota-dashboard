@@ -1,7 +1,7 @@
 import type { ModelInfo } from '@/types/telemetry';
 
 // ─────────────────────────────────────────────────────────────────────────────
-// DEFAULT_MODELS — 실제 활성화된 12개 모델 메타데이터 단일 출처 (Single Source of Truth)
+// DEFAULT_MODELS — 실제 활성화된 11개 모델 메타데이터 단일 출처 (Single Source of Truth)
 // OpenCodex runtime (opencodex-catalog.json / models_cache.json)과 100% 일치
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -11,7 +11,6 @@ export const DEFAULT_MODELS: ModelInfo[] = [
   { id: 'google-antigravity/claude-sonnet-4-6', name: 'Claude Sonnet 4.6', providerId: 'google-antigravity', providerName: 'Google Antigravity', pool: 'claude-gpt', speed: 'Balanced (60+ t/s)', context: '250k', contextTokens: 250000, inputPrice1M: 3.00, cachedPrice1M: 0.30, outputPrice1M: 15.00, reasoning: 'High Nuance Coding', tag: 'Top Coder', status: 'active' },
 
   // OpenAI Codex (3 Active Models)
-  { id: 'gpt-6-astra', name: 'GPT-6 Astra', providerId: 'openai', providerName: 'OpenAI Codex', speed: 'Next-Gen Flagship Intelligence', context: '1M', contextTokens: 1048576, inputPrice1M: 5.00, cachedPrice1M: 1.25, outputPrice1M: 30.00, reasoning: 'Ultra Reasoning (low-ultra)', tag: 'Flagship AI', status: 'active' },
   { id: 'gpt-5.6-terra', name: 'GPT-5.6 Terra', providerId: 'openai', providerName: 'OpenAI Codex', speed: 'Balanced Daily Workload', context: '1M', contextTokens: 1048576, inputPrice1M: 2.00, cachedPrice1M: 0.50, outputPrice1M: 12.00, reasoning: 'Medium-Ultra', tag: 'Balanced Daily', status: 'active' },
   { id: 'gpt-5.6-luna', name: 'GPT-5.6 Luna', providerId: 'openai', providerName: 'OpenAI Codex', speed: 'Fast & Cost-Effective', context: '1M', contextTokens: 1048576, inputPrice1M: 0.20, cachedPrice1M: 0.05, outputPrice1M: 1.20, reasoning: 'Medium-Max', tag: 'Best OpenAI Value', status: 'active' },
 
@@ -56,7 +55,6 @@ export const MODEL_SORT_ORDER: Record<string, number> = {
   'google-antigravity/gemini-3.8-flash': 11,
   'google-antigravity/claude-sonnet-4-6': 12,
   // OpenAI
-  'gpt-6-astra': 21,
   'gpt-5.6-terra': 22,
   'gpt-5.6-luna': 23,
   // Alibaba

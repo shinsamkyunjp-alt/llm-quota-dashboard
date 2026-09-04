@@ -135,9 +135,6 @@ export const OpenAICard = memo(function OpenAICard({ oa, viewMode }: OpenAICardP
           ) : (
             <>
               <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium">
-                GPT-6 Astra
-              </span>
-              <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium">
                 GPT-5.6 Terra
               </span>
               <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium">
