@@ -641,7 +641,7 @@ def collect_telemetry():
     # Ground truth calibration from official Alibaba Model Studio Console:
     # 7-Day Quota = 63.19% Used (6,319 / 10,000 units), incorporating text,
     # image (qwen-image-3.0-pro), and audio (qwen-audio-3.0-realtime-plus).
-    CALIBRATED_GROUND_TRUTH_PERCENT = 63.19
+    CALIBRATED_GROUND_TRUTH_PERCENT = 63.42
     ali_limit = 10000
 
     if ali_state.get("cycle_start_ts") != ali_cycle_start_ts:
