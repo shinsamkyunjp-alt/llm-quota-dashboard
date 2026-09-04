@@ -1,12 +1,12 @@
 {
-  "updatedAt": 1788366747367,
+  "updatedAt": 1788489647377,
   "environment": "Live Antigravity & ocx Telemetry",
   "catalogSync": {
     "isLiveConnected": true,
-    "totalCatalogModels": 22,
+    "totalCatalogModels": 17,
     "source": "OpenCodex http://localhost:10100/#models & Official Provider API Specs",
     "pricingDailySync": "Active (1회/일 자동 갱신)",
-    "lastDailyUpdate": "2026-09-03 01:32:28 KST"
+    "lastDailyUpdate": "2026-09-04 11:40:48 KST"
   },
   "summary": {
     "totalProviders": 4,
@@ -14,8 +14,8 @@
     "partiallyExhaustedProviders": 0,
     "exhaustedProviders": 0,
     "totalLinkedAccounts": 5,
-    "activeLLMCount": 22,
-    "availableModelCount": 22,
+    "activeLLMCount": 17,
+    "availableModelCount": 17,
     "rateLimitedModelCount": 0
   },
   "actualUsageMap": {
@@ -197,36 +197,36 @@
         "requests": 0
       },
       "weekly": {
-        "input": 1396543,
-        "uncached": 273880,
-        "cached": 1122663,
-        "output": 68721,
-        "total": 1465264,
-        "requests": 66
+        "input": 138867,
+        "uncached": 138867,
+        "cached": 0,
+        "output": 63005,
+        "total": 201872,
+        "requests": 38
       },
       "monthly": {
-        "input": 10444808,
-        "uncached": 1230212,
+        "input": 10479368,
+        "uncached": 1264772,
         "cached": 9214596,
-        "output": 93372,
-        "total": 10538180,
-        "requests": 133
+        "output": 93454,
+        "total": 10572822,
+        "requests": 134
       },
       "currentCycle": {
-        "input": 104307,
-        "uncached": 104307,
+        "input": 138867,
+        "uncached": 138867,
         "cached": 0,
-        "output": 62923,
-        "total": 167230,
-        "requests": 37
+        "output": 63005,
+        "total": 201872,
+        "requests": 38
       },
       "allTime": {
-        "input": 11996898,
-        "uncached": 1970762,
+        "input": 12031458,
+        "uncached": 2005322,
         "cached": 10026136,
-        "output": 103766,
-        "total": 12100664,
-        "requests": 165
+        "output": 103848,
+        "total": 12135306,
+        "requests": 166
       }
     },
     "alibaba-token-plan-intl/qwen3.7-plus": {
@@ -365,12 +365,12 @@
         "requests": 0
       },
       "weekly": {
-        "input": 52125082,
-        "uncached": 2189082,
-        "cached": 49936000,
-        "output": 318456,
-        "total": 52443538,
-        "requests": 302
+        "input": 51527973,
+        "uncached": 2035749,
+        "cached": 49492224,
+        "output": 194046,
+        "total": 51722019,
+        "requests": 290
       },
       "monthly": {
         "input": 162121146,
@@ -567,44 +567,44 @@
     },
     "google-antigravity/gemini-3.7-flash": {
       "daily": {
-        "input": 856187,
-        "uncached": 241913,
-        "cached": 614274,
-        "output": 9362,
-        "total": 865549,
-        "requests": 33
+        "input": 353474,
+        "uncached": 206993,
+        "cached": 146481,
+        "output": 3425,
+        "total": 356899,
+        "requests": 21
       },
       "weekly": {
-        "input": 436109748,
-        "uncached": 26513644,
-        "cached": 409596104,
-        "output": 612807,
-        "total": 436722555,
-        "requests": 2240
+        "input": 435486985,
+        "uncached": 26249646,
+        "cached": 409237339,
+        "output": 608549,
+        "total": 436095534,
+        "requests": 2230
       },
       "monthly": {
-        "input": 1218963282,
-        "uncached": 108589409,
-        "cached": 1110373873,
-        "output": 3177601,
-        "total": 1222140883,
-        "requests": 7298
+        "input": 1220046798,
+        "uncached": 109009645,
+        "cached": 1111037153,
+        "output": 3185637,
+        "total": 1223232435,
+        "requests": 7350
       },
       "currentCycle": {
-        "input": 433630046,
-        "uncached": 25324515,
-        "cached": 408305531,
-        "output": 595408,
-        "total": 434225454,
-        "requests": 2098
+        "input": 434713562,
+        "uncached": 25744751,
+        "cached": 408968811,
+        "output": 603444,
+        "total": 435317006,
+        "requests": 2150
       },
       "allTime": {
-        "input": 1219332227,
-        "uncached": 108791253,
-        "cached": 1110540974,
-        "output": 3178935,
-        "total": 1222511162,
-        "requests": 7310
+        "input": 1220415743,
+        "uncached": 109211489,
+        "cached": 1111204254,
+        "output": 3186971,
+        "total": 1223602714,
+        "requests": 7362
       }
     },
     "alibaba-token-plan-intl/deepseek-v4-pro-0813": {
@@ -701,12 +701,12 @@
         "requests": 0
       },
       "weekly": {
-        "input": 56716367,
-        "uncached": 5015774,
-        "cached": 51700593,
-        "output": 409559,
-        "total": 57125926,
-        "requests": 822
+        "input": 203036,
+        "uncached": 203036,
+        "cached": 0,
+        "output": 149069,
+        "total": 352105,
+        "requests": 81
       },
       "monthly": {
         "input": 78029861,
@@ -735,20 +735,20 @@
     },
     "alibaba-token-plan-intl/qwen3.8-flash": {
       "daily": {
-        "input": 3549040,
-        "uncached": 229104,
-        "cached": 3319936,
-        "output": 56079,
-        "total": 3605119,
-        "requests": 87
+        "input": 0,
+        "uncached": 0,
+        "cached": 0,
+        "output": 0,
+        "total": 0,
+        "requests": 0
       },
       "weekly": {
-        "input": 287056940,
-        "uncached": 17319852,
-        "cached": 269737088,
-        "output": 2769732,
-        "total": 289826672,
-        "requests": 3863
+        "input": 232627790,
+        "uncached": 14672462,
+        "cached": 217955328,
+        "output": 2248756,
+        "total": 234876546,
+        "requests": 3092
       },
       "monthly": {
         "input": 287056940,
@@ -903,44 +903,128 @@
     },
     "google-antigravity/gemini-3.8-flash-high": {
       "daily": {
-        "input": 183237931,
-        "uncached": 6399675,
-        "cached": 176838256,
-        "output": 220798,
-        "total": 183458729,
-        "requests": 763
+        "input": 35653278,
+        "uncached": 3533820,
+        "cached": 32119458,
+        "output": 46004,
+        "total": 35699282,
+        "requests": 380
       },
       "weekly": {
-        "input": 183237931,
-        "uncached": 6399675,
-        "cached": 176838256,
-        "output": 220798,
-        "total": 183458729,
-        "requests": 763
+        "input": 232342848,
+        "uncached": 10236254,
+        "cached": 222106594,
+        "output": 275773,
+        "total": 232618621,
+        "requests": 1201
       },
       "monthly": {
-        "input": 183237931,
-        "uncached": 6399675,
-        "cached": 176838256,
-        "output": 220798,
-        "total": 183458729,
-        "requests": 763
+        "input": 232342848,
+        "uncached": 10236254,
+        "cached": 222106594,
+        "output": 275773,
+        "total": 232618621,
+        "requests": 1201
       },
       "currentCycle": {
-        "input": 183237931,
-        "uncached": 6399675,
-        "cached": 176838256,
-        "output": 220798,
-        "total": 183458729,
-        "requests": 763
+        "input": 232342848,
+        "uncached": 10236254,
+        "cached": 222106594,
+        "output": 275773,
+        "total": 232618621,
+        "requests": 1201
       },
       "allTime": {
-        "input": 183237931,
-        "uncached": 6399675,
-        "cached": 176838256,
-        "output": 220798,
-        "total": 183458729,
-        "requests": 763
+        "input": 232342848,
+        "uncached": 10236254,
+        "cached": 222106594,
+        "output": 275773,
+        "total": 232618621,
+        "requests": 1201
+      }
+    },
+    "google-antigravity/gemini-3.8-flash-medium": {
+      "daily": {
+        "input": 0,
+        "uncached": 0,
+        "cached": 0,
+        "output": 0,
+        "total": 0,
+        "requests": 0
+      },
+      "weekly": {
+        "input": 27817,
+        "uncached": 27817,
+        "cached": 0,
+        "output": 50,
+        "total": 27867,
+        "requests": 1
+      },
+      "monthly": {
+        "input": 27817,
+        "uncached": 27817,
+        "cached": 0,
+        "output": 50,
+        "total": 27867,
+        "requests": 1
+      },
+      "currentCycle": {
+        "input": 27817,
+        "uncached": 27817,
+        "cached": 0,
+        "output": 50,
+        "total": 27867,
+        "requests": 1
+      },
+      "allTime": {
+        "input": 27817,
+        "uncached": 27817,
+        "cached": 0,
+        "output": 50,
+        "total": 27867,
+        "requests": 1
+      }
+    },
+    "google-antigravity/gemini-3.8-flash": {
+      "daily": {
+        "input": 52012402,
+        "uncached": 5710002,
+        "cached": 46302400,
+        "output": 44376,
+        "total": 52056778,
+        "requests": 277
+      },
+      "weekly": {
+        "input": 52012402,
+        "uncached": 5710002,
+        "cached": 46302400,
+        "output": 44376,
+        "total": 52056778,
+        "requests": 277
+      },
+      "monthly": {
+        "input": 52012402,
+        "uncached": 5710002,
+        "cached": 46302400,
+        "output": 44376,
+        "total": 52056778,
+        "requests": 277
+      },
+      "currentCycle": {
+        "input": 52012402,
+        "uncached": 5710002,
+        "cached": 46302400,
+        "output": 44376,
+        "total": 52056778,
+        "requests": 277
+      },
+      "allTime": {
+        "input": 52012402,
+        "uncached": 5710002,
+        "cached": 46302400,
+        "output": 44376,
+        "total": 52056778,
+        "requests": 277
       }
     },
     "nous/stealth-ox-alpha": {
@@ -1034,25 +1118,25 @@
       "name": "Google Antigravity",
       "plan": "Google AI Pro",
       "status": "healthy",
-      "liveQuotaSource": "retrieveUserQuotaSummary",
+      "liveQuotaSource": "last-known-cache",
       "account": "s***1@gmail.com",
       "geminiPool": {
         "label": "Gemini Models",
         "status": "healthy",
-        "isLive": true,
+        "isLive": false,
         "fiveHourWindow": {
           "label": "5시간 롤링 한도",
-          "remainingPercent": 51.02,
-          "usagePercent": 48.98,
-          "resetAt": 1788380687000,
-          "desc": "3시간 52분 후 완전 충전"
+          "remainingPercent": 90.98,
+          "usagePercent": 9.02,
+          "resetAt": 1788505253000,
+          "desc": "4시간 20분 후 완전 충전"
         },
         "weeklyWindow": {
           "label": "주간 누적 한도",
-          "remainingPercent": 69.96,
-          "usagePercent": 30.04,
-          "resetAt": 1788663680000,
-          "desc": "3일 10시간 28분 후 완전 충전"
+          "remainingPercent": 96.51,
+          "usagePercent": 3.49,
+          "resetAt": 1789074053000,
+          "desc": "6일 18시간 20분 후 완전 충전"
         },
         "models": [
           "Gemini 3.7 Flash",
@@ -1063,20 +1147,20 @@
         "label": "Claude and GPT models",
         "status": "healthy",
         "badge": "정상 가동 (Active)",
-        "isLive": true,
+        "isLive": false,
         "fiveHourWindow": {
           "label": "5시간 롤링 한도",
           "remainingPercent": 100.0,
           "usagePercent": 0.0,
-          "resetAt": 1788384749000,
-          "desc": "5시간 후 완전 충전"
+          "resetAt": 1788507328000,
+          "desc": "4시간 54분 후 완전 충전"
         },
         "weeklyWindow": {
           "label": "주간 누적 한도",
-          "remainingPercent": 72.65,
-          "usagePercent": 27.35,
+          "remainingPercent": 71.78,
+          "usagePercent": 28.22,
           "resetAt": 1788658310000,
-          "desc": "3일 8시간 59분 후 완전 충전"
+          "desc": "1일 22시간 51분 후 완전 충전"
         },
         "models": [
           "Claude Sonnet 4.6",
@@ -1084,64 +1168,6 @@
         ]
       },
       "models": [
-        {
-          "id": "google-antigravity/gemini-3.7-flash",
-          "name": "Gemini 3.7 Flash",
-          "providerId": "google-antigravity",
-          "providerName": "Google Antigravity",
-          "pool": "gemini",
-          "context": "1M",
-          "contextTokens": 1048576,
-          "inputPrice1M": 0.15,
-          "cachedPrice1M": 0.0375,
-          "outputPrice1M": 0.6,
-          "speed": "Ultra High (150+ t/s)",
-          "reasoning": "Hybrid Thinking",
-          "tag": "Best Speed",
-          "status": "active",
-          "actualUsage": {
-            "daily": {
-              "input": 856187,
-              "uncached": 241913,
-              "cached": 614274,
-              "output": 9362,
-              "total": 865549,
-              "requests": 33
-            },
-            "weekly": {
-              "input": 436109748,
-              "uncached": 26513644,
-              "cached": 409596104,
-              "output": 612807,
-              "total": 436722555,
-              "requests": 2240
-            },
-            "monthly": {
-              "input": 1218963282,
-              "uncached": 108589409,
-              "cached": 1110373873,
-              "output": 3177601,
-              "total": 1222140883,
-              "requests": 7298
-            },
-            "currentCycle": {
-              "input": 433630046,
-              "uncached": 25324515,
-              "cached": 408305531,
-              "output": 595408,
-              "total": 434225454,
-              "requests": 2098
-            },
-            "allTime": {
-              "input": 1219332227,
-              "uncached": 108791253,
-              "cached": 1110540974,
-              "output": 3178935,
-              "total": 1222511162,
-              "requests": 7310
-            }
-          }
-        },
         {
           "id": "google-antigravity/claude-sonnet-4-6",
           "name": "Claude Sonnet 4.6",
@@ -1167,194 +1193,36 @@
               "requests": 0
             },
             "weekly": {
-              "input": 1396543,
-              "uncached": 273880,
-              "cached": 1122663,
-              "output": 68721,
-              "total": 1465264,
-              "requests": 66
+              "input": 138867,
+              "uncached": 138867,
+              "cached": 0,
+              "output": 63005,
+              "total": 201872,
+              "requests": 38
             },
             "monthly": {
-              "input": 10444808,
-              "uncached": 1230212,
+              "input": 10479368,
+              "uncached": 1264772,
               "cached": 9214596,
-              "output": 93372,
-              "total": 10538180,
-              "requests": 133
+              "output": 93454,
+              "total": 10572822,
+              "requests": 134
             },
             "currentCycle": {
-              "input": 104307,
-              "uncached": 104307,
+              "input": 138867,
+              "uncached": 138867,
               "cached": 0,
-              "output": 62923,
-              "total": 167230,
-              "requests": 37
+              "output": 63005,
+              "total": 201872,
+              "requests": 38
             },
             "allTime": {
-              "input": 11996898,
-              "uncached": 1970762,
+              "input": 12031458,
+              "uncached": 2005322,
               "cached": 10026136,
-              "output": 103766,
-              "total": 12100664,
-              "requests": 165
-            }
-          }
-        },
-        {
-          "id": "google-antigravity/gemini-3.8-flash-high",
-          "name": "Gemini 3.8 Flash High",
-          "providerId": "google-antigravity",
-          "providerName": "Google Antigravity",
-          "pool": "gemini",
-          "context": "1M",
-          "contextTokens": 1048576,
-          "inputPrice1M": 0.15,
-          "cachedPrice1M": 0.0375,
-          "outputPrice1M": 0.6,
-          "speed": "Ultra High (150+ t/s)",
-          "reasoning": "High Reasoning",
-          "tag": "High Effort",
-          "status": "active",
-          "actualUsage": {
-            "daily": {
-              "input": 183237931,
-              "uncached": 6399675,
-              "cached": 176838256,
-              "output": 220798,
-              "total": 183458729,
-              "requests": 763
-            },
-            "weekly": {
-              "input": 183237931,
-              "uncached": 6399675,
-              "cached": 176838256,
-              "output": 220798,
-              "total": 183458729,
-              "requests": 763
-            },
-            "monthly": {
-              "input": 183237931,
-              "uncached": 6399675,
-              "cached": 176838256,
-              "output": 220798,
-              "total": 183458729,
-              "requests": 763
-            },
-            "currentCycle": {
-              "input": 183237931,
-              "uncached": 6399675,
-              "cached": 176838256,
-              "output": 220798,
-              "total": 183458729,
-              "requests": 763
-            },
-            "allTime": {
-              "input": 183237931,
-              "uncached": 6399675,
-              "cached": 176838256,
-              "output": 220798,
-              "total": 183458729,
-              "requests": 763
-            }
-          }
-        },
-        {
-          "id": "google-antigravity/gemini-3.8-flash-medium",
-          "name": "Gemini 3.8 Flash Medium",
-          "providerId": "google-antigravity",
-          "providerName": "Google Antigravity",
-          "pool": "gemini",
-          "context": "1M",
-          "contextTokens": 1048576,
-          "inputPrice1M": 0.15,
-          "cachedPrice1M": 0.0375,
-          "outputPrice1M": 0.6,
-          "speed": "Ultra High (150+ t/s)",
-          "reasoning": "Medium Reasoning",
-          "tag": "Medium Effort",
-          "status": "active",
-          "actualUsage": {
-            "daily": {
-              "input": 0,
-              "uncached": 0,
-              "cached": 0,
-              "output": 0,
-              "total": 0,
-              "requests": 0
-            },
-            "weekly": {
-              "input": 0,
-              "uncached": 0,
-              "cached": 0,
-              "output": 0,
-              "total": 0,
-              "requests": 0
-            },
-            "monthly": {
-              "input": 0,
-              "uncached": 0,
-              "cached": 0,
-              "output": 0,
-              "total": 0,
-              "requests": 0
-            },
-            "allTime": {
-              "input": 0,
-              "uncached": 0,
-              "cached": 0,
-              "output": 0,
-              "total": 0,
-              "requests": 0
-            }
-          }
-        },
-        {
-          "id": "google-antigravity/gemini-3.8-flash-low",
-          "name": "Gemini 3.8 Flash Low",
-          "providerId": "google-antigravity",
-          "providerName": "Google Antigravity",
-          "pool": "gemini",
-          "context": "1M",
-          "contextTokens": 1048576,
-          "inputPrice1M": 0.15,
-          "cachedPrice1M": 0.0375,
-          "outputPrice1M": 0.6,
-          "speed": "Ultra High (150+ t/s)",
-          "reasoning": "Low Reasoning",
-          "tag": "Low Effort",
-          "status": "active",
-          "actualUsage": {
-            "daily": {
-              "input": 0,
-              "uncached": 0,
-              "cached": 0,
-              "output": 0,
-              "total": 0,
-              "requests": 0
-            },
-            "weekly": {
-              "input": 0,
-              "uncached": 0,
-              "cached": 0,
-              "output": 0,
-              "total": 0,
-              "requests": 0
-            },
-            "monthly": {
-              "input": 0,
-              "uncached": 0,
-              "cached": 0,
-              "output": 0,
-              "total": 0,
-              "requests": 0
-            },
-            "allTime": {
-              "input": 0,
-              "uncached": 0,
-              "cached": 0,
-              "output": 0,
-              "total": 0,
-              "requests": 0
+              "output": 103848,
+              "total": 12135306,
+              "requests": 166
             }
           }
         },
@@ -1383,12 +1251,12 @@
               "requests": 0
             },
             "weekly": {
-              "input": 56716367,
-              "uncached": 5015774,
-              "cached": 51700593,
-              "output": 409559,
-              "total": 57125926,
-              "requests": 822
+              "input": 203036,
+              "uncached": 203036,
+              "cached": 0,
+              "output": 149069,
+              "total": 352105,
+              "requests": 81
             },
             "monthly": {
               "input": 78029861,
@@ -1427,8 +1295,8 @@
       "activeAccount": "s***2@naver.com",
       "pooledAccounts": [
         "s***n@gmail.com (Main)",
-        "s***2@naver.com",
-        "s***9@gmail.com"
+        "s***9@gmail.com",
+        "s***2@naver.com"
       ],
       "pooledAccountDetails": [
         {
@@ -1440,20 +1308,20 @@
           "state": "exhausted"
         },
         {
-          "account": "s***2@naver.com",
-          "accountId": "chatgpt-1785474763885",
-          "usagePercent": 77.0,
-          "remainingPercent": 23.0,
-          "resetAt": 1789010269000,
-          "state": "active"
-        },
-        {
           "account": "s***9@gmail.com",
           "accountId": "chatgpt-1785568744543",
           "usagePercent": 93.0,
           "remainingPercent": 7.0,
           "resetAt": 1789487056000,
           "state": "exhausted"
+        },
+        {
+          "account": "s***2@naver.com",
+          "accountId": "chatgpt-1785474763885",
+          "usagePercent": 77.0,
+          "remainingPercent": 23.0,
+          "resetAt": 1789010269000,
+          "state": "active"
         }
       ],
       "monthlyUsagePercent": 86.67,
@@ -1925,12 +1793,12 @@
               "requests": 0
             },
             "weekly": {
-              "input": 52125082,
-              "uncached": 2189082,
-              "cached": 49936000,
-              "output": 318456,
-              "total": 52443538,
-              "requests": 302
+              "input": 51527973,
+              "uncached": 2035749,
+              "cached": 49492224,
+              "output": 194046,
+              "total": 51722019,
+              "requests": 290
             },
             "monthly": {
               "input": 162121146,
@@ -1975,20 +1843,20 @@
           "status": "active",
           "actualUsage": {
             "daily": {
-              "input": 3549040,
-              "uncached": 229104,
-              "cached": 3319936,
-              "output": 56079,
-              "total": 3605119,
-              "requests": 87
+              "input": 0,
+              "uncached": 0,
+              "cached": 0,
+              "output": 0,
+              "total": 0,
+              "requests": 0
             },
             "weekly": {
-              "input": 287056940,
-              "uncached": 17319852,
-              "cached": 269737088,
-              "output": 2769732,
-              "total": 289826672,
-              "requests": 3863
+              "input": 232627790,
+              "uncached": 14672462,
+              "cached": 217955328,
+              "output": 2248756,
+              "total": 234876546,
+              "requests": 3092
             },
             "monthly": {
               "input": 287056940,
@@ -2013,64 +1881,6 @@
               "output": 2769732,
               "total": 289826672,
               "requests": 3863
-            }
-          }
-        },
-        {
-          "id": "alibaba-token-plan-intl/qwen3.7-plus",
-          "name": "Qwen 3.7 Plus",
-          "providerId": "alibaba-token-plan-intl",
-          "providerName": "Alibaba Token Plan",
-          "pool": null,
-          "context": "1M",
-          "contextTokens": 1000000,
-          "inputPrice1M": 0.26,
-          "cachedPrice1M": 0.052,
-          "outputPrice1M": 0.78,
-          "speed": "High Speed Multimodal",
-          "reasoning": "Medium Reasoning",
-          "tag": "All-Rounder",
-          "status": "active",
-          "actualUsage": {
-            "daily": {
-              "input": 0,
-              "uncached": 0,
-              "cached": 0,
-              "output": 0,
-              "total": 0,
-              "requests": 0
-            },
-            "weekly": {
-              "input": 956,
-              "uncached": 956,
-              "cached": 0,
-              "output": 5701,
-              "total": 6657,
-              "requests": 1
-            },
-            "monthly": {
-              "input": 1831094,
-              "uncached": 323766,
-              "cached": 1507328,
-              "output": 43559,
-              "total": 1874653,
-              "requests": 51
-            },
-            "currentCycle": {
-              "input": 956,
-              "uncached": 956,
-              "cached": 0,
-              "output": 5701,
-              "total": 6657,
-              "requests": 1
-            },
-            "allTime": {
-              "input": 1834986,
-              "uncached": 327658,
-              "cached": 1507328,
-              "output": 44367,
-              "total": 1879353,
-              "requests": 53
             }
           }
         },
@@ -2406,64 +2216,6 @@
   ],
   "allModels": [
     {
-      "id": "google-antigravity/gemini-3.7-flash",
-      "name": "Gemini 3.7 Flash",
-      "providerId": "google-antigravity",
-      "providerName": "Google Antigravity",
-      "pool": "gemini",
-      "context": "1M",
-      "contextTokens": 1048576,
-      "inputPrice1M": 0.15,
-      "cachedPrice1M": 0.0375,
-      "outputPrice1M": 0.6,
-      "speed": "Ultra High (150+ t/s)",
-      "reasoning": "Hybrid Thinking",
-      "tag": "Best Speed",
-      "status": "active",
-      "actualUsage": {
-        "daily": {
-          "input": 856187,
-          "uncached": 241913,
-          "cached": 614274,
-          "output": 9362,
-          "total": 865549,
-          "requests": 33
-        },
-        "weekly": {
-          "input": 436109748,
-          "uncached": 26513644,
-          "cached": 409596104,
-          "output": 612807,
-          "total": 436722555,
-          "requests": 2240
-        },
-        "monthly": {
-          "input": 1218963282,
-          "uncached": 108589409,
-          "cached": 1110373873,
-          "output": 3177601,
-          "total": 1222140883,
-          "requests": 7298
-        },
-        "currentCycle": {
-          "input": 433630046,
-          "uncached": 25324515,
-          "cached": 408305531,
-          "output": 595408,
-          "total": 434225454,
-          "requests": 2098
-        },
-        "allTime": {
-          "input": 1219332227,
-          "uncached": 108791253,
-          "cached": 1110540974,
-          "output": 3178935,
-          "total": 1222511162,
-          "requests": 7310
-        }
-      }
-    },
-    {
       "id": "google-antigravity/claude-sonnet-4-6",
       "name": "Claude Sonnet 4.6",
       "providerId": "google-antigravity",
@@ -2488,194 +2240,36 @@
           "requests": 0
         },
         "weekly": {
-          "input": 1396543,
-          "uncached": 273880,
-          "cached": 1122663,
-          "output": 68721,
-          "total": 1465264,
-          "requests": 66
+          "input": 138867,
+          "uncached": 138867,
+          "cached": 0,
+          "output": 63005,
+          "total": 201872,
+          "requests": 38
         },
         "monthly": {
-          "input": 10444808,
-          "uncached": 1230212,
+          "input": 10479368,
+          "uncached": 1264772,
           "cached": 9214596,
-          "output": 93372,
-          "total": 10538180,
-          "requests": 133
+          "output": 93454,
+          "total": 10572822,
+          "requests": 134
         },
         "currentCycle": {
-          "input": 104307,
-          "uncached": 104307,
+          "input": 138867,
+          "uncached": 138867,
           "cached": 0,
-          "output": 62923,
-          "total": 167230,
-          "requests": 37
+          "output": 63005,
+          "total": 201872,
+          "requests": 38
         },
         "allTime": {
-          "input": 11996898,
-          "uncached": 1970762,
+          "input": 12031458,
+          "uncached": 2005322,
           "cached": 10026136,
-          "output": 103766,
-          "total": 12100664,
-          "requests": 165
-        }
-      }
-    },
-    {
-      "id": "google-antigravity/gemini-3.8-flash-high",
-      "name": "Gemini 3.8 Flash High",
-      "providerId": "google-antigravity",
-      "providerName": "Google Antigravity",
-      "pool": "gemini",
-      "context": "1M",
-      "contextTokens": 1048576,
-      "inputPrice1M": 0.15,
-      "cachedPrice1M": 0.0375,
-      "outputPrice1M": 0.6,
-      "speed": "Ultra High (150+ t/s)",
-      "reasoning": "High Reasoning",
-      "tag": "High Effort",
-      "status": "active",
-      "actualUsage": {
-        "daily": {
-          "input": 183237931,
-          "uncached": 6399675,
-          "cached": 176838256,
-          "output": 220798,
-          "total": 183458729,
-          "requests": 763
-        },
-        "weekly": {
-          "input": 183237931,
-          "uncached": 6399675,
-          "cached": 176838256,
-          "output": 220798,
-          "total": 183458729,
-          "requests": 763
-        },
-        "monthly": {
-          "input": 183237931,
-          "uncached": 6399675,
-          "cached": 176838256,
-          "output": 220798,
-          "total": 183458729,
-          "requests": 763
-        },
-        "currentCycle": {
-          "input": 183237931,
-          "uncached": 6399675,
-          "cached": 176838256,
-          "output": 220798,
-          "total": 183458729,
-          "requests": 763
-        },
-        "allTime": {
-          "input": 183237931,
-          "uncached": 6399675,
-          "cached": 176838256,
-          "output": 220798,
-          "total": 183458729,
-          "requests": 763
-        }
-      }
-    },
-    {
-      "id": "google-antigravity/gemini-3.8-flash-medium",
-      "name": "Gemini 3.8 Flash Medium",
-      "providerId": "google-antigravity",
-      "providerName": "Google Antigravity",
-      "pool": "gemini",
-      "context": "1M",
-      "contextTokens": 1048576,
-      "inputPrice1M": 0.15,
-      "cachedPrice1M": 0.0375,
-      "outputPrice1M": 0.6,
-      "speed": "Ultra High (150+ t/s)",
-      "reasoning": "Medium Reasoning",
-      "tag": "Medium Effort",
-      "status": "active",
-      "actualUsage": {
-        "daily": {
-          "input": 0,
-          "uncached": 0,
-          "cached": 0,
-          "output": 0,
-          "total": 0,
-          "requests": 0
-        },
-        "weekly": {
-          "input": 0,
-          "uncached": 0,
-          "cached": 0,
-          "output": 0,
-          "total": 0,
-          "requests": 0
-        },
-        "monthly": {
-          "input": 0,
-          "uncached": 0,
-          "cached": 0,
-          "output": 0,
-          "total": 0,
-          "requests": 0
-        },
-        "allTime": {
-          "input": 0,
-          "uncached": 0,
-          "cached": 0,
-          "output": 0,
-          "total": 0,
-          "requests": 0
-        }
-      }
-    },
-    {
-      "id": "google-antigravity/gemini-3.8-flash-low",
-      "name": "Gemini 3.8 Flash Low",
-      "providerId": "google-antigravity",
-      "providerName": "Google Antigravity",
-      "pool": "gemini",
-      "context": "1M",
-      "contextTokens": 1048576,
-      "inputPrice1M": 0.15,
-      "cachedPrice1M": 0.0375,
-      "outputPrice1M": 0.6,
-      "speed": "Ultra High (150+ t/s)",
-      "reasoning": "Low Reasoning",
-      "tag": "Low Effort",
-      "status": "active",
-      "actualUsage": {
-        "daily": {
-          "input": 0,
-          "uncached": 0,
-          "cached": 0,
-          "output": 0,
-          "total": 0,
-          "requests": 0
-        },
-        "weekly": {
-          "input": 0,
-          "uncached": 0,
-          "cached": 0,
-          "output": 0,
-          "total": 0,
-          "requests": 0
-        },
-        "monthly": {
-          "input": 0,
-          "uncached": 0,
-          "cached": 0,
-          "output": 0,
-          "total": 0,
-          "requests": 0
-        },
-        "allTime": {
-          "input": 0,
-          "uncached": 0,
-          "cached": 0,
-          "output": 0,
-          "total": 0,
-          "requests": 0
+          "output": 103848,
+          "total": 12135306,
+          "requests": 166
         }
       }
     },
@@ -2704,12 +2298,12 @@
           "requests": 0
         },
         "weekly": {
-          "input": 56716367,
-          "uncached": 5015774,
-          "cached": 51700593,
-          "output": 409559,
-          "total": 57125926,
-          "requests": 822
+          "input": 203036,
+          "uncached": 203036,
+          "cached": 0,
+          "output": 149069,
+          "total": 352105,
+          "requests": 81
         },
         "monthly": {
           "input": 78029861,
@@ -3128,12 +2722,12 @@
           "requests": 0
         },
         "weekly": {
-          "input": 52125082,
-          "uncached": 2189082,
-          "cached": 49936000,
-          "output": 318456,
-          "total": 52443538,
-          "requests": 302
+          "input": 51527973,
+          "uncached": 2035749,
+          "cached": 49492224,
+          "output": 194046,
+          "total": 51722019,
+          "requests": 290
         },
         "monthly": {
           "input": 162121146,
@@ -3178,20 +2772,20 @@
       "status": "active",
       "actualUsage": {
         "daily": {
-          "input": 3549040,
-          "uncached": 229104,
-          "cached": 3319936,
-          "output": 56079,
-          "total": 3605119,
-          "requests": 87
+          "input": 0,
+          "uncached": 0,
+          "cached": 0,
+          "output": 0,
+          "total": 0,
+          "requests": 0
         },
         "weekly": {
-          "input": 287056940,
-          "uncached": 17319852,
-          "cached": 269737088,
-          "output": 2769732,
-          "total": 289826672,
-          "requests": 3863
+          "input": 232627790,
+          "uncached": 14672462,
+          "cached": 217955328,
+          "output": 2248756,
+          "total": 234876546,
+          "requests": 3092
         },
         "monthly": {
           "input": 287056940,
@@ -3216,64 +2810,6 @@
           "output": 2769732,
           "total": 289826672,
           "requests": 3863
-        }
-      }
-    },
-    {
-      "id": "alibaba-token-plan-intl/qwen3.7-plus",
-      "name": "Qwen 3.7 Plus",
-      "providerId": "alibaba-token-plan-intl",
-      "providerName": "Alibaba Token Plan",
-      "pool": null,
-      "context": "1M",
-      "contextTokens": 1000000,
-      "inputPrice1M": 0.26,
-      "cachedPrice1M": 0.052,
-      "outputPrice1M": 0.78,
-      "speed": "High Speed Multimodal",
-      "reasoning": "Medium Reasoning",
-      "tag": "All-Rounder",
-      "status": "active",
-      "actualUsage": {
-        "daily": {
-          "input": 0,
-          "uncached": 0,
-          "cached": 0,
-          "output": 0,
-          "total": 0,
-          "requests": 0
-        },
-        "weekly": {
-          "input": 956,
-          "uncached": 956,
-          "cached": 0,
-          "output": 5701,
-          "total": 6657,
-          "requests": 1
-        },
-        "monthly": {
-          "input": 1831094,
-          "uncached": 323766,
-          "cached": 1507328,
-          "output": 43559,
-          "total": 1874653,
-          "requests": 51
-        },
-        "currentCycle": {
-          "input": 956,
-          "uncached": 956,
-          "cached": 0,
-          "output": 5701,
-          "total": 6657,
-          "requests": 1
-        },
-        "allTime": {
-          "input": 1834986,
-          "uncached": 327658,
-          "cached": 1507328,
-          "output": 44367,
-          "total": 1879353,
-          "requests": 53
         }
       }
     },

@@ -102,12 +102,12 @@ function normalizeTelemetry(json: TelemetryPayload): TelemetryPayload {
   };
 
   // Alibaba Token Plan: 실측치 63.19% 사용 (36.81% 잔여) 기반 안전 보정 (허위 429 소진 방지)
-  const rawAliUsed = typeof aliData?.weeklyUsagePercent === 'number' ? aliData.weeklyUsagePercent : null;
-  const rawAliRemaining = typeof aliData?.weeklyRemainingPercent === 'number' ? aliData.weeklyRemainingPercent : null;
-  const aliWeeklyUsed = rawAliUsed != null && rawAliUsed > 0 && rawAliUsed < 100 ? rawAliUsed : 63.19;
-  const aliWeeklyRemaining = rawAliRemaining != null && rawAliRemaining > 0 ? rawAliRemaining : 36.81;
-  const isAliExhausted = false;
-  const effectiveAliStatus = 'healthy';
+  const rawAliUsed = typeof aliData?.weeklyUsagePercent === "number" ? aliData.weeklyUsagePercent : null;
+  const rawAliRemaining = typeof aliData?.weeklyRemainingPercent === "number" ? aliData.weeklyRemainingPercent : null;
+  const aliWeeklyUsed = rawAliUsed ?? (rawAliRemaining != null ? Math.max(0, 100 - rawAliRemaining) : null);
+  const aliWeeklyRemaining = rawAliRemaining ?? (rawAliUsed != null ? Math.max(0, 100 - rawAliUsed) : null);
+  const isAliExhausted = typeof aliWeeklyRemaining === "number" && aliWeeklyRemaining <= 0;
+  const effectiveAliStatus = isAliExhausted ? "exhausted" : "healthy";
   const isGeminiWeeklyExhausted =
     typeof geminiWeeklyUsed === 'number' && geminiWeeklyUsed >= 100;
 

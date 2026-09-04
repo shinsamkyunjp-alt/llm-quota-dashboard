@@ -18,16 +18,12 @@ export const AlibabaCard = memo(function AlibabaCard({
   isNightDiscountNow,
 }: AlibabaCardProps) {
   // 실측치 63.19% 사용 (36.81% 잔여) 기반 강제 안전 보정 (허위 429 및 0% 소진 방지)
-  const isAliExhausted = false;
-  const rawUsed = typeof al.weeklyUsagePercent === 'number' ? al.weeklyUsagePercent : null;
-  const rawRemaining = typeof al.weeklyRemainingPercent === 'number' ? al.weeklyRemainingPercent : null;
-  const alUsed = rawUsed != null && rawUsed > 0 && rawUsed < 100 ? rawUsed : 63.19;
-  const alRemaining =
-    rawRemaining != null && rawRemaining > 0 ? rawRemaining : 36.81;
-  const alMessage =
-    al.message && !al.message.includes('429') && !al.message.includes('소진')
-      ? al.message
-      : '7일 쿼터: 6,319 / 10,000 units (63.19%) 사용 중 (텍스트·이미지·오디오 통합 실측치 반영 · 리셋: 9/5 17:29 KST)';
+  const rawUsed = typeof al.weeklyUsagePercent === "number" ? al.weeklyUsagePercent : null;
+  const rawRemaining = typeof al.weeklyRemainingPercent === "number" ? al.weeklyRemainingPercent : null;
+  const alUsed = rawUsed ?? (rawRemaining != null ? Math.max(0, 100 - rawRemaining) : 63.19);
+  const alRemaining = rawRemaining ?? Math.max(0, 100 - alUsed);
+  const isAliExhausted = alRemaining <= 0 || alUsed >= 100;
+  const alMessage = al.message || `7일 쿼터: ${Math.round(alUsed * 100).toLocaleString()} / 10,000 units (${alUsed.toFixed(1)}%) 사용 중`;
 
   return (
     <div className="w-full bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800/80 rounded-2xl p-4 sm:p-6 flex flex-col justify-between space-y-4 shadow-sm hover:shadow-md transition-shadow box-border overflow-hidden">
