@@ -8,7 +8,7 @@ interface NousCardProps {
   nous: ProviderInfo;
 }
 
-export const NousCard = memo(function NousCard({ nous: _nous }: NousCardProps) {
+export const NousCard = memo(function NousCard({ nous }: NousCardProps) {
   return (
     <div className="w-full bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800/80 rounded-2xl p-4 sm:p-6 flex flex-col justify-between space-y-4 shadow-sm hover:shadow-md transition-shadow box-border overflow-hidden">
       <div className="space-y-4">
@@ -69,18 +69,28 @@ export const NousCard = memo(function NousCard({ nous: _nous }: NousCardProps) {
       </div>
       <div className="space-y-1.5 pt-2.5 border-t border-zinc-100 dark:border-zinc-800">
         <div className="text-[10px] font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">
-          Active Models
+          Active Models ({nous.models?.length ?? 0})
         </div>
         <div className="flex flex-wrap gap-1">
-          <span className="text-[11px] px-2 py-0.5 rounded-lg bg-violet-50 dark:bg-violet-900/40 text-violet-700 dark:text-violet-300 font-medium">
-            Stealth Ox Alpha (1M)
-          </span>
-          <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium">
-            Tencent Hy3 (256k)
-          </span>
-          <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium">
-            StepFun 3.7 Flash (256k)
-          </span>
+          {nous.models && nous.models.length > 0 ? (
+            nous.models.map((m) => (
+              <span
+                key={m.id}
+                className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium"
+              >
+                {m.name}
+              </span>
+            ))
+          ) : (
+            <>
+              <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium">
+                Tencent Hy3
+              </span>
+              <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium">
+                StepFun 3.7 Flash
+              </span>
+            </>
+          )}
         </div>
       </div>
     </div>

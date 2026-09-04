@@ -151,21 +151,34 @@ export const AlibabaCard = memo(function AlibabaCard({
 
       <div className="space-y-1.5 pt-2.5 border-t border-zinc-100 dark:border-zinc-800">
         <div className="text-[10px] font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">
-          주요 모델 (1M Context)
+          주요 모델 ({al.models?.length ?? 0})
         </div>
         <div className="flex flex-wrap gap-1">
-          <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium">
-            Qwen 3.8 Max (1M)
-          </span>
-          <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium">
-            Qwen 3.7 Plus (1M)
-          </span>
-          <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium">
-            DeepSeek V4 Pro (1M)
-          </span>
-          <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium">
-            GLM 5.2 (128k)
-          </span>
+          {al.models && al.models.length > 0 ? (
+            al.models.map((m) => (
+              <span
+                key={m.id}
+                className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium"
+              >
+                {m.name}
+              </span>
+            ))
+          ) : (
+            <>
+              <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium">
+                Qwen 3.8 Max
+              </span>
+              <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium">
+                Qwen 3.8 Flash
+              </span>
+              <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium">
+                DeepSeek V4 Pro
+              </span>
+              <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium">
+                DeepSeek V4 Flash
+              </span>
+            </>
+          )}
         </div>
       </div>
     </div>

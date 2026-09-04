@@ -16,10 +16,16 @@ import urllib.parse
 import math
 import base64
 
+import sys
+scripts_dir = os.path.dirname(os.path.abspath(__file__))
+if scripts_dir not in sys.path:
+    sys.path.insert(0, scripts_dir)
+
 try:
     from update_pricing_catalog import update_pricing_catalog, discover_opencodex_catalog
-    DYNAMIC_SPECS = update_pricing_catalog(force=False)
-except Exception:
+    DYNAMIC_SPECS = update_pricing_catalog(force=True)
+except Exception as e:
+    print(f"Warning: update_pricing_catalog note: {e}")
     DYNAMIC_SPECS = None
 
 GIST_ID = os.environ.get("GIST_ID", "67c16a5d365eddf3da98129350171338")
@@ -967,7 +973,7 @@ def collect_telemetry():
                     "resetAt": gemini_weekly_reset,
                     "desc": _pool_desc(gemini_weekly_remaining, gemini_weekly_reset, now_ms)
                 },
-                "models": ["Gemini 3.7 Flash", "Gemini 3.1 Pro"]
+                "models": [m["name"] for m in model_list if m["providerId"] == "google-antigravity" and m.get("pool") == "gemini"]
             },
             "claudeGptPool": {
                 "label": "Claude and GPT models",
@@ -988,7 +994,7 @@ def collect_telemetry():
                     "resetAt": claude_gpt_weekly_reset,
                     "desc": _pool_desc(claude_gpt_weekly_remaining, claude_gpt_weekly_reset, now_ms)
                 },
-                "models": ["Claude Sonnet 4.6", "Claude Opus 4.6 Thinking"]
+                "models": [m["name"] for m in model_list if m["providerId"] == "google-antigravity" and m.get("pool") == "claude-gpt"]
             },
             "models": [m for m in model_list if m["providerId"] == "google-antigravity"]
         },
@@ -1061,6 +1067,28 @@ def collect_telemetry():
         }
     ]
 
+    # Dynamically append any other configured providers in opencodex
+    try:
+        cfg_f = os.path.expanduser("~/.opencodex/config.json")
+        if os.path.exists(cfg_f):
+            with open(cfg_f, "r", encoding="utf-8") as f:
+                oc_cfg = json.load(f)
+            known_ids = {p["provider"] for p in providers}
+            for pid, pval in oc_cfg.get("providers", {}).items():
+                if pid not in known_ids:
+                    p_models = [m for m in model_list if m["providerId"] == pid]
+                    providers.append({
+                        "provider": pid,
+                        "name": pid.replace("-", " ").title(),
+                        "plan": pval.get("adapter", "OpenCodex Registered Provider"),
+                        "status": "healthy",
+                        "account": pval.get("alias") or pid,
+                        "endpoint": pval.get("baseUrl") or "",
+                        "models": p_models
+                    })
+    except Exception as e:
+        print(f"Dynamic provider extension note: {e}")
+
     payload = {
         "updatedAt": now_ms,
         "environment": "Live Antigravity & ocx Telemetry",
@@ -1072,7 +1100,7 @@ def collect_telemetry():
             "lastDailyUpdate": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S KST")
         },
         "summary": {
-            "totalProviders": 4,
+            "totalProviders": len(providers),
             "healthyProviders": sum(1 for p in providers if p["status"] == "healthy"),
             "partiallyExhaustedProviders": sum(1 for p in providers if p["status"] == "partial"),
             "exhaustedProviders": sum(1 for p in providers if p["status"] == "exhausted"),

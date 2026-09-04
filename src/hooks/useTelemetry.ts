@@ -153,8 +153,13 @@ function normalizeTelemetry(json: TelemetryPayload): TelemetryPayload {
       status: isGeminiWeeklyExhausted ? 'exhausted' : 'healthy',
       geminiPool,
       claudeGptPool,
+      models: dynamicModels.filter((m) => m.providerId === 'google-antigravity'),
     },
-    openai: { ...DEFAULT_TELEMETRY.openai, ...oaData },
+    openai: {
+      ...DEFAULT_TELEMETRY.openai,
+      ...oaData,
+      models: dynamicModels.filter((m) => m.providerId === 'openai'),
+    },
     alibaba: {
       ...DEFAULT_TELEMETRY.alibaba,
       ...aliData,
@@ -166,8 +171,13 @@ function normalizeTelemetry(json: TelemetryPayload): TelemetryPayload {
         aliData.message && !aliData.message.includes('429') && !aliData.message.includes('소진')
           ? aliData.message
           : '7일 쿼터: 6,319 / 10,000 units (63.19%) 사용 중 (텍스트·이미지·오디오 통합 실측치 반영 · 리셋: 9/5 17:29 KST)',
+      models: dynamicModels.filter((m) => m.providerId === 'alibaba-token-plan-intl'),
     },
-    nous: { ...DEFAULT_TELEMETRY.nous, ...nousData },
+    nous: {
+      ...DEFAULT_TELEMETRY.nous,
+      ...nousData,
+      models: dynamicModels.filter((m) => m.providerId === 'nous'),
+    },
     allModels: dynamicModels,
     environment: json.environment,
   };

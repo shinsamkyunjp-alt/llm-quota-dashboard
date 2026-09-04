@@ -1,49 +1,32 @@
 import type { ModelInfo } from '@/types/telemetry';
 
 // ─────────────────────────────────────────────────────────────────────────────
-// DEFAULT_MODELS — 모델 메타데이터 단일 출처 (Single Source of Truth)
-// page.tsx, LiveUsageTab.tsx 모두 여기서 임포트해 사용한다.
-// pricing 변경 시 이 파일만 수정하면 된다.
+// DEFAULT_MODELS — 실제 활성화된 12개 모델 메타데이터 단일 출처 (Single Source of Truth)
+// OpenCodex runtime (opencodex-catalog.json / models_cache.json)과 100% 일치
 // ─────────────────────────────────────────────────────────────────────────────
 
 export const DEFAULT_MODELS: ModelInfo[] = [
-  // Google Antigravity - Gemini Pool
-  { id: 'google-antigravity/gemini-3.7-flash', name: 'Gemini 3.7 Flash', providerId: 'google-antigravity', providerName: 'Google Antigravity', pool: 'gemini', speed: 'Ultra High (150+ t/s)', context: '1M', contextTokens: 1048576, inputPrice1M: 0.15, cachedPrice1M: 0.0375, outputPrice1M: 0.60, reasoning: 'Hybrid Thinking', tag: 'Best Speed', status: 'active' },
-  { id: 'google-antigravity/gemini-3.8-flash-high', name: 'Gemini 3.8 Flash High', providerId: 'google-antigravity', providerName: 'Google Antigravity', pool: 'gemini', speed: 'Ultra High (150+ t/s)', context: '1M', contextTokens: 1048576, inputPrice1M: 0.15, cachedPrice1M: 0.0375, outputPrice1M: 0.60, reasoning: 'High Reasoning', tag: 'High Effort', status: 'active' },
-  { id: 'google-antigravity/gemini-3.8-flash-medium', name: 'Gemini 3.8 Flash Medium', providerId: 'google-antigravity', providerName: 'Google Antigravity', pool: 'gemini', speed: 'Ultra High (150+ t/s)', context: '1M', contextTokens: 1048576, inputPrice1M: 0.15, cachedPrice1M: 0.0375, outputPrice1M: 0.60, reasoning: 'Medium Reasoning', tag: 'Medium Effort', status: 'active' },
-  { id: 'google-antigravity/gemini-3.8-flash-low', name: 'Gemini 3.8 Flash Low', providerId: 'google-antigravity', providerName: 'Google Antigravity', pool: 'gemini', speed: 'Ultra High (150+ t/s)', context: '1M', contextTokens: 1048576, inputPrice1M: 0.15, cachedPrice1M: 0.0375, outputPrice1M: 0.60, reasoning: 'Low Reasoning', tag: 'Low Effort', status: 'active' },
-  { id: 'google-antigravity/gemini-3.1-pro', name: 'Gemini 3.1 Pro', providerId: 'google-antigravity', providerName: 'Google Antigravity', pool: 'gemini', speed: 'Fast (80+ t/s)', context: '1M', contextTokens: 1048576, inputPrice1M: 1.25, cachedPrice1M: 0.3125, outputPrice1M: 5.00, reasoning: 'Deep Reasoning', tag: '1M Deep Context', status: 'active' },
+  // Google Antigravity (2 Active Models)
+  { id: 'google-antigravity/gemini-3.8-flash', name: 'Gemini 3.8 Flash', providerId: 'google-antigravity', providerName: 'Google Antigravity', pool: 'gemini', speed: 'Ultra High (180+ t/s)', context: '1M', contextTokens: 1048576, inputPrice1M: 0.15, cachedPrice1M: 0.0375, outputPrice1M: 0.60, reasoning: 'Hybrid Thinking', tag: 'Best Speed & Quality', status: 'active' },
+  { id: 'google-antigravity/claude-sonnet-4-6', name: 'Claude Sonnet 4.6', providerId: 'google-antigravity', providerName: 'Google Antigravity', pool: 'claude-gpt', speed: 'Balanced (60+ t/s)', context: '250k', contextTokens: 250000, inputPrice1M: 3.00, cachedPrice1M: 0.30, outputPrice1M: 15.00, reasoning: 'High Nuance Coding', tag: 'Top Coder', status: 'active' },
 
-  // Google Antigravity - Claude and GPT models Pool
-  { id: 'google-antigravity/claude-sonnet-4-6', name: 'Claude Sonnet 4.6', providerId: 'google-antigravity', providerName: 'Google Antigravity', pool: 'claude-gpt', speed: 'Balanced (60+ t/s)', context: '200k', contextTokens: 200000, inputPrice1M: 3.00, cachedPrice1M: 0.30, outputPrice1M: 15.00, reasoning: 'High Nuance Coding', tag: 'Top Coder', status: 'active' },
-  { id: 'google-antigravity/claude-opus-4-6-thinking', name: 'Claude Opus 4.6 Thinking', providerId: 'google-antigravity', providerName: 'Google Antigravity', pool: 'claude-gpt', speed: 'Deep Thinking (35+ t/s)', context: '200k', contextTokens: 200000, inputPrice1M: 15.00, cachedPrice1M: 1.50, outputPrice1M: 75.00, reasoning: 'Max Reasoning', tag: 'Ultra Brain', status: 'active' },
-
-  // OpenAI Codex (Sol $5/$30, Terra $2/$12, Luna $0.20/$1.20)
-  { id: 'gpt-5.6-sol', name: 'GPT-5.6 Sol', providerId: 'openai', providerName: 'OpenAI Codex', speed: 'Flagship Intelligence (750 t/s on Cerebras)', context: '1M', contextTokens: 1048576, inputPrice1M: 5.00, cachedPrice1M: 1.25, outputPrice1M: 30.00, reasoning: 'Ultra Reasoning', tag: 'Flagship AI', status: 'active' },
+  // OpenAI Codex (3 Active Models)
+  { id: 'gpt-6-astra', name: 'GPT-6 Astra', providerId: 'openai', providerName: 'OpenAI Codex', speed: 'Next-Gen Flagship Intelligence', context: '1M', contextTokens: 1048576, inputPrice1M: 5.00, cachedPrice1M: 1.25, outputPrice1M: 30.00, reasoning: 'Ultra Reasoning (low-ultra)', tag: 'Flagship AI', status: 'active' },
   { id: 'gpt-5.6-terra', name: 'GPT-5.6 Terra', providerId: 'openai', providerName: 'OpenAI Codex', speed: 'Balanced Daily Workload', context: '1M', contextTokens: 1048576, inputPrice1M: 2.00, cachedPrice1M: 0.50, outputPrice1M: 12.00, reasoning: 'Medium-Ultra', tag: 'Balanced Daily', status: 'active' },
   { id: 'gpt-5.6-luna', name: 'GPT-5.6 Luna', providerId: 'openai', providerName: 'OpenAI Codex', speed: 'Fast & Cost-Effective', context: '1M', contextTokens: 1048576, inputPrice1M: 0.20, cachedPrice1M: 0.05, outputPrice1M: 1.20, reasoning: 'Medium-Max', tag: 'Best OpenAI Value', status: 'active' },
-  { id: 'gpt-5.5', name: 'GPT-5.5', providerId: 'openai', providerName: 'OpenAI Codex', speed: 'Advanced Intelligence', context: '1M', contextTokens: 1048576, inputPrice1M: 2.00, cachedPrice1M: 0.50, outputPrice1M: 10.00, reasoning: 'High Reasoning', tag: 'Codex Engine', status: 'active' },
-  { id: 'gpt-5.4', name: 'GPT-5.4', providerId: 'openai', providerName: 'OpenAI Codex', speed: 'Fast Intelligence', context: '1M', contextTokens: 1048576, inputPrice1M: 1.00, cachedPrice1M: 0.25, outputPrice1M: 5.00, reasoning: 'Medium Reasoning', tag: 'Codex Engine', status: 'active' },
-  { id: 'gpt-5.4-mini', name: 'GPT-5.4 Mini', providerId: 'openai', providerName: 'OpenAI Codex', speed: 'Ultra Fast', context: '1M', contextTokens: 1048576, inputPrice1M: 0.15, cachedPrice1M: 0.0375, outputPrice1M: 0.60, reasoning: 'Medium', tag: 'Lightweight', status: 'active' },
-  { id: 'gpt-5.3-codex-spark', name: 'GPT-5.3 Codex Spark', providerId: 'openai', providerName: 'OpenAI Codex', speed: 'Realtime Spark', context: '128k', contextTokens: 128000, inputPrice1M: 0.20, cachedPrice1M: 0.05, outputPrice1M: 1.20, reasoning: 'Standard', tag: 'Spark Engine', status: 'active' },
 
-  // Alibaba Token Plan (Model Studio ap-southeast-1 Marketplace Specs)
-  { id: 'alibaba-token-plan-intl/qwen3.8-max', name: 'Qwen 3.8 Max', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Heavy Duty MoE (2.4T)', context: '1M', contextTokens: 1000000, inputPrice1M: 1.60, cachedPrice1M: 0.32, outputPrice1M: 6.40, reasoning: 'XHigh Reasoning', tag: 'Flagship MoE', status: 'active' },
-  { id: 'alibaba-token-plan-intl/qwen3.8-flash', name: 'Qwen 3.8 Flash', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Ultra Fast Multimodal', context: '256k', contextTokens: 256000, inputPrice1M: 0.167, cachedPrice1M: 0.0334, outputPrice1M: 0.488, reasoning: 'Low-Medium', tag: 'Flash Multimodal', status: 'active' },
-  { id: 'alibaba-token-plan-intl/qwen3.7-plus', name: 'Qwen 3.7 Plus', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'High Speed Multimodal', context: '1M', contextTokens: 1000000, inputPrice1M: 0.26, cachedPrice1M: 0.052, outputPrice1M: 0.78, reasoning: 'Medium Reasoning', tag: 'All-Rounder', status: 'active' },
-  { id: 'alibaba-token-plan-intl/qwen3.6-flash', name: 'Qwen 3.6 Flash', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Ultra Fast', context: '1M', contextTokens: 1000000, inputPrice1M: 0.05, cachedPrice1M: 0.01, outputPrice1M: 0.20, reasoning: 'Low-Medium', tag: 'Ultra Cheap ($0.05)', status: 'active' },
-  { id: 'alibaba-token-plan-intl/deepseek-v4-pro', name: 'DeepSeek V4 Pro', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Code & Math Specialist', context: '1M', contextTokens: 1000000, inputPrice1M: 0.27, cachedPrice1M: 0.07, outputPrice1M: 1.10, reasoning: 'High-Max', tag: 'Code Specialist', status: 'active' },
+  // Alibaba Token Plan (4 Active Models)
+  { id: 'alibaba-token-plan-intl/qwen3.8-max', name: 'Qwen 3.8 Max', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Heavy Duty MoE (2.4T)', context: '984k', contextTokens: 983616, inputPrice1M: 1.60, cachedPrice1M: 0.32, outputPrice1M: 6.40, reasoning: 'XHigh Reasoning', tag: 'Flagship MoE', status: 'active' },
+  { id: 'alibaba-token-plan-intl/qwen3.8-flash', name: 'Qwen 3.8 Flash', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Ultra Fast Multimodal', context: '128k', contextTokens: 128000, inputPrice1M: 0.167, cachedPrice1M: 0.0334, outputPrice1M: 0.488, reasoning: 'Low-Medium', tag: 'Flash Multimodal', status: 'active' },
   { id: 'alibaba-token-plan-intl/deepseek-v4-pro-0813', name: 'DeepSeek V4 Pro (0813 Snapshot)', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Code & Math Specialist (Snapshot)', context: '1M', contextTokens: 1000000, inputPrice1M: 0.27, cachedPrice1M: 0.07, outputPrice1M: 1.10, reasoning: 'High-Max Reasoning', tag: 'Snapshot Stable', status: 'active' },
-  { id: 'alibaba-token-plan-intl/deepseek-v4-flash-0731', name: 'DeepSeek V4 Flash', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Fast Inference', context: '1M', contextTokens: 1000000, inputPrice1M: 0.14, cachedPrice1M: 0.035, outputPrice1M: 0.28, reasoning: 'Standard', tag: 'Fast Coder', status: 'active' },
-  { id: 'alibaba-token-plan-intl/glm-5.2', name: 'GLM 5.2', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Bilingual Pro', context: '128k', contextTokens: 128000, inputPrice1M: 1.00, cachedPrice1M: 0.20, outputPrice1M: 1.00, reasoning: 'Medium Reasoning', tag: 'Bilingual', status: 'active' },
-  { id: 'alibaba-token-plan-intl/qwen-image-3.0-pro', name: 'Qwen Image 3.0 Pro', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'High-Res Image Generation', context: 'Vision / Image', contextTokens: 32000, inputPrice1M: 30.00, cachedPrice1M: 30.00, outputPrice1M: 30.00, reasoning: 'Text-to-Image', tag: 'Image Gen (Multimodal)', status: 'active' },
-  { id: 'alibaba-token-plan-intl/qwen-audio-3.0-realtime-plus', name: 'Qwen Audio 3.0 Realtime Plus', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Realtime Audio Streaming', context: 'Audio Stream', contextTokens: 128000, inputPrice1M: 2.00, cachedPrice1M: 0.50, outputPrice1M: 6.00, reasoning: 'Audio/Voice', tag: 'Audio Realtime (Multimodal)', status: 'active' },
+  { id: 'alibaba-token-plan-intl/deepseek-v4-flash-0731', name: 'DeepSeek V4 Flash', providerId: 'alibaba-token-plan-intl', providerName: 'Alibaba Token Plan', speed: 'Fast Inference', context: '128k', contextTokens: 128000, inputPrice1M: 0.14, cachedPrice1M: 0.035, outputPrice1M: 0.28, reasoning: 'Standard', tag: 'Fast Coder', status: 'active' },
 
-  // Nous (Hermes Agent / inference-api.nousresearch.com / OAuth)
-  { id: 'nous/stealth-ox-alpha', name: 'Stealth Ox Alpha', providerId: 'nous', providerName: 'Nous Research', speed: 'Stealth Coding Agent (1M Context)', context: '1M', contextTokens: 1048576, inputPrice1M: 0, cachedPrice1M: 0, outputPrice1M: 0, reasoning: 'High Reasoning (effort: low-xhigh)', tag: 'Nous Stealth Tier', status: 'active' },
-  { id: 'nous/tencent-hy3-free', name: 'Tencent Hy3', providerId: 'nous', providerName: 'Nous Research', speed: 'MoE Fast Inference', context: '256k', contextTokens: 262144, inputPrice1M: 0, cachedPrice1M: 0, outputPrice1M: 0, reasoning: 'Hybrid Thinking', tag: 'Free Tier', status: 'active' },
-  { id: 'nous/stepfun-step-3.7-flash-free', name: 'StepFun Step 3.7 Flash', providerId: 'nous', providerName: 'Nous Research', speed: 'Ultra Fast Free Tier', context: '256k', contextTokens: 262144, inputPrice1M: 0, cachedPrice1M: 0, outputPrice1M: 0, reasoning: 'Medium-Max Reasoning', tag: 'Best Free Value', status: 'active' },
-  { id: 'combo/Fallback', name: 'Fallback Router (OpenCodex)', providerId: 'google-antigravity', providerName: 'OpenCodex Failover', speed: 'Automatic Failover Router', context: '1M', contextTokens: 1048576, inputPrice1M: 0.15, cachedPrice1M: 0.0375, outputPrice1M: 0.60, reasoning: 'Failover', tag: 'High Availability', status: 'active' },
+  // Nous Research (2 Active Models)
+  { id: 'nous/tencent-hy3-free', name: 'Tencent Hy3', providerId: 'nous', providerName: 'Nous Research', speed: 'MoE Fast Inference', context: '128k', contextTokens: 131072, inputPrice1M: 0, cachedPrice1M: 0, outputPrice1M: 0, reasoning: 'Hybrid Thinking', tag: 'Free Tier', status: 'active' },
+  { id: 'nous/stepfun-step-3.7-flash-free', name: 'StepFun Step 3.7 Flash', providerId: 'nous', providerName: 'Nous Research', speed: 'Ultra Fast Free Tier', context: '128k', contextTokens: 131072, inputPrice1M: 0, cachedPrice1M: 0, outputPrice1M: 0, reasoning: 'Medium-Max Reasoning', tag: 'Best Free Value', status: 'active' },
+
+  // OpenCodex Failover Combo (1 Active Model)
+  { id: 'combo/Fallback', name: 'Fallback Router (OpenCodex)', providerId: 'combo', providerName: 'OpenCodex Failover', speed: 'Automatic Failover Router', context: '128k', contextTokens: 131072, inputPrice1M: 0.15, cachedPrice1M: 0.0375, outputPrice1M: 0.60, reasoning: 'Failover', tag: 'High Availability', status: 'active' },
 ];
 
 /** 야간 50% 할인 적용 대상 모델 ID 집합 */
@@ -64,42 +47,28 @@ export const PROVIDER_SORT_ORDER: Record<string, number> = {
   'openai': 2,
   'alibaba-token-plan-intl': 3,
   'nous': 4,
+  'combo': 5,
 };
 
 /** 모델 표시 정렬 순서 */
 export const MODEL_SORT_ORDER: Record<string, number> = {
   // Google
-  'google-antigravity/gemini-3.7-flash': 11,
-  'google-antigravity/gemini-3.8-flash-high': 12,
-  'google-antigravity/gemini-3.8-flash-medium': 13,
-  'google-antigravity/gemini-3.8-flash-low': 14,
-  'google-antigravity/gemini-3.1-pro': 12,
-  'google-antigravity/claude-sonnet-4-6': 15,
-  'google-antigravity/claude-opus-4-6-thinking': 16,
+  'google-antigravity/gemini-3.8-flash': 11,
+  'google-antigravity/claude-sonnet-4-6': 12,
   // OpenAI
-  'gpt-5.6-sol': 21,
+  'gpt-6-astra': 21,
   'gpt-5.6-terra': 22,
   'gpt-5.6-luna': 23,
-  'gpt-5.5': 24,
-  'gpt-5.4': 25,
-  'gpt-5.4-mini': 26,
-  'gpt-5.3-codex-spark': 27,
   // Alibaba
   'alibaba-token-plan-intl/qwen3.8-max': 31,
   'alibaba-token-plan-intl/qwen3.8-flash': 32,
-  'alibaba-token-plan-intl/qwen3.7-plus': 33,
-  'alibaba-token-plan-intl/qwen3.6-flash': 34,
-  'alibaba-token-plan-intl/deepseek-v4-pro': 43,
-  'alibaba-token-plan-intl/deepseek-v4-pro-0813': 44,
-  'alibaba-token-plan-intl/deepseek-v4-flash-0731': 45,
-  'alibaba-token-plan-intl/glm-5.2': 46,
-  'alibaba-token-plan-intl/qwen-image-3.0-pro': 47,
-  'alibaba-token-plan-intl/qwen-audio-3.0-realtime-plus': 48,
+  'alibaba-token-plan-intl/deepseek-v4-pro-0813': 33,
+  'alibaba-token-plan-intl/deepseek-v4-flash-0731': 34,
   // Nous
-  'nous/stealth-ox-alpha': 51,
-  'nous/tencent-hy3-free': 52,
-  'nous/stepfun-step-3.7-flash-free': 53,
-  'combo/Fallback': 90,
+  'nous/tencent-hy3-free': 41,
+  'nous/stepfun-step-3.7-flash-free': 42,
+  // Combo
+  'combo/Fallback': 51,
 };
 
 /** Gist URL — 환경변수 우선, 없으면 기본값 사용 */

@@ -28,6 +28,15 @@ export const ModelPricingMatrix = memo(function ModelPricingMatrix({
   onRefresh,
   loading = false,
 }: ModelPricingMatrixProps) {
+  const availableProviders = useMemo(() => {
+    const map = new Map<string, string>();
+    for (const m of models) {
+      if (m.providerId && !map.has(m.providerId)) {
+        map.set(m.providerId, m.providerName || m.providerId);
+      }
+    }
+    return Array.from(map.entries()).map(([id, name]) => ({ id, name }));
+  }, [models]);
   const filteredModels = useMemo(() => {
     let list = models.filter((m) => {
       if (filterProvider !== 'all' && m.providerId !== filterProvider) return false;
@@ -101,11 +110,10 @@ export const ModelPricingMatrix = memo(function ModelPricingMatrix({
             onChange={(e) => setFilterProvider(e.target.value)}
             className="bg-zinc-50 dark:bg-zinc-800 border border-zinc-200/80 dark:border-zinc-700/80 rounded-xl px-2.5 py-1.5 text-xs text-zinc-700 dark:text-zinc-300 font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 cursor-pointer shrink-0"
           >
-            <option value="all">전체 프로바이더</option>
-            <option value="google-antigravity">Google Antigravity</option>
-            <option value="openai">OpenAI Codex</option>
-            <option value="alibaba-token-plan-intl">Alibaba Token Plan</option>
-            <option value="nous">Nous Research</option>
+            <option value="all">전체 프로바이더 ({availableProviders.length})</option>
+            {availableProviders.map((p) => (
+              <option key={p.id} value={p.id}>{p.name}</option>
+            ))}
           </select>
 
           <select

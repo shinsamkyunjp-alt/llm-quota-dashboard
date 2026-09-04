@@ -120,18 +120,31 @@ export const OpenAICard = memo(function OpenAICard({ oa, viewMode }: OpenAICardP
 
       <div className="space-y-1.5 pt-2.5 border-t border-zinc-100 dark:border-zinc-800">
         <div className="text-[10px] font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">
-          주요 모델 (128k Context)
+          주요 모델 ({oa.models?.length ?? 0})
         </div>
         <div className="flex flex-wrap gap-1">
-          <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium">
-            GPT-5.6 Sol
-          </span>
-          <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium">
-            GPT-5.6 Terra
-          </span>
-          <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium">
-            GPT-5.6 Luna
-          </span>
+          {oa.models && oa.models.length > 0 ? (
+            oa.models.map((m) => (
+              <span
+                key={m.id}
+                className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium"
+              >
+                {m.name}
+              </span>
+            ))
+          ) : (
+            <>
+              <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium">
+                GPT-6 Astra
+              </span>
+              <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium">
+                GPT-5.6 Terra
+              </span>
+              <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium">
+                GPT-5.6 Luna
+              </span>
+            </>
+          )}
         </div>
       </div>
     </div>

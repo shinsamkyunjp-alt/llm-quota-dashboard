@@ -246,21 +246,28 @@ export const GoogleAntigravityCard = memo(function GoogleAntigravityCard({
 
       <div className="space-y-1.5 pt-2.5 border-t border-zinc-100 dark:border-zinc-800">
         <div className="text-[10px] font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">
-          주요 지원 모델
+          주요 지원 모델 ({ag.models?.length ?? 0})
         </div>
         <div className="flex flex-wrap gap-1">
-          <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium">
-            Gemini 3.7 Flash
-          </span>
-          <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium">
-            Gemini 3.1 Pro
-          </span>
-          <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium">
-            Claude Sonnet 4.6
-          </span>
-          <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium">
-            Claude Opus 4.6
-          </span>
+          {ag.models && ag.models.length > 0 ? (
+            ag.models.map((m) => (
+              <span
+                key={m.id}
+                className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium"
+              >
+                {m.name}
+              </span>
+            ))
+          ) : (
+            <>
+              <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium">
+                Gemini 3.8 Flash
+              </span>
+              <span className="text-[11px] px-2 py-0.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium">
+                Claude Sonnet 4.6
+              </span>
+            </>
+          )}
         </div>
       </div>
     </div>
